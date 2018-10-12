@@ -1,4 +1,4 @@
-# iCare
+## iCare
 ________________________________________________________________
 ### User's Problem Description <sup>[*](#users_problem_description_footnote)</sup>
 I went to my doctor and had a physical. It was embarrassing. The doctor pointed out some spots and asked if I had seen them before. I wasn't sure, so neither put pushed the issue any further. We didn't know, so we weren't going to do anything. Another time I went to the doctor and had the doctor investigate a spot on my hand. The doctor asked me if it had changed, I wasn't sure. The doctor asked me if it had grown, I said I assume so because why am I noticing it now. The doctor shrugged, said it looked alright and told me to keep track of it. Come back if it changed.
