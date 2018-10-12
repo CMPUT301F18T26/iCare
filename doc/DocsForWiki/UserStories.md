@@ -1,4 +1,4 @@
-## Table of Content
+## Table of Content<sup>[*](#user_stories_footnote)</sup>
 ________________________________________________________________
 1. [Task Basics](#task_basics)
 2. [Record Details](#record_details)
@@ -114,3 +114,5 @@ ________________________________________________________________
 - US 11.03.01 As a patient, I should be able to have at least 2 body location pictures.
 
 - US 11.04.01 As a patient, when I view a body location it should be a clear indicator of a point on a body-location picture.
+
+<a name="user_stories_footnote">*</a> User Stories were fetched from the project description provided by Abram Hindle
