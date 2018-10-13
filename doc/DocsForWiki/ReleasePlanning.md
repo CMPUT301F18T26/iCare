@@ -1,31 +1,33 @@
 ## ReleasePlanning
 
 ### Milestone 3: Nov 2, 2018
-- [ ] TA Feedback addresses
+- [ ] TA Feedback addressed
 - [ ] OOAD Model Skeleton
 - [ ] Unit Test cases for Model completed
 - [ ] Project UML
 
 ### Milestone 4: Nov 20, 2018
-- [ ] 1. AddNewProblem
-- [ ] 2. ViewProblems
-- [ ] 3. EditProblem
-- [ ] 4. DeleteProblem
-- [ ] 5. AddNewRecord
-- [ ] 6. ViewRecordsAssociatedWithProblem
-- [ ] 7. MakeSlideshowOfPhotoRecordsOfProblem
-- [ ] 8. AddNewUserAccount
-- [ ] 9. EditContactInformation
-- [ ] 10. ShowContactInformationForUser
-- [ ] 11. FetchProblemsAndRecordsWithAllKeywords
-- [ ] 12. FetchProblemsAndRecordsWithKeyWordsAndGeoLocatioin
-- [ ] 13. ViewAssignedPatients
-- [ ] 14. AddNewPatient
-- [ ] 15. ViewProblemsForPatient
+- [ ] TA Feedback addressed
+- [ ] Use Case 1: AddNewProblem
+- [ ] Use Case 2: ViewProblems
+- [ ] Use Case 3: EditProblem
+- [ ] Use Case 4: DeleteProblem
+- [ ] Use Case 5: AddNewRecord
+- [ ] Use Case 6: ViewRecordsAssociatedWithProblem
+- [ ] Use Case 7: MakeSlideshowOfPhotoRecordsOfProblem
+- [ ] Use Case 8: AddNewUserAccount
+- [ ] Use Case 9: EditContactInformation
+- [ ] Use Case 10: ShowContactInformationForUser
+- [ ] Use Case 11: FetchProblemsAndRecordsWithAllKeywords
+- [ ] Use Case 12: FetchProblemsAndRecordsWithKeyWordsAndGeoLocatioin
+- [ ] Use Case 13: ViewAssignedPatients
+- [ ] Use Case 14: AddNewPatient
+- [ ] Use Case 15: ViewProblemsForPatient
 
 ### Milestone 3: Dec 3, 2018
-- [ ] 16. AddCommentToRecord
-- [ ] 17. ViewGeoLocationForRecord
-- [ ] 18. ViewGeoLocationForAllRecords
-- [ ] 19. UploadBodyLocationPhotos
-- [ ] 20. ViewBodyLocationOfRecord
+- [ ] TA Feedback addressed
+- [ ] Use Case 16: AddCommentToRecord
+- [ ] Use Case 17: ViewGeoLocationForRecord
+- [ ] Use Case 18: ViewGeoLocationForAllRecords
+- [ ] Use Case 19: UploadBodyLocationPhotos
+- [ ] Use Case 20: ViewBodyLocationOfRecord
