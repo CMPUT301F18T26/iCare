@@ -1,5 +1,3 @@
-## ReleasePlanning
-
 ### Milestone 3: Nov 2, 2018
 - [ ] TA Feedback addressed
 - [ ] OOAD Model Skeleton

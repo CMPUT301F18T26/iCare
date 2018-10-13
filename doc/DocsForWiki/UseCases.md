@@ -1,4 +1,4 @@
-## Use Cases
+## Table of Contents
 
 1. [AddNewProblem](#AddNewProblem)
 2. [ViewProblems](#ViewProblems)
@@ -21,7 +21,7 @@
 19. [UploadBodyLocationPhotos](#UploadBodyLocationPhotos)
 20. [ViewBodyLocationOfRecord](#ViewBodyLocationOfRecord)
 
-## AddNewProblem <a name="AddNewProblem"></a>
+### AddNewProblem <a name="AddNewProblem"></a>
 | Use Case 1           | AddNewProblem                                                                                                                          |
 |----------------------|----------------------------------------------------------------------------------------------------------------------------------------|
 | Related User Story   | US 01.01.01, US 01.01.02, US 01.01.03, US 08.01.01                                                                                     |
@@ -58,8 +58,8 @@
 | Related Artifacts    |                                                                                                                                        |
 | Notes                |                                                                                                                                        |
 | Open Issues          |                                                                                                                                        |
-                                                                                                          
-## ViewProblems <a name="ViewProblems"></a>
+
+### ViewProblems <a name="ViewProblems"></a>
 | Use Case 2           | ViewProblems                                                                                         |
 |----------------------|------------------------------------------------------------------------------------------------------|
 | Related User Story   | US 01.02.01                                                                                          |
@@ -80,7 +80,7 @@
 | Notes                |                                                                                                      |
 | Open Issues          |                                                                                                      |
 
-## EditProblem <a name="EditProblem"></a>
+### EditProblem <a name="EditProblem"></a>
 | Use Case 3           | EditProblem                                                                                                                             |
 |----------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
 | Related User Story   | US 01.01.02, US 01.01.03, US 01.03.01, US 08.01.01                                                                                      |
@@ -117,7 +117,7 @@
 | Notes                |                                                                                                                                         |
 | Open Issues          |                                                                                                                                         |
 
-## DeleteProblem <a name="DeleteProblem"></a>
+### DeleteProblem <a name="DeleteProblem"></a>
 | Use Case 4           |                                                                                                                                        |
 |----------------------|----------------------------------------------------------------------------------------------------------------------------------------|
 | Related User Story   | US 01.04.01, US 08.01.01                                                                                                               |
@@ -146,7 +146,7 @@
 | Notes                |                                                                                                                                        |
 | Open Issues          |                                                                                                                                        |
 
-## AddNewRecord <a name="AddNewRecord"></a>
+### AddNewRecord <a name="AddNewRecord"></a>
 | Use Case 5           | AddNewRecord                                                                                                                                                                         |
 |----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Related User Story   | US 01.05.01, US 02.02.01, US 02.03.01, US 02.04.01, US 02.05.01, US 02.06.01, US 02.08.01, US 02.09.01, US 08.01.01, US 09.01.01, US 09.01.02, US 09.03.01, US 10.01.01, US 11.02.01 |
@@ -190,7 +190,7 @@
 | Notes                |                                                                                                                                                                                      |
 | Open Issues          |                                                                                                                                                                                      |
 
-## ViewRecordsAssociatedWithProblem <a name="ViewRecordsAssociatedWithProblem"></a>
+### ViewRecordsAssociatedWithProblem <a name="ViewRecordsAssociatedWithProblem"></a>
 | Use Case 6           | ViewRecordsAssociatedWithProblem                                                                                                                                                                 |
 |----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Related User Story   | US 02.01.01, US 08.01.01, US 09.02.01                                                                                                                                                            |
@@ -216,7 +216,7 @@
 | Notes                |                                                                                                                                                                                                  |
 | Open Issues          |                                                                                                                                                                                                  |
 
-## MakeSlideshowOfPhotoRecordsOfProblem <a name="MakeSlideshowOfPhotoRecordsOfProblem"></a>
+### MakeSlideshowOfPhotoRecordsOfProblem <a name="MakeSlideshowOfPhotoRecordsOfProblem"></a>
 | Use Case 7           | MakeSlideshowOfPhotoRecordsOfProblem                                                                |
 |----------------------|-----------------------------------------------------------------------------------------------------|
 | Related User Story   | US 02.10.01, US 08.01.01                                                                            |
@@ -241,7 +241,7 @@
 | Notes                |                                                                                                     |
 | Open Issues          |                                                                                                     |
 
-## AddNewUserAccount <a name="AddNewUserAccount"></a>
+### AddNewUserAccount <a name="AddNewUserAccount"></a>
 | Use Case 8           | AddNewUserAccount                                                                                                                                                         |
 |----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Related User Story   | US 03.01.01, US 03.01.02, US 03.01.03                                                                                                                                     |
@@ -282,7 +282,7 @@
 | Notes                | Since no user stories for the creation of accounts for care-providers have been given, the requirements for patient’s user profiles have been extended to care-providers. |
 | Open Issues          |                                                                                                                                                                           |
 
-## EditContactInformation <a name="EditContactInformation"></a>
+### EditContactInformation <a name="EditContactInformation"></a>
 | Use Case 9           | EditContactInformation                                                                                                                                                    |
 |----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Related User Story   | US 03.02.01                                                                                                                                                               |
@@ -307,7 +307,7 @@
 | Notes                | Since no user stories for the creation of accounts for care-providers have been given, the requirements for patient’s user profiles have been extended to care-providers. |
 | Open Issues          |                                                                                                                                                                           |
 
-## ShowContactInformationForUser <a name="ShowContactInformationForUser"></a>
+### ShowContactInformationForUser <a name="ShowContactInformationForUser"></a>
 | Use Case 10          | ShowContactInformationForUser                                                                                                                                             |
 |----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Related User Story   | US 03.03.01                                                                                                                                                               |
@@ -330,7 +330,7 @@
 | Notes                | Since no user stories for the creation of accounts for care-providers have been given, the requirements for patient’s user profiles have been extended to care-providers. |
 | Open Issues          |                                                                                                                                                                           |
 
-## FetchProblemsAndRecordsWithAllKeywords <a name="FetchProblemsAndRecordsWithAllKeywords"></a>
+### FetchProblemsAndRecordsWithAllKeywords <a name="FetchProblemsAndRecordsWithAllKeywords"></a>
 | Use Case 11          | FetchProblemsAndRecordsWithAllKeywords                                                                                                                                                                                              |
 |----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Related User Story   | US 04.01.01                                                                                                                                                                                                                         |
@@ -353,7 +353,7 @@
 | Notes                |                                                                                                                                                                                                                                     |
 | Open Issues          |                                                                                                                                                                                                                                     |
 
-## FetchProblemsAndRecordsWithKeyWordsAndGeoLocatioin <a name="FetchProblemsAndRecordsWithKeyWordsAndGeoLocatioin"></a>
+### FetchProblemsAndRecordsWithKeyWordsAndGeoLocatioin <a name="FetchProblemsAndRecordsWithKeyWordsAndGeoLocatioin"></a>
 | Use Case 12          | FetchProblemsAndRecordsWithKeyWordsAndGeoLocatioin                                                                                                                                                                                  |
 |----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Related User Story   | US 04.02.01                                                                                                                                                                                                                         |
@@ -377,7 +377,7 @@
 | Notes                |                                                                                                                                                                                                                                     |
 | Open Issues          |                                                                                                                                                                                                                                     |
 
-## ViewAssignedPatients <a name="ViewAssignedPatients"></a>
+### ViewAssignedPatients <a name="ViewAssignedPatients"></a>
 | Use Case 13          | ViewAssignedPatients                                                                              |
 |----------------------|---------------------------------------------------------------------------------------------------|
 | Related User Story   | US 06.01.01                                                                                       |
@@ -399,7 +399,7 @@
 | Notes                |                                                                                                   |
 | Open Issues          |                                                                                                   |
 
-## AddNewPatient <a name="AddNewPatient"></a>
+### AddNewPatient <a name="AddNewPatient"></a>
 | Use Case 14          | AddNewPatient                                                                                                                 |
 |----------------------|-------------------------------------------------------------------------------------------------------------------------------|
 | Related User Story   | US 07.01.01                                                                                                                   |
@@ -425,7 +425,7 @@
 | Notes                |                                                                                                                               |
 | Open Issues          |                                                                                                                               |
 
-## ViewProblemsForPatient <a name="ViewProblemsForPatient"></a>
+### ViewProblemsForPatient <a name="ViewProblemsForPatient"></a>
 | Use Case 15          | ViewProblemsForPatient                                                         |
 |----------------------|--------------------------------------------------------------------------------|
 | Related User Story   | US 07.01.01                                                                    |
@@ -449,7 +449,7 @@
 | Notes                |                                                                                |
 | Open Issues          |                                                                                |
 
-## AddCommentToRecord <a name="AddCommentToRecord"></a>
+### AddCommentToRecord <a name="AddCommentToRecord"></a>
 | Use Case 16          | AddCommentToRecord                                                                  |
 |----------------------|-------------------------------------------------------------------------------------|
 | Related User Story   | US 02.07.01, US 07.01.01                                                            |
@@ -474,7 +474,7 @@
 | Notes                |                                                                                     |
 | Open Issues          |                                                                                     |
 
-## ViewGeoLocationForRecord <a name="ViewGeoLocationForRecord"></a>
+### ViewGeoLocationForRecord <a name="ViewGeoLocationForRecord"></a>
 | Use Case 17          | ViewGeoLocationForRecord                                                                                                                                                                         |
 |----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Related User Story   | US 10.02.01                                                                                                                                                                                      |
@@ -498,7 +498,7 @@
 | Notes                |                                                                                                                                                                                                  |
 | Open Issues          |                                                                                                                                                                                                  |
 
-## ViewGeoLocationForAllRecords <a name="ViewGeoLocationForAllRecords"></a>
+### ViewGeoLocationForAllRecords <a name="ViewGeoLocationForAllRecords"></a>
 | Use Case 18          | ViewGeoLocationForAllRecords                                                                                                                                                                     |
 |----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Related User Story   | US 10.03.01                                                                                                                                                                                      |
@@ -520,7 +520,7 @@
 | Notes                |                                                                                                                                                                                                  |
 | Open Issues          |                                                                                                                                                                                                  |
 
-## UploadBodyLocationPhotos <a name="UploadBodyLocationPhotos"></a>
+### UploadBodyLocationPhotos <a name="UploadBodyLocationPhotos"></a>
 | Use Case 19           | UploadBodyLocationPhotos  |
 |----------------------|---|
 | Related User Story   |  US 09.03.01, US 11.01.01, US 11.03.01 |
@@ -555,7 +555,7 @@
 | Notes                |   |
 | Open Issues          |   |
 
-## ViewBodyLocationOfRecord <a name="ViewBodyLocationOfRecord"></a>
+### ViewBodyLocationOfRecord <a name="ViewBodyLocationOfRecord"></a>
 | Use Case 20          | ViewBodyLocationOfRecord                                                                            |
 |----------------------|-----------------------------------------------------------------------------------------------------|
 | Related User Story   | US 11.04.01                                                                                         |
