@@ -1,5 +1,5 @@
 ## Table of Content<sup>[*](#user_stories_footnote)</sup>
-________________________________________________________________
+
 1. [Task Basics](#task_basics)
 2. [Record Details](#record_details)
 3. [User Profile](#user_profile)
@@ -10,7 +10,6 @@ ________________________________________________________________
 8. [Photographs](#photographs)
 9. [Geolocation and Maps](#geolocation_and_maps)
 10. [Body-locations](#body_locations)
-________________________________________________________________
 
 ## Task Basics <a name="task_basics"></a>
 
