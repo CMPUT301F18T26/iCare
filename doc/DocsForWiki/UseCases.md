@@ -20,6 +20,7 @@
 18. [ViewGeoLocationForAllRecords](#ViewGeoLocationForAllRecords)
 19. [UploadBodyLocationPhotos](#UploadBodyLocationPhotos)
 20. [ViewBodyLocationOfRecord](#ViewBodyLocationOfRecord)
+21. [LogIn](#LogIn)
 
 ### AddNewProblem <a name="AddNewProblem"></a>
 | Use Case 1           | AddNewProblem                                                                                                                          |
