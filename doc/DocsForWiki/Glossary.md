@@ -1,8 +1,5 @@
-## Glossary and Information Sources
-
 ### Glossary
-
-** Definitions for terms that are commonly used throughout our application and its dev cycle. **
+**Definitions for terms that are commonly used throughout our application and its dev cycle.**
 
 | Term          | Definition                                                     |
 |---------------|----------------------------------------------------------------|
@@ -15,4 +12,4 @@
 | Record        | Details of a submitted issue                                   |
 
 ### Information Sources
-** None used so far.**
+**None used so far.**
