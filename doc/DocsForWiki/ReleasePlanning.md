@@ -14,6 +14,7 @@
 - [ ] Use Case 6: ViewRecordsAssociatedWithProblem
 - [ ] Use Case 7: MakeSlideshowOfPhotoRecordsOfProblem
 - [ ] Use Case 8: AddNewUserAccount
+- [ ] Use Case 21: LogIn
 - [ ] Use Case 9: EditContactInformation
 - [ ] Use Case 10: ShowContactInformationForUser
 - [ ] Use Case 11: FetchProblemsAndRecordsWithAllKeywords
