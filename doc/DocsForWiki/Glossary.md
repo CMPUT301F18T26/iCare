@@ -1,6 +1,8 @@
-## Glossary
+## Glossary and Information Sources
 
-### Definitions for terms that are commonly used throughout our application and its dev cycle
+### Glossary
+
+** Definitions for terms that are commonly used throughout our application and its dev cycle. **
 
 | Term          | Definition                                                     |
 |---------------|----------------------------------------------------------------|
@@ -11,3 +13,6 @@
 | Timestamp     | The time of edit for a photo, note or record                   |
 | Problem       | An issue a patient submitted                                   |
 | Record        | Details of a submitted issue                                   |
+
+### Information Sources
+** None used so far.**
