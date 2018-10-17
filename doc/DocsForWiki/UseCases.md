@@ -249,14 +249,14 @@
 | Goal                 | User creates a new account                                                                                                                                                |
 | Trigger              | User chooses the AddNewUserAccount(sign-up) option                                                                                                                        |
 | Precondition         | 1. User must be online                                                                                                                                                    |
-|                      | 2. User must know the unique userid the user wants to use                                                                                                                 |
+|                      | 2. User must know the unique userid and password the user wants to use                                                                                                    |
 |                      | 3. User must know his/her contact information                                                                                                                             |
 |                      | 4. User must know if he/she is a patient or care-provider                                                                                                                 |
 | Postcondition        | On success:                                                                                                                                                               |
 |                      | 1. New user account for the user has been created                                                                                                                         |
 |                      | 2. System displays a message indicating success                                                                                                                           |
-| Basic Flow           | 1. System prompts the user to enter a unique userid, email address and phone number                                                                                       |
-|                      | 2. User enters a unique userid                                                                                                                                            |
+| Basic Flow           | 1. System prompts the user to enter a unique userid, password, email address and phone number                                                                             |
+|                      | 2. User enters a unique userid and password                                                                                                                               |
 |                      | 3. User selects if he/she is a care-provider or patient                                                                                                                   |
 |                      | 4. User enters an email address                                                                                                                                           |
 |                      | 5. User enters a phone number                                                                                                                                             |
@@ -281,6 +281,7 @@
 | Related Artifacts    |                                                                                                                                                                           |
 | Notes                | Since no user stories for the creation of accounts for care-providers have been given, the requirements for patient’s user profiles have been extended to care-providers. |
 | Open Issues          |                                                                                                                                                                           |
+
 
 ### EditContactInformation <a name="EditContactInformation"></a>
 | Use Case 9           | EditContactInformation                                                                                                                                                    |
@@ -576,3 +577,32 @@
 | Related Artifacts    |                                                                                                     |
 | Notes                |                                                                                                     |
 | Open Issues          |                                                                                                     |
+
+### LogIn <a name="LogIn"></a>
+| Use Case 21          | LogIn                                                                                                                                    |
+|----------------------|------------------------------------------------------------------------------------------------------------------------------------------|
+| Related User Story   |                                                                                                                                          |
+| Participating Actors | User                                                                                                                                     |
+| Goal                 | User has successfully logged into their account.                                                                                         |
+| Trigger              | User opens the app and is prompted to log-in                                                                                             |
+| Precondition         | 1. User already has an account                                                                                                           |
+|                      | 2. User remembers their userid/username and password                                                                                     |
+|                      | 3. User is not already logged into the app                                                                                               |
+| Postcondition        | On success:                                                                                                                              |
+|                      | 1. System displays a success message                                                                                                     |
+| Basic Flow           | 1. System displays the log-in screen.                                                                                                    |
+|                      | 2. System prompts the user to enter userid/username and password                                                                         |
+|                      | 3. User enters their userid/username and password                                                                                        |
+|                      | 3. User taps the log-in button                                                                                                           |
+|                      | 3. System checks if the userid/username already exist in the database and that the user has entered the correct password for the account |
+|                      | 4. System displays a success message                                                                                                     |
+| Exceptions           | 4. Userid/password does not match an match an existing combination                                                                       |
+|                      | 1.1 System displays an error message indicating that the userid/password does not match an match an existing combination                 |
+| Qualities            | System is fast, responsive and reactive. If system is offline, the locally saved records are shown.                                      |
+| Constraints          |                                                                                                                                          |
+| Includes             |                                                                                                                                          |
+| Extends              |                                                                                                                                          |
+| Related Artifacts    |                                                                                                                                          |
+| Notes                |                                                                                                                                          |
+| Open Issues          |                                                                                                                                          |
+
