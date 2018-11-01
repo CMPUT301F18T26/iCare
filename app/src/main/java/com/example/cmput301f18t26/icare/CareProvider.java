@@ -11,14 +11,14 @@ public class CareProvider extends User{
     CareProvider(String id, String username, String password, String email, String phone){
         super(id, username, password, email, phone);
         this.patientIds = new ArrayList<>();
-        this.setUserType("patient");
+        this.setUserType("careprovider");
     }
 
     // Problems passed in
     CareProvider(String id, String username, String password, String email, String phone, ArrayList<String> patientIds){
         super(id, username, password, email, phone);
         this.patientIds = patientIds;
-        this.setUserType("patient");
+        this.setUserType("careprovider");
     }
 
     // Getters and setters
