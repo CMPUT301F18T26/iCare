@@ -1,12 +1,15 @@
 package com.example.cmput301f18t26.icare.Controllers;
 
 class DataController {
-    private static final DataController ourInstance = new DataController();
 
-    static DataController getInstance() {
-        return ourInstance;
+    public DataController() {
     }
 
-    private DataController() {
+    public void fetch(){
+
+    }
+
+    public void save(){
+        
     }
 }

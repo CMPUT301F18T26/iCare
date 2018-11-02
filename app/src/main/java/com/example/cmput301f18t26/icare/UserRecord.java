@@ -37,7 +37,7 @@ public class UserRecord extends Record {
 
     public void addPhoto(String photo){ this.photos.add(photo);}
 
-    public void removePhoto(String photo){ this.photos.remove(photo);}
+    public void removePhoto(Object photo){ this.photos.remove(photo);}
 
     public String getRecordId() {
         return recordId;
