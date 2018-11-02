@@ -79,7 +79,7 @@ public class UserRecordTest {
         UserRecord record = new UserRecord(title, date, comment, location, bodyLocation, photos);
 
         //Test that date is correct
-        assertEquals(comment, record.getDate());
+        assertEquals(date, record.getDate());
 
         //Change the Date
         Calendar newDate = Calendar.getInstance(); ;
@@ -183,5 +183,32 @@ public class UserRecordTest {
 //
 //    }
 
-    
+    @Test
+    public void testPhotos() {
+        String title = "This is a Title";
+        Calendar date = Calendar.getInstance(); // gets the current time.
+        String comment = "This is a comment";
+        Location location = new Location("testProvider");
+        location.setLatitude(20.914332);//20.914332, 162.191602 -- Pacific Ocean
+        location.setLongitude(162.191602);
+        String bodyLocation = "Head";
+        ArrayList<String> photos = new ArrayList<>();
+
+        UserRecord record = new UserRecord(title, date, comment, location, bodyLocation, photos);
+        // Checking if photos length is 0
+        assertEquals(photos.size(), 0);
+
+        // Adding something to photos
+        record.addPhoto("test.jpg");
+        // Now checking if that was added
+        assertEquals(record.getPhotos().get(0), "test.jpg");
+
+        // Now checking size
+        assertEquals(record.getPhotos().size(), 1);
+
+        // Now we delete and check
+        record.removePhoto("test.jpg");
+        assertEquals(record.getPhotos().size(), 0);
+    }
+
 }

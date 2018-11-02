@@ -35,7 +35,9 @@ public class UserRecord extends Record {
     //Photos Getters and Setters
     public ArrayList<String> getPhotos(){ return this.photos = photos;}
 
-    public void setPhotos(){ this.photos = photos;}
+    public void addPhoto(String photo){ this.photos.add(photo);}
+
+    public void removePhoto(String photo){ this.photos.remove(photo);}
 
     public String getRecordId() {
         return recordId;
