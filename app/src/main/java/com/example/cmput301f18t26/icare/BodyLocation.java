@@ -10,7 +10,6 @@ public enum BodyLocation {
     HANDS ("Hands"),
     FEET ("Feet");
 
-    //
     private String id;
     //Every body location belongs to a user record
     private UserRecord userRecord;
