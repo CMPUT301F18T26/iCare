@@ -18,7 +18,7 @@ public class UserRecordTest {
         Location location = new Location("testProvider");
         location.setLatitude(20.914332);//20.914332, 162.191602 -- Pacific Ocean
         location.setLongitude(162.191602);
-        String bodyLocation = "Head";
+        BodyLocation bodyLocation = BodyLocation.HEAD;
         ArrayList<String> photos = new ArrayList<>();
 
 
@@ -45,7 +45,7 @@ public class UserRecordTest {
         Location location = new Location("testProvider");
         location.setLatitude(20.914332);//20.914332, 162.191602 -- Pacific Ocean
         location.setLongitude(162.191602);
-        String bodyLocation = "Head";
+        BodyLocation bodyLocation = BodyLocation.HEAD;
         ArrayList<String> photos = new ArrayList<>();
 
         UserRecord record = new UserRecord(title, date, comment, location, bodyLocation, photos);
@@ -73,7 +73,7 @@ public class UserRecordTest {
         Location location = new Location("testProvider");
         location.setLatitude(20.914332);//20.914332, 162.191602 -- Pacific Ocean
         location.setLongitude(162.191602);
-        String bodyLocation = "Head";
+        BodyLocation bodyLocation = BodyLocation.HEAD;
         ArrayList<String> photos = new ArrayList<>();
 
         UserRecord record = new UserRecord(title, date, comment, location, bodyLocation, photos);
@@ -101,7 +101,7 @@ public class UserRecordTest {
         Location location = new Location("testProvider");
         location.setLatitude(20.914332);//20.914332, 162.191602 -- Pacific Ocean
         location.setLongitude(162.191602);
-        String bodyLocation = "Head";
+        BodyLocation bodyLocation = BodyLocation.HEAD;
         ArrayList<String> photos = new ArrayList<>();
 
         UserRecord record = new UserRecord(title, date, comment, location, bodyLocation, photos);
@@ -130,7 +130,7 @@ public class UserRecordTest {
         Location location = new Location("testProvider");
         location.setLatitude(20.914332);//20.914332, 162.191602 -- Pacific Ocean
         location.setLongitude(162.191602);
-        String bodyLocation = "Head";
+        BodyLocation bodyLocation = BodyLocation.HEAD;
         ArrayList<String> photos = new ArrayList<>();
 
         UserRecord record = new UserRecord(title, date, comment, location, bodyLocation, photos);
@@ -152,36 +152,35 @@ public class UserRecordTest {
 
     }
 
-//    @Test
-//    public void testBodyLocation(){
-//
-//        String title = "This is a Title";
-//        Calendar date = Calendar.getInstance(); // gets the current time.
-//        String comment = "This is a comment";
-//        Location location = new Location("testProvider");
-//        location.setLatitude(20.914332);//20.914332, 162.191602 -- Pacific Ocean
-//        location.setLongitude(162.191602);
-//        String bodyLocation = "Head";
-//        ArrayList<String> photos = new ArrayList<>();
-//
-//        UserRecord record = new UserRecord(title, date, comment, location, bodyLocation, photos);
-//
-//        //Test that location is correct
-//        assertEquals(location, record.getLocation());
-//
-//        //Change the Location
-//        Location newLocation = new Location("testProvider");
-//        location.setLatitude(10);
-//        location.setLongitude(18);
-//
-//        //Set the new location
-//        record.setLocation(newLocation);
-//
-//        //Test that location is correct after changing
-//        assertEquals(newLocation, record.getLocation());
-//
-//
-//    }
+    @Test
+    public void testBodyLocation(){
+
+        String title = "This is a Title";
+        Calendar date = Calendar.getInstance(); // gets the current time.
+        String comment = "This is a comment";
+        Location location = new Location("testProvider");
+        location.setLatitude(20.914332);//20.914332, 162.191602 -- Pacific Ocean
+        location.setLongitude(162.191602);
+        BodyLocation bodyLocation = BodyLocation.HEAD;
+        ArrayList<String> photos = new ArrayList<>();
+
+        UserRecord record = new UserRecord(title, date, comment, location, bodyLocation, photos);
+
+        //Test that location is correct
+        assertEquals(bodyLocation, record.getBodyLocation());
+
+        //Change the Location
+        BodyLocation newBodyLocation = BodyLocation.BACK;
+
+
+        //Set the new location
+        record.setBodyLocation(newBodyLocation);
+
+        //Test that location is correct after changing
+        assertEquals(newBodyLocation, record.getBodyLocation());
+
+
+    }
 
     @Test
     public void testPhotos() {
@@ -191,7 +190,7 @@ public class UserRecordTest {
         Location location = new Location("testProvider");
         location.setLatitude(20.914332);//20.914332, 162.191602 -- Pacific Ocean
         location.setLongitude(162.191602);
-        String bodyLocation = "Head";
+        BodyLocation bodyLocation = BodyLocation.HEAD;
         ArrayList<String> photos = new ArrayList<>();
 
         UserRecord record = new UserRecord(title, date, comment, location, bodyLocation, photos);
