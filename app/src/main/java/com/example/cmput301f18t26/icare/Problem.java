@@ -38,6 +38,10 @@ public class Problem {
         return null;
     }
 
+    public Record getRecord(int i) {
+        return null;
+    }
+
     public ArrayList<Record> getRecords(){
         return null;
     }
