@@ -7,25 +7,39 @@ import static org.junit.Assert.*;
 public class RecordTest {
 
     @Test
+    public void testNewRecordConstructor(){
+        String title = "Test";
+        Calendar date = Calendar.getInstance();
+        String comment = "testtest";
+
+        Record r = new Record(title, date, comment);
+        assertEquals(r.getTitle(), title);
+        assertEquals(r.getDate(), date);
+        assertEquals(r.getComment(), comment);
+    }
+
+    @Test
     public void testGetSet() {
         String title = "Test";
         Calendar date = Calendar.getInstance();
         String comment = "test";
-        Problem p = new Problem(title, date, comment);
+        Record r = new Record(title, date, comment);
 
-        assertEquals(p.getTitle(), title);
+        assertEquals(r.getTitle(), title);
         title = "New Title";
-        p.setTitle(title);
-        assertEquals(p.getTitle(), title);
+        r.setTitle(title);
+        assertEquals(r.getTitle(), title);
 
-        assertEquals(p.getDate(), date);
+        assertEquals(r.getDate(), date);
         date = Calendar.getInstance();
-        p.setDate(date);
-        assertEquals(p.getDate(), date);
+        r.setDate(date);
+        assertEquals(r.getDate(), date);
 
-        assertEquals(p.getDescription(), comment);
+        assertEquals(r.getComment(), comment);
         comment = "New description";
-        p.setDescription(comment);
-        assertEquals(p.getDescription(), comment);
+        r.setComment(comment);
+        assertEquals(r.getComment(), comment);
     }
+
+
 }
