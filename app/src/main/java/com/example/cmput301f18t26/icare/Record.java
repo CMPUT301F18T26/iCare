@@ -4,9 +4,12 @@ import java.util.Calendar;
 
 public class Record {
 
+    private String id;
     private String title;
     private Calendar date;
     private String comment;
+    private Problem problem;
+    private BodyLocation bodyLocation;
 
 
     public Record(String title, Calendar date, String comment){
@@ -14,6 +17,10 @@ public class Record {
         this.date = date;
         this.comment = comment;
     }
+
+    public String getId() { return this.id; }
+
+    public void setId(String id) { this.id = id; }
 
     public String getTitle(){return this.title;}
 
