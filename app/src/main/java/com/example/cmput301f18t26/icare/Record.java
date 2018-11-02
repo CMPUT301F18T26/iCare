@@ -9,7 +9,7 @@ public class Record {
     private Calendar date;
     private String comment;
     //Every record belongs to a problem
-    private Problem problem;
+    private String problemId;
 
 
 
@@ -22,6 +22,10 @@ public class Record {
     public String getId() { return this.id; }
 
     public void setId(String id) { this.id = id; }
+
+    public String getProblemId() { return this.problemId; }
+
+    public void setProblemId(String problemId) { this.problemId = problemId; }
 
     public String getTitle(){return this.title;}
 

@@ -40,6 +40,4 @@ public class RecordTest {
         r.setComment(comment);
         assertEquals(r.getComment(), comment);
     }
-
-
 }
