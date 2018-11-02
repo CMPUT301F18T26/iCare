@@ -12,7 +12,8 @@ public enum BodyLocation {
 
     //
     private String id;
-    private Record record;
+    //Every body location belongs to a user record
+    private UserRecord userRecord;
     public String bodyLocation;
 
     BodyLocation(String bodyLocation){
