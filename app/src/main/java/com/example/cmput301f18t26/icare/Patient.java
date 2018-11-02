@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class Patient extends User {
     // Array list to store problems for this user
     private ArrayList<String> problemIds;
+    private String cardProviderId;
 
     // Actual constructor
     // No problems passed in
@@ -30,6 +31,8 @@ public class Patient extends User {
     public void setProblemIds(ArrayList<String> problemIds) {
         this.problemIds = problemIds;
     }
+
+
 
     // Editing the list of problems
     // Adding a new problem

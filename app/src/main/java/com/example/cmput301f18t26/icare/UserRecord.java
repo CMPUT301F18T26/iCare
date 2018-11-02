@@ -6,8 +6,6 @@ import java.util.ArrayList;
 
 public class UserRecord extends Record {
     // Array list to store records for this user
-    private String recordId;
-
     private Location location;
     private ArrayList<String> photos;
     private BodyLocation bodyLocation;
@@ -36,14 +34,5 @@ public class UserRecord extends Record {
     public void addPhoto(String photo){ this.photos.add(photo);}
 
     public void removePhoto(Object photo){ this.photos.remove(photo);}
-
-    public String getRecordId() {
-        return recordId;
-    }
-
-    public void setRecordId(String recordId) {
-        this.recordId = recordId;
-    }
-
 
 }
