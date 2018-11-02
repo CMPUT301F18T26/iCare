@@ -1,14 +1,11 @@
 package com.example.cmput301f18t26.icare;
 
 import android.location.Location;
-//import android.support.test.runner.AndroidJUnit4;
 import org.junit.Test;
-//import org.junit.runner.RunWith;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import static org.junit.Assert.*;
-//@RunWith(AndroidJUnit4.class)
+
 public class UserRecordTest {
 
     @Test
@@ -63,7 +60,7 @@ public class UserRecordTest {
         record.setTitle(newTitle);
 
         //Test that title is correct after changing
-        assertEquals(title, record.getTitle());
+        assertEquals(newTitle, record.getTitle());
 
     }
 
@@ -82,21 +79,109 @@ public class UserRecordTest {
         UserRecord record = new UserRecord(title, date, comment, location, bodyLocation, photos);
 
         //Test that date is correct
-        assertEquals(date, record.getDate());
+        assertEquals(comment, record.getDate());
 
-        //Change the title
-        String newTitle = "This is a new Title";
+        //Change the Date
+        Calendar newDate = Calendar.getInstance(); ;
 
-        //Set the new title
-        record.setTitle(newTitle);
+        //Set the new Date
+        record.setDate(newDate);
 
-        //Test that title is correct after changing
-        assertEquals(title, record.getTitle());
+        //Test that date is correct after changing
+        assertEquals(newDate, record.getDate());
 
     }
 
+    @Test
+    public void testComment(){
+
+        String title = "This is a Title";
+        Calendar date = Calendar.getInstance(); // gets the current time.
+        String comment = "This is a comment";
+        Location location = new Location("testProvider");
+        location.setLatitude(20.914332);//20.914332, 162.191602 -- Pacific Ocean
+        location.setLongitude(162.191602);
+        String bodyLocation = "Head";
+        ArrayList<String> photos = new ArrayList<>();
+
+        UserRecord record = new UserRecord(title, date, comment, location, bodyLocation, photos);
+
+        //Test that comment is correct
+        assertEquals(comment, record.getComment());
+
+        //Change the Comment
+        String newComment = "This is a new comment ";
+
+        //Set the new Date
+        record.setComment(newComment);
+
+        //Test that date is correct after changing
+        assertEquals(newComment, record.getComment());
 
 
+    }
+
+    @Test
+    public void testLocation(){
+
+        String title = "This is a Title";
+        Calendar date = Calendar.getInstance(); // gets the current time.
+        String comment = "This is a comment";
+        Location location = new Location("testProvider");
+        location.setLatitude(20.914332);//20.914332, 162.191602 -- Pacific Ocean
+        location.setLongitude(162.191602);
+        String bodyLocation = "Head";
+        ArrayList<String> photos = new ArrayList<>();
+
+        UserRecord record = new UserRecord(title, date, comment, location, bodyLocation, photos);
+
+        //Test that location is correct
+        assertEquals(location, record.getLocation());
+
+        //Change the Location
+        Location newLocation = new Location("testProvider");
+        location.setLatitude(10);
+        location.setLongitude(18);
+
+        //Set the new location
+        record.setLocation(newLocation);
+
+        //Test that location is correct after changing
+        assertEquals(newLocation, record.getLocation());
 
 
+    }
+
+//    @Test
+//    public void testBodyLocation(){
+//
+//        String title = "This is a Title";
+//        Calendar date = Calendar.getInstance(); // gets the current time.
+//        String comment = "This is a comment";
+//        Location location = new Location("testProvider");
+//        location.setLatitude(20.914332);//20.914332, 162.191602 -- Pacific Ocean
+//        location.setLongitude(162.191602);
+//        String bodyLocation = "Head";
+//        ArrayList<String> photos = new ArrayList<>();
+//
+//        UserRecord record = new UserRecord(title, date, comment, location, bodyLocation, photos);
+//
+//        //Test that location is correct
+//        assertEquals(location, record.getLocation());
+//
+//        //Change the Location
+//        Location newLocation = new Location("testProvider");
+//        location.setLatitude(10);
+//        location.setLongitude(18);
+//
+//        //Set the new location
+//        record.setLocation(newLocation);
+//
+//        //Test that location is correct after changing
+//        assertEquals(newLocation, record.getLocation());
+//
+//
+//    }
+
+    
 }
