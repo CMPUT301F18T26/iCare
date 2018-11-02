@@ -8,6 +8,8 @@ public class Record {
     private String title;
     private Calendar date;
     private String comment;
+    private Problem problem;
+    private BodyLocation bodyLocation;
 
 
     public Record(String title, Calendar date, String comment){
