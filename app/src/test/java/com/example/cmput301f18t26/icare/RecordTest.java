@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 public class RecordTest {
 
     @Test
-    public void testNewProblemConstructor(){
+    public void testNewRecordConstructor(){
         String title = "Test";
         Calendar date = Calendar.getInstance();
         String comment = "testtest";
@@ -16,14 +16,7 @@ public class RecordTest {
         assertEquals(r.getTitle(), title);
         assertEquals(r.getDate(), date);
         assertEquals(r.getComment(), comment);
-
-        Record r2 = new Record(title,date, comment);
-        assertEquals(r2.getTitle(), title);
-        assertEquals(r2.getComment(), comment);
-        assertEquals(r2.getDate(), date);
     }
-
-
 
     @Test
     public void testGetSet() {
@@ -47,4 +40,6 @@ public class RecordTest {
         r.setComment(comment);
         assertEquals(r.getComment(), comment);
     }
+
+
 }

@@ -8,8 +8,9 @@ public class Record {
     private String title;
     private Calendar date;
     private String comment;
+    //Every record belongs to a problem
     private Problem problem;
-    private BodyLocation bodyLocation;
+
 
 
     public Record(String title, Calendar date, String comment){
@@ -33,5 +34,6 @@ public class Record {
     public String getComment() {return this.comment;}
 
     public void setComment(String comment) {this.comment = comment;}
+
 
 }
