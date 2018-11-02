@@ -10,8 +10,6 @@ public class UserRecord extends Record {
 
     private Location location;
     private ArrayList<String> photos;
-
-    //needs to change type once conor implemts the class
     private BodyLocation bodyLocation;
 
     UserRecord(String title, Calendar date, String comment, Location location, BodyLocation bodyLocation, ArrayList<String> photos){
