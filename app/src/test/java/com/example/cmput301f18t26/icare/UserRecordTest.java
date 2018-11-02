@@ -39,27 +39,64 @@ public class UserRecordTest {
         assertEquals(photos, record.getPhotos());
     }
 
-    //    @Test
-//    public void getLocation() {
-//    }
-//
-//    @Test
-//    public void setLocation() {
-//    }
-//
-//    @Test
-//    public void getBodyLocation() {
-//    }
-//
-//    @Test
-//    public void setBodyLocation() {
-//    }
-//
-//    @Test
-//    public void getPhotos() {
-//    }
-//
-//    @Test
-//    public void setPhotos() {
-//    }
+    @Test
+    public void testTitle(){
+
+        String title = "This is a Title";
+        Calendar date = Calendar.getInstance(); // gets the current time.
+        String comment = "This is a comment";
+        Location location = new Location("testProvider");
+        location.setLatitude(20.914332);//20.914332, 162.191602 -- Pacific Ocean
+        location.setLongitude(162.191602);
+        String bodyLocation = "Head";
+        ArrayList<String> photos = new ArrayList<>();
+
+        UserRecord record = new UserRecord(title, date, comment, location, bodyLocation, photos);
+
+        //Test that title is correct
+        assertEquals(title, record.getTitle());
+
+        //Change the title
+        String newTitle = "This is a new Title";
+
+        //Set the new title
+        record.setTitle(newTitle);
+
+        //Test that title is correct after changing
+        assertEquals(title, record.getTitle());
+
+    }
+
+    @Test
+    public void testDate(){
+
+        String title = "This is a Title";
+        Calendar date = Calendar.getInstance(); // gets the current time.
+        String comment = "This is a comment";
+        Location location = new Location("testProvider");
+        location.setLatitude(20.914332);//20.914332, 162.191602 -- Pacific Ocean
+        location.setLongitude(162.191602);
+        String bodyLocation = "Head";
+        ArrayList<String> photos = new ArrayList<>();
+
+        UserRecord record = new UserRecord(title, date, comment, location, bodyLocation, photos);
+
+        //Test that date is correct
+        assertEquals(date, record.getDate());
+
+        //Change the title
+        String newTitle = "This is a new Title";
+
+        //Set the new title
+        record.setTitle(newTitle);
+
+        //Test that title is correct after changing
+        assertEquals(title, record.getTitle());
+
+    }
+
+
+
+
+
 }
