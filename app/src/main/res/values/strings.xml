@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">iCare</string>
     <string name="icare">iCare</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="log_in">Log In</string>
+    <string name="email">Email</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="care_provider">Care Provider</string>
+    <string name="patient">Patient</string>
 </resources>
