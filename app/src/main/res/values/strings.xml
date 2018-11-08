@@ -9,4 +9,13 @@
     <string name="phone_number">Phone Number</string>
     <string name="care_provider">Care Provider</string>
     <string name="patient">Patient</string>
+    <string name="problems">Problems</string>
+    <string name="conditions">Conditions</string>
+    <string name="condition_colon">Condition Details</string>
+    <string name="condition_name_colon">Condition Name:</string>
+    <string name="date_added_colon">Date Added:</string>
+    <string name="description_colon">Description:</string>
+    <string name="delete">Delete</string>
+    <string name="delete_record">Delete Record</string>
+    <string name="edit_record">Edit Record</string>
 </resources>
