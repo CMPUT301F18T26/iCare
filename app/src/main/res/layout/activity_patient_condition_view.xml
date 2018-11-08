@@ -108,6 +108,16 @@
         app:layout_constraintTop_toBottomOf="@+id/condition_view_description"
         app:layout_constraintBottom_toTopOf="@+id/edit_record"/>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add_new_record_button"
+        android:layout_width="wrap_content"
+        android:tint="@android:color/white"
+        android:src="@drawable/ic_add_black_24dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        app:layout_constraintBottom_toBottomOf="@id/record_list_view"
+        app:layout_constraintRight_toRightOf="parent" />
+
     <Button
         android:id="@+id/edit_record"
         android:layout_width="0dp"
