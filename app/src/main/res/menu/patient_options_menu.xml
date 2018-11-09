@@ -3,11 +3,11 @@
 
     <item
         android:id="@+id/home"
-        android:title="Home"/>
+        android:title="@string/home" />
     <item
         android:id="@+id/contact_information"
-        android:title="Contact Information"/>
+        android:title="@string/contact_information" />
     <item
         android:id="@+id/search"
-        android:title="Search"/>
+        android:title="@string/search_problems_or_records" />
 </menu>

@@ -25,4 +25,7 @@
     <string name="patients">Patients</string>
     <string name="patient_s_problems">Patient\'s Problems</string>
     <string name="patient_name_colon">Patient Name:</string>
+    <string name="search_problems_or_records">Search Problems or Records</string>
+    <string name="contact_information">Contact Information</string>
+    <string name="home">Home</string>
 </resources>
