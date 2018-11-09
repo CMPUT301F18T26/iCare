@@ -9,6 +9,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_care_provider_condition_view);
+        setContentView(R.layout.activity_edit_your_profile);
     }
 }

@@ -28,4 +28,11 @@
     <string name="search_problems_or_records">Search Problems or Records</string>
     <string name="contact_information">Contact Information</string>
     <string name="home">Home</string>
+    <string name="username_colon">Username:</string>
+    <string name="email_colon">Email:</string>
+    <string name="your_profile">Your Profile</string>
+    <string name="phone_colon">Phone:</string>
+    <string name="profile">Profile</string>
+    <string name="add_patient">Add Patient</string>
+    <string name="save">Save</string>
 </resources>
