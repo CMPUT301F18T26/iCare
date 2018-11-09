@@ -10,17 +10,18 @@
     <string name="care_provider">Care Provider</string>
     <string name="patient">Patient</string>
     <string name="problems">Problems</string>
-    <string name="conditions">Conditions</string>
-    <string name="condition_colon">Condition Details</string>
-    <string name="condition_name_colon">Condition Name:</string>
+    <string name="conditions">Problems</string>
+    <string name="condition_colon">Problem Details</string>
+    <string name="condition_name_colon">Problem Name:</string>
     <string name="date_added_colon">Date Added:</string>
     <string name="description_colon">Description:</string>
     <string name="delete">Delete</string>
     <string name="delete_record">Delete Record</string>
     <string name="edit_record">Edit Record</string>
-    <string name="edit_condition">Edit Condition</string>
-    <string name="condition_name">Condition Name</string>
-    <string name="condition">Condition</string>
+    <string name="edit_condition">Edit Problem</string>
+    <string name="condition_name">Problem Name</string>
+    <string name="condition">Problem</string>
     <string name="description">Description</string>
     <string name="patients">Patients</string>
+    <string name="patient_s_problems">Patient\'s Problems</string>
 </resources>

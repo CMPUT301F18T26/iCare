@@ -9,6 +9,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_add_or_edit_condition);
+        setContentView(R.layout.activity_signup);
     }
 }
