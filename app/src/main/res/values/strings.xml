@@ -42,4 +42,7 @@
     <string name="date_and_time_colon">Date and Time:</string>
     <string name="comment_colon">Comment:</string>
     <string name="location">Location</string>
+    <string name="body_location">Body Location</string>
+    <string name="front">Front</string>
+    <string name="back">Back</string>
 </resources>
