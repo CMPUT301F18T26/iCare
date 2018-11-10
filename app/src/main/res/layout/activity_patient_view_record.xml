@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- TODO: Use the following methods to show or hide -->
+    <!-- Use view.setVisibility(View.VISIBLE); or view.setVisibility(View.GONE); -->
+
+    <TextView
+        android:id="@+id/patient_record_main_label_info"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/record_info"
+        android:textSize="30sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/record_title_label"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_height="0dp"
+        android:text="@string/patient_name_colon"
+        android:textSize="20sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/record_date_and_time_label"
+        app:layout_constraintTop_toBottomOf="@+id/patient_record_main_label_info" />
+
+    <TextView
+        android:id="@+id/record_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Record Title"
+        android:textSize="20sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/record_title_label"
+        app:layout_constraintTop_toTopOf="@+id/record_title_label" />
+
+    <TextView
+        android:id="@+id/record_date_and_time_label"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_height="0dp"
+        android:text="@string/date_and_time_colon"
+        android:textSize="20sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/record_title" />
+
+    <TextView
+        android:id="@+id/record_date_and_time"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Date and Time"
+        android:textSize="20sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/record_date_and_time_label"
+        app:layout_constraintTop_toTopOf="@+id/record_date_and_time_label" />
+
+    <TextView
+        android:id="@+id/record_comment_label"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_height="0dp"
+        android:text="@string/comment_colon"
+        android:textSize="20sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/record_date_and_time_label"
+        app:layout_constraintTop_toBottomOf="@+id/record_date_and_time" />
+
+    <TextView
+        android:id="@+id/record_comment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Comment"
+        android:textSize="20sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/record_comment_label"
+        app:layout_constraintTop_toTopOf="@+id/record_comment_label" />
+
+    <!-- Change SRC here -->
+    <android.support.v7.widget.AppCompatImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_image_black_300dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/record_comment"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"/>
+
+    <TextView
+        android:id="@+id/patient_record_main_label_location"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/location"
+        android:textSize="30sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- TODO: Follow these tutorials, then uncomment the fragment -->
+    <!-- https://developers.google.com/maps/documentation/android-sdk/start -->
+    <!-- https://developers.google.com/android/reference/com/google/android/gms/maps/SupportMapFragment -->
+    <!--<fragment xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--xmlns:tools="http://schemas.android.com/tools"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:id="@+id/map"-->
+        <!--tools:context=".MapsActivity"-->
+        <!--android:visibility="gone"-->
+        <!--android:name="com.google.android.gms.maps.SupportMapFragment"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/patient_record_main_label_location"-->
+        <!--app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"-->
+        <!--android:layout_height="wrap_content" />-->
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:itemBackground="@color/colorPrimary"
+        app:itemIconTint="#ffffff"
+        app:itemTextColor="#ffffff"
+        app:menu="@menu/record_bottom_navigation" />
+
+    
+
+</android.support.constraint.ConstraintLayout>

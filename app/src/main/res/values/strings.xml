@@ -35,4 +35,11 @@
     <string name="profile">Profile</string>
     <string name="add_patient">Add Patient</string>
     <string name="save">Save</string>
+    <string name="info">Info</string>
+    <string name="geo">Geo</string>
+    <string name="body">Body</string>
+    <string name="record_info">Record Info</string>
+    <string name="date_and_time_colon">Date and Time:</string>
+    <string name="comment_colon">Comment:</string>
+    <string name="location">Location</string>
 </resources>
