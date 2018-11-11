@@ -49,4 +49,5 @@
     <string name="record_title_colon">Record Title:</string>
     <string name="problem_name_colon">Problem Name:</string>
     <string name="comment">Comment</string>
+    <string name="search_patient_to_add">Search Patient To add</string>
 </resources>
