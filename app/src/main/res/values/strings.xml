@@ -45,4 +45,8 @@
     <string name="body_location">Body Location</string>
     <string name="front">Front</string>
     <string name="back">Back</string>
+    <string name="new_comment">New Comment</string>
+    <string name="record_title_colon">Record Title:</string>
+    <string name="problem_name_colon">Problem Name:</string>
+    <string name="comment">Comment</string>
 </resources>
