@@ -3,12 +3,15 @@ package com.example.cmput301f18t26.icare;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+/**
+ * Our main activity. This activity initializes with a launch screen where users may choose to
+ * log in or sign up.
+ */
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
     }
 }

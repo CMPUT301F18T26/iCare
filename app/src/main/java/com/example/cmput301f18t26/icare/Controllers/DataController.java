@@ -9,22 +9,40 @@ import com.example.cmput301f18t26.icare.User;
 import java.util.ArrayList;
 import java.util.List;
 
-/* DataController is a Singleton class used for accessing ElasticSearch data associated with
-   our app. An instance of it may be retrieved using DataController.getInstance();
+/**
+ * DataController is a Singleton class used for accessing ElasticSearch data associated with
+ * our app. An instance of it may be retrieved using DataController.getInstance();
  */
 class DataController {
 
-    public DataController() {
+    // URL our Elasticsearch is hosted at, and the lone instance of our DataController
+    private static DataController onlyInstance = null;
+    private final String ElasticSearchURL = "http://cmput301.softwareprocess.es:8080/cmput301f18t26test";
+    private User currentUser = null;
+    private List<User> userList = new ArrayList<>();
+
+
+    // We use a private constructor here to enforce Singleton Pattern
+    private DataController() {
+        fetch();
+    }
+
+    // Use this method to access our DataController Instance
+    public static DataController getInstance() {
+        // Lazy load it, WHY NOT
+        if (onlyInstance == null) {
+            onlyInstance = new DataController();
+        }
+
+        return onlyInstance;
     }
 
     public void fetch() {
     }
 
+    // Returns a string which is the id of the object saved given by elastic search
     public String save(){
-        // save: this method makes a POST/Patch request to ElasticSearch to merge our locally
-        // cached data changes with what is stored in our hosted database.
 
-        //Returns a string which is the id of the object saved given by elastic search
         return null;
     }
 
