@@ -9,16 +9,15 @@ import com.example.cmput301f18t26.icare.User;
 import java.util.ArrayList;
 import java.util.List;
 
+/* DataController is a Singleton class used for accessing ElasticSearch data associated with
+   our app. An instance of it may be retrieved using DataController.getInstance();
+ */
 class DataController {
 
     public DataController() {
     }
 
-    public void fetch(){
-
-        // fetch: this method makes a GET request to ElasticSearch and grabs the latest data
-        // pertaining to our user, overwriting our current cached data.
-
+    public void fetch() {
     }
 
     public String save(){
