@@ -14,6 +14,10 @@ import java.util.List;
  */
 class DataController {
 
+    /**
+     * Do not touch the following, they enforce our design method and declare private fields
+     */
+
     // The lone instance of our DataController
     private static DataController onlyInstance = null;
     private final String elasticSearchURL = "http://cmput301.softwareprocess.es:8080/cmput301f18t26";
@@ -48,7 +52,7 @@ class DataController {
     }
 
     // Returns a string which is the id of the object saved given by elastic search
-    public String save(){
+    public String save() {
 
         return null;
     }

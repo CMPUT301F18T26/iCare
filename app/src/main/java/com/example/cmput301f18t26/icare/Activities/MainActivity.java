@@ -19,15 +19,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    // Callback for the login button
+    // Callback for the login button, go to login page
     public void login(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 
-    // Callback for the signup button
+    // Callback for the signup button, go to signup page
     public void signup(View view) {
-
+        Intent intent = new Intent(this, SignupActivity.class);
+        startActivity(intent);
     }
 
 }
