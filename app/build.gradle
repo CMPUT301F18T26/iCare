@@ -32,6 +32,3 @@ dependencies {
     debugImplementation 'com.android.support.test:runner:1.0.1'
     implementation 'com.android.support:design:28.0.0'
 }
-
-
-
