@@ -3,6 +3,8 @@ package com.example.cmput301f18t26.icare.Activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
@@ -17,9 +19,17 @@ public class AddEditProblemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_or_edit_condition);
-
         Intent i = getIntent();
         setValues(i);
+
+        //Saves your Problem and returns you to the Problem List View
+        Button saveButton = (Button) findViewById(R.id.save_problem);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                setResult(RESULT_OK);
+                //save();
+            }
+        });
     }
 
     /**

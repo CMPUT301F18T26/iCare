@@ -17,7 +17,8 @@
     <string name="description_colon">Description:</string>
     <string name="delete">Delete</string>
     <string name="delete_record">Delete Record</string>
-    <string name="edit_record">Edit Record</string>
+    <string name="view_records">View Records</string>
+    <string name="save_problem">Save Problem</string>
     <string name="edit_condition">Edit Problem</string>
     <string name="condition_name">Problem Name</string>
     <string name="condition">Problem</string>
