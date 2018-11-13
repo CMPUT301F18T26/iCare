@@ -32,6 +32,24 @@ public abstract class User {
         this.role = role;
     }
 
+    /**
+     * This method is used to validate the fields on a User object,
+     *
+     * If username, password, email, phone and role are set to acceptable inputs then it will
+     * return true, false otherwise
+     *
+     * Encapsulating the logic for validating user within its class is a common pattern.
+     * @return boolean
+     */
+    public boolean validate() {
+        if (this.username.isEmpty() || this.password.isEmpty() || this.email.isEmpty()
+                || this.phone.isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     // Getter and setters
     public String getUsername() {
         return username;

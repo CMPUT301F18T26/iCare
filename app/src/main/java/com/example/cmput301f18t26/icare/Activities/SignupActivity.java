@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.example.cmput301f18t26.icare.Controllers.UserFactory;
 import com.example.cmput301f18t26.icare.Models.User;
@@ -60,6 +61,12 @@ public class SignupActivity extends AppCompatActivity {
          * review the inputs line by line here to detect errors, or anywhere else.
          */
         User user = UserFactory.getUser(username, password, email, phone, role);
+
+        if (user.validate() == false) {
+            Toast.makeText(getApplicationContext(),
+                    "Error: Invalid data",
+                    Toast.LENGTH_SHORT).show();
+        }
         
     }
 }

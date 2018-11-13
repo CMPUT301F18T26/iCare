@@ -16,7 +16,7 @@ public class PatientTest {
     @Test
     public void testProblemIdsLogicForPatient() {
         // Loading up the values to test
-        String id = "id_for_this_thing";
+        int role = 0;
         String username = "username";
         String password = "pass123";
         String email = "fake@mail.com";
@@ -27,7 +27,7 @@ public class PatientTest {
         String third = "none";
 
         // First creating a patient
-        Patient patient = new Patient(id, username, password, email, phone);
+        Patient patient = new Patient(username, password, email, phone, role);
         // Checking if problemIds' length is 0
         assertEquals(patient.getProblemIds().size(), 0);
 

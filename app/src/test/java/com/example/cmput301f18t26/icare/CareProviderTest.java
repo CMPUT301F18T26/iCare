@@ -12,7 +12,7 @@ public class CareProviderTest {
     @Test
     public void testPatientLogicForCareProvider() {
         // Loading up the values to test
-        String id = "id_for_this_thing";
+        int role = 1;
         String username = "username";
         String password = "pass123";
         String email = "fake@mail.com";
@@ -23,7 +23,7 @@ public class CareProviderTest {
         String third = "none";
 
         // First creating a patient
-        CareProvider careProvider = new CareProvider(id, username, password, email, phone);
+        CareProvider careProvider = new CareProvider(username, password, email, phone, role);
         // Checking if problemIds' length is 0
         assertEquals(careProvider.getPatientIds().size(), 0);
 
