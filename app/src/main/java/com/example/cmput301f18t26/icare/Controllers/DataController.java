@@ -5,6 +5,8 @@ import android.util.Log;
 import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.Record;
 import com.example.cmput301f18t26.icare.Models.User;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,7 @@ public class DataController {
     // The lone instance of our DataController
     private static DataController onlyInstance = null;
 
+    private Gson gson = new Gson();
     private User currentUser = null;
     private List<User> userList = new ArrayList<>();
 
@@ -104,14 +107,27 @@ public class DataController {
         return null;
     }
 
+    /**
+     *  Method for creating a new User on ElasticSearch
+     *
+     * @param user
+     * @return user
+     */
     public User addUser(User user){
         SearchController.AddUser addUser = new SearchController.AddUser();
         addUser.execute(user);
 
         try {
-            user = addUser.get().getSourceAsObject(User.class);
-            Log.i("HELLO", user.getUsername());
+            /**
+             * Our response is a JestResult object after calling get()
+             * We get the json from the JestResult object and create a Java object via Google's
+             * gson library
+             *
+             * This new object will have an _id field due to ElasticSearch autopopulating it
+             */
+            JsonObject jsonObject = addUser.get().getJsonObject();
         } catch (Exception e) {
+            Log.i("Error", "Failed to get the user back", e);
             return null;
         }
 
