@@ -12,6 +12,7 @@ public abstract class User {
     private String email;
     private String phone;
     private int role;
+    private int id;
 
     /**
      * Our abstract class has a constructor that the subclasses may use as they share an
@@ -23,6 +24,11 @@ public abstract class User {
      *
      * Abstract classes can not be instantiated, therefore this method is only for the purpose of
      * inheritance.
+     *
+     * On another note, Users are not instantiated with a id (ElasticSearch Unique ID) field,
+     * The uid for the object is assigned upon persisting to our ElasticSearch instance, this
+     * happens in the DataController whenever a new user is created. We may treat all users without
+     * an id field as invalid.
      */
     public User(String username, String password, String email, String phone, int role) {
         this.username = username;
@@ -44,6 +50,10 @@ public abstract class User {
     public boolean validate() {
         if (this.username.isEmpty() || this.password.isEmpty() || this.email.isEmpty()
                 || this.phone.isEmpty()) {
+            // IF ANY TEXT FIELD IS EMPTY
+            return false;
+        } else if (this.role != 0 && this.role != 1 ) {
+            // IF ROLE IS NOT 0 FOR PATIENT, 1 FOR CARE PROVIDER
             return false;
         } else {
             return true;
@@ -89,5 +99,13 @@ public abstract class User {
 
     public void setRole(int role) {
         this.role = role;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

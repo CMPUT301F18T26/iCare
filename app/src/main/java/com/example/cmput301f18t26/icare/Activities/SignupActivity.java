@@ -8,6 +8,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.Controllers.UserFactory;
 import com.example.cmput301f18t26.icare.Models.User;
 import com.example.cmput301f18t26.icare.R;
@@ -19,6 +20,7 @@ public class SignupActivity extends AppCompatActivity {
     private EditText emailEntry;
     private RadioGroup roleSelect;
     private RadioButton roleButton;
+    private DataController dataController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,9 @@ public class SignupActivity extends AppCompatActivity {
         phoneEntry = findViewById(R.id.phone_entry);
         emailEntry = findViewById(R.id.email_entry);
         roleSelect = findViewById(R.id.role_entry);
+
+        // grab the instance of our DataController, it will lazy load it if not created elsewhere
+        dataController = DataController.getInstance();
     }
 
     // Callback for the signup button, it attempts to create the user
@@ -41,7 +46,7 @@ public class SignupActivity extends AppCompatActivity {
         String phone = phoneEntry.getText().toString().trim();
         String email = emailEntry.getText().toString().trim();
         /**
-         * grab selected button from radio group and use that buttons index to fetch the role
+         * Grab selected button from radio group and use that buttons index to fetch the role
          *
          * THIS IS A HUGE HACK, THIS COULD BE REFACTORED BY USING ENUMS PROPERLY BUT WE WILL SAVE
          * THAT FOR LATER - if anybody wants to be a hero
@@ -51,22 +56,32 @@ public class SignupActivity extends AppCompatActivity {
         int role = roleSelect.indexOfChild(roleButton);
 
         /**
-         * Lets attempt to construct a user out of the data we are provided on the signup page.
+         * Lets attempt to construct a user out of the data we are provided from the signup page.
          *
-         * Users are a great way to use the Factory pattern as we have a User superclass with
-         * two subclasses that we could instantiate here based on input.
-         *
-         * Another great pattern to use here is to defer validation checks to the user class/object
-         * itself, refer to the user class to see how this is done. Notice we will not need to
-         * review the inputs line by line here to detect errors, or anywhere else.
+         * Users are a great place to use the Factory pattern as we have a User superclass with
+         * two subclasses that we could instantiate here based on input
          */
         User user = UserFactory.getUser(username, password, email, phone, role);
 
-        if (user.validate() == false) {
+        /**
+         * Another great pattern to use here is to defer validation checks to the User class/object
+         * itself, refer to the user class to see how this is done. Notice we will not need to
+         * review the inputs line by line here to detect errors, or anywhere else.
+         *
+         * The following code checks if our UserFactory created User is a valid user, if it is
+         * then we can persist it to our DataController. Otherwise display an error.
+         */
+        if (!user.validate()) {
             Toast.makeText(getApplicationContext(),
-                    "Error: Invalid data",
+                    "Error: Invalid user data",
                     Toast.LENGTH_SHORT).show();
+            return;
         }
-        
+
+        /**
+         * Given that our user is created properly and there are no validatino errors,
+         * let's persist it to ElasticSearch via our DataController.
+         */
+        dataController.addUser(user);
     }
 }

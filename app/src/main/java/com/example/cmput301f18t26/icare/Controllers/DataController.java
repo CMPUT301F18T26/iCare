@@ -3,16 +3,23 @@ package com.example.cmput301f18t26.icare.Controllers;
 import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.Record;
 import com.example.cmput301f18t26.icare.Models.User;
-import com.searchly.jestdroid.JestDroidClient;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * DataController is a Singleton class used for working with ElasticSearch data associated with
- * our app. An instance of it may be retrieved using DataController.getInstance();
+ * DataController is used for caching and maintaining all persistent data associated with our app.
+ * It interacts with ElasticSearchController to fetch and save data to our ElasticSearch instance.
+ *
+ * It acts as a middleware by saving relevent ElasticSearch data in its local DataStructures and
+ * offering methods to maintain them.
+ *
+ * This class follows a Singleton design pattern in order to enforce all persistent data in
+ * our app to come from a single place, sharing a the same instance.
+ *
+ * An instance of it may be retrieved via DataController.getInstance();
  */
-class DataController {
+public class DataController {
 
     /**
      * Do not touch the following, they enforce our design method and declare private fields
@@ -20,8 +27,6 @@ class DataController {
 
     // The lone instance of our DataController
     private static DataController onlyInstance = null;
-    private final String elasticSearchURL = "http://cmput301.softwareprocess.es:8080/cmput301f18t26";
-    private JestDroidClient jestClient;
 
     private User currentUser = null;
     private List<User> userList = new ArrayList<>();
@@ -29,7 +34,11 @@ class DataController {
 
     // We use a private constructor here to enforce Singleton Pattern
     private DataController() {
-        jestClient = new JestDroidClient();
+        /**
+         * When our lone instance of DataController is lazy loaded, lets also setup our
+         * SearchController and instantiate its Jest Client which is also lazy loaded.
+         */
+        SearchController.setup();
     }
 
     /**
@@ -92,7 +101,8 @@ class DataController {
     }
 
     public String addUser(User user){
-        //add user and return the user id
+        SearchController.AddUsersTask addUser = new SearchController.AddUsersTask();
+        addUser.execute(user);
         return null;
     }
 
