@@ -1,25 +1,38 @@
 package com.example.cmput301f18t26.icare.Models;
 
+/**
+ * Our abstract user class could be a Patient or CareProvider
+ *
+ * This class should ideally be instantiated with a builder pattern.
+ */
 public abstract class User {
     // Properties to store everything they need
-    private String id;
     private String username;
     private String password;
     private String email;
     private String phone;
-    private String userType;
+    private int role;
 
-    // Actual constructor
-    public User(String id, String username, String password, String email, String phone) {
+    /**
+     * Our abstract class has a constructor that the subclasses may use as they share an
+     * identical instantiation method.
+     *
+     * This is worth noting because the only difference between our superclass User and its
+     * multiple subclasses are the methods that they implement. They are both instantiated with the
+     * same set of initial properties.
+     *
+     * Abstract classes can not be instantiated, therefore this method is only for the purpose of
+     * inheritance.
+     */
+    public User(String username, String password, String email, String phone, int role) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.phone = phone;
-        this.userType = userType;
+        this.role = role;
     }
 
     // Getter and setters
-
     public String getUsername() {
         return username;
     }
@@ -52,19 +65,11 @@ public abstract class User {
         this.phone = phone;
     }
 
-    public String getUserType() {
-        return userType;
+    public int getRole() {
+        return role;
     }
 
-    public void setUserType(String userType) {
-        this.userType = userType;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public void setRole(int role) {
+        this.role = role;
     }
 }

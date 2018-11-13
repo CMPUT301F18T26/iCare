@@ -4,25 +4,14 @@ import com.example.cmput301f18t26.icare.Models.User;
 
 import java.util.ArrayList;
 
-// Class is not finished yet, will be finished before part 4
 public class Patient extends User {
     // Array list to store problems for this user
     private ArrayList<String> problemIds;
-    private String cardProviderId;
 
-    // Actual constructor
-    // No problems passed in
-    Patient(String id, String username, String password, String email, String phone){
-        super(id, username, password, email, phone);
+    public Patient (String username, String password, String email, String phone, int role) {
+        // Instantiate via our super-class method
+        super(username, password, email, phone, role);
         this.problemIds = new ArrayList<>();
-        this.setUserType("patient");
-    }
-
-    // Problems passed in
-    Patient(String id, String username, String password, String email, String phone, ArrayList<String> problemIds){
-        super(id, username, password, email, phone);
-        this.problemIds = problemIds;
-        this.setUserType("patient");
     }
 
     // Setters and Getters
@@ -33,8 +22,6 @@ public class Patient extends User {
     public void setProblemIds(ArrayList<String> problemIds) {
         this.problemIds = problemIds;
     }
-
-
 
     // Editing the list of problems
     // Adding a new problem

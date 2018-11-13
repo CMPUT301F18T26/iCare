@@ -30,7 +30,6 @@ class DataController {
     // We use a private constructor here to enforce Singleton Pattern
     private DataController() {
         jestClient = new JestDroidClient();
-        fetch();
     }
 
     /**

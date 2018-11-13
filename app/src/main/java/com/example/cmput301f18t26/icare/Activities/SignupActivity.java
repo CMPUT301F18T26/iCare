@@ -7,6 +7,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.example.cmput301f18t26.icare.Controllers.UserFactory;
+import com.example.cmput301f18t26.icare.Models.User;
 import com.example.cmput301f18t26.icare.R;
 
 public class SignupActivity extends AppCompatActivity {
@@ -37,9 +39,27 @@ public class SignupActivity extends AppCompatActivity {
         String password = passwordEntry.getText().toString().trim();
         String phone = phoneEntry.getText().toString().trim();
         String email = emailEntry.getText().toString().trim();
-        // grab button from radio group and grab text of that button to get role
+        /**
+         * grab selected button from radio group and use that buttons index to fetch the role
+         *
+         * THIS IS A HUGE HACK, THIS COULD BE REFACTORED BY USING ENUMS PROPERLY BUT WE WILL SAVE
+         * THAT FOR LATER - if anybody wants to be a hero
+         */
         int roleEntrySelectedId = roleSelect.getCheckedRadioButtonId();
         roleButton = findViewById(roleEntrySelectedId);
-        String role = roleButton.getText().toString();
+        int role = roleSelect.indexOfChild(roleButton);
+
+        /**
+         * Lets attempt to construct a user out of the data we are provided on the signup page.
+         *
+         * Users are a great way to use the Factory pattern as we have a User superclass with
+         * two subclasses that we could instantiate here based on input.
+         *
+         * Another great pattern to use here is to defer validation checks to the user class/object
+         * itself, refer to the user class to see how this is done. Notice we will not need to
+         * review the inputs line by line here to detect errors, or anywhere else.
+         */
+        User user = UserFactory.getUser(username, password, email, phone, role);
+        
     }
 }

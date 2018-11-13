@@ -8,19 +8,10 @@ public class CareProvider extends User {
     // Array list to store the patients
     private ArrayList<String> patientIds;
 
-    // Actual constructor
-    // No problems passed in
-    CareProvider(String id, String username, String password, String email, String phone){
-        super(id, username, password, email, phone);
+    public CareProvider(String username, String password, String email, String phone, int role) {
+        // Instantiate via our super-class method
+        super(username, password, email, phone, role);
         this.patientIds = new ArrayList<>();
-        this.setUserType("careprovider");
-    }
-
-    // Problems passed in
-    CareProvider(String id, String username, String password, String email, String phone, ArrayList<String> patientIds){
-        super(id, username, password, email, phone);
-        this.patientIds = patientIds;
-        this.setUserType("careprovider");
     }
 
     // Getters and setters
