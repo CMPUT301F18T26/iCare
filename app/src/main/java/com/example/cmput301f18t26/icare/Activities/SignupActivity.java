@@ -2,6 +2,7 @@ package com.example.cmput301f18t26.icare.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -82,6 +83,6 @@ public class SignupActivity extends AppCompatActivity {
          * Given that our user is created properly and there are no validatino errors,
          * let's persist it to ElasticSearch via our DataController.
          */
-        dataController.addUser(user);
+        User newUser = dataController.addUser(user);
     }
 }

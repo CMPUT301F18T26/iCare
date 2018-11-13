@@ -39,17 +39,17 @@ public class SearchController {
         jestClient = (JestDroidClient) jestClientFactory.getObject();
     }
 
-    public static class AddUsersTask extends AsyncTask<User, Void, JestResult> {
+    public static class AddUser extends AsyncTask<User, Void, JestResult> {
         private JestResult result;
 
         @Override
         protected JestResult doInBackground(User... users) {
-            Index index = new Index.Builder(users[0]).index(groupIndex).type("user").refresh(true).build();
+            Index index = new Index.Builder(users[0]).index(groupIndex).type("user").build();
             try {
                 result = jestClient.execute(index);
                 return result;
             } catch (Exception e) {
-                Log.i("Error", "Failed to create the user");
+                Log.i("Error", "Failed to create the user", e);
                 return null;
             }
         }

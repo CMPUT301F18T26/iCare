@@ -1,11 +1,15 @@
 package com.example.cmput301f18t26.icare.Controllers;
 
+import android.util.Log;
+
 import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.Record;
 import com.example.cmput301f18t26.icare.Models.User;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.searchbox.client.JestResult;
 
 /**
  * DataController is used for caching and maintaining all persistent data associated with our app.
@@ -100,10 +104,18 @@ public class DataController {
         return null;
     }
 
-    public String addUser(User user){
-        SearchController.AddUsersTask addUser = new SearchController.AddUsersTask();
+    public User addUser(User user){
+        SearchController.AddUser addUser = new SearchController.AddUser();
         addUser.execute(user);
-        return null;
+
+        try {
+            user = addUser.get().getSourceAsObject(User.class);
+            Log.i("HELLO", user.getUsername());
+        } catch (Exception e) {
+            return null;
+        }
+
+        return user;
     }
 
     public List<User> getPatients(String careProviderId){
