@@ -1,6 +1,9 @@
 package com.example.cmput301f18t26.icare;
 
 import android.location.Location;
+
+import com.example.cmput301f18t26.icare.Models.UserRecord;
+
 import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Calendar;

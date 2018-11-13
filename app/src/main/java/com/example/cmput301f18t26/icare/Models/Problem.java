@@ -1,4 +1,4 @@
-package com.example.cmput301f18t26.icare;
+package com.example.cmput301f18t26.icare.Models;
 
 import java.util.ArrayList;
 import java.util.Calendar;

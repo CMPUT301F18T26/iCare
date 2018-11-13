@@ -1,6 +1,9 @@
-package com.example.cmput301f18t26.icare;
+package com.example.cmput301f18t26.icare.Models;
 
 import android.location.Location;
+
+import com.example.cmput301f18t26.icare.BodyLocation;
+
 import java.util.Calendar;
 import java.util.ArrayList;
 

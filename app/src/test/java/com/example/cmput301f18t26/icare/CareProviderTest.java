@@ -1,5 +1,7 @@
 package com.example.cmput301f18t26.icare;
 
+import com.example.cmput301f18t26.icare.Models.CareProvider;
+
 import org.junit.Test;
 
 import java.util.ArrayList;

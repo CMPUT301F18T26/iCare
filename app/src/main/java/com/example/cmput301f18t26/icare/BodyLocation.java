@@ -1,5 +1,7 @@
 package com.example.cmput301f18t26.icare;
 
+import com.example.cmput301f18t26.icare.Models.UserRecord;
+
 public enum BodyLocation {
 
     //enum types will be expanded once BodyLocation selection image has been decided on

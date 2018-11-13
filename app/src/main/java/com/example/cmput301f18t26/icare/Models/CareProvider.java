@@ -1,8 +1,10 @@
-package com.example.cmput301f18t26.icare;
+package com.example.cmput301f18t26.icare.Models;
+
+import com.example.cmput301f18t26.icare.Models.User;
 
 import java.util.ArrayList;
 
-public class CareProvider extends User{
+public class CareProvider extends User {
     // Array list to store the patients
     private ArrayList<String> patientIds;
 

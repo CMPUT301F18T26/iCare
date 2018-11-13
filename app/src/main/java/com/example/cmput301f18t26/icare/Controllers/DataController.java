@@ -1,10 +1,8 @@
 package com.example.cmput301f18t26.icare.Controllers;
 
-import com.example.cmput301f18t26.icare.Patient;
-import com.example.cmput301f18t26.icare.Problem;
-import com.example.cmput301f18t26.icare.Record;
-import com.example.cmput301f18t26.icare.CareProvider;
-import com.example.cmput301f18t26.icare.User;
+import com.example.cmput301f18t26.icare.Models.Problem;
+import com.example.cmput301f18t26.icare.Models.Record;
+import com.example.cmput301f18t26.icare.Models.User;
 import com.searchly.jestdroid.JestDroidClient;
 
 import java.util.ArrayList;

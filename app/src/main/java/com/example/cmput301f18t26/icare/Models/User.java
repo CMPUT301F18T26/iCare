@@ -1,4 +1,4 @@
-package com.example.cmput301f18t26.icare;
+package com.example.cmput301f18t26.icare.Models;
 
 public abstract class User {
     // Properties to store everything they need
