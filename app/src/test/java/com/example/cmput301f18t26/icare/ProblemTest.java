@@ -38,6 +38,7 @@ public class ProblemTest {
         assertEquals(p.getDescription(), description);
     }
 
+    @Test
     public void testAddRecords(){
         Problem p = getDefaultTestProblem();
         Record r = new Record("Test", Calendar.getInstance(), "This is a test record");
@@ -45,6 +46,7 @@ public class ProblemTest {
         assertEquals(p.getRecord(r.getId()), r);
     }
 
+    @Test
     public void testRemoveRecord(){
         Problem p = getDefaultTestProblem();
         Record r = new Record("Test", Calendar.getInstance(), "This is a test record");
@@ -54,6 +56,7 @@ public class ProblemTest {
         assertEquals(p.getRecord(rid), null);
     }
 
+    @Test
     public void testGetRecords(){
         Problem p = getDefaultTestProblem();
         Record r1 = new Record("Test1", Calendar.getInstance(), "This is a test record");
@@ -68,5 +71,4 @@ public class ProblemTest {
         rlist.add(r2);
         assertEquals(rlist, p.getRecords());
     }
-
 }
