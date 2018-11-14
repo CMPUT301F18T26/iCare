@@ -1,18 +1,19 @@
 package com.example.cmput301f18t26.icare.Models;
 
+import java.util.UUID;
+
 /**
  * Our abstract user class could be a Patient or CareProvider
  *
- * This class should ideally be instantiated with a builder pattern.
+ * This class should ideally be instantiated by a factory pattern.
  */
 public abstract class User {
-    // Properties to store everything they need
+    private final String UID; // let's make this immutable (its in caps cause convention)
     private String username;
     private String password;
     private String email;
     private String phone;
     private int role;
-    private int id;
 
     /**
      * Our abstract class has a constructor that the subclasses may use as they share an
@@ -25,12 +26,11 @@ public abstract class User {
      * Abstract classes can not be instantiated, therefore this method is only for the purpose of
      * inheritance.
      *
-     * On another note, Users are not instantiated with a id (ElasticSearch Unique ID) field,
-     * The uid for the object is assigned upon persisting to our ElasticSearch instance, this
-     * happens in the DataController whenever a new user is created. We may treat all users without
-     * an id field as invalid.
+     * On instantiation, we generate a unique id (UID) via the java UUID class for every user,
+     * this id is persists with the user when saved to ElasticSearch.
      */
     public User(String username, String password, String email, String phone, int role) {
+        this.UID = UUID.randomUUID().toString();
         this.username = username;
         this.password = password;
         this.email = email;
@@ -101,11 +101,8 @@ public abstract class User {
         this.role = role;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    // We only require a getter for the uuid, it should not be mutable
+    public String getUID() {
+        return this.UID;
     }
 }

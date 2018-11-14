@@ -80,7 +80,7 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         /**
-         * Given that our user is created properly and there are no validatino errors,
+         * Given that our user is created properly and there are no validation errors,
          * let's persist it to ElasticSearch via our DataController.
          */
         User newUser = dataController.addUser(user);

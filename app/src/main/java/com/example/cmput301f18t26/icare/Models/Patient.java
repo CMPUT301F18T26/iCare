@@ -4,6 +4,9 @@ import com.example.cmput301f18t26.icare.Models.User;
 
 import java.util.ArrayList;
 
+/**
+ * Patients have the role 0
+ */
 public class Patient extends User {
     // Array list to store problems for this user
     private ArrayList<String> problemIds;

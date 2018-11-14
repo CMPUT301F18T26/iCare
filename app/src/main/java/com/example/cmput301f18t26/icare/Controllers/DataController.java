@@ -114,23 +114,17 @@ public class DataController {
      * @return user
      */
     public User addUser(User user){
-        SearchController.AddUser addUser = new SearchController.AddUser();
-        addUser.execute(user);
-
         try {
             /**
-             * Our response is a JestResult object after calling get()
-             * We get the json from the JestResult object and create a Java object via Google's
-             * gson library
-             *
-             * This new object will have an _id field due to ElasticSearch autopopulating it
+             * Our response is a JestResult object after calling get(), we retrieve the json from
+             * the JestResult object and create a Java object via Google's gson library
              */
-            JsonObject jsonObject = addUser.get().getJsonObject();
+            JsonObject jsonUser = new SearchController.AddUser().execute(user).get().getJsonObject();
+            Log.i("HEY", jsonUser.toString());
         } catch (Exception e) {
             Log.i("Error", "Failed to get the user back", e);
             return null;
         }
-
         return user;
     }
 

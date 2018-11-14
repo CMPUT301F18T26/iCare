@@ -44,7 +44,9 @@ public class SearchController {
 
         @Override
         protected JestResult doInBackground(User... users) {
-            Index index = new Index.Builder(users[0]).index(groupIndex).type("user").build();
+            User user = users[0];
+            Index index = new Index.Builder(user).index(groupIndex).type("user").refresh(true)
+                    .id(user.getUID()).build();
             try {
                 result = jestClient.execute(index);
                 return result;

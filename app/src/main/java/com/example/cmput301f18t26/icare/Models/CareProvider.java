@@ -4,6 +4,9 @@ import com.example.cmput301f18t26.icare.Models.User;
 
 import java.util.ArrayList;
 
+/**
+ * Care Providers have the role 1
+ */
 public class CareProvider extends User {
     // Array list to store the patients
     private ArrayList<String> patientIds;
