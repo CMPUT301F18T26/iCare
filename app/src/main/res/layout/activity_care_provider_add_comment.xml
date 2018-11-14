@@ -68,7 +68,7 @@
         app:layout_constraintTop_toTopOf="@+id/problem_name_label" />
 
     <TextView
-        android:id="@+id/record_date_label"
+        android:id="@+id/problem_date_label"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginLeft="8dp"
@@ -78,7 +78,7 @@
         app:layout_constraintTop_toBottomOf="@+id/problem_name" />
 
     <TextView
-        android:id="@+id/record_date_and_time"
+        android:id="@+id/problem_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -88,18 +88,18 @@
         android:text="Date"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/record_date_label"
-        app:layout_constraintTop_toTopOf="@+id/record_date_label" />
+        app:layout_constraintStart_toEndOf="@+id/problem_date_label"
+        app:layout_constraintTop_toTopOf="@+id/problem_date_label" />
 
     <TextView
         android:id="@+id/record_comment_time_label"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginLeft="10dp"
-        android:text="Comment Time:"
+        android:text="@string/comment_time_colon"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/record_date_and_time" />
+        app:layout_constraintTop_toBottomOf="@+id/problem_date" />
 
     <TextView
         android:id="@+id/record_comment_time"
@@ -127,14 +127,14 @@
         android:hint="@string/comment"
         android:inputType="text|textMultiLine|textCapSentences"
         android:scrollbars="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintBottom_toTopOf="@+id/save_new_comment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/record_comment_time" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/save_new_comment"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"

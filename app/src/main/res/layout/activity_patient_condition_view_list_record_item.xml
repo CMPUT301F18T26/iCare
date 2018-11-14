@@ -4,22 +4,6 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
-    <ListView
-        android:id="@+id/ProblemListView"
-        android:layout_width="368dp"
-        android:layout_height="450dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-
-
-
-
     <TextView
         android:id="@+id/record_name"
         android:textSize="20sp"

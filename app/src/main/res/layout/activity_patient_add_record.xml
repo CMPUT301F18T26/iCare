@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -40,7 +41,7 @@
             android:layout_height="0dp"
             android:paddingTop="10dp"
             android:layout_marginTop="8dp"
-            android:text="@string/patient_name_colon"
+            android:text="@string/record_title_colon"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="@+id/record_date_and_time_label"
             app:layout_constraintTop_toBottomOf="@+id/patient_record_main_label_info" />
@@ -111,7 +112,7 @@
 
         <!-- Change SRC here -->
         <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/appCompatImageView2"
+            android:id="@+id/add_photos_to_record"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
