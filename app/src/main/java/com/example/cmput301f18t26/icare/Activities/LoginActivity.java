@@ -7,7 +7,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
+import com.example.cmput301f18t26.icare.Models.User;
 import com.example.cmput301f18t26.icare.R;
+
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText usernameEntry;
@@ -45,8 +48,37 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         /**
-         * Check to see if this is a valid user by going through our DataController
-         * TO BE IMPLEMENTED STILL
+         * Check to see if this is a valid user by grabbing all users from our DataController
+         * and looking for matching credentials
          */
+        List<User> userList = dataController.getUsers();
+        /**
+         *  omg here we go with the algorithms... O(n) search ;)
+         *
+         *  remember to use .equals in java for strings!!!
+         *  == is compare by reference, .equals is compare by value, implemented by the Object
+         *
+         *  there is some crazy stuff in Java where it may cache two identical strings as the same
+         *  object if they are declared within the same block, simulating reference
+         */
+        for (User user : userList) {
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                /**
+                 * If matching user was found then give a notice for now, lets implement
+                 * the subsequent views later, like what role the user is
+                 */
+                Toast.makeText(getApplicationContext(),
+                        "User found!!!",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+
+        /**
+         * If matching user was not found then give a notice
+         */
+        Toast.makeText(getApplicationContext(),
+                "User not found",
+                Toast.LENGTH_SHORT).show();
     }
 }

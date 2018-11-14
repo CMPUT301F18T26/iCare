@@ -30,21 +30,19 @@ public class DataController {
     /**
      * Do not touch the following, they enforce our design method and declare private fields
      */
-
-    // The lone instance of our DataController
-    private static DataController onlyInstance = null;
+    private static DataController onlyInstance = null; // the lone instance of our DataController
 
     private Gson gson = new Gson();
     private User currentUser = null;
     private List<User> userList = new ArrayList<>();
 
-
-    // We use a private constructor here to enforce Singleton Pattern
+    /**
+     * We use a private constructor here to enforce Singleton Pattern
+     *
+     * When our lone instance of DataController is lazy loaded, lets setup our SearchController
+     * and instantiate its Jest Client which is also lazy loaded.
+     */
     private DataController() {
-        /**
-         * When our lone instance of DataController is lazy loaded, lets also setup our
-         * SearchController and instantiate its Jest Client which is also lazy loaded.
-         */
         SearchController.setup();
     }
 
@@ -52,7 +50,10 @@ public class DataController {
      * Below are the public methods that should be used for interacting with data controller
      */
 
-    // Use this method to access our DataController Instance
+    /**
+     * Access the lone instance of our DataController
+     * @return DataController
+     */
     public static DataController getInstance() {
         // Lazy load it
         if (onlyInstance == null) {
@@ -62,14 +63,41 @@ public class DataController {
         return onlyInstance;
     }
 
-    // Fetch problems, records associated with currentUser from ElasticSearch to our cache
-    public void fetch() {
+    /**
+     *  Adding a new user to the local users cache
+     */
+    public void addUser(User user) {
+        userList.add(user);
     }
 
-    // Returns a string which is the id of the object saved given by elastic search
-    public String save() {
+    /**
+     *  Grabbing all users in local users cache
+     */
+    public List<User> getUsers(){
+        return userList;
+    }
 
-        return null;
+    /**
+     *  Saving local users cache to ElasticSearch
+     */
+    public void saveUsers() {
+        try {
+            /**
+             * Our response is a JestResult object after calling get(), we retrieve a JsonObject
+             * from the JestResult and return the users's uid (equivalent to ElasticSearch's _id)
+             */
+            JsonObject jsonUser = new SearchController.AddUser().execute(userList.get(0))
+                    .get().getJsonObject();
+            String userUID = jsonUser.get("_id").toString();
+        } catch (Exception e) {
+            Log.i("Error", "Failed to create the user", e);
+        }
+    }
+
+    /**
+     *  Fetching users from ElasticSearch to local users cache
+     */
+    public void fetchUsers() {
     }
 
     public Record getRecord(String recordId){
@@ -99,31 +127,6 @@ public class DataController {
 
     public String addProblem(Problem problem){
         //add Problem and return new problemId
-        return null;
-    }
-
-    /**
-     *  Method for creating a new User on ElasticSearch
-     *
-     * @param user
-     * @return user id string or null
-     */
-    public String addUser(User user){
-        try {
-            /**
-             * Our response is a JestResult object after calling get(), we retrieve a JsonObject
-             * from the JestResult and return the users's uid (equivalent to ElasticSearch's _id)
-             */
-            JsonObject jsonUser = new SearchController.AddUser().execute(user).get().getJsonObject();
-            return jsonUser.get("_id").toString();
-        } catch (Exception e) {
-            Log.i("Error", "Failed to create the user", e);
-            return null;
-        }
-    }
-
-    public User getUser(String userId){
-        //get specific Id
         return null;
     }
 

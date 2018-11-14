@@ -80,14 +80,12 @@ public class SignupActivity extends AppCompatActivity {
 
         /**
          * Given that our user is created properly and there are no validation errors,
-         * let's persist it to ElasticSearch via our DataController.
+         * let's save it to our DataController cache
          */
-        String user_uuid = dataController.addUser(user);
-        if (user_uuid != null) {
-            Toast.makeText(getApplicationContext(),
-                    "User created successfully",
-                    Toast.LENGTH_SHORT).show();
-            finish(); // if user was created successfully then exit the activity
-        }
+        dataController.addUser(user);
+        Toast.makeText(getApplicationContext(),
+                "User created successfully",
+                Toast.LENGTH_SHORT).show();
+        finish();
     }
 }
