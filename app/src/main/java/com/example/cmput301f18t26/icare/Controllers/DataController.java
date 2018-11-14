@@ -17,7 +17,7 @@ import io.searchbox.client.JestResult;
  * DataController is used for caching and maintaining all persistent data associated with our app.
  * It interacts with ElasticSearchController to fetch and save data to our ElasticSearch instance.
  *
- * It acts as a middleware by saving relevent ElasticSearch data in its local DataStructures and
+ * It acts as a middleware by saving relevant ElasticSearch data in its local DataStructures and
  * offering methods to maintain them.
  *
  * This class follows a Singleton design pattern in order to enforce all persistent data in
@@ -111,21 +111,20 @@ public class DataController {
      *  Method for creating a new User on ElasticSearch
      *
      * @param user
-     * @return user
+     * @return user id string or null
      */
-    public User addUser(User user){
+    public String addUser(User user){
         try {
             /**
-             * Our response is a JestResult object after calling get(), we retrieve the json from
-             * the JestResult object and create a Java object via Google's gson library
+             * Our response is a JestResult object after calling get(), we retrieve a JsonObject
+             * from the JestResult and return the users's uid (equivalent to ElasticSearch's _id)
              */
             JsonObject jsonUser = new SearchController.AddUser().execute(user).get().getJsonObject();
-            Log.i("HEY", jsonUser.toString());
+            return jsonUser.get("_id").toString();
         } catch (Exception e) {
-            Log.i("Error", "Failed to get the user back", e);
+            Log.i("Error", "Failed to create the user", e);
             return null;
         }
-        return user;
     }
 
     public List<User> getPatients(String careProviderId){

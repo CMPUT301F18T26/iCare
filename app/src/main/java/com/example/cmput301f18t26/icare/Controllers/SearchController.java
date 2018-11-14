@@ -51,7 +51,7 @@ public class SearchController {
                 result = jestClient.execute(index);
                 return result;
             } catch (Exception e) {
-                Log.i("Error", "Failed to create the user", e);
+                Log.i("Error", "Jest failed to execute", e);
                 return null;
             }
         }
