@@ -8,7 +8,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,13 +15,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
 
         <activity android:name=".Activities.MainActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,8 +29,8 @@
         <activity android:name=".Activities.LoginActivity" />
         <activity android:name=".Activities.SignupActivity" />
         <activity android:name=".Activities.PatientViewProblemListActivity" />
-        <activity android:name=".Activities.AddEditProblemActivity"></activity>
-
+        <activity android:name=".Activities.AddEditProblemActivity" />
+        <activity android:name=".Activities.PatientViewProblemActivity"></activity>
     </application>
 
 </manifest>

@@ -37,9 +37,7 @@ public class PatientViewProblemListActivity extends AppCompatActivity {
                 Problem problem = Problem.class.cast(object);
                 //Once data for problems is created I can use these function calls to pass data
                 /*
-                String SelectedProblem = problem.getTitle();
-                Intent i = new Intent(view.getContext(), EditProblemActivity.class);
-                i.putExtra("SelectedProblem", SelectedProblem);
+                Intent i = new Intent(view.getContext(), ViewProblemActivity.class);
                 i.putExtra("Problem", problem);
                 i.putExtra("Index", position);
                 startActivity(i);
