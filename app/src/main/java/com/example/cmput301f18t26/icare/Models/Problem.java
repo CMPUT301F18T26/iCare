@@ -41,7 +41,7 @@ public class Problem {
         int day = date.get(Calendar.DAY_OF_MONTH);
 
         String strdate = day + "/" + month + "/" + year;
-        return title + "\n" + strdate + "\n" + description ;
+        return title + "\n" + strdate;
     }
 
     /**
