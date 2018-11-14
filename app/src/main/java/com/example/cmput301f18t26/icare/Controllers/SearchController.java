@@ -22,8 +22,8 @@ public class SearchController {
 
     private static JestDroidClient jestClient;
 
-    private static final String elasticSearchURL = "http://cmput301.softwareprocess.es:8080/";
-    private static final String groupIndex = "cmput301f18t26";
+    private static final String elasticSearchURL = "https://641vybd6aa:p5aozx6i80@tonyqian-6515826673.us-west-2.bonsaisearch.net";
+    private static final String groupIndex = "icare";
 
     /**
      * This method is used to instantiate our jestClient and save the instance to the

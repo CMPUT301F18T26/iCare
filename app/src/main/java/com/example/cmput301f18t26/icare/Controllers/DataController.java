@@ -68,6 +68,7 @@ public class DataController {
      */
     public void addUser(User user) {
         userList.add(user);
+        saveUser(user);
     }
 
     /**
@@ -80,15 +81,16 @@ public class DataController {
     /**
      *  Saving local users cache to ElasticSearch
      */
-    public void saveUsers() {
+    public void saveUser(User user) {
         try {
             /**
              * Our response is a JestResult object after calling get(), we retrieve a JsonObject
              * from the JestResult and return the users's uid (equivalent to ElasticSearch's _id)
              */
-            JsonObject jsonUser = new SearchController.AddUser().execute(userList.get(0))
-                    .get().getJsonObject();
+            JsonObject jsonUser = new SearchController.AddUser().execute(user).get()
+                    .getJsonObject();
             String userUID = jsonUser.get("_id").toString();
+            Log.i("Created", userUID);
         } catch (Exception e) {
             Log.i("Error", "Failed to create the user", e);
         }
