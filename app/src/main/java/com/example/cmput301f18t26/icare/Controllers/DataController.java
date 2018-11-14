@@ -102,11 +102,6 @@ public class DataController {
         return null;
     }
 
-    public User getUser(String userId){
-        //get specific Id
-        return null;
-    }
-
     /**
      *  Method for creating a new User on ElasticSearch
      *
@@ -125,6 +120,11 @@ public class DataController {
             Log.i("Error", "Failed to create the user", e);
             return null;
         }
+    }
+
+    public User getUser(String userId){
+        //get specific Id
+        return null;
     }
 
     public List<User> getPatients(String careProviderId){

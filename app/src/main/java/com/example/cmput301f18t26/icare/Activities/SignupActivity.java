@@ -2,7 +2,6 @@ package com.example.cmput301f18t26.icare.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -39,7 +38,7 @@ public class SignupActivity extends AppCompatActivity {
         dataController = DataController.getInstance();
     }
 
-    // Callback for the signup button, it attempts to create the user
+    // Callback for the sign up button, it attempts to create the user
     public void register(View view) {
         // grab the raw forms of our TEXT inputs
         String username = usernameEntry.getText().toString().trim();
