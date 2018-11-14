@@ -1,5 +1,6 @@
 package com.example.cmput301f18t26.icare.Models;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.UUID;
@@ -30,6 +31,17 @@ public class Problem {
         else {
             return true;
         }
+    }
+
+    public String toString(){
+
+        //http://www.ntu.edu.sg/home/ehchua/programming/java/DateTimeCalendar.html
+        int year = date.get(Calendar.YEAR);
+        int month = date.get(Calendar.MONTH) + 1;      // 0 to 11
+        int day = date.get(Calendar.DAY_OF_MONTH);
+
+        String strdate = day + "/" + month + "/" + year;
+        return title + "\n" + strdate + "\n" + description ;
     }
 
     /**

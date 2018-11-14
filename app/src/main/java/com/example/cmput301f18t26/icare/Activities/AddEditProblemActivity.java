@@ -49,18 +49,7 @@ public class AddEditProblemActivity extends AppCompatActivity {
             public void onClick(View v) {
                 setResult(RESULT_OK);
                 save();
-/**
-                Boolean check = checkValuesEntered();
-                if (check == false){
-                    Toast.makeText(AddEditProblemActivity.this,
-                            "Title and Description Must Be Entered",
-                            Toast.LENGTH_LONG).show();
-                }
-                else{
-                    Problem problem = ProblemFactory()
-                    dataController.addProblem(problem);
-                }
-                */
+                //TODO: add check to make sure values entered correctly
             }
 
         });

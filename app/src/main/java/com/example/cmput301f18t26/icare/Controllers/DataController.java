@@ -98,8 +98,9 @@ public class DataController {
     }
 
     /**
-     * Created by Conor to find the current user for use in Adding problems.
-     * I used zdrever because that was present in the elasticsearch database.
+     * Created by Conor to find the current user for use in Adding and Viewing Problems.
+     * Need to create a new user everytime, and new username has to be zdrever becuase of this
+     * method.
      * Quick fix and needs to be changed to work properly.
      * @return
      */
@@ -108,7 +109,6 @@ public class DataController {
         for (User each: userList){
             String username = each.getUsername();
             if (username.equals("zdrever")){
-                Log.d("fuck", "here");
                 currentUser = each;
             }
         }
@@ -174,7 +174,7 @@ public class DataController {
             String hi = each.getTitle();
             Log.d("fuck", hi);
         }
-        saveProblem(problem);
+        //saveProblem(problem);
     }
 
     public void saveProblem(Problem problem) {

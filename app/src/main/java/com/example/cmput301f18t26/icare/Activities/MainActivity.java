@@ -17,15 +17,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        /**
-        Intent intent = new Intent(this, PatientViewProblemListActivity.class);
-        startActivity(intent);
-         */
     }
 
     // Callback for the login button, go to login page
     public void login(View view) {
-        //goes straight to patient view, for testing purposes
+        /**
+         * goes straight to the User Problem page, skips the log in because
+         * Log in is not finished yet.
+         * In order to use the Problem functionality, create a user with
+         * username 'zdrever', then press login.
+         */
         Intent intent = new Intent(this, PatientViewProblemListActivity.class);
         startActivity(intent);
     }

@@ -10,22 +10,29 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.Models.Problem;
+import com.example.cmput301f18t26.icare.Models.User;
 import com.example.cmput301f18t26.icare.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PatientViewProblemListActivity extends AppCompatActivity {
 
-
+    private DataController dataController;
     private ListView oldProblemList;
-    private ArrayList<Problem> problemList;
+    private List<Problem> problemList;
     private ArrayAdapter<Problem> adapter;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patients_conditions_list);
+        dataController = DataController.getInstance();
+        user = dataController.getCurrentUser();
+        problemList = dataController.getProblems(user);
         oldProblemList = (ListView) findViewById(R.id.patient_conditions_list_view);
 
         //Takes you to view problem when problem list item is clicked
@@ -56,21 +63,17 @@ public class PatientViewProblemListActivity extends AppCompatActivity {
         });
     }
 
-    /**
+
     protected void onStart() {
         // TODO Auto-generated method stub
         super.onStart();
-        //Need to load once Tony finishes data controller
-        //loadFromFile();
-        //sort();
-                //Not sure why it doesn't like this command
-                adapter = new ArrayAdapter<Problem>(this,
-                       R.layout.problems_list_item,
-                        problemList);
-
+        problemList = dataController.getProblems(user);
+        adapter = new ArrayAdapter<Problem>(this,
+               R.layout.problems_list_item,R.id.condition_name,
+                problemList);
         adapter.notifyDataSetChanged();
         oldProblemList.setAdapter(adapter);
     }
-    */
+
 
 }
