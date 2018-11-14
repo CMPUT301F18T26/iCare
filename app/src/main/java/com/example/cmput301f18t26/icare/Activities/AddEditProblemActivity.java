@@ -10,25 +10,46 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
+import com.example.cmput301f18t26.icare.Controllers.DataController;
+import com.example.cmput301f18t26.icare.Controllers.ProblemFactory;
 import com.example.cmput301f18t26.icare.Models.Problem;
+import com.example.cmput301f18t26.icare.Models.User;
 import com.example.cmput301f18t26.icare.R;
 
 import java.util.Calendar;
 
 public class AddEditProblemActivity extends AppCompatActivity {
 
+    private DataController dataController;
+    private EditText titleEntry;
+    private EditText descriptionEntry;
+    private DatePicker dateEntry;
+    private User user;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_or_edit_condition);
+
+        titleEntry = (EditText) findViewById(R.id.condition_name);
+        descriptionEntry = (EditText) findViewById(R.id.description);
+        dateEntry = (DatePicker) findViewById(R.id.date_picker);
+
+        dataController = DataController.getInstance();
+        user = dataController.getCurrentUser();
+
         Intent i = getIntent();
         setValues(i);
+
 
         //Saves your Problem and returns you to the Problem List View
         Button saveButton = (Button) findViewById(R.id.save_problem);
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 setResult(RESULT_OK);
+                save();
+/**
                 Boolean check = checkValuesEntered();
                 if (check == false){
                     Toast.makeText(AddEditProblemActivity.this,
@@ -36,9 +57,12 @@ public class AddEditProblemActivity extends AppCompatActivity {
                             Toast.LENGTH_LONG).show();
                 }
                 else{
-                    //save();
+                    Problem problem = ProblemFactory()
+                    dataController.addProblem(problem);
                 }
+                */
             }
+
         });
     }
 
@@ -52,13 +76,9 @@ public class AddEditProblemActivity extends AppCompatActivity {
         //If you are adding a new problem
         if (index == -1){
             //Title
-            EditText title = (EditText) findViewById(R.id.condition_name);
-            title.setHint("Enter Title");
-
+            titleEntry.setHint("Enter Title");
             //Description
-            EditText description = (EditText) findViewById(R.id.description);
-            description.setHint("Enter description");
-
+            descriptionEntry.setHint("Enter description");
             //Date
             //Used below to set date picker
             //https://stackoverflow.com/questions/6451837/how-do-i-set-the-current-date-in-a-datepicker
@@ -66,9 +86,7 @@ public class AddEditProblemActivity extends AppCompatActivity {
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
-            DatePicker date = (DatePicker) findViewById(R.id.date_picker);
-            date.init(year, month, day, null);
-
+            dateEntry.init(year, month, day, null);
         }
 
         //If you are editing an old problem
@@ -76,20 +94,17 @@ public class AddEditProblemActivity extends AppCompatActivity {
             final Problem problem = (Problem)i.getSerializableExtra("Problem");
 
             //Title
-            EditText title = (EditText) findViewById(R.id.condition_name);
-            title.setText(problem.getTitle());
+            titleEntry.setText(problem.getTitle());
 
             //Description
-            EditText description = (EditText) findViewById(R.id.description);
-            description.setText(problem.getDescription());
+            descriptionEntry.setText(problem.getDescription());
 
             //Date
             Calendar c = problem.getDate();
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
-            DatePicker date = (DatePicker) findViewById(R.id.date_picker);
-            date.init(year, month, day, null);
+            dateEntry.init(year, month, day, null);
         }
     }
 
@@ -106,5 +121,25 @@ public class AddEditProblemActivity extends AppCompatActivity {
         String desCheck = description.getText().toString();
 
         return !desCheck.isEmpty() && !titleCheck.isEmpty();
+    }
+
+    public void save(){
+        String title = titleEntry.getText().toString().trim();
+        String description = descriptionEntry.getText().toString().trim();
+        Calendar date = Calendar.getInstance();
+        date.set(
+                dateEntry.getYear(),
+                dateEntry.getMonth(),
+                dateEntry.getDayOfMonth()
+        );
+        user = dataController.getCurrentUser();
+        String userUID = user.getUID();
+
+        Problem problem = ProblemFactory.getProblem(title, date, description, userUID);
+        dataController.addProblem(problem);
+        Toast.makeText(getApplicationContext(),
+                "Problem added successfully",
+                Toast.LENGTH_SHORT).show();
+        finish();
     }
 }

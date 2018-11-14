@@ -2,23 +2,45 @@ package com.example.cmput301f18t26.icare.Models;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.UUID;
 
 public class Problem {
 
-    private String id;
+    //UID stands for Unique ID
+    private final String UID;
     private String title;
-    private ArrayList<String> recordIds;
+    //private ArrayList<String> recordIds;
     private Calendar date;
     private String description;
+    private String userUID;
 
-    public Problem(String title, Calendar date, String description) {
+    public Problem(String title, Calendar date, String description, String userUID) {
+        this.UID = UUID.randomUUID().toString();
+        this.userUID = userUID;
         this.title = title;
         this.date = date;
         this.description = description;
     }
 
-    public String getId(){ return this.id; }
-    public void setId(String id){ this.id = id; }
+    public boolean validate() {
+        if (this.title.isEmpty() || this.date == null || this.description.isEmpty()) {
+            // IF ANY FIELD IS EMPTY
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    /**
+     * Getters and Setters for Problem
+     * @return
+     */
+    public String getUserUID(){
+        return this.userUID;
+    }
+
+    public String getUID(){ return this.UID; }
     public String getTitle(){ return this.title; }
     public void setTitle(String title) { this.title = title; }
     public Calendar getDate() { return this.date; }

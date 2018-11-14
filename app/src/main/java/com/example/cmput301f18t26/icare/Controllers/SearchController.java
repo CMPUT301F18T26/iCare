@@ -3,6 +3,7 @@ package com.example.cmput301f18t26.icare.Controllers;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.User;
 import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
@@ -47,6 +48,24 @@ public class SearchController {
             User user = users[0];
             Index index = new Index.Builder(user).index(groupIndex).type("user").refresh(true)
                     .id(user.getUID()).build();
+            try {
+                result = jestClient.execute(index);
+                return result;
+            } catch (Exception e) {
+                Log.i("Error", "Jest failed to execute", e);
+                return null;
+            }
+        }
+    }
+
+    public static class AddProblem extends AsyncTask<Problem, Void, JestResult> {
+        private JestResult result;
+
+        @Override
+        protected JestResult doInBackground(Problem... problems) {
+            Problem problem = problems[0];
+            Index index = new Index.Builder(problem).index(groupIndex).type("problem").refresh(true)
+                    .id(problem.getUID()).build();
             try {
                 result = jestClient.execute(index);
                 return result;

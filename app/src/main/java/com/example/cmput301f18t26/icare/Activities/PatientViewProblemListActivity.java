@@ -56,18 +56,21 @@ public class PatientViewProblemListActivity extends AppCompatActivity {
         });
     }
 
+    /**
     protected void onStart() {
         // TODO Auto-generated method stub
         super.onStart();
         //Need to load once Tony finishes data controller
         //loadFromFile();
         //sort();
-                /* Not sure why it doesn't like this command
+                //Not sure why it doesn't like this command
                 adapter = new ArrayAdapter<Problem>(this,
                        R.layout.problems_list_item,
                         problemList);
-                        */
+
         adapter.notifyDataSetChanged();
         oldProblemList.setAdapter(adapter);
     }
+    */
+
 }
