@@ -23,6 +23,13 @@ public class Problem {
         this.description = description;
     }
 
+    /**
+     * Validates if the user has entered the information correctly. I do not currently call it
+     * because I'm not sure if the Problems need descriptions, and there may be
+     * other things to consider (ie Title < 50 words or something like that). I will deal with
+     * validate later.
+     * @return
+     */
     public boolean validate() {
         if (this.title.isEmpty() || this.date == null || this.description.isEmpty()) {
             // IF ANY FIELD IS EMPTY
@@ -33,6 +40,14 @@ public class Problem {
         }
     }
 
+    /**
+     * This is here to get the ListView to display properly. I am using the
+     * problems_list_item incorrectly I think, but with the ArrayAdapter
+     * setup how it is now, it calls the Problem toString() method. If you leave
+     * the default toString() method, it prints out gibberish in the ListView.
+     * This makes it print out the correct values.
+     * @return
+     */
     public String toString(){
 
         //http://www.ntu.edu.sg/home/ehchua/programming/java/DateTimeCalendar.html

@@ -39,6 +39,7 @@ public class AddEditProblemActivity extends AppCompatActivity {
         dataController = DataController.getInstance();
         user = dataController.getCurrentUser();
 
+        //Not sure if I need this
         Intent i = getIntent();
         setValues(i);
 
@@ -62,7 +63,8 @@ public class AddEditProblemActivity extends AppCompatActivity {
     void setValues(Intent i){
         int index = i.getIntExtra("Index", -1);
 
-        //If you are adding a new problem
+        //If you are adding a new problem. Using Intents because that's how I did it for
+        //FeelsBook, but may have to change now that we are using DataController.
         if (index == -1){
             //Title
             titleEntry.setHint("Enter Title");
@@ -98,21 +100,11 @@ public class AddEditProblemActivity extends AppCompatActivity {
     }
 
     /**
-     * Checks to see if user entered values for all fields
-     * @return
+     * Saves the entered values to DataController. Doesn't check if values are entered correctly or
+     * at all.
      */
-    boolean checkValuesEntered(){
-        //Title
-        EditText title = (EditText) findViewById(R.id.condition_name);
-        String titleCheck = title.getText().toString();
-        //Description
-        EditText description = (EditText) findViewById(R.id.description);
-        String desCheck = description.getText().toString();
-
-        return !desCheck.isEmpty() && !titleCheck.isEmpty();
-    }
-
     public void save(){
+        //Get the values of the Title, Date and Description fields
         String title = titleEntry.getText().toString().trim();
         String description = descriptionEntry.getText().toString().trim();
         Calendar date = Calendar.getInstance();
@@ -124,11 +116,13 @@ public class AddEditProblemActivity extends AppCompatActivity {
         user = dataController.getCurrentUser();
         String userUID = user.getUID();
 
+        //Create a new problem in the ProblemFactory. Haven't gotten around to editing yet.
         Problem problem = ProblemFactory.getProblem(title, date, description, userUID);
         dataController.addProblem(problem);
         Toast.makeText(getApplicationContext(),
                 "Problem added successfully",
                 Toast.LENGTH_SHORT).show();
+        //Returns to the ListView of the Problems.
         finish();
     }
 }
