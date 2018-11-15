@@ -4,17 +4,21 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.Models.Problem;
+import com.example.cmput301f18t26.icare.Models.Record;
 import com.example.cmput301f18t26.icare.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 public class PatientViewProblemActivity extends AppCompatActivity {
 
@@ -24,6 +28,10 @@ public class PatientViewProblemActivity extends AppCompatActivity {
     private TextView titleText;
     private TextView descriptionText;
     private TextView dateText;
+    private List<Record> recordList;
+    private ListView oldRecordList;
+    private ArrayAdapter<Record> adapter;
+
 
 
     @Override
@@ -41,6 +49,10 @@ public class PatientViewProblemActivity extends AppCompatActivity {
         problemUID = (String) i.getSerializableExtra("problemUID");
         dataController = DataController.getInstance();
         problem = dataController.getProblem(problemUID);
+
+        recordList = dataController.getRecords(problem);
+        oldRecordList = (ListView) findViewById(R.id.record_list_view);
+
 
         //Set the values of the page
         setValues(problem);
@@ -67,6 +79,13 @@ public class PatientViewProblemActivity extends AppCompatActivity {
         });
     }
 
+    protected void onStart(){
+        super.onStart();
+        recordList = dataController.getRecords(problem); // not sure if this is correct - Tyler
+        adapter = new ArrayAdapter<Record>(this,R.layout.activity_patient_view_record,R.id.record_title,recordList);
+        adapter.notifyDataSetChanged();
+        oldRecordList.setAdapter(adapter);
+    }
     void setValues(Problem problem) {
         //Title
         titleText.setText(problem.getTitle());

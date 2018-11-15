@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -47,11 +48,15 @@ public class PatientViewProblemListActivity extends AppCompatActivity {
             @Override
             //Listens for click on list view
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("tyler","do we get here1");
                 Object object = oldProblemList.getItemAtPosition(position);
                 Problem problem = Problem.class.cast(object);
+                Log.d("tyler","do we get here2");
                 String problemUID = problem.getUID();
+                Log.d("tyler",problemUID);
                 Intent i = new Intent(view.getContext(), PatientViewProblemActivity.class);
                 i.putExtra("problemUID", problemUID);
+                Log.d("tyler","do we get here");
                 startActivity(i);
             }
         });

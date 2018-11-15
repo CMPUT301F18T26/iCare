@@ -37,6 +37,7 @@ public class DataController {
     private User currentUser = null;
     private List<User> userList = new ArrayList<>();
     private List<Problem> problemList = new ArrayList<>();
+    private List<Record> recordList = new ArrayList<>();
 
     /**
      * We use a private constructor here to enforce Singleton Pattern
@@ -127,13 +128,45 @@ public class DataController {
         return null;
     }
 
-    public List<Record> getRecords(String problemId){
+    //public List<Record> getRecords(String problemId){  Changed this for retrieving all records and specific records still take a string with an id
+    public List<Record> getRecords(Problem problem){
         //get all records associated with the problem
-        return null;
-    }
+        String currentProblemID = problem.getUID();
+        List<Record> newRecordList = new ArrayList<>();
+        for (Record each: recordList){
+            String problemID = each.getProblemId();
 
+            if (problemID.equals(currentProblemID)){
+                newRecordList.add(each);
+            }
+        }
+        return newRecordList;
+    }
+//    public List<Problem> getProblems(User user){
+//        //get the user UID of the user passed to the function
+//        String UID = user.getUID();
+//        //create a new problem list to be returned
+//        List<Problem> newProblemList = new ArrayList<>();
+//        //iterates through the whole problem list data base
+//        for (Problem each: problemList){
+//            String userUID = each.getUserUID();
+//            //if the UserUID of the problem in the problem list data base
+//            //matches the UID of the user passed to the function
+//            //save that problem to the problem list that is to be returned
+//            if (userUID.equals(UID)){
+//                newProblemList.add(each);
+//            }
+//        }
+//        //return all problems for a patient
+//        return newProblemList;
+//    }
     public String addRecord(Record record){
         //add record and return new recordId
+        recordList.add(record);
+        for (Record each: recordList){
+            String title = each.getTitle();
+        }
+        //saveRecord(record);
         return null;
     }
 
