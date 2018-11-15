@@ -1,5 +1,7 @@
 package com.example.cmput301f18t26.icare.Models;
 
+import android.util.Log;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,6 +19,7 @@ public class Problem {
 
     public Problem(String title, Calendar date, String description, String userUID) {
         this.UID = UUID.randomUUID().toString();
+        Log.d("tyler",this.UID);
         this.userUID = userUID;
         this.title = title;
         this.date = date;
