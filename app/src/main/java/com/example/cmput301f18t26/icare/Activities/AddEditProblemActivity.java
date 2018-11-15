@@ -25,6 +25,8 @@ public class AddEditProblemActivity extends AppCompatActivity {
     private EditText descriptionEntry;
     private DatePicker dateEntry;
     private User user;
+    private String problemUID;
+    private Problem problem;
 
 
     @Override
@@ -41,7 +43,9 @@ public class AddEditProblemActivity extends AppCompatActivity {
 
         //Not sure if I need this
         Intent i = getIntent();
-        setValues(i);
+        problemUID = (String) i.getSerializableExtra("problemUID");
+
+        setValues(problemUID);
 
 
         //Saves your Problem and returns you to the Problem List View
@@ -58,14 +62,15 @@ public class AddEditProblemActivity extends AppCompatActivity {
 
     /**
      * Sets the values of the fields in the Add/Edit Problem Activity.
-     * @param i
+     * @param
      */
-    void setValues(Intent i){
-        int index = i.getIntExtra("Index", -1);
+    void setValues(String problemUID){
+       // int index = i.getIntExtra("Index", -1);
+
 
         //If you are adding a new problem. Using Intents because that's how I did it for
         //FeelsBook, but may have to change now that we are using DataController.
-        if (index == -1){
+        if (problemUID == null){
             //Title
             titleEntry.setHint("Enter Title");
             //Description
@@ -82,7 +87,8 @@ public class AddEditProblemActivity extends AppCompatActivity {
 
         //If you are editing an old problem
         else{
-            final Problem problem = (Problem)i.getSerializableExtra("Problem");
+            problem = dataController.getProblem(problemUID);
+           // final Problem problem = (Problem)i.getSerializableExtra("Problem");
 
             //Title
             titleEntry.setText(problem.getTitle());
@@ -116,13 +122,31 @@ public class AddEditProblemActivity extends AppCompatActivity {
         user = dataController.getCurrentUser();
         String userUID = user.getUID();
 
-        //Create a new problem in the ProblemFactory. Haven't gotten around to editing yet.
-        Problem problem = ProblemFactory.getProblem(title, date, description, userUID);
-        dataController.addProblem(problem);
-        Toast.makeText(getApplicationContext(),
-                "Problem added successfully",
-                Toast.LENGTH_SHORT).show();
+        /**
+         * This checks to see if the problem exists. If the problem does not exist, create
+         * a new one.
+         * If it does exist, call updateProblem from dataController, which will take the old
+         * Problem and replace it with the new problem.
+         */
+        if (dataController.getProblem(problemUID) == null){
+            //Create a new problem in the ProblemFactory. Haven't gotten around to editing yet.
+            Problem problem = ProblemFactory.getProblem(title, date, description, userUID);
+            dataController.addProblem(problem);
+            Toast.makeText(getApplicationContext(),
+                    "Problem added successfully",
+                    Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Problem oldProblem = dataController.getProblem(problemUID);
+            Problem newProblem = ProblemFactory.getProblem(title, date, description, userUID);
+            dataController.updateProblem(oldProblem, newProblem);
+            Toast.makeText(getApplicationContext(),
+                    "Problem edited successfully",
+                    Toast.LENGTH_SHORT).show();
+        }
+
         //Returns to the ListView of the Problems.
-        finish();
+        Intent i = new Intent(this, PatientViewProblemListActivity.class);
+        startActivity(i);
     }
 }

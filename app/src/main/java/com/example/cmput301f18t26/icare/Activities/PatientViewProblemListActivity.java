@@ -49,13 +49,10 @@ public class PatientViewProblemListActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Object object = oldProblemList.getItemAtPosition(position);
                 Problem problem = Problem.class.cast(object);
-                //Once data for problems is created I can use these function calls to pass data
-                /*
-                Intent i = new Intent(view.getContext(), ViewProblemActivity.class);
-                i.putExtra("Problem", problem);
-                i.putExtra("Index", position);
+                String problemUID = problem.getUID();
+                Intent i = new Intent(view.getContext(), PatientViewProblemActivity.class);
+                i.putExtra("problemUID", problemUID);
                 startActivity(i);
-                */
             }
         });
 

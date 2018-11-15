@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import io.searchbox.client.JestResult;
@@ -138,7 +139,14 @@ public class DataController {
 
     public Problem getProblem(String problemid){
         //get specific Problem
-        return null;
+        Problem problem = null;
+        for (Problem each: problemList) {
+            String problemUID = each.getUID();
+            if (problemUID.equals(problemid)){
+                problem = each;
+            }
+        }
+        return problem;
     }
 
     /**
@@ -167,14 +175,33 @@ public class DataController {
     }
 
     public void addProblem(Problem problem){
-        Log.d("fuck", "here2");
         //add Problem and save
         problemList.add(problem);
         for (Problem each: problemList){
             String hi = each.getTitle();
-            Log.d("fuck", hi);
         }
         //saveProblem(problem);
+    }
+
+    /**
+     * Deletes the problem from the problemList
+     * @param problem
+     */
+    public void deleteProblem(Problem problem){
+        problemList.remove(problem);
+    }
+
+    /**
+     * Updates the problemList.
+     * List.set() takes an index and a new Object, and replaces the old Object at the index with the
+     * new Object. I find the index of the OldProblem, and replace the OldProblem with the
+     * NewProblem.
+     * @param oldProblem
+     * @param newProblem
+     */
+    public void updateProblem(Problem oldProblem, Problem newProblem){
+        int index = problemList.indexOf(oldProblem);
+        problemList.set(index, newProblem);
     }
 
     public void saveProblem(Problem problem) {
