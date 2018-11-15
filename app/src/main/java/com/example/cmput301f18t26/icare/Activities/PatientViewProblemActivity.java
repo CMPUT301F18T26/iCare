@@ -50,7 +50,7 @@ public class PatientViewProblemActivity extends AppCompatActivity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 setResult(RESULT_OK);
-                //delete();
+                delete(problem);
             }
         });
 
@@ -72,19 +72,19 @@ public class PatientViewProblemActivity extends AppCompatActivity {
         titleText.setText(problem.getTitle());
         //Description
         descriptionText.setText(problem.getDescription());
+
         //Date
-        //Used below for sdf instructions
-        //https://coderanch.com/t/412082/java/Convert-Calendar-String
         Calendar c = problem.getDate();
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH) + 1;      // 0 to 11
         int day = c.get(Calendar.DAY_OF_MONTH);
-
         String strdate = day + "/" + month + "/" + year;
-        /*
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        String strdate = sdf.format(c);
-        */
         dateText.setText(strdate);
+    }
+
+    void delete(Problem problem){
+        dataController.deleteProblem(problem);
+        Intent i = new Intent(this, PatientViewProblemListActivity.class);
+        startActivity(i);
     }
 }
