@@ -30,7 +30,10 @@
         <activity android:name=".Activities.SignupActivity" />
         <activity android:name=".Activities.PatientViewProblemListActivity" />
         <activity android:name=".Activities.AddEditProblemActivity" />
-        <activity android:name=".Activities.PatientViewProblemActivity"></activity>
+        <activity android:name=".Activities.PatientViewProblemActivity" />
+        <activity
+            android:name=".Activities.AddEditRecordActivity"
+            android:label="@string/title_activity_add_edit_record"></activity>
     </application>
 
 </manifest>

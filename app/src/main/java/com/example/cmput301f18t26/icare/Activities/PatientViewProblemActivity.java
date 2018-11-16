@@ -1,6 +1,7 @@
 package com.example.cmput301f18t26.icare.Activities;
 
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -74,6 +75,16 @@ public class PatientViewProblemActivity extends AppCompatActivity {
                 setResult(RESULT_OK);
                 Intent i = new Intent(v.getContext(), AddEditProblemActivity.class);
                 i.putExtra("problemUID", problemUID);
+                startActivity(i);
+            }
+        });
+
+        //Allows you to add a new record to the list for that problem
+        FloatingActionButton addButton = (FloatingActionButton) findViewById(R.id.add_new_record_button);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                setResult(RESULT_OK);
+                Intent i = new Intent(v.getContext(), AddEditRecordActivity.class);
                 startActivity(i);
             }
         });
