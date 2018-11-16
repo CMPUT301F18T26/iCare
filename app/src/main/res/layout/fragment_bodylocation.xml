@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ScrollView
         android:id="@+id/input_up_scroll_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="4dp"
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -117,9 +119,9 @@
 
             <Button
                 android:id="@+id/front_head_button"
-                android:backgroundTint="@android:color/transparent"
                 android:layout_width="163dp"
                 android:layout_height="120dp"
+                android:backgroundTint="@android:color/transparent"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toStartOf="@+id/vertical_center_guideline"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -128,10 +130,10 @@
 
             <Button
                 android:id="@+id/front_neck_shoulders_button"
-                android:backgroundTint="@android:color/transparent"
                 android:layout_width="171dp"
                 android:layout_height="68dp"
                 android:layout_marginTop="8dp"
+                android:backgroundTint="@android:color/transparent"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toStartOf="@+id/vertical_center_guideline"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -140,12 +142,12 @@
 
             <Button
                 android:id="@+id/front_right_arm_button"
-                android:backgroundTint="@android:color/transparent"
                 android:layout_width="38dp"
                 android:layout_height="146dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="68dp"
+                android:backgroundTint="@android:color/transparent"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toStartOf="@+id/vertical_center_guideline"
                 app:layout_constraintHorizontal_bias="0.719"
@@ -154,11 +156,11 @@
 
             <Button
                 android:id="@+id/front_left_arm_button"
-                android:backgroundTint="@android:color/transparent"
                 android:layout_width="37dp"
                 android:layout_height="133dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
+                android:backgroundTint="@android:color/transparent"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toStartOf="@+id/vertical_first_guideline"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -167,11 +169,11 @@
 
             <Button
                 android:id="@+id/front_torso_button"
-                android:backgroundTint="@android:color/transparent"
                 android:layout_width="85dp"
                 android:layout_height="166dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
+                android:backgroundTint="@android:color/transparent"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toStartOf="@+id/vertical_first_guideline"
                 app:layout_constraintHorizontal_bias="0.533"
@@ -180,11 +182,11 @@
 
             <Button
                 android:id="@+id/front_right_leg_button"
-                android:backgroundTint="@android:color/transparent"
                 android:layout_width="45dp"
                 android:layout_height="188dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
+                android:backgroundTint="@android:color/transparent"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toEndOf="@+id/front_body_location_photo"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -193,13 +195,13 @@
 
             <Button
                 android:id="@+id/front_left_leg_button"
-                android:backgroundTint="@android:color/transparent"
                 android:layout_width="45dp"
                 android:layout_height="188dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
+                android:backgroundTint="@android:color/transparent"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toEndOf="@+id/front_right_leg_button"
                 app:layout_constraintHorizontal_bias="0.455"
@@ -208,9 +210,9 @@
 
             <Button
                 android:id="@+id/back_head_button"
-                android:backgroundTint="@android:color/transparent"
                 android:layout_width="163dp"
                 android:layout_height="120dp"
+                android:backgroundTint="@android:color/transparent"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toStartOf="@+id/vertical_center_guideline"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -219,10 +221,10 @@
 
             <Button
                 android:id="@+id/back_neck_shoulders_button"
-                android:backgroundTint="@android:color/transparent"
                 android:layout_width="171dp"
                 android:layout_height="68dp"
                 android:layout_marginTop="8dp"
+                android:backgroundTint="@android:color/transparent"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toStartOf="@+id/vertical_center_guideline"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -246,11 +248,11 @@
 
             <Button
                 android:id="@+id/back_left_arm_button"
-                android:backgroundTint="@android:color/transparent"
                 android:layout_width="37dp"
                 android:layout_height="133dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
+                android:backgroundTint="@android:color/transparent"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toStartOf="@+id/vertical_third_guideline"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -259,11 +261,11 @@
 
             <Button
                 android:id="@+id/back_torso_button"
-                android:backgroundTint="@android:color/transparent"
                 android:layout_width="85dp"
                 android:layout_height="166dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
+                android:backgroundTint="@android:color/transparent"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toStartOf="@+id/vertical_third_guideline"
                 app:layout_constraintHorizontal_bias="0.533"
@@ -272,11 +274,11 @@
 
             <Button
                 android:id="@+id/back_right_leg_button"
-                android:backgroundTint="@android:color/transparent"
                 android:layout_width="45dp"
                 android:layout_height="188dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
+                android:backgroundTint="@android:color/transparent"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toEndOf="@+id/back_body_location_photo"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -285,13 +287,13 @@
 
             <Button
                 android:id="@+id/back_left_leg_button"
-                android:backgroundTint="@android:color/transparent"
                 android:layout_width="45dp"
                 android:layout_height="188dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
+                android:backgroundTint="@android:color/transparent"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toEndOf="@+id/back_right_leg_button"
                 app:layout_constraintHorizontal_bias="0.455"
@@ -300,3 +302,4 @@
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>
+
