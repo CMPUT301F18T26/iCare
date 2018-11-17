@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
-        android:id="@+id/care_provider_patients_list"
+        android:id="@+id/care_provider_patient_list_title"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginEnd="8dp"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
-        android:id="@+id/care_provider_patient_conditions_list_view"
+        android:id="@+id/care_provider_patient_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
@@ -34,7 +34,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/care_provider_patients_list" />
+        app:layout_constraintTop_toBottomOf="@+id/care_provider_patient_list_title" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_new_patient"

@@ -3,11 +3,13 @@ package com.example.cmput301f18t26.icare.Models;
 import java.util.UUID;
 
 /**
- * Our abstract user class could be a Patient or CareProvider
+ * Our user class could be a Patient or CareProvider
+ *
+ * Update - Make the User class non-abstract so that it can be instantiated to unpack data from ES
  *
  * This class should ideally be instantiated by a factory pattern.
  */
-public abstract class User {
+public class User {
     private final String UID; // let's make this immutable (its in caps cause convention)
     private String username;
     private String password;

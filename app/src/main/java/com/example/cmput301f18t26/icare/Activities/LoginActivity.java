@@ -3,11 +3,13 @@ package com.example.cmput301f18t26.icare.Activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
+import com.example.cmput301f18t26.icare.Controllers.SearchController;
 import com.example.cmput301f18t26.icare.Models.User;
 import com.example.cmput301f18t26.icare.R;
 
@@ -48,47 +50,32 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        User user = null;
+
         /**
          * Check to see if this is a valid user by grabbing all users from our DataController
          * and looking for matching credentials
-         */
-        List<User> userList = dataController.getUsers();
-        /**
-         *  omg here we go with the algorithms... O(n) search ;)
          *
-         *  remember to use .equals in java for strings!!!
-         *  == is compare by reference, .equals is compare by value, implemented by the Object
-         *
-         *  there is some crazy stuff in Java where it may cache two identical strings as the same
-         *  object if they are declared within the same block, simulating reference
+         * Update - Now using ES to perform the user searching
          */
-        for (User user : userList) {
-            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                /**
-                 * User is found successfully! lets set the current user in the DataController
-                 */
-                    dataController.setCurrentUser(user);
-                /**
-                 * User is found is a Patient then lets go to the add view edit problem page.
-                 * If its a doctor then we will just display a message for now until page is made.
-                 */
-                if (user.getRole() == 0) {
-                    Intent intent = new Intent(this, PatientViewProblemListActivity.class);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            "User found, its a Care Provider!!!",
-                            Toast.LENGTH_SHORT).show();
-                }
-                return;
-            }
-        }
+        try {
+            dataController.fetchUser(username, password);
+            user = dataController.getCurrentUser();
 
-        /**
-         * If matching user was not found then give a notice
-         */
-        Toast.makeText(getApplicationContext(),
-                "User not found",
-                Toast.LENGTH_SHORT).show();
+            if (user.getRole() == 0) {
+                Intent intent = new Intent(this, PatientViewProblemListActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(getApplicationContext(),
+                        "User found, its a Care Provider!!!",
+                        Toast.LENGTH_SHORT).show();
+            }
+
+        } catch (Exception e) {
+            Log.i("Error", "Could not find that User");
+            Toast.makeText(getApplicationContext(),
+                    "User not found",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 }

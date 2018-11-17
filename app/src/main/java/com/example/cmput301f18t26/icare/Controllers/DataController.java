@@ -2,6 +2,8 @@ package com.example.cmput301f18t26.icare.Controllers;
 
 import android.util.Log;
 
+import com.example.cmput301f18t26.icare.Models.CareProvider;
+import com.example.cmput301f18t26.icare.Models.Patient;
 import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.Record;
 import com.example.cmput301f18t26.icare.Models.User;
@@ -35,7 +37,7 @@ public class DataController {
 
     private Gson gson = new Gson();
     private User currentUser = null;
-    private List<User> userList = new ArrayList<>();
+    private List<User> patientList = new ArrayList<>();
     private List<Problem> problemList = new ArrayList<>();
 
     /**
@@ -69,15 +71,7 @@ public class DataController {
      *  Adding a new user to the local users cache
      */
     public void addUser(User user) {
-        userList.add(user);
         saveUser(user);
-    }
-
-    /**
-     *  Grabbing all users in local users cache
-     */
-    public List<User> getUsers(){
-        return userList;
     }
 
     /**
@@ -98,24 +92,49 @@ public class DataController {
         }
     }
 
+    public void fetchUser(String username, String password){
+        try {
+            JestResult result = new SearchController.SignInUser().execute(username, password).get();
+            /**
+             * Unpack the user using the JestResult. Easier than unpacking the json object
+             * manually. To do this, User had to be updated to not be an Abstract class.
+             */
+            currentUser = result.getSourceAsObject(User.class);
+
+            /**
+             * Use the UserFactory to get the proper type of user.
+             * There are some issues to doing it this way. There are some issue to doing it
+             * this way because there may be some data that cannot be extracted.
+             *
+             * For example: if we store patient specific of care provider specific info in this
+             * table it will not be properly grabbed from the data base. I think we need a better
+             * solution to this issue.
+             */
+            currentUser = UserFactory.getUser(
+                    currentUser.getUsername(),
+                    currentUser.getPassword(),
+                    currentUser.getEmail(),
+                    currentUser.getPhone(),
+                    currentUser.getRole()
+            );
+
+        } catch (Exception e) {
+            Log.i("Error", "Problem talking to ES instance");
+        }
+    }
+
     /**
      * @return current user
      */
     public User getCurrentUser(){
         return currentUser;
     }
+
     /**
      * @params current user
      */
     public void setCurrentUser(User user){
         currentUser = user;
-    }
-
-
-    /**
-     *  Fetching users from ElasticSearch to local users cache
-     */
-    public void fetchUsers() {
     }
 
     public Record getRecord(String recordId){
@@ -216,8 +235,20 @@ public class DataController {
     }
 
 
-    public List<User> getPatients(String careProviderId){
+    public List<User> getPatients(){
         //return all patients for a care provider
-        return null;
+        fetchPatients();
+        return patientList;
+    }
+
+    /**
+     * Fetch patients associated with this.currentUser and store them in the user list
+     */
+    private void fetchPatients(){
+        try {
+            patientList = new SearchController.GetPatients().execute(currentUser.getUID()).get();
+        } catch (Exception e) {
+             Log.i("Error", "Could not get the list of patients associated to this care provider");
+        }
     }
 }

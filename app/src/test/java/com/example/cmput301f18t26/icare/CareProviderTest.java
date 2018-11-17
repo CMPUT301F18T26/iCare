@@ -22,36 +22,5 @@ public class CareProviderTest {
         String second = "321";
         String third = "none";
 
-        // First creating a patient
-        CareProvider careProvider = new CareProvider(username, password, email, phone, role);
-        // Checking if problemIds' length is 0
-        assertEquals(careProvider.getPatientIds().size(), 0);
-
-        // Adding something to the problems
-        careProvider.addPatient(first);
-        // Now checking if that was added
-        assertEquals(careProvider.getPatientIds().get(0), first);
-
-        // Now add other ids and checking the length
-        careProvider.addPatient(second);
-        careProvider.addPatient(third);
-        // Now checking size
-        assertEquals(careProvider.getPatientIds().size(), 3);
-
-        // Now checking every id is in place
-        ArrayList<String> problems = careProvider.getPatientIds();
-        assertEquals(problems.get(0), first);
-        assertEquals(problems.get(1), second);
-        assertEquals(problems.get(2), third);
-        // Now we delete and check
-        careProvider.deletePatient(second);
-        problems = careProvider.getPatientIds();
-        assertEquals(problems.get(0), first);
-        assertEquals(problems.get(1), third);
-
-        // Now deleting all and checking to see if size is zero
-        careProvider.deletePatient(first);
-        careProvider.deletePatient(third);
-        assertEquals(careProvider.getPatientIds().size(), 0);
     }
 }
