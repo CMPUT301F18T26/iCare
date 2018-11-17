@@ -7,6 +7,7 @@ import com.example.cmput301f18t26.icare.Models.Patient;
 import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.Record;
 import com.example.cmput301f18t26.icare.Models.User;
+import com.example.cmput301f18t26.icare.Models.UserRecord;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -40,7 +41,7 @@ public class DataController {
     private List<User> patientList = new ArrayList<>();
     private List<Problem> problemList = new ArrayList<>();
     private List<Record> recordList = new ArrayList<>();
-
+    private List<UserRecord> userRecordList = new ArrayList<>();
     /**
      * We use a private constructor here to enforce Singleton Pattern
      *
@@ -157,24 +158,7 @@ public class DataController {
         }
         return newRecordList;
     }
-//    public List<Problem> getProblems(User user){
-//        //get the user UID of the user passed to the function
-//        String UID = user.getUID();
-//        //create a new problem list to be returned
-//        List<Problem> newProblemList = new ArrayList<>();
-//        //iterates through the whole problem list data base
-//        for (Problem each: problemList){
-//            String userUID = each.getUserUID();
-//            //if the UserUID of the problem in the problem list data base
-//            //matches the UID of the user passed to the function
-//            //save that problem to the problem list that is to be returned
-//            if (userUID.equals(UID)){
-//                newProblemList.add(each);
-//            }
-//        }
-//        //return all problems for a patient
-//        return newProblemList;
-//    }
+
     public String addRecord(Record record){
         //add record and return new recordId
         recordList.add(record);
@@ -185,6 +169,37 @@ public class DataController {
         return null;
     }
 
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public UserRecord getUserRecord(String recordId){
+        //get specific record
+        return null;
+    }
+
+    public List<UserRecord> getUserRecords(Problem problem){
+        //get all records associated with the problem
+        String currentProblemID = problem.getUID();
+        List<UserRecord> newUserRecordList = new ArrayList<>();
+        for (UserRecord each: userRecordList){
+            String problemID = each.getProblemId();
+
+            if (problemID.equals(currentProblemID)){
+                newUserRecordList.add(each);
+            }
+        }
+        return newUserRecordList;
+    }
+
+    public String addUserRecord(UserRecord userRecord){
+        //add record and return new recordId
+        userRecordList.add(userRecord);
+        for (UserRecord each: userRecordList){
+            String title = each.getTitle();
+        }
+        //saveUserRecord(userRecord);
+        return null;
+    }
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public Problem getProblem(String problemid){
         //get specific Problem
         Problem problem = null;

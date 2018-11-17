@@ -3,6 +3,7 @@ package com.example.cmput301f18t26.icare.Activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -33,7 +34,7 @@ public class AddEditProblemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_or_edit_condition);
-
+        Log.d("tyler","get here at all?");
         titleEntry = (EditText) findViewById(R.id.condition_name);
         descriptionEntry = (EditText) findViewById(R.id.description);
         dateEntry = (DatePicker) findViewById(R.id.date_picker);
@@ -146,6 +147,7 @@ public class AddEditProblemActivity extends AppCompatActivity {
         }
 
         //Returns to the ListView of the Problems.
+        Log.d("tyler","this is where we get to");
         Intent i = new Intent(this, PatientViewProblemListActivity.class);
         startActivity(i);
     }
