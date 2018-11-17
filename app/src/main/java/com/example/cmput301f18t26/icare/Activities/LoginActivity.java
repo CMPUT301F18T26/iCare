@@ -1,5 +1,6 @@
 package com.example.cmput301f18t26.icare.Activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -64,12 +65,21 @@ public class LoginActivity extends AppCompatActivity {
         for (User user : userList) {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                 /**
-                 * If matching user was found then give a notice for now, lets implement
-                 * the subsequent views later, like what role the user is
+                 * User is found successfully! lets set the current user in the DataController
                  */
-                Toast.makeText(getApplicationContext(),
-                        "User found!!!",
-                        Toast.LENGTH_SHORT).show();
+                    dataController.setCurrentUser(user);
+                /**
+                 * User is found is a Patient then lets go to the add view edit problem page.
+                 * If its a doctor then we will just display a message for now until page is made.
+                 */
+                if (user.getRole() == 0) {
+                    Intent intent = new Intent(this, PatientViewProblemListActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "User found, its a Care Provider!!!",
+                            Toast.LENGTH_SHORT).show();
+                }
                 return;
             }
         }

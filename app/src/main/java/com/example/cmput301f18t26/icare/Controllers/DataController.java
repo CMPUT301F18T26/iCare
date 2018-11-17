@@ -104,6 +104,13 @@ public class DataController {
     public User getCurrentUser(){
         return currentUser;
     }
+    /**
+     * @params current user
+     */
+    public void setCurrentUser(User user){
+        currentUser = user;
+    }
+
 
     /**
      *  Fetching users from ElasticSearch to local users cache

@@ -13,7 +13,7 @@ public abstract class User {
     private String password;
     private String email;
     private String phone;
-    private int role;
+    private int role; // Patient = 0, Care Provider = 1
 
     /**
      * Our abstract class has a constructor that the subclasses may use as they share an
