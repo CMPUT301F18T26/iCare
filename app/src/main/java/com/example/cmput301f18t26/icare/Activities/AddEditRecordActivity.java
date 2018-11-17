@@ -52,29 +52,30 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit_record);
+        BottomNavigationView navigation = findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(this);
         loadFragment(new InfoFragment());//display Info Fragment By default - Tyler
-
         Log.d("tyler","get here1");
         titleEntry = (EditText) findViewById(R.id.record_title);
         descriptionEntry = (EditText) findViewById(R.id.record_comment);
         dateStamp =  findViewById(R.id.record_date_and_time);
 
-        dateStamp.setText(strdate);
-        BottomNavigationView navigation = findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(this);
-        Log.d("tyler","get here2");
+        //doesnt like
+        //dateStamp.setText(strdate);
 
         Log.d("tyler","get here3");
         //Saves your Record and returns you to the Record List View
-        Button saveButton = (Button) findViewById(R.id.save_button);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                setResult(RESULT_OK);
-                save();
-                //TODO: add check to make sure values entered correctly
-            }
 
-        });
+        //doesnt like
+        //Button saveButton = (Button) findViewById(R.id.save_button);
+//        saveButton.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                setResult(RESULT_OK);
+//                save();
+//                //TODO: add check to make sure values entered correctly
+//            }
+//
+//        });
     }
 
 
