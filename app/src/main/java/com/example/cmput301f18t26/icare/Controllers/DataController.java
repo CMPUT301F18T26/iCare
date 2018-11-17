@@ -99,20 +99,9 @@ public class DataController {
     }
 
     /**
-     * Created by Conor to find the current user for use in Adding and Viewing Problems.
-     * Need to create a new user everytime, and new username has to be zdrever becuase of this
-     * method.
-     * Quick fix and needs to be changed to work properly.
-     * @return
+     * @return current user
      */
     public User getCurrentUser(){
-        userList = getUsers();
-        for (User each: userList){
-            String username = each.getUsername();
-            if (username.equals("zdrever")){
-                currentUser = each;
-            }
-        }
         return currentUser;
     }
 

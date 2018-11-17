@@ -21,13 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Callback for the login button, go to login page
     public void login(View view) {
-        /**
-         * goes straight to the User Problem page, skips the log in because
-         * Log in is not finished yet.
-         * In order to use the Problem functionality, create a user with
-         * username 'zdrever', then press login.
-         */
-        Intent intent = new Intent(this, PatientViewProblemListActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 

@@ -11,8 +11,7 @@ import java.util.Calendar;
 
 public class ProblemFactory {
     public static Problem getProblem(String title, Calendar date, String description, String userUID){
-        Problem problem;
-        problem = new Problem(title, date, description, userUID);
+        Problem problem = new Problem(title, date, description, userUID);
         return problem;
     }
 }
