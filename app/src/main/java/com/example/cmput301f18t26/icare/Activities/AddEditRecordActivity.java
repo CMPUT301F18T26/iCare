@@ -52,6 +52,7 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit_record);
+        loadFragment(new InfoFragment());//display Info Fragment By default - Tyler
 
         Log.d("tyler","get here1");
         titleEntry = (EditText) findViewById(R.id.record_title);
@@ -62,7 +63,6 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
         Log.d("tyler","get here2");
-        loadFragment(new InfoFragment());//display Info Fragment By default - Tyler
 
         Log.d("tyler","get here3");
         //Saves your Record and returns you to the Record List View
