@@ -106,7 +106,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/condition_view_description"
-        app:layout_constraintBottom_toTopOf="@+id/edit_record"/>
+        app:layout_constraintBottom_toTopOf="@+id/edit_condition"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_new_record_button"

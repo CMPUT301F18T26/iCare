@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import io.searchbox.client.JestResult;
@@ -35,6 +36,7 @@ public class DataController {
     private Gson gson = new Gson();
     private User currentUser = null;
     private List<User> userList = new ArrayList<>();
+    private List<Problem> problemList = new ArrayList<>();
 
     /**
      * We use a private constructor here to enforce Singleton Pattern
@@ -97,6 +99,13 @@ public class DataController {
     }
 
     /**
+     * @return current user
+     */
+    public User getCurrentUser(){
+        return currentUser;
+    }
+
+    /**
      *  Fetching users from ElasticSearch to local users cache
      */
     public void fetchUsers() {
@@ -119,18 +128,86 @@ public class DataController {
 
     public Problem getProblem(String problemid){
         //get specific Problem
-        return null;
+        Problem problem = null;
+        for (Problem each: problemList) {
+            String problemUID = each.getUID();
+            if (problemUID.equals(problemid)){
+                problem = each;
+            }
+        }
+        return problem;
     }
 
-    public List<Problem> getProblems(String patientId){
+    /**
+     * Takes a user and returns all Problems from the whole problem list that belongs
+     * to that user
+     * @param user
+     * @return
+     */
+    public List<Problem> getProblems(User user){
+        //get the user UID of the user passed to the function
+        String UID = user.getUID();
+        //create a new problem list to be returned
+        List<Problem> newProblemList = new ArrayList<>();
+        //iterates through the whole problem list data base
+        for (Problem each: problemList){
+            String userUID = each.getUserUID();
+            //if the UserUID of the problem in the problem list data base
+            //matches the UID of the user passed to the function
+            //save that problem to the problem list that is to be returned
+            if (userUID.equals(UID)){
+                newProblemList.add(each);
+            }
+        }
         //return all problems for a patient
-        return null;
+        return newProblemList;
     }
 
-    public String addProblem(Problem problem){
-        //add Problem and return new problemId
-        return null;
+    public void addProblem(Problem problem){
+        //add Problem and save
+        problemList.add(problem);
+        for (Problem each: problemList){
+            String hi = each.getTitle();
+        }
+        //saveProblem(problem);
     }
+
+    /**
+     * Deletes the problem from the problemList
+     * @param problem
+     */
+    public void deleteProblem(Problem problem){
+        problemList.remove(problem);
+    }
+
+    /**
+     * Updates the problemList.
+     * List.set() takes an index and a new Object, and replaces the old Object at the index with the
+     * new Object. I find the index of the OldProblem, and replace the OldProblem with the
+     * NewProblem.
+     * @param oldProblem
+     * @param newProblem
+     */
+    public void updateProblem(Problem oldProblem, Problem newProblem){
+        int index = problemList.indexOf(oldProblem);
+        problemList.set(index, newProblem);
+    }
+
+    public void saveProblem(Problem problem) {
+        try {
+            /**
+             * Our response is a JestResult object after calling get(), we retrieve a JsonObject
+             * from the JestResult and return the users's uid (equivalent to ElasticSearch's _id)
+             */
+            JsonObject jsonProblem = new SearchController.AddProblem().execute(problem).get()
+                    .getJsonObject();
+            String problemPID = jsonProblem.get("_id").toString();
+            Log.i("Created", problemPID);
+        } catch (Exception e) {
+            Log.i("Error", "Failed to create the problem", e);
+        }
+    }
+
 
     public List<User> getPatients(String careProviderId){
         //return all patients for a care provider
