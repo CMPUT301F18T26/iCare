@@ -13,8 +13,8 @@ public class UserRecord extends Record {
     private ArrayList<String> photos;
     private BodyLocation bodyLocation;
 
-    public UserRecord(String title, Calendar date, String comment, Location location, BodyLocation bodyLocation, ArrayList<String> photos){
-        super(title, date, comment);
+    public UserRecord(String title, String date, String comment, Location location, BodyLocation bodyLocation, ArrayList<String> photos,String problemID){
+        super(title, date, comment,problemID);
         this.location = location;
         this.bodyLocation = bodyLocation;
         this.photos = new ArrayList<String>();

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -83,8 +84,11 @@ public class PatientViewProblemActivity extends AppCompatActivity {
         FloatingActionButton addButton = (FloatingActionButton) findViewById(R.id.add_new_record_button);
         addButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                Log.d("tyler","this is before the addedit activity");
                 setResult(RESULT_OK);
+                Log.d("tyler","this is before the addedit activity");
                 Intent i = new Intent(v.getContext(), AddEditRecordActivity.class);
+                i.putExtra("problemUID", problemUID);
                 startActivity(i);
             }
         });

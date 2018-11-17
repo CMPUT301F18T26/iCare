@@ -6,14 +6,13 @@ public class Record {
 
     private String id;
     private String title;
-    private Calendar date;
+    private String date;
     private String comment;
     //Every record belongs to a problem
     private String problemId;
 
 
-
-    public Record(String title, Calendar date, String comment){
+    public Record(String title, String date, String comment,String problemId){
         this.title = title;
         this.date = date;
         this.comment = comment;
@@ -31,9 +30,9 @@ public class Record {
 
     public void setTitle(String title) {this.title = title;}
 
-    public Calendar getDate() {return this.date;}
+    public String getDate() {return this.date;}
 
-    public void setDate(Calendar date) {this.date = date;}
+    public void setDate(String date) {this.date = date;}
 
     public String getComment() {return this.comment;}
 
