@@ -1,37 +1,18 @@
 package com.example.cmput301f18t26.icare.Activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
-import com.example.cmput301f18t26.icare.Controllers.ProblemFactory;
-import com.example.cmput301f18t26.icare.Controllers.RecordFactory;
-import com.example.cmput301f18t26.icare.Controllers.UserRecordFactory;
-import com.example.cmput301f18t26.icare.Models.Problem;
-import com.example.cmput301f18t26.icare.Models.Record;
-import com.example.cmput301f18t26.icare.Models.UserRecord;
 import com.example.cmput301f18t26.icare.R;
-
-import org.w3c.dom.Text;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 public class AddEditRecordActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -48,7 +29,9 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
         super.onCreate(savedInstanceState);
 
         Bundle extras = getIntent().getExtras();
+        dataController = DataController.getInstance();
         problemUID = extras.getString("problemUID");
+        dataController.setCurrentProblem(problemUID);
 
         setContentView(R.layout.activity_add_edit_record);
         BottomNavigationView navigation = findViewById(R.id.navigation);

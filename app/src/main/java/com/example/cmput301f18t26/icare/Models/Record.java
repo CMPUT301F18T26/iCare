@@ -12,10 +12,11 @@ public class Record {
     private String problemId;
 
 
-    public Record(String title, String date, String comment,String problemId){
+    public Record(String title, String date, String comment, String problemId){
         this.title = title;
         this.date = date;
         this.comment = comment;
+        this.problemId = problemId;
     }
 
     public String getId() { return this.id; }

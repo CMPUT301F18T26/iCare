@@ -31,9 +31,9 @@ public class PatientViewProblemActivity extends AppCompatActivity {
     private TextView titleText;
     private TextView descriptionText;
     private TextView dateText;
-    private List<UserRecord> userRecordList;
+    private List<Record> userRecordList;
     private ListView oldRecordList;
-    private ArrayAdapter<UserRecord> adapter;
+    private ArrayAdapter<Record> adapter;
 
 
 
@@ -100,7 +100,7 @@ public class PatientViewProblemActivity extends AppCompatActivity {
         Log.d("tyler,2","does this run when we exit other activity?");
 
         userRecordList = dataController.getUserRecords(problem); // not sure if this is correct - Tyler
-        adapter = new ArrayAdapter<UserRecord>(this,R.layout.userrecords_list_item,R.id.record_name,userRecordList);
+        adapter = new ArrayAdapter<Record>(this, R.layout.userrecords_list_item,R.id.record_name,userRecordList);
         adapter.notifyDataSetChanged();
         oldRecordList.setAdapter(adapter);
     }

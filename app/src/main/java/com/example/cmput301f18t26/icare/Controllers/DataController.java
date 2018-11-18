@@ -38,10 +38,11 @@ public class DataController {
 
     private Gson gson = new Gson();
     private User currentUser = null;
+    private String currentProblem; // NOT THE OBJECT THIS IS A STRING
     private List<User> patientList = new ArrayList<>();
     private List<Problem> problemList = new ArrayList<>();
     private List<Record> recordList = new ArrayList<>();
-    private List<UserRecord> userRecordList = new ArrayList<>();
+    private List<Record> userRecordList = new ArrayList<>();
     /**
      * We use a private constructor here to enforce Singleton Pattern
      *
@@ -175,22 +176,21 @@ public class DataController {
         return null;
     }
 
-    public List<UserRecord> getUserRecords(Problem problem){
+    public List<Record> getUserRecords(Problem problem){
         //get all records associated with the problem
         String currentProblemID = problem.getUID();
-        List<UserRecord> newUserRecordList = new ArrayList<>();
-//        for (UserRecord each: this.userRecordList){
-//            String problemID = each.getProblemId();
-//
-//            if (problemID.equals(currentProblemID)){
-//                newUserRecordList.add(each);
-//            }
-//        }
-        //return newUserRecordList;
-        return this.userRecordList;
+        List<Record> newUserRecordList = new ArrayList<>();
+        for (Record record : this.userRecordList){
+            String problemID = record.getProblemId();
+
+            if (problemID.equals(currentProblemID)){
+                newUserRecordList.add(record);
+            }
+        }
+        return newUserRecordList;
     }
 
-    public void addUserRecord(UserRecord userRecord){
+    public void addUserRecord(Record userRecord){
         //add record and return new recordId
         this.userRecordList.add(userRecord);
 //        for (UserRecord each: this.userRecordList){
@@ -283,6 +283,13 @@ public class DataController {
         }
     }
 
+    public void setCurrentProblem(String problemID) {
+        this.currentProblem = problemID;
+    }
+
+    public String getCurrentProblem() {
+        return this.currentProblem;
+    }
 
     public List<User> getPatients(){
         //return all patients for a care provider

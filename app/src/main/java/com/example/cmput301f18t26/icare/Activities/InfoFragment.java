@@ -1,9 +1,7 @@
 package com.example.cmput301f18t26.icare.Activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +13,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
-import com.example.cmput301f18t26.icare.Controllers.UserRecordFactory;
+import com.example.cmput301f18t26.icare.Controllers.RecordFactory;
+import com.example.cmput301f18t26.icare.Models.Record;
 import com.example.cmput301f18t26.icare.Models.User;
-import com.example.cmput301f18t26.icare.Models.UserRecord;
 import com.example.cmput301f18t26.icare.R;
 
 import java.text.DateFormat;
@@ -50,10 +48,7 @@ public class InfoFragment extends Fragment{
         user = dataController.getCurrentUser();
 
         //passing the problem ID not sure if we will need this - tyler
-        if (getArguments() != null) {
-            problemUID = getArguments().getString("problemUID");
-        }
-
+        problemUID = dataController.getCurrentProblem();
     }
 
     @Override
@@ -95,7 +90,7 @@ public class InfoFragment extends Fragment{
 
             //Create a new record in the userRecordFactory.
 
-            UserRecord userRecord = UserRecordFactory.getUserRecord(title, formattedDate, description, problemUID);
+            Record userRecord = RecordFactory.getRecord(title, formattedDate, description, problemUID, null, null, null );
             Log.d("tyler,2","hello"+userRecord.toString());
             dataController.addUserRecord(userRecord);
             Toast.makeText(getActivity(), "User Record added successfully", Toast.LENGTH_SHORT).show();
