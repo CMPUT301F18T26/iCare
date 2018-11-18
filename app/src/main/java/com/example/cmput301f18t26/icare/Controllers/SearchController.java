@@ -121,6 +121,7 @@ public class SearchController {
 
         @Override
         protected JestResult doInBackground(String... userId) {
+            // TODO: Fix this cause I don't know whats going wrong.
             // Creating the query for the user
             String query =
                     "{\n" +
