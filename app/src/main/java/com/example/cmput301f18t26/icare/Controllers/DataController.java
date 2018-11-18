@@ -179,24 +179,25 @@ public class DataController {
         //get all records associated with the problem
         String currentProblemID = problem.getUID();
         List<UserRecord> newUserRecordList = new ArrayList<>();
-        for (UserRecord each: userRecordList){
-            String problemID = each.getProblemId();
-
-            if (problemID.equals(currentProblemID)){
-                newUserRecordList.add(each);
-            }
-        }
-        return newUserRecordList;
+//        for (UserRecord each: this.userRecordList){
+//            String problemID = each.getProblemId();
+//
+//            if (problemID.equals(currentProblemID)){
+//                newUserRecordList.add(each);
+//            }
+//        }
+        //return newUserRecordList;
+        return this.userRecordList;
     }
 
-    public String addUserRecord(UserRecord userRecord){
+    public void addUserRecord(UserRecord userRecord){
         //add record and return new recordId
-        userRecordList.add(userRecord);
-        for (UserRecord each: userRecordList){
-            String title = each.getTitle();
-        }
+        this.userRecordList.add(userRecord);
+//        for (UserRecord each: this.userRecordList){
+//            String title = each.getTitle();
+//        }
         //saveUserRecord(userRecord);
-        return null;
+        //return null;
     }
 
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

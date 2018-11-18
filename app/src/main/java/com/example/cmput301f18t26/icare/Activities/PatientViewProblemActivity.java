@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.Record;
+import com.example.cmput301f18t26.icare.Models.UserRecord;
 import com.example.cmput301f18t26.icare.R;
 
 import java.text.SimpleDateFormat;
@@ -30,9 +31,9 @@ public class PatientViewProblemActivity extends AppCompatActivity {
     private TextView titleText;
     private TextView descriptionText;
     private TextView dateText;
-    private List<Record> recordList;
+    private List<UserRecord> userRecordList;
     private ListView oldRecordList;
-    private ArrayAdapter<Record> adapter;
+    private ArrayAdapter<UserRecord> adapter;
 
 
 
@@ -52,7 +53,7 @@ public class PatientViewProblemActivity extends AppCompatActivity {
         dataController = DataController.getInstance();
         problem = dataController.getProblem(problemUID);
 
-        recordList = dataController.getRecords(problem);
+        userRecordList = dataController.getUserRecords(problem);
         oldRecordList = (ListView) findViewById(R.id.record_list_view);
 
 
@@ -96,11 +97,14 @@ public class PatientViewProblemActivity extends AppCompatActivity {
 
     protected void onStart(){
         super.onStart();
-        recordList = dataController.getRecords(problem); // not sure if this is correct - Tyler
-        adapter = new ArrayAdapter<Record>(this,R.layout.activity_patient_view_record,R.id.record_title,recordList);
+        Log.d("tyler,2","does this run when we exit other activity?");
+
+        userRecordList = dataController.getUserRecords(problem); // not sure if this is correct - Tyler
+        adapter = new ArrayAdapter<UserRecord>(this,R.layout.userrecords_list_item,R.id.record_name,userRecordList);
         adapter.notifyDataSetChanged();
         oldRecordList.setAdapter(adapter);
     }
+
     void setValues(Problem problem) {
         //Title
         titleText.setText(problem.getTitle());

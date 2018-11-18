@@ -21,6 +21,14 @@ public class UserRecord extends Record {
 
     }
 
+    public String toString(){
+
+        //http://www.ntu.edu.sg/home/ehchua/programming/java/DateTimeCalendar.html
+        String date = super.getDate();
+
+        return super.getTitle() + "\n" + date;
+    }
+
     //Location Getters and Setters
     public Location getLocation(){return this.location;}
 
