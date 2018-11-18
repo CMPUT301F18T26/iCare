@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.UUID;
 
+/**
+ * This class hold all the information for a problem that is associated with a patient.
+ */
 public class Problem {
 
     //UID stands for Unique ID
@@ -17,6 +20,13 @@ public class Problem {
     private String description;
     private String userUID;
 
+    /**
+     * The constructor. Creates an object with the parameter passed in.
+     * @param title
+     * @param date
+     * @param description
+     * @param userUID
+     */
     public Problem(String title, Calendar date, String description, String userUID) {
         this.UID = UUID.randomUUID().toString();
         Log.d("tyler",this.UID);

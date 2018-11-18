@@ -34,6 +34,8 @@
         <activity
             android:name=".Activities.AddEditRecordActivity"
             android:label="@string/title_activity_add_edit_record"></activity>
+        <activity android:name=".Activities.ViewProfileActivity" />
+        <activity android:name=".Activities.EditProfileActivity" />
     </application>
 
 </manifest>

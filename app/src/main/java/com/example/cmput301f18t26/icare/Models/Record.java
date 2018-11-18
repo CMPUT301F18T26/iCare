@@ -2,8 +2,11 @@ package com.example.cmput301f18t26.icare.Models;
 
 import java.util.Calendar;
 
-public class Record {
 
+/**
+ * This class holds all the information for records that are associated with a problem.
+ */
+public class Record {
     private String id;
     private String title;
     private String date;
@@ -11,7 +14,14 @@ public class Record {
     //Every record belongs to a problem
     private String problemId;
 
-
+    /**
+     * The initializer, takes the title, date, comment and problemId and creates an object.
+     * The problemId is the id of a problem that the record is associated with.
+     * @param title
+     * @param date
+     * @param comment
+     * @param problemId
+     */
     public Record(String title, String date, String comment, String problemId){
         this.title = title;
         this.date = date;
@@ -19,6 +29,7 @@ public class Record {
         this.problemId = problemId;
     }
 
+    // Getters and setter
     public String getId() { return this.id; }
 
     public void setId(String id) { this.id = id; }
