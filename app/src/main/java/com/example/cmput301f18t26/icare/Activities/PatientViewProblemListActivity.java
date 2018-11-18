@@ -5,6 +5,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -81,5 +84,31 @@ public class PatientViewProblemListActivity extends AppCompatActivity {
         oldProblemList.setAdapter(adapter);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Creating the menu options from the xml file
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.patient_options_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        // Getting the id of the menu item selected
+        int id = item.getItemId();
+        // Executing code depending on which item is selected
+        switch (id){
+            case R.id.contact_information:
+                // Creating the intent
+                intent = new Intent(PatientViewProblemListActivity.this, ViewProfileActivity.class);
+                // Passing in the user id that will have its information displayed
+                intent.putExtra("user_id", this.user.getUID());
+                // Launching the intent
+                startActivity(intent);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
 }

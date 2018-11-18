@@ -1,7 +1,10 @@
 package com.example.cmput301f18t26.icare.Controllers;
 
+import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.example.cmput301f18t26.icare.Activities.PatientViewProblemListActivity;
 import com.example.cmput301f18t26.icare.Models.CareProvider;
 import com.example.cmput301f18t26.icare.Models.Patient;
 import com.example.cmput301f18t26.icare.Models.Problem;
@@ -307,5 +310,23 @@ public class DataController {
         } catch (Exception e) {
              Log.i("Error", "Could not get the list of patients associated to this care provider");
         }
+    }
+
+    /**
+     * Fetches the information of a user with the matching uid.
+     * @param uid
+     */
+    public User fetchUserInformation(String uid){
+        User returnUser = null;
+        try {
+            // Getting the information on the user
+            JestResult result = new SearchController.getUserInfo().execute(uid).get();
+            // Now returning it as a User object
+            returnUser = result.getSourceAsObject(User.class);
+            Log.e("Error", result.toString());
+        } catch (Exception e) {
+            Log.i("Error", e.getMessage());
+        }
+        return returnUser;
     }
 }
