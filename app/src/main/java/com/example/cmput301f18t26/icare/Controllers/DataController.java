@@ -102,7 +102,7 @@ public class DataController {
              * Unpack the user using the JestResult. Easier than unpacking the json object
              * manually. To do this, User had to be updated to not be an Abstract class.
              */
-            currentUser = result.getSourceAsObject(User.class);
+            User fetchedCurrentUser = result.getSourceAsObject(User.class);
 
             /**
              * Use the UserFactory to get the proper type of user.
@@ -114,12 +114,13 @@ public class DataController {
              * solution to this issue.
              */
             currentUser = UserFactory.getUser(
-                    currentUser.getUsername(),
-                    currentUser.getPassword(),
-                    currentUser.getEmail(),
-                    currentUser.getPhone(),
-                    currentUser.getRole()
+                    fetchedCurrentUser.getUsername(),
+                    fetchedCurrentUser.getPassword(),
+                    fetchedCurrentUser.getEmail(),
+                    fetchedCurrentUser.getPhone(),
+                    fetchedCurrentUser.getRole()
             );
+            currentUser.setUID(fetchedCurrentUser.getUID());
 
         } catch (Exception e) {
             Log.i("Error", "Problem talking to ES instance");

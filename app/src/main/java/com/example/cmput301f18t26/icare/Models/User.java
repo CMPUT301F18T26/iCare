@@ -10,7 +10,7 @@ import java.util.UUID;
  * This class should ideally be instantiated by a factory pattern.
  */
 public class User {
-    private final String UID; // let's make this immutable (its in caps cause convention)
+    private String UID; // let's make this immutable (its in caps cause convention)
     private String username;
     private String password;
     private String email;
@@ -107,4 +107,10 @@ public class User {
     public String getUID() {
         return this.UID;
     }
+
+    // We really shouldnt be able to set the UID but this is a quick fix for the login bug
+    public void setUID(String uid) {
+        this.UID = uid;
+    }
+
 }
