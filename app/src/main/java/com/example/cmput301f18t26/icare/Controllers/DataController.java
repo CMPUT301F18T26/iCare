@@ -116,14 +116,11 @@ public class DataController {
              * table it will not be properly grabbed from the data base. I think we need a better
              * solution to this issue.
              */
-            currentUser = UserFactory.getUser(
-                    fetchedCurrentUser.getUsername(),
-                    fetchedCurrentUser.getPassword(),
-                    fetchedCurrentUser.getEmail(),
-                    fetchedCurrentUser.getPhone(),
-                    fetchedCurrentUser.getRole()
-            );
-            currentUser.setUID(fetchedCurrentUser.getUID());
+            if (fetchedCurrentUser.getRole() == 0) {
+                currentUser = result.getSourceAsObject(Patient.class);
+            } else {
+                currentUser = result.getSourceAsObject(CareProvider.class);
+            }
 
         } catch (Exception e) {
             Log.i("Error", "Problem talking to ES instance");
