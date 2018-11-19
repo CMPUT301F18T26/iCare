@@ -2,6 +2,8 @@ package com.example.cmput301f18t26.icare.Controllers;
 
 import android.util.Log;
 
+import com.example.cmput301f18t26.icare.Models.CareProvider;
+import com.example.cmput301f18t26.icare.Models.Patient;
 import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.Record;
 import com.example.cmput301f18t26.icare.Models.User;
@@ -92,6 +94,11 @@ public class DataController {
         }
     }
 
+    /**
+     * Logs a user in after confirming that username and password match.
+     * @param username
+     * @param password
+     */
     public void logIn(String username, String password){
         try {
             JestResult result = new SearchController.SignInUser().execute(username, password).get();
@@ -127,12 +134,23 @@ public class DataController {
         currentUser = user;
     }
 
+    /**
+     * Gets a record that has recordId.
+     * @param recordId
+     * @return
+     */
     public Record getRecord(String recordId){
         //get specific record
         return null;
     }
 
     //public List<Record> getRecords(String problemId){  Changed this for retrieving all records and specific records still take a string with an id
+
+    /**
+     * Retrieves a list of records associated with a problem.
+     * @param problem
+     * @return
+     */
     public List<Record> getRecords(Problem problem){
         //get all records associated with the problem
         String currentProblemID = problem.getUID();
@@ -147,6 +165,11 @@ public class DataController {
         return newRecordList;
     }
 
+    /**
+     * Adds a record to the list of records we maintin.
+     * @param record
+     * @return
+     */
     public String addRecord(Record record){
         //add record and return new recordId
         recordList.add(record);
@@ -163,6 +186,11 @@ public class DataController {
         return null;
     }
 
+    /**
+     * Returns a list of records for a given problem.
+     * @param problem
+     * @return
+     */
     public List<Record> getUserRecords(Problem problem){
         //get all records associated with the problem
         String currentProblemID = problem.getUID();
@@ -225,6 +253,10 @@ public class DataController {
         return newProblemList;
     }
 
+    /**
+     * Adds the problem to the list of problems we maintain.
+     * @param problem
+     */
     public void addProblem(Problem problem){
         //add Problem and save
         problemList.add(problem);
@@ -255,6 +287,10 @@ public class DataController {
         problemList.set(index, newProblem);
     }
 
+    /**
+     * Saves a problem to the ES instance.
+     * @param problem
+     */
     public void saveProblem(Problem problem) {
         try {
             /**

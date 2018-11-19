@@ -49,6 +49,9 @@ public class SearchController {
         jestClient = (JestDroidClient) jestClientFactory.getObject();
     }
 
+    /**
+     * This method creates a new account and user object on ES.
+     */
     public static class AddUser extends AsyncTask<User, Void, JestResult> {
         private JestResult result;
 
@@ -67,6 +70,9 @@ public class SearchController {
         }
     }
 
+    /**
+     * Queries ES to see if a user object with a username exists.
+     */
     public static class CheckIfUserNameExists extends AsyncTask<String, Void, JestResult> {
         private JestResult result;
 
@@ -87,6 +93,9 @@ public class SearchController {
         }
     }
 
+    /**
+     * Adds a problem to ES.
+     */
     public static class AddProblem extends AsyncTask<Problem, Void, JestResult> {
         private JestResult result;
 
@@ -105,7 +114,9 @@ public class SearchController {
         }
     }
 
-
+    /**
+     * Queries ES and grabs all the information for a user for which the username and password match.
+     */
     public static class SignInUser extends AsyncTask<String, Void, JestResult> {
         private JestResult result;
 
@@ -181,6 +192,9 @@ public class SearchController {
         }
     }
 
+    /**
+     * Gets a list of patients for a given care provider.
+     */
     public static class GetPatients extends AsyncTask<String, Void, ArrayList<User>> {
 
         @Override

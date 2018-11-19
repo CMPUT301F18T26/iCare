@@ -6,6 +6,7 @@ import java.util.UUID;
  * Our user class could be a Patient or CareProvider
  *
  * Update - Make the User class non-abstract so that it can be instantiated to unpack data from ES
+ * Update - Will make sure abstract again in the near future.
  *
  * This class should ideally be instantiated by a factory pattern.
  */
