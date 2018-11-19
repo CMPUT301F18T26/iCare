@@ -7,8 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.Models.User;
@@ -16,9 +19,13 @@ import com.example.cmput301f18t26.icare.R;
 
 public class ViewPatientsActivity extends AppCompatActivity {
 
-    private ListView patientList;
+    // For passing the position of the selected patient to the next activity
+    private static final String SELECTED_PATIENT = "com.example.cmput301f18t26.icare.Activities.SELECTED_PATIENT";
+
     private FloatingActionButton addPatientButton;
 
+    // Necessary patient list items
+    private ListView patientList;
     private ArrayAdapter<User> patientListAdapter;
 
     // Singular data controller
@@ -31,12 +38,37 @@ public class ViewPatientsActivity extends AppCompatActivity {
 
         dataController = DataController.getInstance();
 
-//        patientList = findViewById(R.id.care_provider_patient_list);
-//        addPatientButton = findViewById(R.id.add_new_patient);
+        // initialize UI elements
+        addPatientButton = findViewById(R.id.add_new_patient);
 
-//        patientListAdapter = new ArrayAdapter<User>(
-//                this, R.layout.activity_care_provider_patients_list_item, dataController.getPatients()
-//        );
+        // initialize patient list view items
+        patientListAdapter = new ArrayAdapter<>(
+                this,
+                R.layout.activity_care_provider_patients_list_item,
+                dataController.getPatients()
+        );
+        patientList = findViewById(R.id.care_provider_patient_list);
+        patientList.setAdapter(patientListAdapter);
+
+        // Add action for clicking on a patient
+        patientList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view,
+                                    int position, long id) {
+
+                Intent intent = new Intent(adapterView.getContext(), ViewPatientProblemsActivity.class);
+                intent.putExtra(SELECTED_PATIENT, position);
+                startActivity(intent);
+            }
+        });
+
+        addPatientButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),
+                        "GO TO ADD NEW PATIENT (WIP)",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
