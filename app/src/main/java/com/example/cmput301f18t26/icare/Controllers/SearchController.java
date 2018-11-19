@@ -67,6 +67,26 @@ public class SearchController {
         }
     }
 
+    public static class CheckIfUserNameExists extends AsyncTask<String, Void, JestResult> {
+        private JestResult result;
+
+        @Override
+        protected JestResult doInBackground (String... userParams) {
+
+            String query = "{ \"query\": { \"bool\": { \"must\": [{ \"match\": { \"username\": \"" + userParams[0] + "\" } }] } } }";
+
+            Search search = new Search.Builder(query).addIndex(groupIndex).addType(userType).build();
+
+            try {
+                result = jestClient.execute(search);
+                return result;
+            } catch (Exception e) {
+                Log.e("Error", "Problem communicating with the ElasticSearch Instance");
+                return null;
+            }
+        }
+    }
+
     public static class AddProblem extends AsyncTask<Problem, Void, JestResult> {
         private JestResult result;
 

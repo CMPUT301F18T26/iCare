@@ -335,4 +335,25 @@ public class DataController {
             Log.i("Error", e.getMessage());
         }
     }
+
+    /**
+     * Method was created to check if a username exists before signup.
+     */
+    public boolean checkIfUsernameExists(String username){
+        try{
+            // Getting the information on the username
+            JestResult result = new SearchController.CheckIfUserNameExists().execute(username).get();
+            // Converting the object
+            User returnUser = result.getSourceAsObject(User.class);
+            // Here we check if we can fetch the UID, if not, then we get a NullPointerException, proving user does not exist.
+            Log.i("Error", returnUser.getUID());
+        } catch (NullPointerException e){
+            // If a null pointer exception was thrown, the user does not exist, therefore we return false
+            return false;
+        } catch (Exception e) {
+            Log.i("Error", e.getMessage());
+            // Couldn't communicate with the server, just tell user to get another username
+        }
+        return true;
+    }
 }
