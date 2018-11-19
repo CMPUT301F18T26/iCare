@@ -34,10 +34,10 @@ public class AddEditProblemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_or_edit_condition);
-        Log.d("tyler","get here at all?");
         titleEntry = (EditText) findViewById(R.id.condition_name);
         descriptionEntry = (EditText) findViewById(R.id.description);
         dateEntry = (DatePicker) findViewById(R.id.date_picker);
+
 
         dataController = DataController.getInstance();
         user = dataController.getCurrentUser();
@@ -45,9 +45,7 @@ public class AddEditProblemActivity extends AppCompatActivity {
         //Not sure if I need this
         Intent i = getIntent();
         problemUID = (String) i.getSerializableExtra("problemUID");
-
         setValues(problemUID);
-
 
         //Saves your Problem and returns you to the Problem List View
         Button saveButton = (Button) findViewById(R.id.save_problem);
@@ -147,8 +145,6 @@ public class AddEditProblemActivity extends AppCompatActivity {
         }
 
         //Returns to the ListView of the Problems.
-        Log.d("tyler","this is where we get to");
-        Intent i = new Intent(this, PatientViewProblemListActivity.class);
-        startActivity(i);
+        finish();
     }
 }

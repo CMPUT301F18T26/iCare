@@ -16,6 +16,7 @@
     <string name="date_added_colon">Date Added:</string>
     <string name="description_colon">Description:</string>
     <string name="delete">Delete</string>
+    <string name="delete_problem">Delete Problem</string>
     <string name="delete_record">Delete Record</string>
     <string name="view_records">View Records</string>
     <string name="save_problem">Save Problem</string>
