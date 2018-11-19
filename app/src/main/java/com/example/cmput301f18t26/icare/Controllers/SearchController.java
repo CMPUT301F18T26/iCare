@@ -116,28 +116,43 @@ public class SearchController {
         }
     }
 
-    public static class getUserInfo extends AsyncTask<String, Void, JestResult> {
+    /**
+     * Class was created to fetch a user for a given UID
+     */
+    public static class GetUserInfoUsingUId extends AsyncTask<String, Void, JestResult> {
         private JestResult result;
 
         @Override
         protected JestResult doInBackground(String... userId) {
-            // TODO: Fix this cause I don't know whats going wrong.
             // Creating the query for the user
-            String query =
-                    "{\n" +
-                            "  \"query\": {\n" +
-                            "    \"bool\": {\n" +
-                            "      \"must\": [\n" +
-                            "        { \"match\": { \"_id\": \"" + userId[0] + "\"}},\n" +
-                            "      ]\n" +
-                            "    }\n" +
-                            "  }\n" +
-                            "}";
+            String query = "{ \"query\": { \"bool\": { \"must\": [{ \"match\": { \"_id\": \"" + userId[0] + "\" } }] } } }";
 
             Search search = new Search.Builder(query).addIndex(groupIndex).addType(userType).build();
-
             try {
                 result = jestClient.execute(search);
+                return result;
+            } catch (Exception e) {
+                Log.e("Error", "Problem communicating with the ElasticSearch Instance");
+                return null;
+            }
+        }
+    }
+
+    /**
+     * Method updates an existing user on Elasticsearch
+     */
+    public static class UpdateInformationForUser extends AsyncTask<User, Void, JestResult> {
+        private JestResult result;
+
+        @Override
+        protected JestResult doInBackground(User... users) {
+            // Creating the query to update the user
+            User user = users[0];
+            Index index = new Index.Builder(user).index(groupIndex).type(userType).refresh(true)
+                    .id(user.getUID()).build();
+
+            try {
+                result = jestClient.execute(index);
                 return result;
             } catch (Exception e) {
                 Log.e("Error", "Problem communicating with the ElasticSearch Instance");

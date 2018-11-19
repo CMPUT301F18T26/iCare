@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.Models.User;
@@ -41,8 +42,19 @@ public class EditProfileActivity extends AppCompatActivity {
                 // Just save the new data
                 currentUser.setEmail(email.getText().toString());
                 currentUser.setPhone(phone.getText().toString());
-                // Trying to update the user on ES
-                // TODO Update on elastic search
+                try {
+                    // Trying to update the user on ES
+                    dataController.updateElasticSearchForNewUserInfo(currentUser);
+                    // Change was successful
+                    dataController.setCurrentUser(currentUser);
+                    Toast.makeText(getApplicationContext(),
+                            "Profile Info Changed.",
+                            Toast.LENGTH_SHORT).show();
+                } catch (Exception e){
+                    Toast.makeText(getApplicationContext(),
+                            "An error occured while trying to change profile info on the server.",
+                            Toast.LENGTH_SHORT).show();
+                }
                 // Now we end the activity
                 finish();
             }
