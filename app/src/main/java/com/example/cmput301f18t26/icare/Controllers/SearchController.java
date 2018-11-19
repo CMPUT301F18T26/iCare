@@ -116,6 +116,36 @@ public class SearchController {
         }
     }
 
+    public static class getUserInfo extends AsyncTask<String, Void, JestResult> {
+        private JestResult result;
+
+        @Override
+        protected JestResult doInBackground(String... userId) {
+            // TODO: Fix this cause I don't know whats going wrong.
+            // Creating the query for the user
+            String query =
+                    "{\n" +
+                            "  \"query\": {\n" +
+                            "    \"bool\": {\n" +
+                            "      \"must\": [\n" +
+                            "        { \"match\": { \"_id\": \"" + userId[0] + "\"}},\n" +
+                            "      ]\n" +
+                            "    }\n" +
+                            "  }\n" +
+                            "}";
+
+            Search search = new Search.Builder(query).addIndex(groupIndex).addType(userType).build();
+
+            try {
+                result = jestClient.execute(search);
+                return result;
+            } catch (Exception e) {
+                Log.e("Error", "Problem communicating with the ElasticSearch Instance");
+                return null;
+            }
+        }
+    }
+
     public static class GetPatients extends AsyncTask<String, Void, ArrayList<User>> {
 
         @Override
