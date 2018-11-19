@@ -65,6 +65,7 @@ public class ViewProfileActivity extends AppCompatActivity {
         TextView phone = findViewById(R.id.phone);
         phone.setText(userToDisplay.getPhone());
 
+
         if (this.currentUser.getUID().equals(this.userToDisplay.getUID())){
             // Creates a new activity called EditProfileActivity
             Button editButton = findViewById(R.id.edit_profile);
@@ -76,10 +77,16 @@ public class ViewProfileActivity extends AppCompatActivity {
                 }
             });
         } else {
-            Button addPatient = findViewById(R.id.add_new_patient);
+            Button addPatient = findViewById(R.id.add_patient);
             addPatient.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    // TODO Perform the right action for add patient button
+                    // TODO Add to list of patients
+                    // Showing a toast for status
+                    Toast.makeText(getApplicationContext(),
+                            "Not yet implemented",
+                            Toast.LENGTH_SHORT).show();
+                    // Finishing this activity
+                    finish();
                 }
             });
         }

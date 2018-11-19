@@ -1,12 +1,7 @@
 package com.example.cmput301f18t26.icare.Controllers;
 
-import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.example.cmput301f18t26.icare.Activities.PatientViewProblemListActivity;
-import com.example.cmput301f18t26.icare.Models.CareProvider;
-import com.example.cmput301f18t26.icare.Models.Patient;
 import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.Record;
 import com.example.cmput301f18t26.icare.Models.User;
@@ -15,7 +10,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import io.searchbox.client.JestResult;
@@ -320,13 +314,25 @@ public class DataController {
         User returnUser = null;
         try {
             // Getting the information on the user
-            JestResult result = new SearchController.getUserInfo().execute(uid).get();
+            JestResult result = new SearchController.GetUserInfoUsingUId().execute(uid).get();
             // Now returning it as a User object
             returnUser = result.getSourceAsObject(User.class);
-            Log.e("Error", result.toString());
         } catch (Exception e) {
             Log.i("Error", e.getMessage());
         }
         return returnUser;
+    }
+
+    /**
+     * Method was created to change the email or phone number of a user the elastic search.
+     * @param modifiedUser
+     */
+    public void updateElasticSearchForNewUserInfo(User modifiedUser){
+        try {
+            // Calling SearchController to change the user
+            JestResult result = new SearchController.UpdateInformationForUser().execute(modifiedUser).get();
+        } catch (Exception e) {
+            Log.i("Error", e.getMessage());
+        }
     }
 }
