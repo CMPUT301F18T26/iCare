@@ -92,32 +92,21 @@ public class DataController {
         }
     }
 
-    public void fetchUser(String username, String password){
+    public void logIn(String username, String password){
         try {
             JestResult result = new SearchController.SignInUser().execute(username, password).get();
-            /**
-             * Unpack the user using the JestResult. Easier than unpacking the json object
-             * manually. To do this, User had to be updated to not be an Abstract class.
-             */
+
+             // Unpack the user using the JestResult. Easier than unpacking the json object
+             // manually. To do this, User had to be updated to not be an Abstract class.
+
             User fetchedCurrentUser = result.getSourceAsObject(User.class);
 
-            /**
-             * Use the UserFactory to get the proper type of user.
-             * There are some issues to doing it this way. There are some issue to doing it
-             * this way because there may be some data that cannot be extracted.
-             *
-             * For example: if we store patient specific of care provider specific info in this
-             * table it will not be properly grabbed from the data base. I think we need a better
-             * solution to this issue.
-             */
-            currentUser = UserFactory.getUser(
-                    fetchedCurrentUser.getUsername(),
-                    fetchedCurrentUser.getPassword(),
-                    fetchedCurrentUser.getEmail(),
-                    fetchedCurrentUser.getPhone(),
-                    fetchedCurrentUser.getRole()
-            );
-            currentUser.setUID(fetchedCurrentUser.getUID());
+            // check the role and unpack to the proper object so that no data is lost
+            if (fetchedCurrentUser.getRole() == 0) {
+                currentUser = result.getSourceAsObject(Patient.class);
+            } else {
+                currentUser = result.getSourceAsObject(CareProvider.class);
+            }
 
         } catch (Exception e) {
             Log.i("Error", "Problem talking to ES instance");
