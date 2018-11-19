@@ -59,7 +59,9 @@ public class LoginActivity extends AppCompatActivity {
          * Update - Now using ES to perform the user searching
          */
         try {
-            dataController.fetchUser(username, password);
+            // grab the user from ES
+            dataController.logIn(username, password);
+
             user = dataController.getCurrentUser();
 
             if (user.getRole() == 0) {
