@@ -66,9 +66,8 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, PatientViewProblemListActivity.class);
                 startActivity(intent);
             } else {
-                Toast.makeText(getApplicationContext(),
-                        "User found, its a Care Provider!!!",
-                        Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, ViewPatientsActivity.class);
+                startActivity(intent);
             }
 
         } catch (Exception e) {
