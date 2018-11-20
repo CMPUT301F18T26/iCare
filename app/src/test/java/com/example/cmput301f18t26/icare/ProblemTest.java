@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 public class ProblemTest {
 
     private Problem getDefaultTestProblem(){
-        return new Problem("Test", Calendar.getInstance(), "This is a test problem");
+        return new Problem("Test", Calendar.getInstance(), "This is a test problem", "1");
     }
 
     @Test
@@ -20,7 +20,7 @@ public class ProblemTest {
         String title = "Test";
         Calendar date = Calendar.getInstance();
         String description = "This is a test problems";
-        Problem p = new Problem(title, date, description);
+        Problem p = new Problem(title, date, description, "1");
 
         assertEquals(p.getTitle(), title);
         title = "New Title";
@@ -41,7 +41,7 @@ public class ProblemTest {
     @Test
     public void testAddRecords(){
         Problem p = getDefaultTestProblem();
-        Record r = new Record("Test", Calendar.getInstance(), "This is a test record");
+        Record r = new Record("Test", Calendar.getInstance().toString(), "This is a test record", p.getUID());
         p.addRecord(r.getId());
         assertEquals(p.getRecord(r.getId()), r);
     }
@@ -49,7 +49,7 @@ public class ProblemTest {
     @Test
     public void testRemoveRecord(){
         Problem p = getDefaultTestProblem();
-        Record r = new Record("Test", Calendar.getInstance(), "This is a test record");
+        Record r = new Record("Test", Calendar.getInstance().toString(), "This is a test record", p.getUID());
         String rid = r.getId();
         p.addRecord(rid);
         p.removeRecord(rid);
@@ -59,8 +59,8 @@ public class ProblemTest {
     @Test
     public void testGetRecords(){
         Problem p = getDefaultTestProblem();
-        Record r1 = new Record("Test1", Calendar.getInstance(), "This is a test record");
-        Record r2 = new Record("Test2", Calendar.getInstance(), "This is a test record");
+        Record r1 = new Record("Test1", Calendar.getInstance().toString(), "This is a test record", p.getUID());
+        Record r2 = new Record("Test2", Calendar.getInstance().toString(), "This is a test record", p.getUID());
         ArrayList<Record> rlist = new ArrayList<>();
 
         assertEquals(rlist, p.getRecords());

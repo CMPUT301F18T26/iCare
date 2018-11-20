@@ -50,8 +50,8 @@ public class User {
      * @return boolean
      */
     public boolean validate() {
-        if (this.username.isEmpty() || this.password.isEmpty() || this.email.isEmpty()
-                || this.phone.isEmpty()) {
+        if (this.username.isEmpty() || this.username.length() < 8 || this.password.isEmpty()
+                || this.email.isEmpty() || this.phone.isEmpty()) {
             // IF ANY TEXT FIELD IS EMPTY
             return false;
         } else if (this.role != 0 && this.role != 1 ) {

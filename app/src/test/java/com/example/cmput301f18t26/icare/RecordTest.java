@@ -14,7 +14,7 @@ public class RecordTest {
         Calendar date = Calendar.getInstance();
         String comment = "testtest";
 
-        Record r = new Record(title, date, comment);
+        Record r = new Record(title, date.toString(), comment, "1");
         assertEquals(r.getTitle(), title);
         assertEquals(r.getDate(), date);
         assertEquals(r.getComment(), comment);
@@ -25,7 +25,7 @@ public class RecordTest {
         String title = "Test";
         Calendar date = Calendar.getInstance();
         String comment = "test";
-        Record r = new Record(title, date, comment);
+        Record r = new Record(title, date.toString(), comment, "1");
 
         assertEquals(r.getTitle(), title);
         title = "New Title";
@@ -34,7 +34,7 @@ public class RecordTest {
 
         assertEquals(r.getDate(), date);
         date = Calendar.getInstance();
-        r.setDate(date);
+        r.setDate(date.toString());
         assertEquals(r.getDate(), date);
 
         assertEquals(r.getComment(), comment);
