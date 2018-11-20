@@ -3,11 +3,9 @@ package com.example.cmput301f18t26.icare.Controllers;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.Patient;
+import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.User;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
@@ -49,6 +47,9 @@ public class SearchController {
         jestClient = (JestDroidClient) jestClientFactory.getObject();
     }
 
+    /**
+     * Class adds a user to ES.
+     */
     public static class AddUser extends AsyncTask<User, Void, JestResult> {
         private JestResult result;
 

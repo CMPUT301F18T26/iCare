@@ -28,19 +28,19 @@ public class Patient extends User {
         this.careProviderUID = careProviderUID;
     }
 
-    /**
-     * Editing the list of problems. Adding a new problem.
-     * @param problemId
-     */
-    public void addProblem(String problemId){
-
-    }
-
-    /**
-     * Editing the list of problems. Deleting a problem
-     * @param problemID
-     */
-    public void deleteProblem(String problemID){
-
-    }
+//    /**
+//     * Editing the list of problems. Adding a new problem.
+//     * @param problemId
+//     */
+//    public void addProblem(String problemId){
+//
+//    }
+//
+//    /**
+//     * Editing the list of problems. Deleting a problem
+//     * @param problemID
+//     */
+//    public void deleteProblem(String problemID){
+//
+//    }
 }

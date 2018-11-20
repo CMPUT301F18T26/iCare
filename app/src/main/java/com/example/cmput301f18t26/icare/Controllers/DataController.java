@@ -53,7 +53,7 @@ public class DataController {
      */
     private DataController() { }
 
-    /**
+    /*
      * Below are the public methods that should be used for interacting with data controller
      */
 
@@ -71,14 +71,16 @@ public class DataController {
     }
 
     /**
-     *  Adding a new user to the local users cache
+     * Adding a new user to the local users cache
+     * @param user
      */
     public void addUser(User user) {
         saveUser(user);
     }
 
     /**
-     *  Saving local users cache to ElasticSearch
+     * Saving local users cache to ElasticSearch
+     * @param user
      */
     public void saveUser(User user) {
         try {
@@ -137,12 +139,20 @@ public class DataController {
         currentUser = user;
     }
 
+    /**
+     * @param recordId
+     * @return
+     */
     public Record getRecord(String recordId){
         //get specific record
         return null;
     }
 
-    //public List<Record> getRecords(String problemId){  Changed this for retrieving all records and specific records still take a string with an id
+    /**
+     * Get all records associated with a problem.
+     * @param problem
+     * @return
+     */
     public List<Record> getRecords(Problem problem){
         //get all records associated with the problem
         String currentProblemID = problem.getUID();
@@ -157,6 +167,11 @@ public class DataController {
         return newRecordList;
     }
 
+    /**
+     * Add record to the list of records maintained by this class.
+     * @param record
+     * @return
+     */
     public String addRecord(Record record){
         //add record and return new recordId
         recordList.add(record);
@@ -167,12 +182,21 @@ public class DataController {
         return null;
     }
 
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    /**
+     *
+     * @param recordId
+     * @return
+     */
     public UserRecord getUserRecord(String recordId){
         //get specific record
         return null;
     }
 
+    /**
+     * Get records created by users associated with pr
+     * @param problem
+     * @return
+     */
     public List<Record> getUserRecords(Problem problem){
         //get all records associated with the problem
         String currentProblemID = problem.getUID();
@@ -187,6 +211,10 @@ public class DataController {
         return newUserRecordList;
     }
 
+    /**
+     * Adds a record to the list of records maintained by this class.
+     * @param userRecord
+     */
     public void addUserRecord(Record userRecord){
         //add record and return new recordId
         this.userRecordList.add(userRecord);
@@ -197,7 +225,11 @@ public class DataController {
         //return null;
     }
 
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    /**
+     * Returns a problem associated with a problemid.
+     * @param problemid
+     * @return
+     */
     public Problem getProblem(String problemid){
         //get specific Problem
         Problem problem = null;
@@ -235,6 +267,10 @@ public class DataController {
         return newProblemList;
     }
 
+    /**
+     * Adds a problem to the list of problems maintained by this class.
+     * @param problem
+     */
     public void addProblem(Problem problem){
         //add Problem and save
         problemList.add(problem);
@@ -280,34 +316,50 @@ public class DataController {
         }
     }
 
-    /**
-     * Bad way of saving a UID temporarily to pass between activities. Will do a much better fix
+    /*
+    Bad way of saving a UID temporarily to pass between activities. Will do a much better fix
      * before final submission. Allows my Save() in AddEditProblemActivity to save the
      * problem's UID temporarily, which allows me to access it in another activity.
      * This kind of replaces i.getSerializableExtra when passing intents between activites.
      * This wasn't updating for me properly so I made a quick fix, but for the final
      * submission we will have ElasticSearch working and this will not be necessary.
+     */
+
+    /**
+     * Saves a UID.
      * @param UID
      */
     public void saveUID(String UID){
         this.savedUID = UID;
     }
 
+    /**
+     * Gets the saved UID
+     * @return
+     */
     public String getSavedUID(){
         return this.savedUID;
     }
 
+    /**
+     * Sets the passed in problemID to the to the curentProblem id.
+     * @param problemID
+     */
     public void setCurrentProblem(String problemID) {
         this.currentProblem = problemID;
     }
 
+    /**
+     * Returns the currentProblem saved in this class.
+     * @return
+     */
     public String getCurrentProblem() {
         return this.currentProblem;
     }
 
     /**
      * Fetch patients and then return the patient list
-     * @return List<User>
+     * @return List<Patient>
      */
     public List<Patient> getPatients(){
         //return all patients for a care provider
@@ -318,7 +370,7 @@ public class DataController {
     }
 
     /**
-     * Fetch patients associated with this.currentUser and store them in the user list
+     * Fetch patients associated with this.currentUser from ElasticSearch and store them in the user list.
      */
     private void fetchPatients(){
         try {
@@ -330,6 +382,8 @@ public class DataController {
 
     /**
      * Search the patients by username and return the top hits as an ArrayList<User>
+     * @param username
+     * @return
      */
     public List<Patient> searchPatients(String username){
         try {
@@ -380,6 +434,8 @@ public class DataController {
 
     /**
      * Method was created to check if a username exists before signup.
+     * @param username
+     * @return
      */
     public boolean checkIfUsernameExists(String username){
         try{
