@@ -9,7 +9,6 @@ import com.example.cmput301f18t26.icare.Activities.MainActivity;
 import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.Models.User;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,8 +31,8 @@ public class ViewProfileActivityTest {
     public ActivityTestRule<MainActivity> mActivityRule
             = new ActivityTestRule<>(MainActivity.class);
 
-    @Before
-    public void login(){
+    @Test
+    public void testProfile(){
         // Logging in
         onView(withId(R.id.login_button)).perform(click());
         onView(withId(R.id.username_entry)).perform(typeText("fake"));
@@ -43,10 +42,6 @@ public class ViewProfileActivityTest {
         // Getting to the view profile page
         openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
         onView(withText("Contact Information")).perform(click());
-    }
-
-    @Test
-    public void testProfile(){
         // First we fetch the current user
         DataController dataController = DataController.getInstance();
         User u = dataController.getCurrentUser();
@@ -61,6 +56,15 @@ public class ViewProfileActivityTest {
 
     @Test
     public void editProfile(){
+        // Logging in
+        onView(withId(R.id.login_button)).perform(click());
+        onView(withId(R.id.username_entry)).perform(typeText("fake"));
+        onView(withId(R.id.password_entry)).perform(typeText("123"));
+        onView(withId(R.id.login_button)).perform(click());
+
+        // Getting to the view profile page
+        openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+        onView(withText("Contact Information")).perform(click());
         // First we fetch the current user
         DataController dataController = DataController.getInstance();
         User u = dataController.getCurrentUser();
