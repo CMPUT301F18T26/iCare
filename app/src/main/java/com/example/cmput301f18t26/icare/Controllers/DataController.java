@@ -2,6 +2,8 @@ package com.example.cmput301f18t26.icare.Controllers;
 
 import android.util.Log;
 
+import com.example.cmput301f18t26.icare.Models.CareProvider;
+import com.example.cmput301f18t26.icare.Models.Patient;
 import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.Record;
 import com.example.cmput301f18t26.icare.Models.User;
@@ -79,7 +81,7 @@ public class DataController {
      */
     public void saveUser(User user) {
         try {
-            /**
+            /*
              * Our response is a JestResult object after calling get(), we retrieve a JsonObject
              * from the JestResult and return the users's uid (equivalent to ElasticSearch's _id)
              */
@@ -92,32 +94,28 @@ public class DataController {
         }
     }
 
-    public void fetchUser(String username, String password){
+    /**
+     * Use the username and password to grab the appropriate user from ES and store
+     * as the current user
+     * @param username
+     * @param password
+     */
+    public void logIn(String username, String password){
         try {
             JestResult result = new SearchController.SignInUser().execute(username, password).get();
-            /**
-             * Unpack the user using the JestResult. Easier than unpacking the json object
-             * manually. To do this, User had to be updated to not be an Abstract class.
+
+             /*
+             Unpack the user using the JestResult. Easier than unpacking the json object
+             manually. To allow this, User had to be updated to not be an Abstract class.
              */
             User fetchedCurrentUser = result.getSourceAsObject(User.class);
 
-            /**
-             * Use the UserFactory to get the proper type of user.
-             * There are some issues to doing it this way. There are some issue to doing it
-             * this way because there may be some data that cannot be extracted.
-             *
-             * For example: if we store patient specific of care provider specific info in this
-             * table it will not be properly grabbed from the data base. I think we need a better
-             * solution to this issue.
-             */
-            currentUser = UserFactory.getUser(
-                    fetchedCurrentUser.getUsername(),
-                    fetchedCurrentUser.getPassword(),
-                    fetchedCurrentUser.getEmail(),
-                    fetchedCurrentUser.getPhone(),
-                    fetchedCurrentUser.getRole()
-            );
-            currentUser.setUID(fetchedCurrentUser.getUID());
+            // check the role and unpack to the proper object so that no data is lost
+            if (fetchedCurrentUser.getRole() == 0) {
+                currentUser = result.getSourceAsObject(Patient.class);
+            } else {
+                currentUser = result.getSourceAsObject(CareProvider.class);
+            }
 
         } catch (Exception e) {
             Log.i("Error", "Problem talking to ES instance");
@@ -289,6 +287,10 @@ public class DataController {
         return this.currentProblem;
     }
 
+    /**
+     * Fetch patients and then return the patient list
+     * @return List<User>
+     */
     public List<User> getPatients(){
         //return all patients for a care provider
         fetchPatients();
@@ -303,6 +305,18 @@ public class DataController {
             patientList = new SearchController.GetPatients().execute(currentUser.getUID()).get();
         } catch (Exception e) {
              Log.i("Error", "Could not get the list of patients associated to this care provider");
+        }
+    }
+
+    /**
+     * Search the patients by username and return the top hits as an ArrayList<User>
+     */
+    public List<Patient> searchPatients(String username){
+        try {
+            return new SearchController.SearchPatients().execute(username).get();
+        } catch (Exception e) {
+            Log.i("Error", "Problem getting patients with username: " + username);
+            return new ArrayList<>();
         }
     }
 
@@ -334,5 +348,26 @@ public class DataController {
         } catch (Exception e) {
             Log.i("Error", e.getMessage());
         }
+    }
+
+    /**
+     * Method was created to check if a username exists before signup.
+     */
+    public boolean checkIfUsernameExists(String username){
+        try{
+            // Getting the information on the username
+            JestResult result = new SearchController.CheckIfUserNameExists().execute(username).get();
+            // Converting the object
+            User returnUser = result.getSourceAsObject(User.class);
+            // Here we check if we can fetch the UID, if not, then we get a NullPointerException, proving user does not exist.
+            Log.i("Error", returnUser.getUID());
+        } catch (NullPointerException e){
+            // If a null pointer exception was thrown, the user does not exist, therefore we return false
+            return false;
+        } catch (Exception e) {
+            Log.i("Error", e.getMessage());
+            // Couldn't communicate with the server, just tell user to get another username
+        }
+        return true;
     }
 }

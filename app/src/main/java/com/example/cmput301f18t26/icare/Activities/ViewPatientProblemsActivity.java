@@ -11,5 +11,9 @@ public class ViewPatientProblemsActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_care_provider_problem_view);
+
+        /*
+        Work in progress. Requires storing Problems in ES to pull them here
+         */
     }
 }

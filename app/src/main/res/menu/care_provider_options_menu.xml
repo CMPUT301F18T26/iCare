@@ -11,6 +11,6 @@
         android:id="@+id/search_problems_or_patients"
         android:title="@string/search_problems_or_records"/>
     <item
-        android:id="@+id/search"
+        android:id="@+id/patient_search"
         android:title="Search Patients"/>
 </menu>

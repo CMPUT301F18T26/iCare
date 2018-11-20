@@ -52,10 +52,11 @@
     <string name="record_title_colon">Record Title:</string>
     <string name="problem_name_colon">Problem Name:</string>
     <string name="comment">Comment</string>
-    <string name="search_patient_to_add">Search Patient To add</string>
+    <string name="search_patient_to_add">Search Patient to Add</string>
     <string name="comment_time_colon">Comment Time:</string>
     <string name="title_activity_add_edit_record">AddEditRecordActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="search">Search</string>
 </resources>

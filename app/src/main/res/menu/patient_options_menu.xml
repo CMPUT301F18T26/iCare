@@ -8,6 +8,6 @@
         android:id="@+id/contact_information"
         android:title="@string/contact_information" />
     <item
-        android:id="@+id/search"
+        android:id="@+id/patient_search"
         android:title="@string/search_problems_or_records" />
 </menu>

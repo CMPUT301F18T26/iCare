@@ -113,4 +113,9 @@ public class User {
         this.UID = uid;
     }
 
+    @Override
+    public String toString(){
+        return getUsername() + "\n" + getEmail() + "\n" + getPhone();
+    }
+
 }
