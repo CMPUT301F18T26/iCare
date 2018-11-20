@@ -230,22 +230,7 @@ public class SearchController {
             Get all patients (role == 0) with usernames containing the search term,
             and those that are not already assigned a care provider (careProviderUID == "")
              */
-            String query =
-                    "{\n" +
-                    "  \"query\": {\n" +
-                    "    \"bool\" : {\n" +
-                    "      \"must\": [\n" +
-                    "        {\"wildcard\": {\"username\": \"*" + username[0] + "*\"}},\n" +
-                    "        {\"match\": {\"role\": 0}}\n" +
-                    "      ],\n" +
-                    "      \"must_not\":{\n" +
-                    "        \"exists\": {\n" +
-                    "          \"field\": \"careProviderUID\"\n" +
-                    "        }\n" +
-                    "      }\n" +
-                    "    }\n" +
-                    "  }\n" +
-                    "}";
+            String query = "{ \"query\": { \"bool\": { \"must\": [{ \"match\": { \"username\": \"" + username[0] + "\" } }] } } }";
 
             Search search = new Search.Builder(query).addIndex(groupIndex).addType(userType).build();
 

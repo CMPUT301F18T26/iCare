@@ -4,12 +4,10 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.widget.ListView;
 
 import com.example.cmput301f18t26.icare.Activities.MainActivity;
 import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.Models.Patient;
-import com.example.cmput301f18t26.icare.Models.User;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -21,15 +19,11 @@ import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.TestCase.assertTrue;
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.hamcrest.Matchers.anything;
 
 
@@ -64,15 +58,14 @@ public class CareProviderIntentTest {
         // search for the test patient and add to this care provider
         onView(withId(R.id.patient_search)).perform(typeText(testPatientUsername));
         onView(withId(R.id.search_patients_button)).perform(click());
+        // Need it to sleep cause of network delay
         try {
-            Thread.sleep(6000);
+            Thread.sleep(1000);
         } catch (Exception e) {
             ;
         }
         onData(anything()).inAdapterView(withId(R.id.care_provider_patient_list_view))
                 .atPosition(0).perform(click());
-
-
 
         openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
 
@@ -91,17 +84,17 @@ public class CareProviderIntentTest {
     @Test
     public void testCareProviderViewPatient(){
         // grab the username of the user that we are going to try grabbing
-        String pUsername = onData(anything()).inAdapterView(withId(R.id.care_provider_patient_list_view))
+        String pUsername = onData(anything()).inAdapterView(withId(R.id.care_provider_patient_list))
                 .atPosition(0).toString();
 
         // navigate to view patient screen
-        onData(anything()).inAdapterView(withId(R.id.care_provider_patient_list_view))
+        onData(anything()).inAdapterView(withId(R.id.care_provider_patient_list))
                 .atPosition(0).perform(click());
-        openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
 
         // check to make sure that the proper username is being displayed (ie. the proper user
         // is being viewed
-        assertTrue(onView(withId(R.id.condition_view_patient_name)).toString().equals(pUsername));
+        onView(withId(R.id.condition_view_patient_name))
+                .check(matches(withText(testPatientUsername)));
 
         // when problems are added to ES, additional testing can be completed
     }
