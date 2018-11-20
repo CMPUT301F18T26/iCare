@@ -71,6 +71,9 @@ public class ViewProfileActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Reloads all the details of a given person after this activity resumes.
+     */
     @Override
     protected void onResume(){
         super.onResume();

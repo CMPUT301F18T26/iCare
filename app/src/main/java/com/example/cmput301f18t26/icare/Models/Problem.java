@@ -2,7 +2,6 @@ package com.example.cmput301f18t26.icare.Models;
 
 import android.util.Log;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.UUID;
@@ -72,10 +71,7 @@ public class Problem {
         return title + "\n" + strdate;
     }
 
-    /**
-     * Getters and Setters for Problem
-     * @return
-     */
+    // Getters and setters
     public String getUserUID(){
         return this.userUID;
     }
@@ -88,16 +84,20 @@ public class Problem {
     public String getDescription() { return this.description; }
     public void setDescription(String description) { this.description = description; }
 
+    /**
+     * Adds a new record to the list of records associated with this problem.
+     * @param rid
+     */
     public void addRecord(String rid){
 
     }
 
+    /**
+     * Deletes a record from the list of records maintained in this class and associated with this problem.
+     * @param rid
+     */
     public void removeRecord(String rid){
 
-    }
-
-    public Record getRecord(String rid){
-        return null;
     }
 
     public Record getRecord(int i) {
