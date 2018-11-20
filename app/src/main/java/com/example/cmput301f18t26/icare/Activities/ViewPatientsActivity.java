@@ -11,11 +11,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.Models.Patient;
-import com.example.cmput301f18t26.icare.Models.User;
 import com.example.cmput301f18t26.icare.R;
 
 public class ViewPatientsActivity extends AppCompatActivity {
@@ -85,7 +83,7 @@ public class ViewPatientsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Creating the menu options from the xml file
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.care_provider_options_menu, menu);
+        inflater.inflate(R.menu.patient_options_menu, menu);
         return true;
     }
 
