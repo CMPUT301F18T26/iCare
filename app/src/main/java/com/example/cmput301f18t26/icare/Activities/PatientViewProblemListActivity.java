@@ -35,12 +35,7 @@ public class PatientViewProblemListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patients_conditions_list);
 
-        /**
-         * This gets the necessary data to display the Problem ListView.
-         * I have not yet tried to see if returning to the ListView for the same
-         * user will populate the ListView correctly, because how the app is currently
-         * setup I need to create a new user each time.
-         */
+        //This gets the necessary data to display the Problem ListView
         dataController = DataController.getInstance();
         user = dataController.getCurrentUser();
         problemList = dataController.getProblems(user);
@@ -55,8 +50,8 @@ public class PatientViewProblemListActivity extends AppCompatActivity {
                 Object object = oldProblemList.getItemAtPosition(position);
                 Problem problem = Problem.class.cast(object);
                 String problemUID = problem.getUID();
+                dataController.saveUID(problemUID);
                 Intent i = new Intent(view.getContext(), PatientViewProblemActivity.class);
-                i.putExtra("problemUID", problemUID);
                 startActivity(i);
             }
         });

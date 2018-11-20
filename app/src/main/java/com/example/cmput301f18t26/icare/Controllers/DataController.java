@@ -42,6 +42,12 @@ public class DataController {
     private List<Problem> problemList = new ArrayList<>();
     private List<Record> recordList = new ArrayList<>();
     private List<Record> userRecordList = new ArrayList<>();
+
+    /**
+     * Used to change way I access ProblemUID's. This is a quick fix that will be changed before
+     * final submission. For more details, check out saveUID() in DataController.
+     */
+    private String savedUID;
     /**
      * We use a private constructor here to enforce Singleton Pattern
      *
@@ -277,6 +283,23 @@ public class DataController {
         } catch (Exception e) {
             Log.i("Error", "Failed to create the problem", e);
         }
+    }
+
+    /**
+     * Bad way of saving a UID temporarily to pass between activities. Will do a much better fix
+     * before final submission. Allows my Save() in AddEditProblemActivity to save the
+     * problem's UID temporarily, which allows me to access it in another activity.
+     * This kind of replaces i.getSerializableExtra when passing intents between activites.
+     * This wasn't updating for me properly so I made a quick fix, but for the final
+     * submission we will have ElasticSearch working and this will not be necessary.
+     * @param UID
+     */
+    public void saveUID(String UID){
+        this.savedUID = UID;
+    }
+
+    public String getSavedUID(){
+        return this.savedUID;
     }
 
     public void setCurrentProblem(String problemID) {

@@ -34,15 +34,14 @@ public class AddEditProblemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_or_edit_condition);
+        //Setting the TextViews to variables for later use
         titleEntry = (EditText) findViewById(R.id.condition_name);
         descriptionEntry = (EditText) findViewById(R.id.description);
         dateEntry = (DatePicker) findViewById(R.id.date_picker);
-
-
+        //Getting the instance of the Data controller to retrieve data from
         dataController = DataController.getInstance();
         user = dataController.getCurrentUser();
 
-        //Not sure if I need this
         Intent i = getIntent();
         problemUID = (String) i.getSerializableExtra("problemUID");
         setValues(problemUID);
@@ -64,11 +63,8 @@ public class AddEditProblemActivity extends AppCompatActivity {
      * @param
      */
     void setValues(String problemUID){
-       // int index = i.getIntExtra("Index", -1);
-
-
-        //If you are adding a new problem. Using Intents because that's how I did it for
-        //FeelsBook, but may have to change now that we are using DataController.
+        //If you are adding a new problem, the problemUID will be null so it sets the text boxes
+        //as hints.
         if (problemUID == null){
             //Title
             titleEntry.setHint("Enter Title");
@@ -84,17 +80,14 @@ public class AddEditProblemActivity extends AppCompatActivity {
             dateEntry.init(year, month, day, null);
         }
 
-        //If you are editing an old problem
+        //If you are editing an old problem, it retrieves the correct information and sets the
+        //text boxes accordingly.
         else{
             problem = dataController.getProblem(problemUID);
-           // final Problem problem = (Problem)i.getSerializableExtra("Problem");
-
             //Title
             titleEntry.setText(problem.getTitle());
-
             //Description
             descriptionEntry.setText(problem.getDescription());
-
             //Date
             Calendar c = problem.getDate();
             int year = c.get(Calendar.YEAR);
@@ -138,13 +131,15 @@ public class AddEditProblemActivity extends AppCompatActivity {
         else{
             Problem oldProblem = dataController.getProblem(problemUID);
             Problem newProblem = ProblemFactory.getProblem(title, date, description, userUID);
+            String newProblemUID = newProblem.getUID();
+            dataController.saveUID(newProblemUID);
             dataController.updateProblem(oldProblem, newProblem);
             Toast.makeText(getApplicationContext(),
                     "Problem edited successfully",
                     Toast.LENGTH_SHORT).show();
         }
 
-        //Returns to the ListView of the Problems.
+        //Returns to the previous screen
         finish();
     }
 }

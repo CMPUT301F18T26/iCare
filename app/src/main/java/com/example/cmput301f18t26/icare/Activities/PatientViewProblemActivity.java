@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.Record;
+import com.example.cmput301f18t26.icare.Models.User;
 import com.example.cmput301f18t26.icare.Models.UserRecord;
 import com.example.cmput301f18t26.icare.R;
 
@@ -34,6 +35,8 @@ public class PatientViewProblemActivity extends AppCompatActivity {
     private List<Record> userRecordList;
     private ListView oldRecordList;
     private ArrayAdapter<Record> adapter;
+    private User user;
+    private List<Problem> problemList;
 
 
 
@@ -41,24 +44,10 @@ public class PatientViewProblemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_condition_view);
-
-        //Setting the TextView's
+        //Setting the TextViews to variables for later use
         titleText = (TextView) findViewById(R.id.condition_view_name);
         descriptionText = (TextView) findViewById(R.id.condition_view_description);
         dateText = (TextView) findViewById(R.id.condition_view_date);
-
-        //Retrieving problemUID from previous page and then finding the correct Problem.
-        Intent i = getIntent();
-        problemUID = (String) i.getSerializableExtra("problemUID");
-        dataController = DataController.getInstance();
-        problem = dataController.getProblem(problemUID);
-
-        userRecordList = dataController.getUserRecords(problem);
-        oldRecordList = (ListView) findViewById(R.id.record_list_view);
-
-
-        //Set the values of the page
-        setValues(problem);
 
         //Deletes problem and returns you to the Problem List View
         Button deleteButton = (Button) findViewById(R.id.delete_record_button);
@@ -68,7 +57,6 @@ public class PatientViewProblemActivity extends AppCompatActivity {
                 delete(problem);
             }
         });
-
 
         //Takes you to Add/Edit Problem screen
         Button editButton = (Button) findViewById(R.id.edit_condition);
@@ -85,9 +73,7 @@ public class PatientViewProblemActivity extends AppCompatActivity {
         FloatingActionButton addButton = (FloatingActionButton) findViewById(R.id.add_new_record_button);
         addButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.d("tyler","this is before the addedit activity");
                 setResult(RESULT_OK);
-                Log.d("tyler","this is before the addedit activity");
                 Intent i = new Intent(v.getContext(), AddEditRecordActivity.class);
                 i.putExtra("problemUID", problemUID);
                 startActivity(i);
@@ -97,9 +83,20 @@ public class PatientViewProblemActivity extends AppCompatActivity {
 
     protected void onStart(){
         super.onStart();
-        Log.d("tyler,2","does this run when we exit other activity?");
+        //Finding the necessary data to populate the text boxes and the Record List
+        dataController = DataController.getInstance();
+        user = dataController.getCurrentUser();
+        problemList = dataController.getProblems(user);
+        problemUID = dataController.getSavedUID();
+        problem = dataController.getProblem(problemUID);
 
-        userRecordList = dataController.getUserRecords(problem); // not sure if this is correct - Tyler
+        userRecordList = dataController.getUserRecords(problem);
+        oldRecordList = (ListView) findViewById(R.id.record_list_view);
+
+        //Set the values of the text boxes
+        setValues(problem);
+
+        userRecordList = dataController.getUserRecords(problem);
         adapter = new ArrayAdapter<Record>(this, R.layout.userrecords_list_item,R.id.record_name,userRecordList);
         adapter.notifyDataSetChanged();
         oldRecordList.setAdapter(adapter);
