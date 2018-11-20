@@ -1,9 +1,5 @@
 package com.example.cmput301f18t26.icare.Models;
 
-import android.util.Log;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.UUID;
 
@@ -15,7 +11,7 @@ public class Problem {
     //UID stands for Unique ID
     private final String UID;
     private String title;
-    //private ArrayList<String> recordIds;
+//    private ArrayList<String> recordIds;
     private Calendar date;
     private String description;
     private String userUID;
@@ -29,7 +25,7 @@ public class Problem {
      */
     public Problem(String title, Calendar date, String description, String userUID) {
         this.UID = UUID.randomUUID().toString();
-        Log.d("tyler",this.UID);
+//        Log.d("tyler",this.UID);
         this.userUID = userUID;
         this.title = title;
         this.date = date;
@@ -72,10 +68,7 @@ public class Problem {
         return title + "\n" + strdate;
     }
 
-    /**
-     * Getters and Setters for Problem
-     * @return
-     */
+    // Getters and setters
     public String getUserUID(){
         return this.userUID;
     }
@@ -88,23 +81,27 @@ public class Problem {
     public String getDescription() { return this.description; }
     public void setDescription(String description) { this.description = description; }
 
-    public void addRecord(String rid){
-
-    }
-
-    public void removeRecord(String rid){
-
-    }
-
-    public Record getRecord(String rid){
-        return null;
-    }
-
-    public Record getRecord(int i) {
-        return null;
-    }
-
-    public ArrayList<Record> getRecords(){
-        return null;
-    }
+//    /**
+//     * Adds a new record to the list of records associated with this problem.
+//     * @param rid
+//     */
+//    public void addRecord(String rid){
+//
+//    }
+//
+//    /**
+//     * Deletes a record from the list of records maintained in this class and associated with this problem.
+//     * @param rid
+//     */
+//    public void removeRecord(String rid){
+//
+//    }
+//
+//    public Record getRecord(int i) {
+//        return null;
+//    }
+//
+//    public ArrayList<Record> getRecords(){
+//        return null;
+//    }
 }
