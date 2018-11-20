@@ -44,8 +44,8 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:text="@string/search"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:layout_editor_absoluteY="8dp"
-        tools:text="@string/search" />
+        tools:layout_editor_absoluteY="8dp" />
 
 </android.support.constraint.ConstraintLayout>

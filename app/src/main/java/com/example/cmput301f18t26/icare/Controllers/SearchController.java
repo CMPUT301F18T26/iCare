@@ -181,12 +181,12 @@ public class SearchController {
         }
     }
 
-    public static class GetPatients extends AsyncTask<String, Void, ArrayList<User>> {
+    public static class GetPatients extends AsyncTask<String, Void, ArrayList<Patient>> {
 
         @Override
-        protected ArrayList<User> doInBackground(String... careProviderUID) {
+        protected ArrayList<Patient> doInBackground(String... careProviderUID) {
 
-            ArrayList<User> patients = new ArrayList<>();
+            ArrayList<Patient> patients = new ArrayList<>();
 
             String query =
                     "{\n" +
@@ -204,7 +204,7 @@ public class SearchController {
             try {
                 SearchResult result = jestClient.execute(search);
                 if (result.isSucceeded()){
-                    List<User> patientList = result.getSourceAsObjectList(User.class);
+                    List<Patient> patientList = result.getSourceAsObjectList(Patient.class);
                     patients.addAll(patientList);
                 } else {
                     Log.e("Error", "Could not get the patient list for this care provider");

@@ -14,19 +14,20 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
+import com.example.cmput301f18t26.icare.Models.Patient;
 import com.example.cmput301f18t26.icare.Models.User;
 import com.example.cmput301f18t26.icare.R;
 
 public class ViewPatientsActivity extends AppCompatActivity {
 
     // For passing the position of the selected patient to the next activity
-    private static final String SELECTED_PATIENT = "com.example.cmput301f18t26.icare.Activities.SELECTED_PATIENT";
+    protected static final String SELECTED_PATIENT = "com.example.cmput301f18t26.icare.Activities.SELECTED_PATIENT";
 
     private FloatingActionButton addPatientButton;
 
     // Necessary patient list items
     private ListView patientList;
-    private ArrayAdapter<User> patientListAdapter;
+    private ArrayAdapter<Patient> patientListAdapter;
 
     // Singular data controller
     private DataController dataController;

@@ -38,7 +38,7 @@ public class DataController {
     private Gson gson = new Gson();
     private User currentUser = null;
     private String currentProblem; // NOT THE OBJECT THIS IS A STRING
-    private List<User> patientList = new ArrayList<>();
+    private List<Patient> patientList = new ArrayList<>();
     private List<Problem> problemList = new ArrayList<>();
     private List<Record> recordList = new ArrayList<>();
     private List<Record> userRecordList = new ArrayList<>();
@@ -291,9 +291,11 @@ public class DataController {
      * Fetch patients and then return the patient list
      * @return List<User>
      */
-    public List<User> getPatients(){
+    public List<Patient> getPatients(){
         //return all patients for a care provider
-        fetchPatients();
+        if (patientList.isEmpty()){
+            fetchPatients();
+        }
         return patientList;
     }
 
@@ -324,7 +326,7 @@ public class DataController {
      * Add the patient the locally held patient list
      * @param patient
      */
-    public void addPatienToPatientList(Patient patient){
+    public void addPatientToPatientList(Patient patient){
         patientList.add(patient);
     }
 
