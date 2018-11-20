@@ -2,20 +2,12 @@ package com.example.cmput301f18t26.icare.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
-import com.example.cmput301f18t26.icare.Controllers.UserFactory;
 import com.example.cmput301f18t26.icare.Models.User;
 import com.example.cmput301f18t26.icare.R;
 
@@ -74,19 +66,6 @@ public class ViewProfileActivity extends AppCompatActivity {
                     // Creating the intent to start EditProfileActivity and starting it
                     Intent newActivity = new Intent(ViewProfileActivity.this, EditProfileActivity.class);
                     startActivity(newActivity);
-                }
-            });
-        } else {
-            Button addPatient = findViewById(R.id.add_patient);
-            addPatient.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    // TODO Add to list of patients
-                    // Showing a toast for status
-                    Toast.makeText(getApplicationContext(),
-                            "Not yet implemented",
-                            Toast.LENGTH_SHORT).show();
-                    // Finishing this activity
-                    finish();
                 }
             });
         }
