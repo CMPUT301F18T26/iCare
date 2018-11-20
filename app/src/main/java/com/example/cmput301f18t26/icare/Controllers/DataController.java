@@ -2,6 +2,8 @@ package com.example.cmput301f18t26.icare.Controllers;
 
 import android.util.Log;
 
+import com.example.cmput301f18t26.icare.Models.CareProvider;
+import com.example.cmput301f18t26.icare.Models.Patient;
 import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.Record;
 import com.example.cmput301f18t26.icare.Models.User;
