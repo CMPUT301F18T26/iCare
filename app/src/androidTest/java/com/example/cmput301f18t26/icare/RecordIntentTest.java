@@ -12,6 +12,7 @@ import org.junit.Test;
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -56,9 +57,10 @@ public class RecordIntentTest {
         onView(withId(R.id.record_title)).perform(typeText("fake"));
         onView(withId(R.id.record_comment)).perform(typeText("123"));
 
+        onView(withId(R.id.record_comment)).perform(closeSoftKeyboard());
         //Save values
-        //onView(withId(R.id.userRecord_save_button)).perform(click());
-
+        onView(withId(R.id.userRecord_save_button)).perform(click());
+        
     }
 
 //    @Test
