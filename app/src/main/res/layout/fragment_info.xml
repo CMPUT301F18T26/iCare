@@ -84,7 +84,7 @@
 
     <EditText
         android:id="@+id/record_comment"
-        android:maxLength="30"
+        android:maxLength="300"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"

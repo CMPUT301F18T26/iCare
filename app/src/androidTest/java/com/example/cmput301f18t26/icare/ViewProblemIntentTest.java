@@ -55,7 +55,7 @@ public class ViewProblemIntentTest {
         //Go to view problem
         //onView(withId(R.id.patient_conditions_list_view)).perform(click());
         onData(anything()).inAdapterView(withId(R.id.patient_conditions_list_view)).atPosition(0).perform(click());
-
+        //onData(withItemContent("item: 0")).perform(click());
         //Check if displayed problem matches inputted problem
         onView(withId(R.id.condition_view_name))
                 .check(matches(withText("Flu")));
