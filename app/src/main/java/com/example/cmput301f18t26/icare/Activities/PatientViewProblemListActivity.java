@@ -80,6 +80,17 @@ public class PatientViewProblemListActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume(){
+        super.onResume();
+        problemList = dataController.getProblems(user);
+        adapter = new ArrayAdapter<Problem>(this,
+                R.layout.problems_list_item,R.id.condition_name,
+                problemList);
+        adapter.notifyDataSetChanged();
+        oldProblemList.setAdapter(adapter);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Creating the menu options from the xml file
         MenuInflater inflater = getMenuInflater();
