@@ -38,6 +38,7 @@
         <activity android:name=".Activities.EditProfileActivity" />
         <activity android:name=".Activities.ViewPatientsActivity" />
         <activity android:name=".Activities.ViewPatientProblemsActivity" />
+        <activity android:name=".Activities.SearchAddPatientsActivity" />
     </application>
 
 </manifest>

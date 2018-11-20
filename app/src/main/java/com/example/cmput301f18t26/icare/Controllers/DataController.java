@@ -81,7 +81,7 @@ public class DataController {
      */
     public void saveUser(User user) {
         try {
-            /**
+            /*
              * Our response is a JestResult object after calling get(), we retrieve a JsonObject
              * from the JestResult and return the users's uid (equivalent to ElasticSearch's _id)
              */
@@ -94,12 +94,19 @@ public class DataController {
         }
     }
 
+    /**
+     * Use the username and password to grab the appropriate user from ES and store
+     * as the current user
+     * @param username
+     * @param password
+     */
     public void logIn(String username, String password){
         try {
             JestResult result = new SearchController.SignInUser().execute(username, password).get();
-
-             // Unpack the user using the JestResult. Easier than unpacking the json object
-             // manually. To do this, User had to be updated to not be an Abstract class.
+             /*
+             Unpack the user using the JestResult. Easier than unpacking the json object
+             manually. To allow this, User had to be updated to not be an Abstract class.
+             */
 
             User fetchedCurrentUser = result.getSourceAsObject(User.class);
 
@@ -280,6 +287,10 @@ public class DataController {
         return this.currentProblem;
     }
 
+    /**
+     * Fetch patients and then return the patient list
+     * @return List<User>
+     */
     public List<User> getPatients(){
         //return all patients for a care provider
         fetchPatients();
@@ -295,6 +306,26 @@ public class DataController {
         } catch (Exception e) {
              Log.i("Error", "Could not get the list of patients associated to this care provider");
         }
+    }
+
+    /**
+     * Search the patients by username and return the top hits as an ArrayList<User>
+     */
+    public List<Patient> searchPatients(String username){
+        try {
+            return new SearchController.SearchPatients().execute(username).get();
+        } catch (Exception e) {
+            Log.i("Error", "Problem getting patients with username: " + username);
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * Add the patient the locally held patient list
+     * @param patient
+     */
+    public void addPatienToPatientList(Patient patient){
+        patientList.add(patient);
     }
 
     /**

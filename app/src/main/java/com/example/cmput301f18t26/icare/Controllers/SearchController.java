@@ -188,8 +188,16 @@ public class SearchController {
 
             ArrayList<User> patients = new ArrayList<>();
 
-            String query = "{ \"query\": { \"term\" : { \"careProvider\" : \""
-                    + careProviderUID[0] + "\" } } }";
+            String query =
+                    "{\n" +
+                    "  \"query\": {\n" +
+                    "    \"bool\": {\n" +
+                    "      \"must\": [\n" +
+                    "        { \"match\": { \"careProviderUID\": \"" + careProviderUID[0] + "\"}}\n" +
+                    "      ]\n" +
+                    "    }\n" +
+                    "  }\n" +
+                    "}";
 
             Search search = new Search.Builder(query).addIndex(groupIndex).addType(userType).build();
 
@@ -197,6 +205,53 @@ public class SearchController {
                 SearchResult result = jestClient.execute(search);
                 if (result.isSucceeded()){
                     List<User> patientList = result.getSourceAsObjectList(User.class);
+                    patients.addAll(patientList);
+                } else {
+                    Log.e("Error", "Could not get the patient list for this care provider");
+                }
+
+            } catch (Exception e) {
+                Log.i("Error", "Something went wrong communicating with the ElasticSearch server");
+            }
+
+            return patients;
+        }
+    }
+
+    public static class SearchPatients extends AsyncTask<String, Void, ArrayList<Patient>> {
+
+        @Override
+        protected ArrayList<Patient> doInBackground(String... username) {
+
+            ArrayList<Patient> patients = new ArrayList<>();
+
+            /*
+            Get all patients (role == 0) with usernames containing the search term,
+            and those that are not already assigned a care provider (careProviderUID == "")
+             */
+            String query =
+                    "{\n" +
+                    "  \"query\": {\n" +
+                    "    \"bool\" : {\n" +
+                    "      \"must\": [\n" +
+                    "        {\"wildcard\": {\"username\": \"*" + username[0] + "*\"}},\n" +
+                    "        {\"match\": {\"role\": 0}}\n" +
+                    "      ],\n" +
+                    "      \"must_not\":{\n" +
+                    "        \"exists\": {\n" +
+                    "          \"field\": \"careProviderUID\"\n" +
+                    "        }\n" +
+                    "      }\n" +
+                    "    }\n" +
+                    "  }\n" +
+                    "}";
+
+            Search search = new Search.Builder(query).addIndex(groupIndex).addType(userType).build();
+
+            try {
+                SearchResult result = jestClient.execute(search);
+                if (result.isSucceeded()) {
+                    List<Patient> patientList = result.getSourceAsObjectList(Patient.class);
                     patients.addAll(patientList);
                 } else {
                     Log.e("Error", "Could not get the patient list for this care provider");

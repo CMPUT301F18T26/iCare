@@ -44,7 +44,8 @@ public class ViewPatientsActivity extends AppCompatActivity {
         // initialize patient list view items
         patientListAdapter = new ArrayAdapter<>(
                 this,
-                R.layout.activity_care_provider_patients_list_item,
+                R.layout.activity_add_patient_seach_and_list_item,
+                R.id.patient_name,
                 dataController.getPatients()
         );
         patientList = findViewById(R.id.care_provider_patient_list);
@@ -62,14 +63,22 @@ public class ViewPatientsActivity extends AppCompatActivity {
             }
         });
 
+        // Add action for clicking on a add patient
         addPatientButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),
-                        "GO TO ADD NEW PATIENT (WIP)",
-                        Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(addPatientButton.getContext(), SearchAddPatientsActivity.class);
+                startActivity(intent);
             }
         });
     }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        patientListAdapter.notifyDataSetChanged();
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -16,6 +16,14 @@ public class Patient extends User {
         super(username, password, email, phone, role);
     }
 
+    public String getCareProviderUID(){
+        return this.careProviderUID;
+    }
+
+    public void setCareProviderUID(String careProviderUID){
+        this.careProviderUID = careProviderUID;
+    }
+
     // Editing the list of problems
     // Adding a new problem
     public void addProblem(String problemId){
