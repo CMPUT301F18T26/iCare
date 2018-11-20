@@ -71,6 +71,7 @@ public class SearchAddPatientsActivity extends AppCompatActivity{
                 Patient patient = patients.get(position);
                 patient.setCareProviderUID(dataController.getCurrentUser().getUID());
                 dataController.updateElasticSearchForNewUserInfo(patient);
+                dataController.addPatienToPatientList(patient);
 
                 Toast.makeText(getApplicationContext(),
                         "Patient Added!",

@@ -76,7 +76,6 @@ public class ViewPatientsActivity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
 
-        dataController.getPatients();
         patientListAdapter.notifyDataSetChanged();
     }
 

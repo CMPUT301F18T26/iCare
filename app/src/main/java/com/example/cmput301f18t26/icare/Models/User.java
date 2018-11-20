@@ -115,7 +115,7 @@ public class User {
 
     @Override
     public String toString(){
-        return getUsername() + "\n" + getEmail() + "\n" + getPhone();
+        return getUsername();
     }
 
 }

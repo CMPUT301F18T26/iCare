@@ -193,7 +193,7 @@ public class SearchController {
                     "  \"query\": {\n" +
                     "    \"bool\": {\n" +
                     "      \"must\": [\n" +
-                    "        { \"match\": { \"password\": \"" + careProviderUID[0] + "\"}}\n" +
+                    "        { \"match\": { \"careProviderUID\": \"" + careProviderUID[0] + "\"}}\n" +
                     "      ]\n" +
                     "    }\n" +
                     "  }\n" +

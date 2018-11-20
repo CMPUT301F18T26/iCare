@@ -321,6 +321,14 @@ public class DataController {
     }
 
     /**
+     * Add the patient the locally held patient list
+     * @param patient
+     */
+    public void addPatienToPatientList(Patient patient){
+        patientList.add(patient);
+    }
+
+    /**
      * Fetches the information of a user with the matching uid.
      * @param uid
      */
