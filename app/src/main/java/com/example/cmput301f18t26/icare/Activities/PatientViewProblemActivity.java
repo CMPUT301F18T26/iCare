@@ -101,6 +101,22 @@ public class PatientViewProblemActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
         oldRecordList.setAdapter(adapter);
     }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        //Finding the necessary data to populate the text boxes and the Record List
+        problemList = dataController.getProblems(user);
+        problemUID = dataController.getSavedUID();
+        problem = dataController.getProblem(problemUID);
+
+        //Set the values of the text boxes
+        setValues(problem);
+
+        userRecordList = dataController.getUserRecords(problem);
+        adapter = new ArrayAdapter<Record>(this, R.layout.userrecords_list_item,R.id.record_name,userRecordList);
+        adapter.notifyDataSetChanged();
+        oldRecordList.setAdapter(adapter);
+    }
 
     void setValues(Problem problem) {
         //Title
