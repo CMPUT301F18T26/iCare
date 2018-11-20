@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.cmput301f18t26.icare.Controllers.SearchController;
 import com.example.cmput301f18t26.icare.R;
 
 /**
@@ -17,6 +18,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Instantiate Jest
+        SearchController.setup();
     }
 
     // Callback for the login button, go to login page

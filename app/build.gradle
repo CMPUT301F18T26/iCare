@@ -21,6 +21,8 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+
+    useLibrary 'org.apache.http.legacy'
 }
 
 dependencies {

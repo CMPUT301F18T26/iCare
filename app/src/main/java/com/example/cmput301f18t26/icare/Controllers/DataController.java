@@ -50,13 +50,8 @@ public class DataController {
     private String savedUID;
     /**
      * We use a private constructor here to enforce Singleton Pattern
-     *
-     * When our lone instance of DataController is lazy loaded, lets setup our SearchController
-     * and instantiate its Jest Client which is also lazy loaded.
      */
-    private DataController() {
-        SearchController.setup();
-    }
+    private DataController() { }
 
     /**
      * Below are the public methods that should be used for interacting with data controller
