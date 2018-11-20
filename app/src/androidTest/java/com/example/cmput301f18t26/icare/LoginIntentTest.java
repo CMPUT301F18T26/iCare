@@ -48,8 +48,8 @@ public class LoginIntentTest {
     public void testWrongLogin(){
         // Logging in
         onView(withId(R.id.login_button)).perform(click());
-        onView(withId(R.id.username_entry)).perform(typeText("fakesadfkljdsalkjdfklslkdsaf"));
-        onView(withId(R.id.password_entry)).perform(typeText("12saefjsadlkfdsklfdjsakl3"));
+        onView(withId(R.id.username_entry)).perform(typeText("asdfjlkjk"));
+        onView(withId(R.id.password_entry)).perform(typeText("asdfasdf"));
         onView(withId(R.id.login_button)).perform(click());
         // SHould not have gone through, login button should still be there
         onView(withId(R.id.login_button))

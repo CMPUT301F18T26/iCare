@@ -121,6 +121,7 @@ public class DataController {
             }
 
         } catch (Exception e) {
+            currentUser = null;
             Log.i("Error", "Problem talking to ES instance");
         }
     }
