@@ -103,11 +103,11 @@ public class DataController {
     public void logIn(String username, String password){
         try {
             JestResult result = new SearchController.SignInUser().execute(username, password).get();
-
              /*
              Unpack the user using the JestResult. Easier than unpacking the json object
              manually. To allow this, User had to be updated to not be an Abstract class.
              */
+
             User fetchedCurrentUser = result.getSourceAsObject(User.class);
 
             // check the role and unpack to the proper object so that no data is lost
