@@ -117,6 +117,7 @@
         android:orientation="horizontal">
 
         <RadioButton
+            android:id="@+id/role_patient"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
@@ -124,6 +125,7 @@
             android:text="@string/patient" />
 
         <RadioButton
+            android:id="@+id/role_care_provider"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
