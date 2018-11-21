@@ -48,6 +48,7 @@ public class PatientViewProblemListActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Object object = oldProblemList.getItemAtPosition(position);
                 Problem problem = Problem.class.cast(object);
+                dataController.setSelectedProblem(problem);
                 Intent i = new Intent(view.getContext(), PatientViewProblemActivity.class);
                 startActivity(i);
             }
@@ -98,7 +99,7 @@ public class PatientViewProblemListActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
-        // Getting the id of the menu item selected
+        // Set the currentProblem as the one we've selected
         int id = item.getItemId();
         // Executing code depending on which item is selected
         switch (id){

@@ -49,10 +49,17 @@ public class DataController {
     private Problem selectedProblem = null; // set when a problem is selected from a list
 
     /**
-     * Data structure for storing any Users seen (Patients associated with a Care Provider)
+     * Data structure for storing any Patients seen associated with a Care Provider
      * Key = User.UID : Val = ArrayList<User>
      */
     private List<Patient> patientStorage = new ArrayList<>();
+
+    /**
+     * Data structure for ALL patients, don't have to be associated with a Care Provider
+     * This is meant for SearchAddPatientsActivity
+     * Key = User.UID : Val = ArrayList<User>
+     */
+    private List<Patient> allPatientStorage = new ArrayList<>();
 
     /**
      * Data structure for storing any Problems seen (Problems associated with a User)
@@ -199,9 +206,13 @@ public class DataController {
         List<Patient> result = new ArrayList<>();
         // If we have a internet connection then fetch from ElasticSearch first
         if (MainActivity.checkConnection()) {
-            getPatients();
+            try {
+                allPatientStorage = new SearchController.SearchPatients().execute().get();
+            } catch (Exception e) {
+                Log.i("Error", "Could not get the list of patients associated to this care provider");
+            }
         }
-        for (Patient patient : patientStorage) {
+        for (Patient patient : allPatientStorage) {
             if (patient.getUsername().contains(username)) {
                 result.add(patient);
             }

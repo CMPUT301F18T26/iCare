@@ -28,7 +28,7 @@ import java.util.List;
 public class PatientViewProblemActivity extends AppCompatActivity {
 
     private DataController dataController;
-    private Problem problem;
+    private Problem selectedProblem;
     private TextView titleText;
     private TextView descriptionText;
     private TextView dateText;
@@ -50,7 +50,8 @@ public class PatientViewProblemActivity extends AppCompatActivity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 setResult(RESULT_OK);
-                delete(problem);
+                dataController.deleteProblem(selectedProblem);
+                finish();
             }
         });
 
@@ -85,15 +86,15 @@ public class PatientViewProblemActivity extends AppCompatActivity {
         super.onStart();
         //Finding the necessary data to populate the text boxes and the Record List
         dataController = DataController.getInstance();
-        problem = dataController.getSelectedProblem();
+        selectedProblem = dataController.getSelectedProblem();
 
-        userRecordList = dataController.getUserRecords(problem);
+        userRecordList = dataController.getUserRecords(selectedProblem);
         oldRecordList = (ListView) findViewById(R.id.record_list_view);
 
         //Set the values of the text boxes
-        setValues(problem);
+        setValues(selectedProblem);
 
-        userRecordList = dataController.getUserRecords(problem);
+        userRecordList = dataController.getUserRecords(selectedProblem);
         adapter = new ArrayAdapter<>(this, R.layout.userrecords_list_item,R.id.record_name,userRecordList);
         adapter.notifyDataSetChanged();
         oldRecordList.setAdapter(adapter);
@@ -103,12 +104,12 @@ public class PatientViewProblemActivity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
         //Finding the necessary data to populate the text boxes and the Record List
-        problem = dataController.getSelectedProblem();
+        selectedProblem = dataController.getSelectedProblem();
 
         //Set the values of the text boxes
-        setValues(problem);
+        setValues(selectedProblem);
 
-        userRecordList = dataController.getUserRecords(problem);
+        userRecordList = dataController.getUserRecords(selectedProblem);
         adapter = new ArrayAdapter<>(this, R.layout.userrecords_list_item,R.id.record_name,userRecordList);
         adapter.notifyDataSetChanged();
         oldRecordList.setAdapter(adapter);
@@ -127,11 +128,5 @@ public class PatientViewProblemActivity extends AppCompatActivity {
         int day = c.get(Calendar.DAY_OF_MONTH);
         String strdate = day + "/" + month + "/" + year;
         dateText.setText(strdate);
-    }
-
-    void delete(Problem problem){
-        dataController.deleteProblem(problem);
-        Intent i = new Intent(this, PatientViewProblemListActivity.class);
-        startActivity(i);
     }
 }
