@@ -39,7 +39,19 @@ public class LoginActivity extends AppCompatActivity {
         String username = usernameEntry.getText().toString().trim();
         String password = passwordEntry.getText().toString().trim();
 
-        /*
+        /**
+         * Check if we have an internet connection
+         *
+         * Login and Signup are NOT supposed to work if you do not have an internet connection
+         */
+        if (!MainActivity.checkConnection()) {
+            Toast.makeText(getApplicationContext(),
+                    "Error: No internet connection, login requires internet",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        /**
          * Lets check the old fashioned way whether our inputs are correct, they are simple
          * enough to not have to delegate to an object or controller
          */
@@ -51,19 +63,14 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         User user = null;
-
-        /*
-         * Check to see if this is a valid user by grabbing all users from our DataController
-         * and looking for matching credentials
-         *
-         * Update - Now using ES to perform the user searching
+        /**
+         * Check DataController to see if User is valid
          */
         try {
             // grab the user from ES
-            dataController.logIn(username, password);
+            user = dataController.login(username, password);
 
-            user = dataController.getCurrentUser();
-
+            // go to either view Patient or view Problem screen depending on type of user logged in
             if (user.getRole() == 0) {
                 Intent intent = new Intent(this, PatientViewProblemListActivity.class);
                 startActivity(intent);

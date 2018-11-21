@@ -12,7 +12,7 @@ public class Record {
     private String date;
     private String comment;
     //Every record belongs to a problem
-    private String problemId;
+    private String problemUID;
 
     /**
      * The initializer, takes the title, date, comment and problemId and creates an object.
@@ -20,13 +20,13 @@ public class Record {
      * @param title
      * @param date
      * @param comment
-     * @param problemId
+     * @param problemUID
      */
-    public Record(String title, String date, String comment, String problemId){
+    public Record(String title, String date, String comment, String problemUID){
         this.title = title;
         this.date = date;
         this.comment = comment;
-        this.problemId = problemId;
+        this.problemUID = problemUID;
     }
 
     // Getters and setter
@@ -34,9 +34,9 @@ public class Record {
 
     public void setId(String id) { this.id = id; }
 
-    public String getProblemId() { return this.problemId; }
+    public String getProblemUID() { return this.problemUID; }
 
-    public void setProblemId(String problemId) { this.problemId = problemId; }
+    public void setProblemId(String problemId) { this.problemUID = problemId; }
 
     public String getTitle(){return this.title;}
 

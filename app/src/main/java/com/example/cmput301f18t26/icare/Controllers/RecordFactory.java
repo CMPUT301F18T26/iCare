@@ -18,22 +18,22 @@ public class RecordFactory {
      * @param title
      * @param date
      * @param comment
-     * @param problemID
+     * @param problemUID
      * @param location
      * @param bodyLocation
      * @param photos
      * @return
      */
-    public static Record getRecord(String title, String date, String comment, String problemID, Location location, BodyLocation bodyLocation, ArrayList<String> photos){
+    public static Record getRecord(String title, String date, String comment, String problemUID, Location location, BodyLocation bodyLocation, ArrayList<String> photos){
         Record record;
         // Depending on what distinguishes a UserRecord from a Record or other types of record,
         // use case statements to determine what type of Record to construct
         // always just return a record to keep code polymorphic
         if (true) {
-            record = new UserRecord(title, date, comment, problemID,null, null,null);
+            record = new UserRecord(title, date, comment, problemUID,null, null,null);
         } else {
             // same thing as above but lets pretend we could also make a record
-            record = new Record(title, date, comment, problemID);
+            record = new Record(title, date, comment, problemUID);
         }
         return record;
     }

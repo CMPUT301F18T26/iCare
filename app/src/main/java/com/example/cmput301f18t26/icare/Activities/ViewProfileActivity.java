@@ -42,7 +42,7 @@ public class ViewProfileActivity extends AppCompatActivity {
             setContentView(R.layout.activity_view_your_profile);
         } else {
             // Setting the user to display user after getting info from elastic search
-            this.userToDisplay = dataController.fetchUserInformation(intent.getExtras().getString("user_id"));
+            this.userToDisplay = User.fetchUserInformation(intent.getExtras().getString("user_id"));
             // Launching the layout
             setContentView(R.layout.activity_care_provider_view_patient_profile);
         }

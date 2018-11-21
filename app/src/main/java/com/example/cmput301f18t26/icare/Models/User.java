@@ -1,6 +1,12 @@
 package com.example.cmput301f18t26.icare.Models;
 
+import android.util.Log;
+
+import com.example.cmput301f18t26.icare.Controllers.SearchController;
+
 import java.util.UUID;
+
+import io.searchbox.client.JestResult;
 
 /**
  * Our user class could be a Patient or CareProvider
@@ -61,6 +67,55 @@ public class User {
         } else {
             return true;
         }
+    }
+
+    /**
+     * This method is used to check if a username exists before signup.
+     * @return
+     */
+    public boolean usernameTaken(){
+        try{
+            JestResult result = new SearchController.CheckIfUserNameExists().execute(username).get();
+            User returnUser = result.getSourceAsObject(User.class);
+            // Here we check if we can fetch the UID, if not, then we get a NullPointerException, proving user does not exist.
+            Log.i("Error", returnUser.getUID());
+        } catch (NullPointerException e){
+            // If a null pointer exception was thrown, return false as username is not taken
+            return false;
+        } catch (Exception e) {
+            Log.i("Error", e.getMessage());
+        }
+        // Assume its taken if NullPointerException was not caught
+        return true;
+    }
+
+    /**
+     * This method is used to change the email and phone of a user on ElasticSearch
+     */
+    public void updateUserInfo(){
+        try {
+            // Calling SearchController to change the user
+            JestResult result = new SearchController.UpdateInformationForUser().execute(this).get();
+        } catch (Exception e) {
+            Log.i("Error", e.getMessage());
+        }
+    }
+
+    /**
+     * Fetches the information of a user with the matching uid.
+     * @param uid
+     */
+    public static User fetchUserInformation(String uid){
+        User returnUser = null;
+        try {
+            // Getting the information on the user
+            JestResult result = new SearchController.GetUserInfoUsingUId().execute(uid).get();
+            // Now returning it as a User object
+            returnUser = result.getSourceAsObject(User.class);
+        } catch (Exception e) {
+            Log.i("Error", e.getMessage());
+        }
+        return returnUser;
     }
 
     // Getter and setters

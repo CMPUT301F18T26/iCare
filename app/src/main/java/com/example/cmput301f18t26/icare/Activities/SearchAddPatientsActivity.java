@@ -58,7 +58,7 @@ public class SearchAddPatientsActivity extends AppCompatActivity{
                  not assigned a doctor
                  */
                 patients.clear();
-                patients.addAll(dataController.searchPatients(patientSearch.getText().toString()));
+                patients.addAll(dataController.getPatients(patientSearch.getText().toString()));
                 patientListAdapter.notifyDataSetChanged();
             }
         });
@@ -71,8 +71,7 @@ public class SearchAddPatientsActivity extends AppCompatActivity{
                  */
                 Patient patient = patients.get(position);
                 patient.setCareProviderUID(dataController.getCurrentUser().getUID());
-                dataController.updateElasticSearchForNewUserInfo(patient);
-                dataController.addPatientToPatientList(patient);
+                dataController.addPatient(patient);
 
                 Toast.makeText(getApplicationContext(),
                         "Patient Added!",

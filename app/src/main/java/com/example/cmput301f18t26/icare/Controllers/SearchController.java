@@ -219,17 +219,29 @@ public class SearchController {
         }
     }
 
-    public static class SearchPatients extends AsyncTask<String, Void, ArrayList<Patient>> {
+    /**
+     * Sorry to whoever put in this hard work but we are deprecating this </3 as we will no longer
+     * use ElasticSearch queries to query for anything EXCEPT for Login from now on.
+     *
+     * We will be searching local DataStructures within DataController instead.
+     *
+     * The reasons for this are:
+     * 1. if DataController is coupled to SearchController then we cannot effectively unit test
+     * our queries as they depend on network and Database state.
+     * 2. If we rely on ElasticSearch for queries then we cannot search for any data if not
+     * connected to the internet EVEN IF that data is present locally within DataController
+     */
+/*    public static class SearchPatients extends AsyncTask<String, Void, ArrayList<Patient>> {
 
         @Override
         protected ArrayList<Patient> doInBackground(String... username) {
 
             ArrayList<Patient> patients = new ArrayList<>();
 
-            /*
+            *//*
             Get all patients (role == 0) with usernames containing the search term,
             and those that are not already assigned a care provider (careProviderUID == "")
-             */
+             *//*
             String query = "{ \"query\": { \"bool\": { \"must\": [{ \"match\": { \"username\": \"" + username[0] + "\" } }] } } }";
 
             Search search = new Search.Builder(query).addIndex(groupIndex).addType(userType).build();
@@ -249,5 +261,5 @@ public class SearchController {
 
             return patients;
         }
-    }
+    }*/
 }
