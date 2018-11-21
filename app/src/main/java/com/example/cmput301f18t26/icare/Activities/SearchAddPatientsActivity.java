@@ -57,6 +57,7 @@ public class SearchAddPatientsActivity extends AppCompatActivity{
                  Do not pass a UID -- this will get all patients that are currently
                  not assigned a doctor
                  */
+                patients.clear();
                 patients.addAll(dataController.searchPatients(patientSearch.getText().toString()));
                 patientListAdapter.notifyDataSetChanged();
             }
