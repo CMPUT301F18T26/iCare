@@ -46,7 +46,20 @@ public class SignupActivity extends AppCompatActivity {
         String password = passwordEntry.getText().toString().trim();
         String phone = phoneEntry.getText().toString().trim();
         String email = emailEntry.getText().toString().trim();
-        /*
+
+        /**
+         * Check if we have an internet connection
+         *
+         * Login and Signup are NOT supposed to work if you do not have an internet connection
+         */
+        if (!MainActivity.checkConnection()) {
+            Toast.makeText(getApplicationContext(),
+                    "Error: No internet connection, signup requires internet",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        /**
          * Grab selected button from radio group and use that buttons index to fetch the role
          *
          * THIS IS A HUGE HACK, THIS COULD BE REFACTORED BY USING ENUMS PROPERLY BUT WE WILL SAVE
@@ -56,7 +69,7 @@ public class SignupActivity extends AppCompatActivity {
         roleButton = findViewById(roleEntrySelectedId);
         int role = roleSelect.indexOfChild(roleButton);
 
-        /*
+        /**
          * Lets attempt to construct a user out of the data we are provided from the signup page.
          *
          * Users are a great place to use the Factory pattern as we have a User superclass with
@@ -64,7 +77,7 @@ public class SignupActivity extends AppCompatActivity {
          */
         User user = UserFactory.getUser(username, password, email, phone, role);
 
-        /*
+        /**
          * Another great pattern to use here is to defer validation checks to the User class/object
          * itself, refer to the user class to see how this is done. Notice we will not need to
          * review the inputs line by line here to detect errors, or anywhere else.
@@ -77,23 +90,21 @@ public class SignupActivity extends AppCompatActivity {
                     "Error: Invalid user data",
                     Toast.LENGTH_SHORT).show();
             return;
-        }
-
-        /*
-         * Given that our user is created properly and there are no validation errors,
-         * let's save it to our DataController cache
-         */
-        if (!dataController.checkIfUsernameExists(username)) {
-            dataController.addUser(user);
-            Toast.makeText(getApplicationContext(),
-                    "User created successfully",
-                    Toast.LENGTH_SHORT).show();
-        } else {
+        } else if (user.usernameTaken()) {
             Toast.makeText(getApplicationContext(),
                     "Error: Username is taken, choose another.",
                     Toast.LENGTH_SHORT).show();
             return;
         }
+
+        /**
+         * Given that our user is created properly and there are no validation errors,
+         * let's save it to our DataController cache
+         */
+        dataController.signup(user);
+        Toast.makeText(getApplicationContext(),
+                "User created successfully",
+                Toast.LENGTH_SHORT).show();
         finish();
     }
 }

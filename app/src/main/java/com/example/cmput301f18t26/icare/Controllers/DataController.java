@@ -1,7 +1,11 @@
 package com.example.cmput301f18t26.icare.Controllers;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
+import com.example.cmput301f18t26.icare.Activities.MainActivity;
 import com.example.cmput301f18t26.icare.Models.CareProvider;
 import com.example.cmput301f18t26.icare.Models.Patient;
 import com.example.cmput301f18t26.icare.Models.Problem;
@@ -12,9 +16,13 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.searchbox.client.JestResult;
+
+import static android.support.v4.content.ContextCompat.getSystemService;
 
 /**
  * DataController is used for caching and maintaining all persistent data associated with our app.
@@ -30,32 +38,55 @@ import io.searchbox.client.JestResult;
  */
 public class DataController {
 
+    // ------------------------ DO NOT TOUCH THE FOLLOWING -----------------------------------------
+
     /**
-     * Do not touch the following, they enforce our design method and declare private fields
+     * Private fields that represent certain application states such as current logged in User,
+     * our lone DataController singleton, and DataStructures for caching ElasticSearch data
      */
     private static DataController onlyInstance = null; // the lone instance of our DataController
+    private User loggedInUser = null; // set when a user logs in
+    private Problem selectedProblem = null; // set when a problem is selected from a list
 
-    private Gson gson = new Gson();
-    private User currentUser = null;
-    private String currentProblem; // NOT THE OBJECT THIS IS A STRING
-    private List<Patient> patientList = new ArrayList<>();
-    private List<Problem> problemList = new ArrayList<>();
-    private List<Record> recordList = new ArrayList<>();
+    /**
+     * Data structure for storing any Patients seen associated with a Care Provider
+     * Key = User.UID : Val = ArrayList<User>
+     */
+    private List<Patient> patientStorage = new ArrayList<>();
+
+    /**
+     * Data structure for ALL patients, don't have to be associated with a Care Provider
+     * This is meant for SearchAddPatientsActivity
+     * Key = User.UID : Val = ArrayList<User>
+     */
+    private List<Patient> allPatientStorage = new ArrayList<>();
+
+    /**
+     * Data structure for storing any Problems seen (Problems associated with a User)
+     * We use a map here with user ID's as the key to grab Problems in constant runtime
+     * Key = User.UID : Val = ArrayList<Problem>
+     */
+    private Map<String, List<Problem>> problemStorage = new HashMap<>();
+
+    /**
+     * Data structure for storing any Records seen (Records associated with a Problem)
+     * We use a map here with problem ID's as the key to grab Records in constant runtime
+     * Key = Problem.UID : Val = ArrayList<Record>
+     */
+    private Map<String, List<Record>> recordStorage = new HashMap<>();
+
+    /**
+     * I dont understand what this is for and how its different than a recordList so someone
+     * please port this to the new pattern.
+     */
     private List<Record> userRecordList = new ArrayList<>();
 
     /**
-     * Used to change way I access ProblemUID's. This is a quick fix that will be changed before
-     * final submission. For more details, check out saveUID() in DataController.
-     */
-    private String savedUID;
-    /**
-     * We use a private constructor here to enforce Singleton Pattern
+     * Private constructor here to enforce Singleton Pattern
      */
     private DataController() { }
 
-    /*
-     * Below are the public methods that should be used for interacting with data controller
-     */
+    // ------------------------ PUBLIC METHODS FOR INTERACTING WITH DATACONTROLLER -----------------
 
     /**
      * Access the lone instance of our DataController
@@ -70,83 +101,257 @@ public class DataController {
         return onlyInstance;
     }
 
-    /**
-     * Adding a new user to the local users cache
-     * @param user
-     */
-    public void addUser(User user) {
-        saveUser(user);
-    }
+    // ------------------------ USER LOGIN/SIGNUP/LOGGEDINUSER METHODS -----------------------------
 
     /**
-     * Saving local users cache to ElasticSearch
+     * Signing up a new user
      * @param user
      */
-    public void saveUser(User user) {
+    public void signup(User user) {
         try {
-            /*
-             * Our response is a JestResult object after calling get(), we retrieve a JsonObject
-             * from the JestResult and return the users's uid (equivalent to ElasticSearch's _id)
-             */
-            JsonObject jsonUser = new SearchController.AddUser().execute(user).get()
-                    .getJsonObject();
-            String userUID = jsonUser.get("_id").toString();
-            Log.i("Created", userUID);
+            new SearchController.AddUser().execute(user);
         } catch (Exception e) {
             Log.i("Error", "Failed to create the user", e);
         }
     }
 
     /**
-     * Use the username and password to grab the appropriate user from ES and store
-     * as the current user
+     * Logging in a new user
      * @param username
      * @param password
+     * @return User
      */
-    public void logIn(String username, String password){
+    public User login(String username, String password){
         try {
             JestResult result = new SearchController.SignInUser().execute(username, password).get();
-             /*
-             Unpack the user using the JestResult. Easier than unpacking the json object
-             manually. To allow this, User had to be updated to not be an Abstract class.
-             */
-
+            // ooooo hacks!!!
             User fetchedCurrentUser = result.getSourceAsObject(User.class);
-
             // check the role and unpack to the proper object so that no data is lost
             if (fetchedCurrentUser.getRole() == 0) {
-                currentUser = result.getSourceAsObject(Patient.class);
+                loggedInUser = result.getSourceAsObject(Patient.class);
             } else {
-                currentUser = result.getSourceAsObject(CareProvider.class);
+                loggedInUser = result.getSourceAsObject(CareProvider.class);
             }
-
+            return loggedInUser;
         } catch (Exception e) {
-            currentUser = null;
+            loggedInUser = null;
             Log.i("Error", "Problem talking to ES instance");
+        }
+        return loggedInUser;
+    }
+
+    /**
+     * Retrives the current logged in User (can only be set via login)
+     * @return current user
+     */
+    public User getCurrentUser() {
+        return loggedInUser;
+    }
+
+    // ------------------------ CARE PROVIDER's PATIENT METHODS ------------------------------------
+
+    /**
+     * Adds a patient to the list of patients maintained by this class.
+     * @param patient
+     */
+    public void addPatient(Patient patient){
+        patientStorage.add(patient); // save to our local patient DataStructure
+        // If we have a internet connection then save the patient to ElasticSearch as well
+        if (MainActivity.checkConnection()) {
+            patient.updateUserInfo(); // this saves the user's new CareProviderUID to ES
+            /**
+             * TO BE IMPLEMENTED
+             *
+             * We will need to think of a clever way to save the patient next time we have
+             * access to internet if it is not saved at this point.
+             *
+             * We could:
+             * Add a flag to patient that indicates whether it was saved to ElasticSearch
+             * Attempt to save all patients that do not have this flag set every time addPatient
+             * is called.
+             */
         }
     }
 
     /**
-     * @return current user
+     * Fetch entire patient list for loggedInUser, assuming loggedInUser is a Care Provider
+     * we could add error checking here and return empty list if it is not but i didn't because
+     * then we'd need to add it for all overloaded methods. JUST BE CAREFUL.
+     *
+     * @return List<Patient>
      */
-    public User getCurrentUser(){
-        return currentUser;
+    public List<Patient> getPatients() {
+        // If we have a internet connection then fetch from ElasticSearch first
+        if (MainActivity.checkConnection()) {
+            try {
+                patientStorage = new SearchController.GetPatients().execute(loggedInUser.getUID()).get();
+            } catch (Exception e) {
+                Log.i("Error", "Could not get the list of patients associated to this care provider");
+            }
+        }
+        return patientStorage;
     }
 
     /**
-     * @params current user
-     */
-    public void setCurrentUser(User user){
-        currentUser = user;
-    }
-
-    /**
-     * @param recordId
+     * Searches for patients by username, like getPatients but username is a search param.
+     *
+     * This makes use of java's method overloading to simulate optional params.
+     *
+     * We'll perform a manual search here so that we can make use of offline data and perform
+     * unit testing
+     * @param username
      * @return
      */
-    public Record getRecord(String recordId){
-        //get specific record
-        return null;
+    public List<Patient> getPatients(String username){
+        List<Patient> result = new ArrayList<>();
+        // If we have a internet connection then fetch from ElasticSearch first
+        if (MainActivity.checkConnection()) {
+            try {
+                allPatientStorage = new SearchController.SearchPatients().execute().get();
+            } catch (Exception e) {
+                Log.i("Error", "Could not get the list of patients associated to this care provider");
+            }
+        }
+        for (Patient patient : allPatientStorage) {
+            if (patient.getUsername().contains(username)) {
+                result.add(patient);
+            }
+        }
+        return result;
+    }
+
+    /// ------------------------ PROBLEM METHODS ---------------------------------------------------
+
+    /**
+     * Adds a problem to a DataStructure maintained by this class that maps lists of problems
+     * to the UID of the user they belong to
+     *
+     * This provides fast lookup times when getting problems associated with a certain user
+     *
+     * @param problem
+     */
+    public void addProblem(Problem problem) {
+        // save to our local DataStructure for Problems
+        String userUID = problem.getUserUID();
+        /**
+         * This is literally straight outta a leetcode question ;)
+         * try to fetch the current ArrayList of problems associated with the user, if user doesn't
+         * exist in problemStorage yet (no problems) then load a default blank rrayList<Problem>.
+         */
+        List<Problem> problemList = problemStorage.getOrDefault(userUID, new ArrayList<Problem>());
+        // add the problem to this list
+        problemList.add(problem);
+        // put the list back into problemStorage
+        problemStorage.put(userUID, problemList);
+        // If we have a internet connection then save to ElasticSearch as well
+        if (MainActivity.checkConnection()) {
+            try {
+                JsonObject jsonProblem = new SearchController.AddProblem().execute(problem).get()
+                        .getJsonObject();
+                String problemPID = jsonProblem.get("_id").toString();
+                Log.i("Created", problemPID);
+            } catch (Exception e) {
+                Log.i("Error", "Failed to create the problem", e);
+            }
+            /**
+             * We will need to think of a clever way to save the problem next time we have
+             * access to internet if it is not saved at this point.
+             *
+             * We could:
+             * Add a flag to problem that indicates whether it was saved to ElasticSearch
+             * Attempt to save all problems that do not have this flag set every time addProblem
+             * is called.
+             */
+        }
+    }
+
+    /**
+     * Takes a user and returns the Problem list mapping to that user in ProblemStorage
+     * @param user
+     * @return
+     */
+    public List<Problem> getProblems(User user){
+        String userUID = user.getUID();
+        return problemStorage.getOrDefault(userUID, new ArrayList<Problem>());
+    }
+
+    /**
+     * Deletes the problem from the problemList
+     * @param problem
+     */
+    public void updateProblem(Problem problem) {
+        /**
+         * this is easy, just remove the problem by finding the problem with the same UID,
+         * then add it back, if you do enough leetcode you will know this pattern well lol
+         */
+        String userUID = problem.getUID();
+        List<Problem> problemsList = problemStorage.get(userUID);
+        for (Problem oldProblem : problemsList) {
+            if (oldProblem.getUID().equals(problem.getUID())) {
+                problemsList.remove(oldProblem);
+            }
+        }
+        addProblem(problem);
+    }
+
+    /**
+     * Deletes the problem from the problemList
+     * @param problem
+     */
+    public void deleteProblem(Problem problem) {
+        String userUID = problem.getUID();
+        problemStorage.get(userUID).remove(problem);
+    }
+
+    /**
+     * Sets the passed in problemID to the to the currentProblem id.
+     * @param problem
+     */
+    public void setSelectedProblem(Problem problem) {
+        this.selectedProblem = problem;
+    }
+
+    /**
+     * Returns the currentProblem saved in this class.
+     * @return
+     */
+    public Problem getSelectedProblem() {
+        return this.selectedProblem;
+    }
+
+    /// ------------------------ RECORD METHODS ----------------------------------------------------
+
+    /**
+     * Add record to the list of records maintained by this class.
+     * @param record
+     * @return
+     */
+    public void addRecord(Record record){
+        // save to our local DataStructure for Problems
+        String problemUID = record.getProblemUID();
+        /**
+         * Same pattern as Problem
+         */
+        List<Record> recordList = recordStorage.getOrDefault(problemUID, new ArrayList<Record>());
+        // add the record to this list
+        recordList.add(record);
+        // put the list back into problemStorage
+        recordStorage.put(problemUID, recordList);
+        // If we have a internet connection then save to ElasticSearch as well
+        if (MainActivity.checkConnection()) {
+            /**
+             * TO BE IMPLEMENTED:
+             * SOMEONE WILL NEED TO ADD RECORDS TO ELASTICSEARCH
+             *
+             * We will need to think of a clever way to save the problem next time we have
+             * access to internet if it is not saved at this point.
+             *
+             * We could:
+             * Add a flag to problem that indicates whether it was saved to ElasticSearch
+             * Attempt to save all problems that do not have this flag set every time addProblem
+             * is called.
+             */
+        }
     }
 
     /**
@@ -155,33 +360,11 @@ public class DataController {
      * @return
      */
     public List<Record> getRecords(Problem problem){
-        //get all records associated with the problem
-        String currentProblemID = problem.getUID();
-        List<Record> newRecordList = new ArrayList<>();
-        for (Record each: recordList){
-            String problemID = each.getProblemId();
-
-            if (problemID.equals(currentProblemID)){
-                newRecordList.add(each);
-            }
-        }
-        return newRecordList;
+        String problemUID = problem.getUID();
+        return recordStorage.getOrDefault(problemUID, new ArrayList<Record>());
     }
 
-    /**
-     * Add record to the list of records maintained by this class.
-     * @param record
-     * @return
-     */
-    public String addRecord(Record record){
-        //add record and return new recordId
-        recordList.add(record);
-        for (Record each: recordList){
-            String title = each.getTitle();
-        }
-        //saveRecord(record);
-        return null;
-    }
+    /// ------------------------ USER RECORD METHODS (WTF IS A USER RECORD???) ---------------------
 
     /**
      *
@@ -203,7 +386,7 @@ public class DataController {
         String currentProblemID = problem.getUID();
         List<Record> newUserRecordList = new ArrayList<>();
         for (Record record : this.userRecordList){
-            String problemID = record.getProblemId();
+            String problemID = record.getProblemUID();
 
             if (problemID.equals(currentProblemID)){
                 newUserRecordList.add(record);
@@ -224,235 +407,5 @@ public class DataController {
 //        }
         //saveUserRecord(userRecord);
         //return null;
-    }
-
-    /**
-     * Returns a problem associated with a problemid.
-     * @param problemid
-     * @return
-     */
-    public Problem getProblem(String problemid){
-        //get specific Problem
-        Problem problem = null;
-        for (Problem each: problemList) {
-            String problemUID = each.getUID();
-            if (problemUID.equals(problemid)){
-                problem = each;
-            }
-        }
-        return problem;
-    }
-
-    /**
-     * Takes a user and returns all Problems from the whole problem list that belongs
-     * to that user
-     * @param user
-     * @return
-     */
-    public List<Problem> getProblems(User user){
-        //get the user UID of the user passed to the function
-        String UID = user.getUID();
-        //create a new problem list to be returned
-        List<Problem> newProblemList = new ArrayList<>();
-        //iterates through the whole problem list data base
-        for (Problem each: problemList){
-            String userUID = each.getUserUID();
-            //if the UserUID of the problem in the problem list data base
-            //matches the UID of the user passed to the function
-            //save that problem to the problem list that is to be returned
-            if (userUID.equals(UID)){
-                newProblemList.add(each);
-            }
-        }
-        //return all problems for a patient
-        return newProblemList;
-    }
-
-    /**
-     * Adds a problem to the list of problems maintained by this class.
-     * @param problem
-     */
-    public void addProblem(Problem problem){
-        //add Problem and save
-        problemList.add(problem);
-        for (Problem each: problemList){
-            String hi = each.getTitle();
-        }
-        //saveProblem(problem);
-    }
-
-    /**
-     * Deletes the problem from the problemList
-     * @param problem
-     */
-    public void deleteProblem(Problem problem){
-        problemList.remove(problem);
-    }
-
-    /**
-     * Updates the problemList.
-     * List.set() takes an index and a new Object, and replaces the old Object at the index with the
-     * new Object. I find the index of the OldProblem, and replace the OldProblem with the
-     * NewProblem.
-     * @param oldProblem
-     * @param newProblem
-     */
-    public void updateProblem(Problem oldProblem, Problem newProblem){
-        int index = problemList.indexOf(oldProblem);
-        problemList.set(index, newProblem);
-    }
-
-    public void saveProblem(Problem problem) {
-        try {
-            /**
-             * Our response is a JestResult object after calling get(), we retrieve a JsonObject
-             * from the JestResult and return the users's uid (equivalent to ElasticSearch's _id)
-             */
-            JsonObject jsonProblem = new SearchController.AddProblem().execute(problem).get()
-                    .getJsonObject();
-            String problemPID = jsonProblem.get("_id").toString();
-            Log.i("Created", problemPID);
-        } catch (Exception e) {
-            Log.i("Error", "Failed to create the problem", e);
-        }
-    }
-
-    /*
-    Bad way of saving a UID temporarily to pass between activities. Will do a much better fix
-     * before final submission. Allows my Save() in AddEditProblemActivity to save the
-     * problem's UID temporarily, which allows me to access it in another activity.
-     * This kind of replaces i.getSerializableExtra when passing intents between activites.
-     * This wasn't updating for me properly so I made a quick fix, but for the final
-     * submission we will have ElasticSearch working and this will not be necessary.
-     */
-
-    /**
-     * Saves a UID.
-     * @param UID
-     */
-    public void saveUID(String UID){
-        this.savedUID = UID;
-    }
-
-    /**
-     * Gets the saved UID
-     * @return
-     */
-    public String getSavedUID(){
-        return this.savedUID;
-    }
-
-    /**
-     * Sets the passed in problemID to the to the curentProblem id.
-     * @param problemID
-     */
-    public void setCurrentProblem(String problemID) {
-        this.currentProblem = problemID;
-    }
-
-    /**
-     * Returns the currentProblem saved in this class.
-     * @return
-     */
-    public String getCurrentProblem() {
-        return this.currentProblem;
-    }
-
-    /**
-     * Fetch patients and then return the patient list
-     * @return List<Patient>
-     */
-    public List<Patient> getPatients(){
-        //return all patients for a care provider
-        if (patientList.isEmpty()){
-            fetchPatients();
-        }
-        return patientList;
-    }
-
-    /**
-     * Fetch patients associated with this.currentUser from ElasticSearch and store them in the user list.
-     */
-    private void fetchPatients(){
-        try {
-            patientList = new SearchController.GetPatients().execute(currentUser.getUID()).get();
-        } catch (Exception e) {
-             Log.i("Error", "Could not get the list of patients associated to this care provider");
-        }
-    }
-
-    /**
-     * Search the patients by username and return the top hits as an ArrayList<User>
-     * @param username
-     * @return
-     */
-    public List<Patient> searchPatients(String username){
-        try {
-            return new SearchController.SearchPatients().execute(username).get();
-        } catch (Exception e) {
-            Log.i("Error", "Problem getting patients with username: " + username);
-            return new ArrayList<>();
-        }
-    }
-
-    /**
-     * Add the patient the locally held patient list
-     * @param patient
-     */
-    public void addPatientToPatientList(Patient patient){
-        patientList.add(patient);
-    }
-
-    /**
-     * Fetches the information of a user with the matching uid.
-     * @param uid
-     */
-    public User fetchUserInformation(String uid){
-        User returnUser = null;
-        try {
-            // Getting the information on the user
-            JestResult result = new SearchController.GetUserInfoUsingUId().execute(uid).get();
-            // Now returning it as a User object
-            returnUser = result.getSourceAsObject(User.class);
-        } catch (Exception e) {
-            Log.i("Error", e.getMessage());
-        }
-        return returnUser;
-    }
-
-    /**
-     * Method was created to change the email or phone number of a user the elastic search.
-     * @param modifiedUser
-     */
-    public void updateElasticSearchForNewUserInfo(User modifiedUser){
-        try {
-            // Calling SearchController to change the user
-            JestResult result = new SearchController.UpdateInformationForUser().execute(modifiedUser).get();
-        } catch (Exception e) {
-            Log.i("Error", e.getMessage());
-        }
-    }
-
-    /**
-     * Method was created to check if a username exists before signup.
-     * @param username
-     * @return
-     */
-    public boolean checkIfUsernameExists(String username){
-        try{
-            // Getting the information on the username
-            JestResult result = new SearchController.CheckIfUserNameExists().execute(username).get();
-            // Converting the object
-            User returnUser = result.getSourceAsObject(User.class);
-            // Here we check if we can fetch the UID, if not, then we get a NullPointerException, proving user does not exist.
-            Log.i("Error", returnUser.getUID());
-        } catch (NullPointerException e){
-            // If a null pointer exception was thrown, the user does not exist, therefore we return false
-            return false;
-        } catch (Exception e) {
-            Log.i("Error", e.getMessage());
-            // Couldn't communicate with the server, just tell user to get another username
-        }
-        return true;
     }
 }

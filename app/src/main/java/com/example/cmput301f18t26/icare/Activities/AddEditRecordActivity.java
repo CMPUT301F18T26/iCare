@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
+import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.R;
 
 public class AddEditRecordActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
@@ -21,8 +22,7 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
     private EditText descriptionEntry;
     private TextView dateStamp;
     private ImageView images;
-
-    private String problemUID;
+    private Problem selectedProblem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +30,7 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
 
         Bundle extras = getIntent().getExtras();
         dataController = DataController.getInstance();
-        problemUID = extras.getString("problemUID");
-        dataController.setCurrentProblem(problemUID);
+        selectedProblem = dataController.getSelectedProblem();
 
         setContentView(R.layout.activity_add_edit_record);
         BottomNavigationView navigation = findViewById(R.id.navigation);

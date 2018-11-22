@@ -43,16 +43,23 @@ public class EditProfileActivity extends AppCompatActivity {
                 currentUser.setEmail(email.getText().toString());
                 currentUser.setPhone(phone.getText().toString());
                 try {
-                    // Trying to update the user on ES
-                    dataController.updateElasticSearchForNewUserInfo(currentUser);
-                    // Change was successful
-                    dataController.setCurrentUser(currentUser);
+                    // update the user on ElasticSearch via SearchController
+                    currentUser.updateUserInfo();
+                    /**
+                     * We can call login again using the credentials of this user in order to
+                     * double verify that the updated user was persisted properly, and update the
+                     * currentUser in DataController.
+                     *
+                     * I removed the setCurrentUser method as I felt that the currentUser should
+                     * not be able to be set anywhere else but from logging in - Tony
+                     */
+                    dataController.login(currentUser.getUsername(), currentUser.getPassword());
                     Toast.makeText(getApplicationContext(),
                             "Profile Info Changed.",
                             Toast.LENGTH_SHORT).show();
                 } catch (Exception e){
                     Toast.makeText(getApplicationContext(),
-                            "An error occured while trying to change profile info on the server.",
+                            "Error occured while trying to change profile info on the server.",
                             Toast.LENGTH_SHORT).show();
                 }
                 // Now we end the activity

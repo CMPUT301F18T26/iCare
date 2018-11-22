@@ -222,15 +222,24 @@ public class SearchController {
     public static class SearchPatients extends AsyncTask<String, Void, ArrayList<Patient>> {
 
         @Override
-        protected ArrayList<Patient> doInBackground(String... username) {
+        protected ArrayList<Patient> doInBackground(String... params) {
 
             ArrayList<Patient> patients = new ArrayList<>();
 
-            /*
-            Get all patients (role == 0) with usernames containing the search term,
-            and those that are not already assigned a care provider (careProviderUID == "")
+            /**
+            Get all patients (role == 0) that are not already assigned a care provider
+             (careProviderUID == "")
              */
-            String query = "{ \"query\": { \"bool\": { \"must\": [{ \"match\": { \"username\": \"" + username[0] + "\" } }] } } }";
+            String query =
+                    "{\n" +
+                            "  \"query\": {\n" +
+                            "    \"bool\": {\n" +
+                            "      \"must\": [\n" +
+                            "        { \"match\": { \"role\": \"" + "0" + "\"}}\n" +
+                            "      ]\n" +
+                            "    }\n" +
+                            "  }\n" +
+                            "}";
 
             Search search = new Search.Builder(query).addIndex(groupIndex).addType(userType).build();
 

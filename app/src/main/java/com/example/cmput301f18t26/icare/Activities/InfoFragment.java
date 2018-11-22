@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.Controllers.RecordFactory;
+import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.Record;
 import com.example.cmput301f18t26.icare.Models.User;
 import com.example.cmput301f18t26.icare.R;
@@ -30,7 +31,7 @@ public class InfoFragment extends Fragment{
     private EditText titleEntry;
     private EditText descriptionEntry;
     private TextView dateStamp;
-    private String problemUID;
+    private Problem selectedProblem;
     private ImageView images;
     private User user;
 
@@ -48,7 +49,7 @@ public class InfoFragment extends Fragment{
         user = dataController.getCurrentUser();
 
         //passing the problem ID not sure if we will need this - tyler
-        problemUID = dataController.getCurrentProblem();
+        selectedProblem = dataController.getSelectedProblem();
     }
 
     @Override
@@ -90,7 +91,7 @@ public class InfoFragment extends Fragment{
 
             //Create a new record in the userRecordFactory.
 
-            Record userRecord = RecordFactory.getRecord(title, formattedDate, description, problemUID, null, null, null );
+            Record userRecord = RecordFactory.getRecord(title, formattedDate, description, selectedProblem.getUID(), null, null, null );
             Log.d("tyler,2","hello"+userRecord.toString());
             dataController.addUserRecord(userRecord);
             Toast.makeText(getActivity(), "User Record added successfully", Toast.LENGTH_SHORT).show();

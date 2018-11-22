@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
+import com.example.cmput301f18t26.icare.IntentActions;
 import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.Record;
 import com.example.cmput301f18t26.icare.Models.User;
@@ -27,18 +28,13 @@ import java.util.List;
 public class PatientViewProblemActivity extends AppCompatActivity {
 
     private DataController dataController;
-    private Problem problem;
-    private String problemUID;
+    private Problem selectedProblem;
     private TextView titleText;
     private TextView descriptionText;
     private TextView dateText;
     private List<Record> userRecordList;
     private ListView oldRecordList;
     private ArrayAdapter<Record> adapter;
-    private User user;
-    private List<Problem> problemList;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,28 +50,33 @@ public class PatientViewProblemActivity extends AppCompatActivity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 setResult(RESULT_OK);
-                delete(problem);
+                dataController.deleteProblem(selectedProblem);
+                finish();
             }
         });
 
-        //Takes you to Add/Edit Problem screen
+        //Takes you to Add/Edit Problem screen telling it to EDIT
         Button editButton = (Button) findViewById(R.id.edit_condition);
         editButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 setResult(RESULT_OK);
                 Intent i = new Intent(v.getContext(), AddEditProblemActivity.class);
-                i.putExtra("problemUID", problemUID);
+                i.putExtra("action", IntentActions.EDIT);
                 startActivity(i);
             }
         });
 
-        //Allows you to add a new record to the list for that problem
+        //Allows you to Add/Edit Record screen telling it to ADD
         FloatingActionButton addButton = (FloatingActionButton) findViewById(R.id.add_new_record_button);
         addButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 setResult(RESULT_OK);
                 Intent i = new Intent(v.getContext(), AddEditRecordActivity.class);
-                i.putExtra("problemUID", problemUID);
+                /**
+                 * PLEASE FIX THIS TO USE THE NEW PASSING INTENT PATTERN, PASS A MESSAGE OF WHAT WE'RE
+                 * DOING NOT A ID. USE THE SELECTEDRECORD FIELD IN DATACONTROLLER INSTEAD.
+                 */
+                i.putExtra("problemUID", IntentActions.ADD);
                 startActivity(i);
             }
         });
@@ -85,35 +86,31 @@ public class PatientViewProblemActivity extends AppCompatActivity {
         super.onStart();
         //Finding the necessary data to populate the text boxes and the Record List
         dataController = DataController.getInstance();
-        user = dataController.getCurrentUser();
-        problemList = dataController.getProblems(user);
-        problemUID = dataController.getSavedUID();
-        problem = dataController.getProblem(problemUID);
+        selectedProblem = dataController.getSelectedProblem();
 
-        userRecordList = dataController.getUserRecords(problem);
+        userRecordList = dataController.getUserRecords(selectedProblem);
         oldRecordList = (ListView) findViewById(R.id.record_list_view);
 
         //Set the values of the text boxes
-        setValues(problem);
+        setValues(selectedProblem);
 
-        userRecordList = dataController.getUserRecords(problem);
-        adapter = new ArrayAdapter<Record>(this, R.layout.userrecords_list_item,R.id.record_name,userRecordList);
+        userRecordList = dataController.getUserRecords(selectedProblem);
+        adapter = new ArrayAdapter<>(this, R.layout.userrecords_list_item,R.id.record_name,userRecordList);
         adapter.notifyDataSetChanged();
         oldRecordList.setAdapter(adapter);
     }
+
     @Override
     protected void onResume(){
         super.onResume();
         //Finding the necessary data to populate the text boxes and the Record List
-        problemList = dataController.getProblems(user);
-        problemUID = dataController.getSavedUID();
-        problem = dataController.getProblem(problemUID);
+        selectedProblem = dataController.getSelectedProblem();
 
         //Set the values of the text boxes
-        setValues(problem);
+        setValues(selectedProblem);
 
-        userRecordList = dataController.getUserRecords(problem);
-        adapter = new ArrayAdapter<Record>(this, R.layout.userrecords_list_item,R.id.record_name,userRecordList);
+        userRecordList = dataController.getUserRecords(selectedProblem);
+        adapter = new ArrayAdapter<>(this, R.layout.userrecords_list_item,R.id.record_name,userRecordList);
         adapter.notifyDataSetChanged();
         oldRecordList.setAdapter(adapter);
     }
@@ -131,11 +128,5 @@ public class PatientViewProblemActivity extends AppCompatActivity {
         int day = c.get(Calendar.DAY_OF_MONTH);
         String strdate = day + "/" + month + "/" + year;
         dateText.setText(strdate);
-    }
-
-    void delete(Problem problem){
-        dataController.deleteProblem(problem);
-        Intent i = new Intent(this, PatientViewProblemListActivity.class);
-        startActivity(i);
     }
 }

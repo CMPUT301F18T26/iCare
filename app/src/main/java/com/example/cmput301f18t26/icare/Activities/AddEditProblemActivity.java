@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.Controllers.ProblemFactory;
+import com.example.cmput301f18t26.icare.IntentActions;
 import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.User;
 import com.example.cmput301f18t26.icare.R;
@@ -25,9 +26,9 @@ public class AddEditProblemActivity extends AppCompatActivity {
     private EditText titleEntry;
     private EditText descriptionEntry;
     private DatePicker dateEntry;
-    private User user;
-    private String problemUID;
-    private Problem problem;
+
+    private Problem selectedProblem;
+    private IntentActions action;
 
 
     @Override
@@ -38,13 +39,13 @@ public class AddEditProblemActivity extends AppCompatActivity {
         titleEntry = (EditText) findViewById(R.id.condition_name);
         descriptionEntry = (EditText) findViewById(R.id.description);
         dateEntry = (DatePicker) findViewById(R.id.date_picker);
+
         //Getting the instance of the Data controller to retrieve data from
         dataController = DataController.getInstance();
-        user = dataController.getCurrentUser();
 
+        // Grab our enum for the action from intent
         Intent i = getIntent();
-        problemUID = (String) i.getSerializableExtra("problemUID");
-        setValues(problemUID);
+        action = (IntentActions) i.getSerializableExtra("action");
 
         //Saves your Problem and returns you to the Problem List View
         Button saveButton = (Button) findViewById(R.id.save_problem);
@@ -62,10 +63,9 @@ public class AddEditProblemActivity extends AppCompatActivity {
      * Sets the values of the fields in the Add/Edit Problem Activity.
      * @param
      */
-    void setValues(String problemUID){
-        //If you are adding a new problem, the problemUID will be null so it sets the text boxes
-        //as hints.
-        if (problemUID == null){
+    void setValues(){
+        // If you are adding a new problem the intent action enum passed should be ADD
+        if (action == IntentActions.ADD) {
             //Title
             titleEntry.setHint("Enter Title");
             //Description
@@ -79,17 +79,15 @@ public class AddEditProblemActivity extends AppCompatActivity {
             int day = c.get(Calendar.DAY_OF_MONTH);
             dateEntry.init(year, month, day, null);
         }
-
-        //If you are editing an old problem, it retrieves the correct information and sets the
-        //text boxes accordingly.
-        else{
-            problem = dataController.getProblem(problemUID);
+        // If you are editing an old problem the intent action enum passed should be EDIT
+        else if (action == IntentActions.EDIT) {
+            selectedProblem = dataController.getSelectedProblem();
             //Title
-            titleEntry.setText(problem.getTitle());
+            titleEntry.setText(selectedProblem.getTitle());
             //Description
-            descriptionEntry.setText(problem.getDescription());
+            descriptionEntry.setText(selectedProblem.getDescription());
             //Date
-            Calendar c = problem.getDate();
+            Calendar c = selectedProblem.getDate();
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
@@ -111,35 +109,25 @@ public class AddEditProblemActivity extends AppCompatActivity {
                 dateEntry.getMonth(),
                 dateEntry.getDayOfMonth()
         );
-        user = dataController.getCurrentUser();
-        String userUID = user.getUID();
-
-        /**
-         * This checks to see if the problem exists. If the problem does not exist, create
-         * a new one.
-         * If it does exist, call updateProblem from dataController, which will take the old
-         * Problem and replace it with the new problem.
-         */
-        if (dataController.getProblem(problemUID) == null){
-            //Create a new problem in the ProblemFactory. Haven't gotten around to editing yet.
+        // If you are adding a new problem the intent action enum passed should be ADD
+        if (action == IntentActions.ADD) {
+            String userUID = dataController.getCurrentUser().getUID();
             Problem problem = ProblemFactory.getProblem(title, date, description, userUID);
             dataController.addProblem(problem);
             Toast.makeText(getApplicationContext(),
                     "Problem added successfully",
                     Toast.LENGTH_SHORT).show();
         }
-        else{
-            Problem oldProblem = dataController.getProblem(problemUID);
-            Problem newProblem = ProblemFactory.getProblem(title, date, description, userUID);
-            String newProblemUID = newProblem.getUID();
-            dataController.saveUID(newProblemUID);
-            dataController.updateProblem(oldProblem, newProblem);
+        // If you are editing an old problem the intent action enum passed should be EDIT
+        else if (action == IntentActions.EDIT) {
+            selectedProblem.setTitle(title);
+            selectedProblem.setDescription(description);
+            selectedProblem.setDate(date);
+            dataController.updateProblem(selectedProblem);
             Toast.makeText(getApplicationContext(),
                     "Problem edited successfully",
                     Toast.LENGTH_SHORT).show();
         }
-
-        //Returns to the previous screen
         finish();
     }
 }
