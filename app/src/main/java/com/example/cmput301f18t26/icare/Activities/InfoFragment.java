@@ -14,8 +14,9 @@ import android.widget.Toast;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.Controllers.RecordFactory;
+import com.example.cmput301f18t26.icare.Models.BaseRecord;
 import com.example.cmput301f18t26.icare.Models.Problem;
-import com.example.cmput301f18t26.icare.Models.Record;
+import com.example.cmput301f18t26.icare.Models.BaseRecord;
 import com.example.cmput301f18t26.icare.Models.User;
 import com.example.cmput301f18t26.icare.R;
 
@@ -37,7 +38,7 @@ public class InfoFragment extends Fragment{
 
     Calendar cal = Calendar.getInstance();
     Date date=cal.getTime();
-    DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy");
+    DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss yyyy-MM-dd");
     String formattedDate=dateFormat.format(date);
 
 
@@ -84,22 +85,15 @@ public class InfoFragment extends Fragment{
        String description = descriptionEntry.getText().toString().trim();
        user = dataController.getCurrentUser();
        String userUID = user.getUID();
-
-        //TODO: NEED TO GET THE CORRECT GETUSERRECORD CONSTRUCTOR TO BE CALLED DEPENDING ON WHAT IS SPECIFIED BY THE USER
-        //TODO: FOR NOW IT DEFAULT USES GEO BODY AND PHOTOS NOT SPECIFIED UNTIL THOSE HAVE BEEN IMPLEMENTED
-
+       // Since this is a user created record
+       int recType = 1;
 
             //Create a new record in the userRecordFactory.
-
-            Record userRecord = RecordFactory.getRecord(title, formattedDate, description, selectedProblem.getUID(), null, null, null );
-            Log.d("tyler,2","hello"+userRecord.toString());
-            dataController.addUserRecord(userRecord);
+            BaseRecord record = RecordFactory.getRecord(title, formattedDate, description, selectedProblem.getUID(), null, null, null, recType );
+            dataController.addRecord(record);
             Toast.makeText(getActivity(), "User Record added successfully", Toast.LENGTH_SHORT).show();
 
         //Returns to the problem description and list of records for that problem.
         getActivity().finish();
-
-        //Intent i = new Intent(getActivity(), PatientViewProblemActivity.class);
-        //startActivity(i);
     }
 }

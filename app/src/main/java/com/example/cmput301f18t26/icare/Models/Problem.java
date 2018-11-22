@@ -98,11 +98,11 @@ public class Problem {
 
     }
 
-    public Record getRecord(int i) {
+    public BaseRecord getRecord(int i) {
         return null;
     }
 
-    public ArrayList<Record> getRecords(){
+    public ArrayList<BaseRecord> getRecords(){
         return null;
     }
 }

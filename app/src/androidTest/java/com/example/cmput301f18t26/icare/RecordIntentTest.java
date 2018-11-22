@@ -60,15 +60,5 @@ public class RecordIntentTest {
         onView(withId(R.id.record_comment)).perform(closeSoftKeyboard());
         //Save values
         onView(withId(R.id.userRecord_save_button)).perform(click());
-
-        // Add another record
-        onView(withId(R.id.add_new_record_button)).perform(click());
-
-        onView(withId(R.id.record_title)).perform(typeText("nope"));
-        onView(withId(R.id.record_comment)).perform(typeText("yep"));
-
-        onView(withId(R.id.record_comment)).perform(closeSoftKeyboard());
-        //Save values
-        onView(withId(R.id.userRecord_save_button)).perform(click());
     }
 }

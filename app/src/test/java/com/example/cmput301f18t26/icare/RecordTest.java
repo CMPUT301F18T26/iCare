@@ -34,7 +34,7 @@ public class RecordTest {
         String title = "Test";
         Calendar cal = Calendar.getInstance();
         Date date=cal.getTime();
-        DateFormat dateFormat = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss yyyy-MM-dd");
         String formattedDate = dateFormat.format(date);
         String comment = "test";
         String problemID = "12345678";

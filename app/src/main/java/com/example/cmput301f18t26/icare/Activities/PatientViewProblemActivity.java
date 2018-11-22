@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.IntentActions;
 import com.example.cmput301f18t26.icare.Models.Problem;
-import com.example.cmput301f18t26.icare.Models.Record;
+import com.example.cmput301f18t26.icare.Models.BaseRecord;
 import com.example.cmput301f18t26.icare.R;
 
 import java.util.Calendar;
@@ -27,9 +27,9 @@ public class PatientViewProblemActivity extends AppCompatActivity {
     private TextView titleText;
     private TextView descriptionText;
     private TextView dateText;
-    private List<Record> userRecordList;
+    private List<BaseRecord> userRecordList;
     private ListView oldRecordList;
-    private ArrayAdapter<Record> adapter;
+    private ArrayAdapter<BaseRecord> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,13 +90,13 @@ public class PatientViewProblemActivity extends AppCompatActivity {
         selectedProblem = dataController.getSelectedProblem();
         Log.i("Error", selectedProblem.getUID());
 
-        userRecordList = dataController.getUserRecords(selectedProblem);
+        userRecordList = dataController.getRecords(selectedProblem);
         oldRecordList = (ListView) findViewById(R.id.record_list_view);
 
         //Set the values of the text boxes
         setValues(selectedProblem);
 
-        userRecordList = dataController.getUserRecords(selectedProblem);
+        userRecordList = dataController.getRecords(selectedProblem);
         adapter = new ArrayAdapter<>(this, R.layout.userrecords_list_item,R.id.record_name,userRecordList);
         adapter.notifyDataSetChanged();
         oldRecordList.setAdapter(adapter);

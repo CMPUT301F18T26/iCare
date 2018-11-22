@@ -4,13 +4,15 @@ import java.util.Calendar;
 
 
 /**
- * This class holds all the information for records that are associated with a problem.
+ * This class holds all the information for records that are associated with a problem. BaseRecord is of type 0.
+ * This type of record is used only when a CareProvider creates a record for a problem. recType = 0
  */
-public class Record {
+public class BaseRecord {
     private String id;
     private String title;
     private String date;
     private String comment;
+    private int recType;
     //Every record belongs to a problem
     private String problemUID;
 
@@ -22,11 +24,12 @@ public class Record {
      * @param comment
      * @param problemUID
      */
-    public Record(String title, String date, String comment, String problemUID){
+    public BaseRecord(String title, String date, String comment, String problemUID, int recType){
         this.title = title;
         this.date = date;
         this.comment = comment;
         this.problemUID = problemUID;
+        this.recType = recType;
     }
 
     // Getters and setter
@@ -49,6 +52,4 @@ public class Record {
     public String getComment() {return this.comment;}
 
     public void setComment(String comment) {this.comment = comment;}
-
-
 }

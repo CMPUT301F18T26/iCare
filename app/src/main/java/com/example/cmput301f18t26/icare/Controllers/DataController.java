@@ -6,12 +6,12 @@ import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.example.cmput301f18t26.icare.Activities.MainActivity;
+import com.example.cmput301f18t26.icare.Models.BaseRecord;
 import com.example.cmput301f18t26.icare.Models.CareProvider;
 import com.example.cmput301f18t26.icare.Models.Patient;
 import com.example.cmput301f18t26.icare.Models.Problem;
-import com.example.cmput301f18t26.icare.Models.Record;
+import com.example.cmput301f18t26.icare.Models.BaseRecord;
 import com.example.cmput301f18t26.icare.Models.User;
-import com.example.cmput301f18t26.icare.Models.UserRecord;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -73,13 +73,7 @@ public class DataController {
      * We use a map here with problem ID's as the key to grab Records in constant runtime
      * Key = Problem.UID : Val = ArrayList<Record>
      */
-    private Map<String, List<Record>> recordStorage = new HashMap<>();
-
-    /**
-     * I dont understand what this is for and how its different than a recordList so someone
-     * please port this to the new pattern.
-     */
-    private List<Record> userRecordList = new ArrayList<>();
+    private Map<String, List<BaseRecord>> recordStorage = new HashMap<>();
 
     /**
      * Private constructor here to enforce Singleton Pattern
@@ -323,13 +317,13 @@ public class DataController {
      * @param record
      * @return
      */
-    public void addRecord(Record record){
+    public void addRecord(BaseRecord record){
         // save to our local DataStructure for Problems
         String problemUID = record.getProblemUID();
         /**
          * Same pattern as Problem
          */
-        List<Record> recordList = recordStorage.getOrDefault(problemUID, new ArrayList<Record>());
+        List<BaseRecord> recordList = recordStorage.getOrDefault(problemUID, new ArrayList<BaseRecord>());
         // add the record to this list
         recordList.add(record);
         // put the list back into problemStorage
@@ -356,53 +350,8 @@ public class DataController {
      * @param problem
      * @return
      */
-    public List<Record> getRecords(Problem problem){
+    public List<BaseRecord> getRecords(Problem problem){
         String problemUID = problem.getUID();
-        return recordStorage.getOrDefault(problemUID, new ArrayList<Record>());
-    }
-
-    /// ------------------------ USER RECORD METHODS (WTF IS A USER RECORD???) ---------------------
-
-    /**
-     *
-     * @param recordId
-     * @return
-     */
-    public UserRecord getUserRecord(String recordId){
-        //get specific record
-        return null;
-    }
-
-    /**
-     * Get records created by users associated with pr
-     * @param problem
-     * @return
-     */
-    public List<Record> getUserRecords(Problem problem){
-        //get all records associated with the problem
-        String currentProblemID = problem.getUID();
-        List<Record> newUserRecordList = new ArrayList<>();
-        for (Record record : this.userRecordList){
-            String problemID = record.getProblemUID();
-
-            if (problemID.equals(currentProblemID)){
-                newUserRecordList.add(record);
-            }
-        }
-        return newUserRecordList;
-    }
-
-    /**
-     * Adds a record to the list of records maintained by this class.
-     * @param userRecord
-     */
-    public void addUserRecord(Record userRecord){
-        //add record and return new recordId
-        this.userRecordList.add(userRecord);
-//        for (UserRecord each: this.userRecordList){
-//            String title = each.getTitle();
-//        }
-        //saveUserRecord(userRecord);
-        //return null;
+        return recordStorage.getOrDefault(problemUID, new ArrayList<BaseRecord>());
     }
 }

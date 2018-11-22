@@ -12,7 +12,7 @@ import io.searchbox.client.JestResult;
  * Our user class could be a Patient or CareProvider
  *
  * Update - Make the User class non-abstract so that it can be instantiated to unpack data from ES
- * Update - Class will be made abstract again in the future.
+ * Update - Class will be made abstract again in the future. TODO Remove abstract stuff
  *
  * This class should ideally be instantiated by a factory pattern.
  */

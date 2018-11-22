@@ -16,7 +16,6 @@ import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.R;
 
 public class AddEditRecordActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
-
     private DataController dataController;
     private EditText titleEntry;
     private EditText descriptionEntry;
@@ -37,16 +36,13 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
         navigation.setOnNavigationItemSelectedListener(this);
 
         Fragment InfoFragment = new Fragment();
-        //InfoFragment.setArguments(bundle);
 
         loadFragment(new InfoFragment());//display Info Fragment By default - Tyler
-
     }
 
 
     private boolean loadFragment(Fragment fragment){
         if (fragment != null){
-
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container,fragment)

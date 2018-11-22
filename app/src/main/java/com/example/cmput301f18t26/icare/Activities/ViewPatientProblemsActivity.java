@@ -20,6 +20,7 @@ public class ViewPatientProblemsActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        // Creating whats needed for the activity to work
         setContentView(R.layout.activity_care_provider_problem_view);
 
         Integer position = getIntent().getIntExtra(ViewPatientsActivity.SELECTED_PATIENT, 0);
@@ -27,13 +28,14 @@ public class ViewPatientProblemsActivity extends AppCompatActivity {
         dataController = DataController.getInstance();
         // get the patient from the current care providers fetched patient list
         patient = dataController.getPatients().get(position);
+    }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        // This will be done every time a resume happens
         // grab the patient name text view and reset the patient name to the current patients name
         patientName = findViewById(R.id.condition_view_patient_name);
         patientName.setText(patient.getUsername());
-
-        /*
-        Work in progress. Requires storing Problems in ES to pull them here
-         */
     }
 }
