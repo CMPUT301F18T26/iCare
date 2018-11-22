@@ -44,7 +44,6 @@ public class CareProviderIntentTest {
         // Logging in
         onView(withId(R.id.login_button)).perform(click());
         onView(withId(R.id.username_entry)).perform(typeText("testCP"));
-        onView(withId(R.id.password_entry)).perform(typeText("123"));
         onView(withId(R.id.login_button)).perform(click());
         // get the dataController
         dataController = DataController.getInstance();
@@ -105,7 +104,7 @@ public class CareProviderIntentTest {
         for (Patient p : dataController.getPatients()){
             if (p.getUsername().equals(testPatientUsername)) {
                 p.setCareProviderUID("");
-                dataController.updateElasticSearchForNewUserInfo(p);
+                p.updateUserInfo();
             }
         }
     }

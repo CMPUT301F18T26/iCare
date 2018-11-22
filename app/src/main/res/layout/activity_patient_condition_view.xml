@@ -127,12 +127,12 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:text="@string/edit_condition"
-        app:layout_constraintBottom_toTopOf="@id/delete_record_button"
+        app:layout_constraintBottom_toTopOf="@id/delete_condition_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/delete_record_button"
+        android:id="@+id/delete_condition_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

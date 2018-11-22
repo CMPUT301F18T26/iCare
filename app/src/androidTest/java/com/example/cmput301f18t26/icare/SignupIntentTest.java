@@ -33,7 +33,6 @@ public class SignupIntentTest {
         onView(withId(R.id.signup_button)).perform(click());
         // User already exists
         onView(withId(R.id.username_entry)).perform(typeText("newuser1"));
-        onView(withId(R.id.password_entry)).perform(typeText("hello123"));
         onView(withId(R.id.phone_entry)).perform(typeText("1234567890"));
         onView(withId(R.id.email_entry)).perform(typeText("wasd@gmail.com"));
         onView(withId(R.id.email_entry)).perform(closeSoftKeyboard());

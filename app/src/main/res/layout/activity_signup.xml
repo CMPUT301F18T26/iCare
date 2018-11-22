@@ -46,25 +46,7 @@
         android:hint="@string/username"
         android:inputType="textPersonName"
         android:maxLength="28"
-        app:layout_constraintBottom_toTopOf="@+id/password_entry"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/password_entry"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginBottom="4dp"
-        android:ems="10"
-        android:hint="@string/password"
-        android:inputType="textPassword"
-        android:maxLength="28"
-        app:layout_constraintBottom_toTopOf="@+id/horizontal_center_guideline"
+        app:layout_constraintBottom_toTopOf="@+id/phone_entry"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
@@ -86,7 +68,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/horizontal_center_guideline" />
+        app:layout_constraintTop_toTopOf="@+id/horizontal_center_guideline"
+        app:layout_constraintBottom_toBottomOf="@+id/horizontal_center_guideline"/>
 
     <EditText
         android:id="@+id/email_entry"

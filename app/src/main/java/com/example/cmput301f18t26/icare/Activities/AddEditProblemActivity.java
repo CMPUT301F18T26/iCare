@@ -47,6 +47,8 @@ public class AddEditProblemActivity extends AppCompatActivity {
         Intent i = getIntent();
         action = (IntentActions) i.getSerializableExtra("action");
 
+        setValues();
+
         //Saves your Problem and returns you to the Problem List View
         Button saveButton = (Button) findViewById(R.id.save_problem);
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +65,7 @@ public class AddEditProblemActivity extends AppCompatActivity {
      * Sets the values of the fields in the Add/Edit Problem Activity.
      * @param
      */
-    void setValues(){
+    private void setValues(){
         // If you are adding a new problem the intent action enum passed should be ADD
         if (action == IntentActions.ADD) {
             //Title

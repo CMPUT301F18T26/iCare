@@ -19,7 +19,6 @@ import io.searchbox.client.JestResult;
 public class User {
     private String UID; // let's make this immutable (its in caps cause convention)
     private String username;
-    private String password;
     private String email;
     private String phone;
     private int role; // Patient = 0, Care Provider = 1
@@ -38,10 +37,9 @@ public class User {
      * On instantiation, we generate a unique id (UID) via the java UUID class for every user,
      * this id is persists with the user when saved to ElasticSearch.
      */
-    public User(String username, String password, String email, String phone, int role) {
+    public User(String username, String email, String phone, int role) {
         this.UID = UUID.randomUUID().toString();
         this.username = username;
-        this.password = password;
         this.email = email;
         this.phone = phone;
         this.role = role;
@@ -57,7 +55,7 @@ public class User {
      * @return boolean
      */
     public boolean validate() {
-        if (this.username.isEmpty() || this.username.length() < 8 || this.password.isEmpty()
+        if (this.username.isEmpty() || this.username.length() < 8
                 || this.email.isEmpty() || this.phone.isEmpty()) {
             // IF ANY TEXT FIELD IS EMPTY
             return false;
@@ -125,14 +123,6 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getEmail() {

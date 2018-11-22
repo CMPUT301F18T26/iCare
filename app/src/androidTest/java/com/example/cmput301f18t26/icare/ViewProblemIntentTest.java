@@ -17,9 +17,11 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.Matchers.anything;
 
 
@@ -35,7 +37,6 @@ public class ViewProblemIntentTest {
         //Logging in
         onView(withId(R.id.login_button)).perform(click());
         onView(withId(R.id.username_entry)).perform(typeText("fake"));
-        onView(withId(R.id.password_entry)).perform(typeText("123"));
         onView(withId(R.id.login_button)).perform(click());
         //We go straight to the view problem page
         //First we fetch the current user
@@ -68,7 +69,6 @@ public class ViewProblemIntentTest {
         //Logging in
         onView(withId(R.id.login_button)).perform(click());
         onView(withId(R.id.username_entry)).perform(typeText("fake"));
-        onView(withId(R.id.password_entry)).perform(typeText("123"));
         onView(withId(R.id.login_button)).perform(click());
         //We go straight to the view problem page
         //First we fetch the current user
@@ -93,5 +93,26 @@ public class ViewProblemIntentTest {
                 .check(matches(withText("Headache")));
         onView(withId(R.id.condition_view_description))
                 .check(matches(withText("test2")));
+    }
+
+    @Test
+    public void testDeleteProblem(){
+        //Logging in
+        onView(withId(R.id.login_button)).perform(click());
+        onView(withId(R.id.username_entry)).perform(typeText("fake"));
+        onView(withId(R.id.login_button)).perform(click());
+        //We go straight to the view problem page
+        //First we fetch the current user
+        DataController dataController = DataController.getInstance();
+        User u = dataController.getCurrentUser();
+
+        //Go to view problem
+        onData(anything()).inAdapterView(withId(R.id.patient_conditions_list_view)).atPosition(0).perform(click());
+        // Go to delete problem
+        onView(withId(R.id.delete_condition_button)).perform(click());
+
+        //Check if problem no longer there in the list
+        onView(withId(R.id.condition_view_name))
+                .check(doesNotExist());
     }
 }

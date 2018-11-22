@@ -36,7 +36,6 @@ public class ViewProfileActivityTest {
         // Logging in
         onView(withId(R.id.login_button)).perform(click());
         onView(withId(R.id.username_entry)).perform(typeText("fake"));
-        onView(withId(R.id.password_entry)).perform(typeText("123"));
         onView(withId(R.id.login_button)).perform(click());
 
         // Getting to the view profile page
@@ -59,7 +58,6 @@ public class ViewProfileActivityTest {
         // Logging in
         onView(withId(R.id.login_button)).perform(click());
         onView(withId(R.id.username_entry)).perform(typeText("fake"));
-        onView(withId(R.id.password_entry)).perform(typeText("123"));
         onView(withId(R.id.login_button)).perform(click());
 
         // Getting to the view profile page

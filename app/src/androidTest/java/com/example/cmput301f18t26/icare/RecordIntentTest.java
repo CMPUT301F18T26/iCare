@@ -18,6 +18,7 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.Matchers.anything;
 
 public class RecordIntentTest {
@@ -30,7 +31,6 @@ public class RecordIntentTest {
         //Logging in
         onView(withId(R.id.login_button)).perform(click());
         onView(withId(R.id.username_entry)).perform(typeText("fake"));
-        onView(withId(R.id.password_entry)).perform(typeText("123"));
         onView(withId(R.id.login_button)).perform(click());
         //We go straight to the view problem page
         //First we fetch the current user
@@ -60,38 +60,15 @@ public class RecordIntentTest {
         onView(withId(R.id.record_comment)).perform(closeSoftKeyboard());
         //Save values
         onView(withId(R.id.userRecord_save_button)).perform(click());
-        
-    }
 
-//    @Test
-//    public void testEditProblem(){
-//        //Logging in
-//        onView(withId(R.id.login_button)).perform(click());
-//        onView(withId(R.id.username_entry)).perform(typeText("fake"));
-//        onView(withId(R.id.password_entry)).perform(typeText("123"));
-//        onView(withId(R.id.login_button)).perform(click());
-//        //We go straight to the view problem page
-//        //First we fetch the current user
-//        DataController dataController = DataController.getInstance();
-//        User u = dataController.getCurrentUser();
-//
-//        //Go to view problem
-//        onData(anything()).inAdapterView(withId(R.id.patient_conditions_list_view)).atPosition(0).perform(click());
-//
-//        //Go to edit problem
-//        onView(withId(R.id.edit_condition)).perform(click());
-//        // Place these new values into text view
-//        String newProblem = "Headache";
-//        String newDescription = "test2";
-//        onView(withId(R.id.condition_name)).perform(replaceText(newProblem));
-//        onView(withId(R.id.description)).perform(replaceText(newDescription));
-//        //Save values
-//        onView(withId(R.id.save_problem)).perform(click());
-//
-//        //Check if problem matches inputted problem
-//        onView(withId(R.id.condition_view_name))
-//                .check(matches(withText("Headache")));
-//        onView(withId(R.id.condition_view_description))
-//                .check(matches(withText("test2")));
-//    }
+        // Add another record
+        onView(withId(R.id.add_new_record_button)).perform(click());
+
+        onView(withId(R.id.record_title)).perform(typeText("nope"));
+        onView(withId(R.id.record_comment)).perform(typeText("yep"));
+
+        onView(withId(R.id.record_comment)).perform(closeSoftKeyboard());
+        //Save values
+        onView(withId(R.id.userRecord_save_button)).perform(click());
+    }
 }

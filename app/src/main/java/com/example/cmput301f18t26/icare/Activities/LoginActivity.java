@@ -17,7 +17,6 @@ import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText usernameEntry;
-    private EditText passwordEntry;
     private DataController dataController;
 
     @Override
@@ -27,7 +26,6 @@ public class LoginActivity extends AppCompatActivity {
 
         // initialize all elements of view in our activity
         usernameEntry = findViewById(R.id.username_entry);
-        passwordEntry = findViewById(R.id.password_entry);
 
         // grab the instance of our DataController, it will lazy load it if not created elsewhere
         dataController = DataController.getInstance();
@@ -37,7 +35,6 @@ public class LoginActivity extends AppCompatActivity {
     public void signin(View view) {
         // grab the raw forms of our TEXT inputs
         String username = usernameEntry.getText().toString().trim();
-        String password = passwordEntry.getText().toString().trim();
 
         /**
          * Check if we have an internet connection
@@ -55,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
          * Lets check the old fashioned way whether our inputs are correct, they are simple
          * enough to not have to delegate to an object or controller
          */
-        if (username.isEmpty() || password.isEmpty()) {
+        if (username.isEmpty()) {
             Toast.makeText(getApplicationContext(),
                     "Error: Invalid login data",
                     Toast.LENGTH_SHORT).show();
@@ -68,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
          */
         try {
             // grab the user from ES
-            user = dataController.login(username, password);
+            user = dataController.login(username);
 
             // go to either view Patient or view Problem screen depending on type of user logged in
             if (user.getRole() == 0) {
