@@ -265,7 +265,7 @@ public class DataController {
     }
 
     /**
-     * Deletes the problem from the problemList
+     * Updates a problem from the problemList
      * @param problem
      */
     public void updateProblem(Problem problem) {
@@ -294,6 +294,10 @@ public class DataController {
         String userUID = problem.getUserUID();
         // Now removing the problem from the list
         problemStorage.get(userUID).remove(problem);
+        // We also need to remove the records for this problem
+        if (recordStorage.containsKey(problem.getUID())){
+            recordStorage.remove(problem.getUID());
+        }
     }
 
     /**
