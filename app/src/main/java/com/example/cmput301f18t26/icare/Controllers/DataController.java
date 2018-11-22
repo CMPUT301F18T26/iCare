@@ -118,12 +118,11 @@ public class DataController {
     /**
      * Logging in a new user
      * @param username
-     * @param password
      * @return User
      */
-    public User login(String username, String password){
+    public User login(String username){
         try {
-            JestResult result = new SearchController.SignInUser().execute(username, password).get();
+            JestResult result = new SearchController.SignInUser().execute(username).get();
             // ooooo hacks!!!
             User fetchedCurrentUser = result.getSourceAsObject(User.class);
             // check the role and unpack to the proper object so that no data is lost
@@ -159,17 +158,7 @@ public class DataController {
         // If we have a internet connection then save the patient to ElasticSearch as well
         if (MainActivity.checkConnection()) {
             patient.updateUserInfo(); // this saves the user's new CareProviderUID to ES
-            /**
-             * TO BE IMPLEMENTED
-             *
-             * We will need to think of a clever way to save the patient next time we have
-             * access to internet if it is not saved at this point.
-             *
-             * We could:
-             * Add a flag to patient that indicates whether it was saved to ElasticSearch
-             * Attempt to save all patients that do not have this flag set every time addPatient
-             * is called.
-             */
+            // We do not need to do anything for care provider if the person is offline
         }
     }
 
@@ -280,11 +269,11 @@ public class DataController {
      * @param problem
      */
     public void updateProblem(Problem problem) {
-        /**
+        /*
          * this is easy, just remove the problem by finding the problem with the same UID,
          * then add it back, if you do enough leetcode you will know this pattern well lol
          */
-        String userUID = problem.getUID();
+        String userUID = problem.getUserUID();
         List<Problem> problemsList = problemStorage.get(userUID);
         for (Problem oldProblem : problemsList) {
             if (oldProblem.getUID().equals(problem.getUID())) {
@@ -292,6 +281,8 @@ public class DataController {
             }
         }
         addProblem(problem);
+        // Need to set the reference again
+        selectedProblem = problem;
     }
 
     /**
@@ -299,7 +290,9 @@ public class DataController {
      * @param problem
      */
     public void deleteProblem(Problem problem) {
-        String userUID = problem.getUID();
+        // Getting the user id of the problem
+        String userUID = problem.getUserUID();
+        // Now removing the problem from the list
         problemStorage.get(userUID).remove(problem);
     }
 

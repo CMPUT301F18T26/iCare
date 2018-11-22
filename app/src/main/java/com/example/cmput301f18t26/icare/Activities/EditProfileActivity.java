@@ -53,7 +53,7 @@ public class EditProfileActivity extends AppCompatActivity {
                      * I removed the setCurrentUser method as I felt that the currentUser should
                      * not be able to be set anywhere else but from logging in - Tony
                      */
-                    dataController.login(currentUser.getUsername(), currentUser.getPassword());
+                    dataController.login(currentUser.getUsername());
                     Toast.makeText(getApplicationContext(),
                             "Profile Info Changed.",
                             Toast.LENGTH_SHORT).show();

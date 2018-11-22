@@ -30,7 +30,6 @@ public class RecordIntentTest {
         //Logging in
         onView(withId(R.id.login_button)).perform(click());
         onView(withId(R.id.username_entry)).perform(typeText("fake"));
-        onView(withId(R.id.password_entry)).perform(typeText("123"));
         onView(withId(R.id.login_button)).perform(click());
         //We go straight to the view problem page
         //First we fetch the current user

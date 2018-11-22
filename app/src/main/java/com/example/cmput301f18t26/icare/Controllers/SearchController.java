@@ -118,8 +118,7 @@ public class SearchController {
                     "  \"query\": {\n" +
                     "    \"bool\": {\n" +
                     "      \"must\": [\n" +
-                    "        { \"match\": { \"username\": \"" + userParams[0] + "\"}},\n" +
-                    "        { \"match\": { \"password\": \"" + userParams[1] + "\"}}\n" +
+                    "        { \"match\": { \"username\": \"" + userParams[0] + "\"}}\n" +
                     "      ]\n" +
                     "    }\n" +
                     "  }\n" +

@@ -34,7 +34,6 @@ public class LoginIntentTest {
         // Logging in
         onView(withId(R.id.login_button)).perform(click());
         onView(withId(R.id.username_entry)).perform(typeText("fake"));
-        onView(withId(R.id.password_entry)).perform(typeText("123"));
         onView(withId(R.id.login_button)).perform(click());
         // Should have gone through, Problems label should be there.
         onView(withId(R.id.patient_conditions_label))
@@ -49,7 +48,6 @@ public class LoginIntentTest {
         // Logging in
         onView(withId(R.id.login_button)).perform(click());
         onView(withId(R.id.username_entry)).perform(typeText("asdfjlkjk"));
-        onView(withId(R.id.password_entry)).perform(typeText("asdfasdf"));
         onView(withId(R.id.login_button)).perform(click());
         // SHould not have gone through, login button should still be there
         onView(withId(R.id.login_button))

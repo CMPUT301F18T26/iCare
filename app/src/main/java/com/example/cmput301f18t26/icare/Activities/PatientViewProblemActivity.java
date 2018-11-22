@@ -8,8 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -17,11 +15,8 @@ import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.IntentActions;
 import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.Record;
-import com.example.cmput301f18t26.icare.Models.User;
-import com.example.cmput301f18t26.icare.Models.UserRecord;
 import com.example.cmput301f18t26.icare.R;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
@@ -46,7 +41,7 @@ public class PatientViewProblemActivity extends AppCompatActivity {
         dateText = (TextView) findViewById(R.id.condition_view_date);
 
         //Deletes problem and returns you to the Problem List View
-        Button deleteButton = (Button) findViewById(R.id.delete_record_button);
+        Button deleteButton = (Button) findViewById(R.id.delete_condition_button);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 setResult(RESULT_OK);
@@ -86,18 +81,6 @@ public class PatientViewProblemActivity extends AppCompatActivity {
         super.onStart();
         //Finding the necessary data to populate the text boxes and the Record List
         dataController = DataController.getInstance();
-        selectedProblem = dataController.getSelectedProblem();
-
-        userRecordList = dataController.getUserRecords(selectedProblem);
-        oldRecordList = (ListView) findViewById(R.id.record_list_view);
-
-        //Set the values of the text boxes
-        setValues(selectedProblem);
-
-        userRecordList = dataController.getUserRecords(selectedProblem);
-        adapter = new ArrayAdapter<>(this, R.layout.userrecords_list_item,R.id.record_name,userRecordList);
-        adapter.notifyDataSetChanged();
-        oldRecordList.setAdapter(adapter);
     }
 
     @Override
@@ -105,6 +88,10 @@ public class PatientViewProblemActivity extends AppCompatActivity {
         super.onResume();
         //Finding the necessary data to populate the text boxes and the Record List
         selectedProblem = dataController.getSelectedProblem();
+        Log.i("Error", selectedProblem.getUID());
+
+        userRecordList = dataController.getUserRecords(selectedProblem);
+        oldRecordList = (ListView) findViewById(R.id.record_list_view);
 
         //Set the values of the text boxes
         setValues(selectedProblem);

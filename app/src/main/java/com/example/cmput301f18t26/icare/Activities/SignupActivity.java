@@ -30,7 +30,6 @@ public class SignupActivity extends AppCompatActivity {
 
         // initialize all elements of view in our activity
         usernameEntry = findViewById(R.id.username_entry);
-        passwordEntry = findViewById(R.id.password_entry);
         phoneEntry = findViewById(R.id.phone_entry);
         emailEntry = findViewById(R.id.email_entry);
         roleSelect = findViewById(R.id.role_entry);
@@ -43,7 +42,6 @@ public class SignupActivity extends AppCompatActivity {
     public void register(View view) {
         // grab the raw forms of our TEXT inputs
         String username = usernameEntry.getText().toString().trim();
-        String password = passwordEntry.getText().toString().trim();
         String phone = phoneEntry.getText().toString().trim();
         String email = emailEntry.getText().toString().trim();
 
@@ -75,7 +73,7 @@ public class SignupActivity extends AppCompatActivity {
          * Users are a great place to use the Factory pattern as we have a User superclass with
          * two subclasses that we could instantiate here based on input
          */
-        User user = UserFactory.getUser(username, password, email, phone, role);
+        User user = UserFactory.getUser(username, email, phone, role);
 
         /**
          * Another great pattern to use here is to defer validation checks to the User class/object

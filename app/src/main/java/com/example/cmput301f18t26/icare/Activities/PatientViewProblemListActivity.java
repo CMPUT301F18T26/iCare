@@ -50,6 +50,7 @@ public class PatientViewProblemListActivity extends AppCompatActivity {
                 Problem problem = Problem.class.cast(object);
                 dataController.setSelectedProblem(problem);
                 Intent i = new Intent(view.getContext(), PatientViewProblemActivity.class);
+                i.putExtra("action", IntentActions.EDIT);
                 startActivity(i);
             }
         });
