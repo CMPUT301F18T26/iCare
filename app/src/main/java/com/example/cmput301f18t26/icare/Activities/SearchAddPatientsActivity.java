@@ -53,10 +53,6 @@ public class SearchAddPatientsActivity extends AppCompatActivity{
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                /*
-                 Do not pass a UID -- this will get all patients that are currently
-                 not assigned a doctor
-                 */
                 patients.clear();
                 patients.addAll(dataController.getPatients(patientSearch.getText().toString()));
                 patientListAdapter.notifyDataSetChanged();

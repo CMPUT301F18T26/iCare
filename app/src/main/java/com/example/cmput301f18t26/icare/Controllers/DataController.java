@@ -190,7 +190,7 @@ public class DataController {
         // If we have a internet connection then fetch from ElasticSearch first
         if (MainActivity.checkConnection()) {
             try {
-                allPatientStorage = new SearchController.SearchPatients().execute().get();
+                allPatientStorage = new SearchController.SearchPatients().execute(username).get();
             } catch (Exception e) {
                 Log.i("Error", "Could not get the list of patients associated to this care provider");
             }

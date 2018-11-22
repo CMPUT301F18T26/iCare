@@ -73,7 +73,7 @@ public class SignupActivity extends AppCompatActivity {
          * Users are a great place to use the Factory pattern as we have a User superclass with
          * two subclasses that we could instantiate here based on input
          */
-        User user = UserFactory.getUser(username, email, phone, role);
+        User user = UserFactory.getUser(username, email, phone, role, null);
 
         /**
          * Another great pattern to use here is to defer validation checks to the User class/object

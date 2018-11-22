@@ -229,16 +229,7 @@ public class SearchController {
             Get all patients (role == 0) that are not already assigned a care provider
              (careProviderUID == "")
              */
-            String query =
-                    "{\n" +
-                            "  \"query\": {\n" +
-                            "    \"bool\": {\n" +
-                            "      \"must\": [\n" +
-                            "        { \"match\": { \"role\": \"" + "0" + "\"}}\n" +
-                            "      ]\n" +
-                            "    }\n" +
-                            "  }\n" +
-                            "}";
+            String query = "{ \"query\": { \"bool\": { \"must\": [{ \"match\": { \"username\": \"" + params[0] + "\" } }, { \"match\": { \"role\": \"" + String.valueOf(0) + "\" } }] } } }";
 
             Search search = new Search.Builder(query).addIndex(groupIndex).addType(userType).build();
 
