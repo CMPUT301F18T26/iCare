@@ -74,7 +74,6 @@ public class ViewPatientsActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-
         patientListAdapter.notifyDataSetChanged();
     }
 
@@ -83,7 +82,7 @@ public class ViewPatientsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Creating the menu options from the xml file
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.patient_options_menu, menu);
+        inflater.inflate(R.menu.options_menu, menu);
         return true;
     }
 
@@ -101,8 +100,31 @@ public class ViewPatientsActivity extends AppCompatActivity {
                 intent.putExtra("user_id", this.dataController.getCurrentUser().getUID());
                 // Launching the intent
                 startActivity(intent);
+            case R.id.log_out:
+                // Log the person out
+                dataController.logout();
+                dataController.writeDataToFiles(getApplicationContext());
+                finish();
+                return super.onOptionsItemSelected(item);
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    //https://stackoverflow.com/questions/4779954/disable-back-button-in-android
+    /**
+     * This function was overridden to do nothing on a back button press
+     */
+    @Override
+    public void onBackPressed() {
+        // Do nothing on back press.
+    }
+
+    // This activity is being stopped, saving data to file
+    @Override
+    public void onStop() {
+        super.onStop();
+        // Writing to file
+        dataController.writeDataToFiles(getApplicationContext());
     }
 }

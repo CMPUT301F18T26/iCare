@@ -76,5 +76,11 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
         return loadFragment(fragment);
     }
 
-
+    // This activity is being stopped, saving data to file
+    @Override
+    public void onStop() {
+        super.onStop();
+        // Writing to file
+        dataController.writeDataToFiles(getApplicationContext());
+    }
 }

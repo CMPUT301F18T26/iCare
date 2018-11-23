@@ -16,11 +16,11 @@ public class UserFactory {
         User user;
         // we are making a Patient
         if (role == 0) {
-            user = new Patient(username, email, phone, role, careProviderUID);
+            user = new Patient(username, email, phone, careProviderUID);
         }
         // we are making a Care Provider
         else {
-            user = new CareProvider(username, email, phone, role);
+            user = new CareProvider(username, email, phone);
         }
         return user;
     }

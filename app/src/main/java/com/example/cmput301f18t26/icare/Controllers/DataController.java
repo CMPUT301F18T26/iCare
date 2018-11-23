@@ -13,6 +13,8 @@ import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.BaseRecord;
 import com.example.cmput301f18t26.icare.Models.User;
 import com.example.cmput301f18t26.icare.Models.UserRecord;
+import com.example.cmput301f18t26.icare.RecordDeserializer;
+import com.example.cmput301f18t26.icare.UserDeserializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -175,7 +177,8 @@ public class DataController {
         try {
             JestResult result = new SearchController.SignInUser().execute(username).get();
             // ooooo hacks!!!
-            User fetchedCurrentUser = result.getSourceAsObject(User.class);
+            // Even more hacky
+            Patient fetchedCurrentUser = result.getSourceAsObject(Patient.class);
             // check the role and unpack to the proper object so that no data is lost
             if (fetchedCurrentUser.getRole() == 0) {
                 loggedInUser = result.getSourceAsObject(Patient.class);
@@ -188,6 +191,23 @@ public class DataController {
             Log.i("Error", "Problem talking to ES instance");
         }
         return loggedInUser;
+    }
+
+    /**
+     * Logging in the last logged in user
+     * @param username
+     * @param context
+     * @return
+     */
+    public User login(String username, Context context){
+        return loggedInUser;
+    }
+
+    /**
+     * Logging the user out
+     */
+    public void logout(){
+        loggedInUser = null;
     }
 
     /**
@@ -424,19 +444,12 @@ public class DataController {
             FileInputStream fis = context.openFileInput(loggedInUserFile);
             BufferedReader in = new BufferedReader(new InputStreamReader(fis));
             // Getting the gson builder
-            Gson gson = new GsonBuilder().create();
-            // Getting the data as a user
-            User fetchedCurrentUser = gson.fromJson(in, User.class);
-            // Resetting the input stream
-            fis.reset();
-            // Getting the user again
-
-            // check the role and unpack to the proper object so that no data is lost
-            if (fetchedCurrentUser.getRole() == 0) {
-                loggedInUser = gson.fromJson(in, Patient.class);
-            } else {
-                loggedInUser = gson.fromJson(in, CareProvider.class);
-            }
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(User.class, new UserDeserializer())
+                    .create();
+            // Type of user
+            Type userType = new TypeToken<User>(){}.getType();
+            loggedInUser = gson.fromJson(in, userType);
         } catch (IOException e){
             Log.e("Error", "Could not read last logged in user from file");
         }
@@ -462,7 +475,10 @@ public class DataController {
             FileInputStream fis = context.openFileInput(recordStorageFile);
             BufferedReader in = new BufferedReader(new InputStreamReader(fis));
             // Getting the gson builder
-            Gson gson = new GsonBuilder().create();
+            // Custom deserializer for this class
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(BaseRecord.class, new RecordDeserializer())
+                    .create();
             // Now we create the type
             Type mapListRecordType = new TypeToken<Map<String, List<BaseRecord>>>(){}.getType();
             // Now reading from file

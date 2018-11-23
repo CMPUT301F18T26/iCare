@@ -13,11 +13,10 @@ public class CareProvider extends User {
      * @param username
      * @param email
      * @param phone
-     * @param role
      */
-    public CareProvider(String username, String email, String phone, int role) {
+    public CareProvider(String username, String email, String phone) {
         // Instantiate via our super-class method
-        super(username, email, phone, role);
+        super(username, email, phone, 1);
     }
 
     // Getters and setters

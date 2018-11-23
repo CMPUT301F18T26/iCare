@@ -105,4 +105,12 @@ public class SignupActivity extends AppCompatActivity {
                 Toast.LENGTH_SHORT).show();
         finish();
     }
+
+    // This activity is being stopped, saving data to file
+    @Override
+    public void onStop() {
+        super.onStop();
+        // Writing to file
+        dataController.writeDataToFiles(getApplicationContext());
+    }
 }

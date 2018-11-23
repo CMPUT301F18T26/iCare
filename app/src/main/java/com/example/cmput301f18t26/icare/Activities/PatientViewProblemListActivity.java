@@ -4,14 +4,12 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
@@ -20,7 +18,6 @@ import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.User;
 import com.example.cmput301f18t26.icare.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PatientViewProblemListActivity extends AppCompatActivity {
@@ -93,7 +90,7 @@ public class PatientViewProblemListActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Creating the menu options from the xml file
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.patient_options_menu, menu);
+        inflater.inflate(R.menu.options_menu, menu);
         return true;
     }
 
@@ -105,15 +102,30 @@ public class PatientViewProblemListActivity extends AppCompatActivity {
         // Executing code depending on which item is selected
         switch (id){
             case R.id.contact_information:
+                // View contact information
                 // Creating the intent
                 intent = new Intent(PatientViewProblemListActivity.this, ViewProfileActivity.class);
                 // Passing in the user id that will have its information displayed
                 intent.putExtra("user_id", currentUser.getUID());
                 // Launching the intent
                 startActivity(intent);
+            case R.id.log_out:
+                // Log the person out
+                dataController.logout();
+                dataController.writeDataToFiles(getApplicationContext());
+                finish();
+                return super.onOptionsItemSelected(item);
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    //https://stackoverflow.com/questions/4779954/disable-back-button-in-android
+    /**
+     * This function was overridden to do nothing on a back button press
+     */
+    @Override
+    public void onBackPressed() {
+        // Do nothing on back press.
+    }
 }

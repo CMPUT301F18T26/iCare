@@ -46,6 +46,7 @@ public class PatientViewProblemActivity extends AppCompatActivity {
             public void onClick(View v) {
                 setResult(RESULT_OK);
                 dataController.deleteProblem(selectedProblem);
+                dataController.writeDataToFiles(getApplicationContext());
                 finish();
             }
         });
