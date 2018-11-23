@@ -56,6 +56,7 @@ public class SearchAddPatientsActivity extends AppCompatActivity{
                 patients.clear();
                 patients.addAll(dataController.getPatients(patientSearch.getText().toString()));
                 patientListAdapter.notifyDataSetChanged();
+                dataController.writeDataToFiles(getApplicationContext());
             }
         });
 

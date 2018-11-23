@@ -12,9 +12,23 @@ import com.example.cmput301f18t26.icare.Models.Patient;
 import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.BaseRecord;
 import com.example.cmput301f18t26.icare.Models.User;
+import com.example.cmput301f18t26.icare.Models.UserRecord;
+import com.example.cmput301f18t26.icare.RecordDeserializer;
+import com.example.cmput301f18t26.icare.UserDeserializer;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -75,6 +89,36 @@ public class DataController {
      */
     private Map<String, List<BaseRecord>> recordStorage = new HashMap<>();
 
+    /*
+     * The following data structures were created to support persistence, offline behavior and login
+     * behavior that we were required to implement.
+     */
+
+    /**
+     * Data structure stores the list of users who have successfully logged in on this device in the
+     * past by either creating a new account on this device or by using a single use code to login.
+     */
+    private List<User> usersThatHaveSuccessfullyLoggedIn = new ArrayList<>();
+
+    /**
+     * This data structure stores the records or problems that need to be synced with the server
+     * when we regain connectivity.
+     */
+    private List<Problem> problemsSavedOnlyLocally = new ArrayList<>();
+    private List<BaseRecord> baseRecordsSavedOnlyLocally = new ArrayList<>();
+    private List<UserRecord> userRecordsSavedOnlyLocally = new ArrayList<>();
+
+    /**
+     * Files names that are used when we read or write data from files in this class
+     */
+    private String loggedInUserFile = "loggedInUserFile_test";
+    private String problemStorageFile = "problem_storage_test";
+    private String recordStorageFile = "record_storage_test";
+    private String usersThatHaveSuccessfullyLoggedInFile = "usersThatHaveSuccessfullyLoggedInFile_test";
+    private String problemsSavedOnlyLocallyFile = "problemsSavedOnlyLocally_file";
+    private String baseRecordsSavedOnlyLocallyFile = "baseRecordsSavedOnlyLocallyFile_file";
+    private String userRecordsSavedOnlyLocallyFile = "userRecordsSavedOnlyLocally_file";
+
     /**
      * Private constructor here to enforce Singleton Pattern
      */
@@ -103,7 +147,22 @@ public class DataController {
      */
     public void signup(User user) {
         try {
+            // The account was successfully created using this device
             new SearchController.AddUser().execute(user);
+            // Now we can add it to a list of user accounts that were created on this device
+            User userToAdd = null;
+            // Getting the user first
+            JestResult result = new SearchController.SignInUser().execute(user.getUsername()).get();
+            // ooooo hacks!!!
+            User fetchedCurrentUser = result.getSourceAsObject(User.class);
+            // check the role and unpack to the proper object so that no data is lost
+            if (fetchedCurrentUser.getRole() == 0) {
+                userToAdd = result.getSourceAsObject(Patient.class);
+            } else {
+                userToAdd = result.getSourceAsObject(CareProvider.class);
+            }
+            // Now storing it to file
+            usersThatHaveSuccessfullyLoggedIn.add(userToAdd);
         } catch (Exception e) {
             Log.i("Error", "Failed to create the user", e);
         }
@@ -118,7 +177,8 @@ public class DataController {
         try {
             JestResult result = new SearchController.SignInUser().execute(username).get();
             // ooooo hacks!!!
-            User fetchedCurrentUser = result.getSourceAsObject(User.class);
+            // Even more hacky
+            Patient fetchedCurrentUser = result.getSourceAsObject(Patient.class);
             // check the role and unpack to the proper object so that no data is lost
             if (fetchedCurrentUser.getRole() == 0) {
                 loggedInUser = result.getSourceAsObject(Patient.class);
@@ -131,6 +191,23 @@ public class DataController {
             Log.i("Error", "Problem talking to ES instance");
         }
         return loggedInUser;
+    }
+
+    /**
+     * Logging in the last logged in user
+     * @param username
+     * @param context
+     * @return
+     */
+    public User login(String username, Context context){
+        return loggedInUser;
+    }
+
+    /**
+     * Logging the user out
+     */
+    public void logout(){
+        loggedInUser = null;
     }
 
     /**
@@ -353,5 +430,241 @@ public class DataController {
     public List<BaseRecord> getRecords(Problem problem){
         String problemUID = problem.getUID();
         return recordStorage.getOrDefault(problemUID, new ArrayList<BaseRecord>());
+    }
+
+    /**
+     * The method should be called immediately upon the creation of the MainActivity because we need
+     * to read data that was written to files to fetch state of the app.
+     * @param context
+     */
+    public void readDataFromFiles(Context context){
+        // First we'll check if there was a loggedInUser
+        try {
+            // Getting to read the file
+            FileInputStream fis = context.openFileInput(loggedInUserFile);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+            // Getting the gson builder
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(User.class, new UserDeserializer())
+                    .create();
+            // Type of user
+            Type userType = new TypeToken<User>(){}.getType();
+            loggedInUser = gson.fromJson(in, userType);
+        } catch (IOException e){
+            Log.e("Error", "Could not read last logged in user from file");
+        }
+
+        // Now we try to read problems from the last run
+        try {
+            // Getting to read the file
+            FileInputStream fis = context.openFileInput(problemStorageFile);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+            // Getting the gson builder
+            Gson gson = new GsonBuilder().create();
+            // Now we create the type
+            Type mapListProblemType = new TypeToken<Map<String, List<Problem>>>(){}.getType();
+            // Now reading from file
+            problemStorage = gson.fromJson(in, mapListProblemType);
+        } catch (IOException e){
+            Log.e("Error", "Could not read problems from last use");
+        }
+
+        // Now we try to read records from the last run
+        try {
+            // Getting to read the file
+            FileInputStream fis = context.openFileInput(recordStorageFile);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+            // Getting the gson builder
+            // Custom deserializer for this class
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(BaseRecord.class, new RecordDeserializer())
+                    .create();
+            // Now we create the type
+            Type mapListRecordType = new TypeToken<Map<String, List<BaseRecord>>>(){}.getType();
+            // Now reading from file
+            recordStorage = gson.fromJson(in, mapListRecordType);
+        } catch (IOException e){
+            Log.e("Error", "Could not read problems from last use");
+        }
+
+        // Now we try to read the users that have usersThatHaveSuccessfullyLoggedIn on this device
+        // by signing up on this or using a unique code to log in
+        try {
+            // Getting to read the file
+            FileInputStream fis = context.openFileInput(usersThatHaveSuccessfullyLoggedInFile);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+            // Getting the gson builder
+            Gson gson = new GsonBuilder().create();
+            // Now we create the type
+            Type userListType = new TypeToken<List<User>>(){}.getType();
+            // Now reading from file
+            usersThatHaveSuccessfullyLoggedIn = gson.fromJson(in, userListType);
+        } catch (IOException e){
+            Log.e("Error", "Could not read usersThatHaveSuccessfullyLoggedIn from last use");
+        }
+
+        // Now we try to read problems that were only saved locally and were not synced with the cloud
+        try {
+            // Getting to read the file
+            FileInputStream fis = context.openFileInput(problemsSavedOnlyLocallyFile);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+            // Getting the gson builder
+            Gson gson = new GsonBuilder().create();
+            // Now we create the type
+            Type problemList = new TypeToken<List<Problem>>(){}.getType();
+            // Now reading from file
+            problemsSavedOnlyLocally = gson.fromJson(in, problemList);
+        } catch (IOException e){
+            Log.e("Error", "Could not read problemsSavedOnlyLocallyFile from last use");
+        }
+
+        // Now we try to read base records that were only saved locally and were not synced with the cloud
+        try {
+            // Getting to read the file
+            FileInputStream fis = context.openFileInput(baseRecordsSavedOnlyLocallyFile);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+            // Getting the gson builder
+            Gson gson = new GsonBuilder().create();
+            // Now we create the type
+            Type baseRecordList = new TypeToken<List<BaseRecord>>(){}.getType();
+            // Now reading from file
+            baseRecordsSavedOnlyLocally = gson.fromJson(in, baseRecordList);
+        } catch (IOException e){
+            Log.e("Error", "Could not read baseRecordsSavedOnlyLocally from last use");
+        }
+
+        // Now we try to read user records that were only saved locally and were not synced with the cloud
+        try {
+            // Getting to read the file
+            FileInputStream fis = context.openFileInput(userRecordsSavedOnlyLocallyFile);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+            // Getting the gson builder
+            Gson gson = new GsonBuilder().create();
+            // Now we create the type
+            Type userRecordList = new TypeToken<List<UserRecord> >(){}.getType();
+            // Now reading from file
+            userRecordsSavedOnlyLocally = gson.fromJson(in, userRecordList);
+        } catch (IOException e){
+            Log.e("Error", "Could not read userRecordsSavedOnlyLocally from last use");
+        }
+    }
+
+    /**
+     * The method write all the data in memory to files on the disk for persistence.
+     * @param context
+     */
+    public void writeDataToFiles(Context context){
+        // First we'll check if there was a loggedInUser
+        try {
+            // Stream to send data to file
+            FileOutputStream fos = context.openFileOutput(loggedInUserFile, Context.MODE_PRIVATE);
+            // Getting the write which will be used to write to file
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+            // Writing JSON
+            Gson gson = new Gson();
+            gson.toJson(loggedInUser, out);
+            out.flush();
+            // Closing File
+            fos.close();
+        } catch (IOException e){
+            Log.e("Error", "Could not write last logged in user from file");
+        }
+
+        // Now we try to read problems from the last run
+        try {
+            // Stream to send data to file
+            FileOutputStream fos = context.openFileOutput(problemStorageFile, Context.MODE_PRIVATE);
+            // Getting the write which will be used to write to file
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+            // Writing JSON
+            Gson gson = new Gson();
+            gson.toJson(problemStorage, out);
+            out.flush();
+            // Closing File
+            fos.close();
+        } catch (IOException e){
+            Log.e("Error", "Could not write problems from last use");
+        }
+
+        // Now we try to read records from the last run
+        try {
+            // Stream to send data to file
+            FileOutputStream fos = context.openFileOutput(recordStorageFile, Context.MODE_PRIVATE);
+            // Getting the write which will be used to write to file
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+            // Writing JSON
+            Gson gson = new Gson();
+            gson.toJson(recordStorage, out);
+            out.flush();
+            // Closing File
+            fos.close();
+        } catch (IOException e){
+            Log.e("Error", "Could not write problems from last use");
+        }
+
+        // Now we try to read the users that have usersThatHaveSuccessfullyLoggedIn on this device
+        // by signing up on this or using a unique code to log in
+        try {
+            // Stream to send data to file
+            FileOutputStream fos = context.openFileOutput(usersThatHaveSuccessfullyLoggedInFile, Context.MODE_PRIVATE);
+            // Getting the write which will be used to write to file
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+            // Writing JSON
+            Gson gson = new Gson();
+            gson.toJson(usersThatHaveSuccessfullyLoggedIn, out);
+            out.flush();
+            // Closing File
+            fos.close();
+        } catch (IOException e){
+            Log.e("Error", "Could not write usersThatHaveSuccessfullyLoggedIn from last use");
+        }
+
+        // Now we try to read problems that were only saved locally and were not synced with the cloud
+        try {
+            // Stream to send data to file
+            FileOutputStream fos = context.openFileOutput(problemsSavedOnlyLocallyFile, Context.MODE_PRIVATE);
+            // Getting the write which will be used to write to file
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+            // Writing JSON
+            Gson gson = new Gson();
+            gson.toJson(problemsSavedOnlyLocally, out);
+            out.flush();
+            // Closing File
+            fos.close();
+        } catch (IOException e){
+            Log.e("Error", "Could not write problemsSavedOnlyLocallyFile from last use");
+        }
+
+        // Now we try to read base records that were only saved locally and were not synced with the cloud
+        try {
+            // Stream to send data to file
+            FileOutputStream fos = context.openFileOutput(baseRecordsSavedOnlyLocallyFile, Context.MODE_PRIVATE);
+            // Getting the write which will be used to write to file
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+            // Writing JSON
+            Gson gson = new Gson();
+            gson.toJson(baseRecordsSavedOnlyLocally, out);
+            out.flush();
+            // Closing File
+            fos.close();
+        } catch (IOException e){
+            Log.e("Error", "Could not write baseRecordsSavedOnlyLocally from last use");
+        }
+
+        // Now we try to read user records that were only saved locally and were not synced with the cloud
+        try {
+            // Stream to send data to file
+            FileOutputStream fos = context.openFileOutput(userRecordsSavedOnlyLocallyFile, Context.MODE_PRIVATE);
+            // Getting the write which will be used to write to file
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+            // Writing JSON
+            Gson gson = new Gson();
+            gson.toJson(userRecordsSavedOnlyLocally, out);
+            out.flush();
+            // Closing File
+            fos.close();
+        } catch (IOException e){
+            Log.e("Error", "Could not write userRecordsSavedOnlyLocally from last use");
+        }
     }
 }

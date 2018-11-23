@@ -45,7 +45,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 try {
                     // update the user on ElasticSearch via SearchController
                     currentUser.updateUserInfo();
-                    /**
+                    /*
                      * We can call login again using the credentials of this user in order to
                      * double verify that the updated user was persisted properly, and update the
                      * currentUser in DataController.
@@ -54,6 +54,8 @@ public class EditProfileActivity extends AppCompatActivity {
                      * not be able to be set anywhere else but from logging in - Tony
                      */
                     dataController.login(currentUser.getUsername());
+                    // Writing to file
+                    dataController.writeDataToFiles(getApplicationContext());
                     Toast.makeText(getApplicationContext(),
                             "Profile Info Changed.",
                             Toast.LENGTH_SHORT).show();

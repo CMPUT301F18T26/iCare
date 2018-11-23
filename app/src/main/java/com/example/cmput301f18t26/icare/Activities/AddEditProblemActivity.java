@@ -130,6 +130,7 @@ public class AddEditProblemActivity extends AppCompatActivity {
                     "Problem edited successfully",
                     Toast.LENGTH_SHORT).show();
         }
+        dataController.writeDataToFiles(getApplicationContext());
         finish();
     }
 }

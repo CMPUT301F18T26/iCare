@@ -88,4 +88,12 @@ public class ViewProfileActivity extends AppCompatActivity {
         TextView phone = findViewById(R.id.phone);
         phone.setText(userToDisplay.getPhone());
     }
+
+    // This activity is being stopped, saving data to file
+    @Override
+    public void onStop() {
+        super.onStop();
+        // Writing to file
+        dataController.writeDataToFiles(getApplicationContext());
+    }
 }

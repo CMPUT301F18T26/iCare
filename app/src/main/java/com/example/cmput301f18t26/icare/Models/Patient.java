@@ -12,12 +12,11 @@ public class Patient extends User {
      * @param username
      * @param email
      * @param phone
-     * @param role
      * @param careProviderUID
      */
-    public Patient(String username, String email, String phone, int role, String careProviderUID) {
+    public Patient(String username, String email, String phone, String careProviderUID) {
         // Instantiate via our super-class method
-        super(username, email, phone, role);
+        super(username, email, phone, 0);
         this.careProviderUID = careProviderUID;
     }
 

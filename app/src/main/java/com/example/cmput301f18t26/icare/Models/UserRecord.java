@@ -25,22 +25,12 @@ public class UserRecord extends BaseRecord {
      * @param bodyLocation
      * @param photos
      */
-    public UserRecord(String title, String date, String comment, String problemID, ArrayList<Integer> location, String bodyLocation, ArrayList<String> photos, int recordType){
-        super(title, date, comment, problemID, recordType);
+    public UserRecord(String title, String date, String comment, String problemID, ArrayList<Integer> location, String bodyLocation, ArrayList<String> photos){
+        super(title, date, comment, problemID);
+        super.setRecType(1);
         this.location = location;
         this.bodyLocation = bodyLocation;
         this.photos = photos;
-    }
-
-    /**
-     * When called, returns a string with the title of the record and the date.
-     * @return
-     */
-    public String toString(){
-        //http://www.ntu.edu.sg/home/ehchua/programming/java/DateTimeCalendar.html
-        String date = super.getDate();
-
-        return super.getTitle() + "\n" + date;
     }
 
     //Location Getters and Setters

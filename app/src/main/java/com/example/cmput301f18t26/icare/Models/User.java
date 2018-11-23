@@ -9,14 +9,9 @@ import java.util.UUID;
 import io.searchbox.client.JestResult;
 
 /**
- * Our user class could be a Patient or CareProvider
- *
- * Update - Make the User class non-abstract so that it can be instantiated to unpack data from ES
- * Update - Class will be made abstract again in the future. TODO Remove abstract stuff
- *
- * This class should ideally be instantiated by a factory pattern.
+ * Our user class could be a Patient or CareProvider. So, this class is abstract and cannot be initialized
  */
-public class User {
+public abstract class User {
     private String UID; // let's make this immutable (its in caps cause convention)
     private String username;
     private String email;
