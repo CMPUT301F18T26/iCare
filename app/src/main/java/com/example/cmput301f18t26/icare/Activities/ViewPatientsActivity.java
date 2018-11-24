@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.Models.Patient;
@@ -117,7 +118,10 @@ public class ViewPatientsActivity extends AppCompatActivity {
      */
     @Override
     public void onBackPressed() {
-        // Do nothing on back press.
+        // Do nothing on back press except show an error message
+        Toast.makeText(getApplicationContext(),
+                "Error: Cannot go back from this activity.",
+                Toast.LENGTH_SHORT).show();
     }
 
     // This activity is being stopped, saving data to file
