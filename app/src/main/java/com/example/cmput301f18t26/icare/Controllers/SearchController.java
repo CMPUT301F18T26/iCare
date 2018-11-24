@@ -174,8 +174,7 @@ public class SearchController {
         protected JestResult doInBackground(User... users) {
             // Creating the query to update the user
             User user = users[0];
-            Index index = new Index.Builder(user).index(userType).type(userType).refresh(true)
-                    .id(user.getUID()).build();
+            Index index = new Index.Builder(user).index(groupIndex).type(userType).refresh(true).id(user.getUID()).build();
 
             try {
                 result = jestClient.execute(index);

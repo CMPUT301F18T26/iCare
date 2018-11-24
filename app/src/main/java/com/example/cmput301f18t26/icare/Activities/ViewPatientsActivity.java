@@ -51,12 +51,11 @@ public class ViewPatientsActivity extends AppCompatActivity {
         patientList = findViewById(R.id.care_provider_patient_list);
         patientList.setAdapter(patientListAdapter);
 
-        // Add action for clicking on a patient
+        // Add action for clicking on a patient and viewing their problems
         patientList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view,
                                     int position, long id) {
-
                 Intent intent = new Intent(adapterView.getContext(), ViewPatientProblemsActivity.class);
                 intent.putExtra(SELECTED_PATIENT, position);
                 startActivity(intent);
@@ -70,11 +69,22 @@ public class ViewPatientsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
 
     @Override
     protected void onResume(){
         super.onResume();
+        // initialize patient list view items
+        patientListAdapter = new ArrayAdapter<>(
+                this,
+                R.layout.activity_add_patient_seach_and_list_item,
+                R.id.patient_name,
+                dataController.getPatients()
+        );
+        // Setting adapter
+        patientList.setAdapter(patientListAdapter);
+        // Sending message of change in data
         patientListAdapter.notifyDataSetChanged();
     }
 

@@ -60,4 +60,6 @@
     <string name="title_notifications">Notifications</string>
     <string name="search">Search</string>
     <string name="log_out">Log out</string>
+    <string name="edit_contact_information">Edit Contact Information</string>
+    <string name="view_profile_of_patient">View Profile Of Patient</string>
 </resources>
