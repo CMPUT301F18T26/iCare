@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.cmput301f18t26.icare.Controllers.SearchController;
 
+import java.util.List;
 import java.util.UUID;
 
 import io.searchbox.client.JestResult;
@@ -69,9 +70,10 @@ public abstract class User {
     public boolean usernameTaken(){
         try{
             JestResult result = new SearchController.CheckIfUserNameExists().execute(username).get();
-            User returnUser = result.getSourceAsObject(User.class);
+            // Hacky Patient thing
+            Patient returnedUser = result.getSourceAsObject(Patient.class);
             // Here we check if we can fetch the UID, if not, then we get a NullPointerException, proving user does not exist.
-            Log.i("Error", returnUser.getUID());
+            returnedUser.getUID();
         } catch (NullPointerException e){
             // If a null pointer exception was thrown, return false as username is not taken
             return false;

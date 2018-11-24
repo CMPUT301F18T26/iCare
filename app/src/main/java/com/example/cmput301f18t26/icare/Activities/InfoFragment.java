@@ -2,7 +2,6 @@ package com.example.cmput301f18t26.icare.Activities;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.Controllers.RecordFactory;
 import com.example.cmput301f18t26.icare.Models.BaseRecord;
 import com.example.cmput301f18t26.icare.Models.Problem;
-import com.example.cmput301f18t26.icare.Models.BaseRecord;
 import com.example.cmput301f18t26.icare.Models.User;
 import com.example.cmput301f18t26.icare.R;
 
@@ -86,10 +84,10 @@ public class InfoFragment extends Fragment{
        user = dataController.getCurrentUser();
        String userUID = user.getUID();
        // Since this is a user created record
-       int recType = 1;
+       int recType = 0;
 
             //Create a new record in the userRecordFactory.
-            BaseRecord record = RecordFactory.getRecord(title, formattedDate, description, selectedProblem.getUID(), null, null, null, recType );
+            BaseRecord record = RecordFactory.getRecord(formattedDate, description, selectedProblem.getUID(), null, null, null, recType, title);
             dataController.addRecord(record);
             Toast.makeText(getActivity(), "User Record added successfully", Toast.LENGTH_SHORT).show();
 

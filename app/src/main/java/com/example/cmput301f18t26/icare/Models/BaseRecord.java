@@ -1,7 +1,7 @@
 package com.example.cmput301f18t26.icare.Models;
 
-import java.util.Calendar;
 
+import java.util.UUID;
 
 /**
  * This class holds all the information for records that are associated with a problem.
@@ -9,7 +9,7 @@ import java.util.Calendar;
  * This is an abstract class, so it will never initialized.
  */
 public abstract class BaseRecord {
-    private String id;
+    private String UID;
     private String title;
     private String date;
     private String comment;
@@ -20,12 +20,13 @@ public abstract class BaseRecord {
     /**
      * The initializer, takes the title, date, comment and problemId and creates an object.
      * The problemId is the id of a problem that the record is associated with.
-     * @param title
      * @param date
      * @param comment
      * @param problemUID
+     * @param title
      */
-    public BaseRecord(String title, String date, String comment, String problemUID){
+    public BaseRecord(String date, String comment, String problemUID, String title){
+        this.UID = UUID.randomUUID().toString();
         this.title = title;
         this.date = date;
         this.comment = comment;
@@ -33,9 +34,9 @@ public abstract class BaseRecord {
     }
 
     // Getters and setter
-    public String getId() { return this.id; }
+    public String getUID() { return this.UID; }
 
-    public void setId(String id) { this.id = id; }
+    public void setUID(String UID) { this.UID = UID; }
 
     public String getProblemUID() { return this.problemUID; }
 

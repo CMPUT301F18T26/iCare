@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.IntentActions;
@@ -23,7 +25,7 @@ import java.util.List;
 public class PatientViewProblemListActivity extends AppCompatActivity {
 
     private DataController dataController;
-    private ListView oldProblemList;
+    private ListView problemListView;
     private List<Problem> problemList;
     private ArrayAdapter<Problem> adapter;
     private User currentUser;
@@ -37,13 +39,13 @@ public class PatientViewProblemListActivity extends AppCompatActivity {
         dataController = DataController.getInstance();
         currentUser = dataController.getCurrentUser();
         problemList = dataController.getProblems(currentUser);
-        oldProblemList = (ListView) findViewById(R.id.patient_conditions_list_view);
+        problemListView = (ListView) findViewById(R.id.patient_conditions_list_view);
 
         // Takes you to view problem on press
-        oldProblemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        problemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Object object = oldProblemList.getItemAtPosition(position);
+                Object object = problemListView.getItemAtPosition(position);
                 Problem problem = Problem.class.cast(object);
                 dataController.setSelectedProblem(problem);
                 Intent i = new Intent(view.getContext(), PatientViewProblemActivity.class);
@@ -64,26 +66,16 @@ public class PatientViewProblemListActivity extends AppCompatActivity {
         });
     }
 
-
-    protected void onStart() {
-        super.onStart();
-        problemList = dataController.getProblems(currentUser);
-        adapter = new ArrayAdapter<>(this,
-               R.layout.problems_list_item,R.id.condition_name,
-                problemList);
-        adapter.notifyDataSetChanged();
-        oldProblemList.setAdapter(adapter);
-    }
-
     @Override
     protected void onResume(){
         super.onResume();
         problemList = dataController.getProblems(currentUser);
+        Log.i("Error", problemList.toString());
         adapter = new ArrayAdapter<>(this,
                 R.layout.problems_list_item,R.id.condition_name,
                 problemList);
         adapter.notifyDataSetChanged();
-        oldProblemList.setAdapter(adapter);
+        problemListView.setAdapter(adapter);
     }
 
     @Override
