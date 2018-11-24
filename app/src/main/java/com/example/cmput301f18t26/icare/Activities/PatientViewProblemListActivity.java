@@ -38,7 +38,7 @@ public class PatientViewProblemListActivity extends AppCompatActivity {
         //This gets the necessary data to display the Problem ListView
         dataController = DataController.getInstance();
         currentUser = dataController.getCurrentUser();
-        problemList = dataController.getProblems(currentUser);
+        problemList = dataController.getProblems(currentUser.getUID());
         problemListView = (ListView) findViewById(R.id.patient_conditions_list_view);
 
         // Takes you to view problem on press
@@ -69,8 +69,7 @@ public class PatientViewProblemListActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        problemList = dataController.getProblems(currentUser);
-        Log.i("Error", problemList.toString());
+        problemList = dataController.getProblems(currentUser.getUID());
         adapter = new ArrayAdapter<>(this,
                 R.layout.problems_list_item,R.id.condition_name,
                 problemList);
@@ -101,6 +100,7 @@ public class PatientViewProblemListActivity extends AppCompatActivity {
                 intent.putExtra("user_id", currentUser.getUID());
                 // Launching the intent
                 startActivity(intent);
+                return super.onOptionsItemSelected(item);
             case R.id.log_out:
                 // Log the person out
                 dataController.logout();

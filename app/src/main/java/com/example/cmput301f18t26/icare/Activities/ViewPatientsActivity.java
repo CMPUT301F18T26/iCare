@@ -75,6 +75,16 @@ public class ViewPatientsActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
+        // initialize patient list view items
+        patientListAdapter = new ArrayAdapter<>(
+                this,
+                R.layout.activity_add_patient_seach_and_list_item,
+                R.id.patient_name,
+                dataController.getPatients()
+        );
+        // Setting adapter
+        patientList.setAdapter(patientListAdapter);
+        // Sending message of change in data
         patientListAdapter.notifyDataSetChanged();
     }
 

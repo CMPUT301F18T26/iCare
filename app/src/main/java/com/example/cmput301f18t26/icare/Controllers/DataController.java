@@ -327,28 +327,28 @@ public class DataController {
 
     /**
      * Takes a user and returns the Problem list mapping to that user in ProblemStorage
-     * @param user
+     * @param userId
      * @return
      */
-    public List<Problem> getProblems(User user){
+    public List<Problem> getProblems(String userId){
         List<Problem> problemList = null;
         // Checking if we have server connectivity
         if (MainActivity.checkConnection()) {
             // Connected to server
             try {
                 // Getting the results
-                JestResult result = new SearchController.GetProblems().execute(user.getUID()).get();
+                JestResult result = new SearchController.GetProblems().execute(userId).get();
                 // Putting it into a list
-                problemStorage.put(user.getUID(), result.getSourceAsObjectList(Problem.class));
-                return problemStorage.get(user.getUID());
+                problemStorage.put(userId, result.getSourceAsObjectList(Problem.class));
+                return problemStorage.get(userId);
             } catch (Exception e) {
                 Log.i("Error", "Failed to fetch problems from the server", e);
                 // Got an error, try getting it locally
-                return problemStorage.getOrDefault(user.getUID(), new ArrayList<Problem>());
+                return problemStorage.getOrDefault(userId, new ArrayList<Problem>());
             }
         }
 
-        return problemStorage.getOrDefault(user.getUID(), new ArrayList<Problem>());
+        return problemStorage.getOrDefault(userId, new ArrayList<Problem>());
     }
 
     /**

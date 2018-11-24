@@ -31,7 +31,7 @@ public class PatientViewProblemActivity extends AppCompatActivity {
     private TextView descriptionText;
     private TextView dateText;
     private List<BaseRecord> userRecordList;
-    private ListView oldRecordList;
+    private ListView recordListView;
     private ArrayAdapter<BaseRecord> adapter;
 
     @Override
@@ -111,7 +111,7 @@ public class PatientViewProblemActivity extends AppCompatActivity {
         Log.i("Error", selectedProblem.getUID());
 
         userRecordList = dataController.getRecords(selectedProblem);
-        oldRecordList = (ListView) findViewById(R.id.record_list_view);
+        recordListView = (ListView) findViewById(R.id.record_list_view);
 
         //Set the values of the text boxes
         setValues(selectedProblem);
@@ -119,7 +119,7 @@ public class PatientViewProblemActivity extends AppCompatActivity {
         userRecordList = dataController.getRecords(selectedProblem);
         adapter = new ArrayAdapter<>(this, R.layout.userrecords_list_item,R.id.record_name,userRecordList);
         adapter.notifyDataSetChanged();
-        oldRecordList.setAdapter(adapter);
+        recordListView.setAdapter(adapter);
     }
 
     void setValues(Problem problem) {
