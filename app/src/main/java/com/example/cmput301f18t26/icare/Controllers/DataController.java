@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -50,6 +51,7 @@ import static android.support.v4.content.ContextCompat.getSystemService;
  *
  * An instance of it may be retrieved via DataController.getInstance();
  */
+
 public class DataController {
 
     // ------------------------ DO NOT TOUCH THE FOLLOWING -----------------------------------------
@@ -139,6 +141,10 @@ public class DataController {
         return onlyInstance;
     }
 
+    /**
+     * TODO SETUP METHOD
+     */
+
     // ------------------------ USER LOGIN/SIGNUP/LOGGEDINUSER METHODS -----------------------------
 
     /**
@@ -153,6 +159,7 @@ public class DataController {
             User userToAdd = null;
             // Getting the user first
             JestResult result = new SearchController.SignInUser().execute(user.getUsername()).get();
+            Log.e("Error", result.getErrorMessage());
             // ooooo hacks!!!
             User fetchedCurrentUser = result.getSourceAsObject(User.class);
             // check the role and unpack to the proper object so that no data is lost
@@ -306,21 +313,13 @@ public class DataController {
         // If we have a internet connection then save to ElasticSearch as well
         if (MainActivity.checkConnection()) {
             try {
-                JsonObject jsonProblem = new SearchController.AddProblem().execute(problem).get()
-                        .getJsonObject();
-                String problemPID = jsonProblem.get("_id").toString();
-                Log.i("Created", problemPID);
+                JestResult result = new SearchController.AddProblem().execute(problem).get();
             } catch (Exception e) {
                 Log.i("Error", "Failed to create the problem", e);
             }
-            /**
-             * We will need to think of a clever way to save the problem next time we have
-             * access to internet if it is not saved at this point.
-             *
-             * We could:
-             * Add a flag to problem that indicates whether it was saved to ElasticSearch
-             * Attempt to save all problems that do not have this flag set every time addProblem
-             * is called.
+        } else{
+            /*
+             * TODO: Write to the other the local array so we can sync later.
              */
         }
     }
@@ -331,8 +330,24 @@ public class DataController {
      * @return
      */
     public List<Problem> getProblems(User user){
-        String userUID = user.getUID();
-        return problemStorage.getOrDefault(userUID, new ArrayList<Problem>());
+        List<Problem> problemList = null;
+        // Checking if we have server connectivity
+        if (MainActivity.checkConnection()) {
+            // Connected to server
+            try {
+                // Getting the results
+                JestResult result = new SearchController.GetProblems().execute(user.getUID()).get();
+                // Putting it into a list
+                problemStorage.put(user.getUID(), result.getSourceAsObjectList(Problem.class));
+                return problemStorage.get(user.getUID());
+            } catch (Exception e) {
+                Log.i("Error", "Failed to fetch problems from the server", e);
+                // Got an error, try getting it locally
+                return problemStorage.getOrDefault(user.getUID(), new ArrayList<Problem>());
+            }
+        }
+
+        return problemStorage.getOrDefault(user.getUID(), new ArrayList<Problem>());
     }
 
     /**
@@ -343,6 +358,9 @@ public class DataController {
         /*
          * this is easy, just remove the problem by finding the problem with the same UID,
          * then add it back, if you do enough leetcode you will know this pattern well lol
+         */
+        /*
+         * TODO: WRITE TO ES
          */
         String userUID = problem.getUserUID();
         List<Problem> problemsList = problemStorage.get(userUID);
@@ -361,6 +379,9 @@ public class DataController {
      * @param problem
      */
     public void deleteProblem(Problem problem) {
+        /*
+         * TODO: WRITE TO ES
+         */
         // Getting the user id of the problem
         String userUID = problem.getUserUID();
         // Now removing the problem from the list
@@ -420,6 +441,9 @@ public class DataController {
              * is called.
              */
         }
+        /*
+         * TODO: WRITE TO ES
+         */
     }
 
     /**
@@ -430,6 +454,9 @@ public class DataController {
     public List<BaseRecord> getRecords(Problem problem){
         String problemUID = problem.getUID();
         return recordStorage.getOrDefault(problemUID, new ArrayList<BaseRecord>());
+        /*
+         * TODO: GET FROM ES
+         */
     }
 
     /**
@@ -453,100 +480,101 @@ public class DataController {
         } catch (IOException e){
             Log.e("Error", "Could not read last logged in user from file");
         }
-
-        // Now we try to read problems from the last run
-        try {
-            // Getting to read the file
-            FileInputStream fis = context.openFileInput(problemStorageFile);
-            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-            // Getting the gson builder
-            Gson gson = new GsonBuilder().create();
-            // Now we create the type
-            Type mapListProblemType = new TypeToken<Map<String, List<Problem>>>(){}.getType();
-            // Now reading from file
-            problemStorage = gson.fromJson(in, mapListProblemType);
-        } catch (IOException e){
-            Log.e("Error", "Could not read problems from last use");
-        }
-
-        // Now we try to read records from the last run
-        try {
-            // Getting to read the file
-            FileInputStream fis = context.openFileInput(recordStorageFile);
-            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-            // Getting the gson builder
-            // Custom deserializer for this class
-            Gson gson = new GsonBuilder()
-                    .registerTypeAdapter(BaseRecord.class, new RecordDeserializer())
-                    .create();
-            // Now we create the type
-            Type mapListRecordType = new TypeToken<Map<String, List<BaseRecord>>>(){}.getType();
-            // Now reading from file
-            recordStorage = gson.fromJson(in, mapListRecordType);
-        } catch (IOException e){
-            Log.e("Error", "Could not read problems from last use");
-        }
-
-        // Now we try to read the users that have usersThatHaveSuccessfullyLoggedIn on this device
-        // by signing up on this or using a unique code to log in
-        try {
-            // Getting to read the file
-            FileInputStream fis = context.openFileInput(usersThatHaveSuccessfullyLoggedInFile);
-            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-            // Getting the gson builder
-            Gson gson = new GsonBuilder().create();
-            // Now we create the type
-            Type userListType = new TypeToken<List<User>>(){}.getType();
-            // Now reading from file
-            usersThatHaveSuccessfullyLoggedIn = gson.fromJson(in, userListType);
-        } catch (IOException e){
-            Log.e("Error", "Could not read usersThatHaveSuccessfullyLoggedIn from last use");
-        }
-
-        // Now we try to read problems that were only saved locally and were not synced with the cloud
-        try {
-            // Getting to read the file
-            FileInputStream fis = context.openFileInput(problemsSavedOnlyLocallyFile);
-            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-            // Getting the gson builder
-            Gson gson = new GsonBuilder().create();
-            // Now we create the type
-            Type problemList = new TypeToken<List<Problem>>(){}.getType();
-            // Now reading from file
-            problemsSavedOnlyLocally = gson.fromJson(in, problemList);
-        } catch (IOException e){
-            Log.e("Error", "Could not read problemsSavedOnlyLocallyFile from last use");
-        }
-
-        // Now we try to read base records that were only saved locally and were not synced with the cloud
-        try {
-            // Getting to read the file
-            FileInputStream fis = context.openFileInput(baseRecordsSavedOnlyLocallyFile);
-            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-            // Getting the gson builder
-            Gson gson = new GsonBuilder().create();
-            // Now we create the type
-            Type baseRecordList = new TypeToken<List<BaseRecord>>(){}.getType();
-            // Now reading from file
-            baseRecordsSavedOnlyLocally = gson.fromJson(in, baseRecordList);
-        } catch (IOException e){
-            Log.e("Error", "Could not read baseRecordsSavedOnlyLocally from last use");
-        }
-
-        // Now we try to read user records that were only saved locally and were not synced with the cloud
-        try {
-            // Getting to read the file
-            FileInputStream fis = context.openFileInput(userRecordsSavedOnlyLocallyFile);
-            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-            // Getting the gson builder
-            Gson gson = new GsonBuilder().create();
-            // Now we create the type
-            Type userRecordList = new TypeToken<List<UserRecord> >(){}.getType();
-            // Now reading from file
-            userRecordsSavedOnlyLocally = gson.fromJson(in, userRecordList);
-        } catch (IOException e){
-            Log.e("Error", "Could not read userRecordsSavedOnlyLocally from last use");
-        }
+        // Commented out to test ES
+//
+//        // Now we try to read problems from the last run
+//        try {
+//            // Getting to read the file
+//            FileInputStream fis = context.openFileInput(problemStorageFile);
+//            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+//            // Getting the gson builder
+//            Gson gson = new GsonBuilder().create();
+//            // Now we create the type
+//            Type mapListProblemType = new TypeToken<Map<String, List<Problem>>>(){}.getType();
+//            // Now reading from file
+//            problemStorage = gson.fromJson(in, mapListProblemType);
+//        } catch (IOException e){
+//            Log.e("Error", "Could not read problems from last use");
+//        }
+//
+//        // Now we try to read records from the last run
+//        try {
+//            // Getting to read the file
+//            FileInputStream fis = context.openFileInput(recordStorageFile);
+//            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+//            // Getting the gson builder
+//            // Custom deserializer for this class
+//            Gson gson = new GsonBuilder()
+//                    .registerTypeAdapter(BaseRecord.class, new RecordDeserializer())
+//                    .create();
+//            // Now we create the type
+//            Type mapListRecordType = new TypeToken<Map<String, List<BaseRecord>>>(){}.getType();
+//            // Now reading from file
+//            recordStorage = gson.fromJson(in, mapListRecordType);
+//        } catch (IOException e){
+//            Log.e("Error", "Could not read problems from last use");
+//        }
+//
+//        // Now we try to read the users that have usersThatHaveSuccessfullyLoggedIn on this device
+//        // by signing up on this or using a unique code to log in
+//        try {
+//            // Getting to read the file
+//            FileInputStream fis = context.openFileInput(usersThatHaveSuccessfullyLoggedInFile);
+//            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+//            // Getting the gson builder
+//            Gson gson = new GsonBuilder().create();
+//            // Now we create the type
+//            Type userListType = new TypeToken<List<User>>(){}.getType();
+//            // Now reading from file
+//            usersThatHaveSuccessfullyLoggedIn = gson.fromJson(in, userListType);
+//        } catch (IOException e){
+//            Log.e("Error", "Could not read usersThatHaveSuccessfullyLoggedIn from last use");
+//        }
+//
+//        // Now we try to read problems that were only saved locally and were not synced with the cloud
+//        try {
+//            // Getting to read the file
+//            FileInputStream fis = context.openFileInput(problemsSavedOnlyLocallyFile);
+//            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+//            // Getting the gson builder
+//            Gson gson = new GsonBuilder().create();
+//            // Now we create the type
+//            Type problemList = new TypeToken<List<Problem>>(){}.getType();
+//            // Now reading from file
+//            problemsSavedOnlyLocally = gson.fromJson(in, problemList);
+//        } catch (IOException e){
+//            Log.e("Error", "Could not read problemsSavedOnlyLocallyFile from last use");
+//        }
+//
+//        // Now we try to read base records that were only saved locally and were not synced with the cloud
+//        try {
+//            // Getting to read the file
+//            FileInputStream fis = context.openFileInput(baseRecordsSavedOnlyLocallyFile);
+//            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+//            // Getting the gson builder
+//            Gson gson = new GsonBuilder().create();
+//            // Now we create the type
+//            Type baseRecordList = new TypeToken<List<BaseRecord>>(){}.getType();
+//            // Now reading from file
+//            baseRecordsSavedOnlyLocally = gson.fromJson(in, baseRecordList);
+//        } catch (IOException e){
+//            Log.e("Error", "Could not read baseRecordsSavedOnlyLocally from last use");
+//        }
+//
+//        // Now we try to read user records that were only saved locally and were not synced with the cloud
+//        try {
+//            // Getting to read the file
+//            FileInputStream fis = context.openFileInput(userRecordsSavedOnlyLocallyFile);
+//            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+//            // Getting the gson builder
+//            Gson gson = new GsonBuilder().create();
+//            // Now we create the type
+//            Type userRecordList = new TypeToken<List<UserRecord> >(){}.getType();
+//            // Now reading from file
+//            userRecordsSavedOnlyLocally = gson.fromJson(in, userRecordList);
+//        } catch (IOException e){
+//            Log.e("Error", "Could not read userRecordsSavedOnlyLocally from last use");
+//        }
     }
 
     /**

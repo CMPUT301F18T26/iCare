@@ -29,9 +29,10 @@ public class SearchController {
 
     private static JestDroidClient jestClient;
 
-    private static final String elasticSearchURL = "https://641vybd6aa:p5aozx6i80@tonyqian-6515826673.us-west-2.bonsaisearch.net";
-    private static final String groupIndex = "icare";
+    private static final String elasticSearchURL = "http://cmput301.softwareprocess.es:8080/";
+    private static final String groupIndex = "cmput301f18t26test";
     private static final String userType = "user";
+    private static final String problemType = "problem";
 
     /**
      * This method is used to instantiate our jestClient and save the instance to the
@@ -56,8 +57,8 @@ public class SearchController {
         @Override
         protected JestResult doInBackground(User... users) {
             User user = users[0];
-            Index index = new Index.Builder(user).index(groupIndex).type(userType).refresh(true)
-                    .id(user.getUID()).build();
+            Index index = new Index.Builder(user).index(groupIndex).type(userType).refresh(true).id(user.getUID()).build();
+            Log.i("Error", index.toString());
             try {
                 result = jestClient.execute(index);
                 return result;
@@ -94,7 +95,7 @@ public class SearchController {
         @Override
         protected JestResult doInBackground(Problem... problems) {
             Problem problem = problems[0];
-            Index index = new Index.Builder(problem).index(groupIndex).type("problem").refresh(true)
+            Index index = new Index.Builder(problem).index(groupIndex).type(problemType).refresh(true)
                     .id(problem.getUID()).build();
             try {
                 result = jestClient.execute(index);
@@ -130,7 +131,7 @@ public class SearchController {
                 result = jestClient.execute(search);
                 return result;
             } catch (Exception e) {
-                Log.e("Error", "Problem communicating with the ElasticSearch Instance");
+                Log.e("Error", e.getMessage());
                 return null;
             }
         }
@@ -152,7 +153,7 @@ public class SearchController {
                 result = jestClient.execute(search);
                 return result;
             } catch (Exception e) {
-                Log.e("Error", "Problem communicating with the ElasticSearch Instance");
+                Log.e("Error", e.getMessage());
                 return null;
             }
         }
@@ -168,14 +169,14 @@ public class SearchController {
         protected JestResult doInBackground(User... users) {
             // Creating the query to update the user
             User user = users[0];
-            Index index = new Index.Builder(user).index(groupIndex).type(userType).refresh(true)
+            Index index = new Index.Builder(user).index(userType).type(userType).refresh(true)
                     .id(user.getUID()).build();
 
             try {
                 result = jestClient.execute(index);
                 return result;
             } catch (Exception e) {
-                Log.e("Error", "Problem communicating with the ElasticSearch Instance");
+                Log.e("Error", e.getMessage());
                 return null;
             }
         }
@@ -211,7 +212,7 @@ public class SearchController {
                 }
 
             } catch (Exception e) {
-                Log.i("Error", "Something went wrong communicating with the ElasticSearch server");
+                Log.i("Error", e.getMessage());
             }
 
             return patients;
@@ -243,10 +244,37 @@ public class SearchController {
                 }
 
             } catch (Exception e) {
-                Log.i("Error", "Something went wrong communicating with the ElasticSearch server");
+                Log.i("Error", e.getMessage());
             }
 
             return patients;
+        }
+    }
+
+    public static class GetProblems extends AsyncTask<String, Void, JestResult> {
+
+        @Override
+        protected JestResult doInBackground(String... params) {
+            // Getting the query ready to fetch the problems of a user
+            String query = "{ \"query\": { \"bool\": { \"must\": [{ \"match\": { \"userUID\": \"" + params[0] + "\" } }] } } }";
+
+            // Getting the search ready
+            Search search = new Search.Builder(query).addIndex(groupIndex).addType(problemType).build();
+
+            // Executing the search
+            try {
+                SearchResult result = jestClient.execute(search);
+                if (result.isSucceeded()) {
+                    return result;
+                } else {
+                    Log.e("Error", "Could not get the patient list for this care provider");
+                }
+
+            } catch (Exception e) {
+                Log.i("Error", e.getMessage());
+            }
+
+            return null;
         }
     }
 }
