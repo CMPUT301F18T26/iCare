@@ -40,6 +40,8 @@
         <activity android:name=".Activities.ViewPatientsActivity" />
         <activity android:name=".Activities.ViewPatientProblemsActivity" />
         <activity android:name=".Activities.SearchAddPatientsActivity" />
+        <activity android:name=".Activities.CareProviderViewPatientProblemActivity" />
+        <activity android:name=".Activities.CareProviderAddCommentActivity" />
     </application>
 
 </manifest>

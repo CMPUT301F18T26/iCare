@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -39,6 +40,7 @@ public class ViewPatientProblemsActivity extends AppCompatActivity {
         // Getting the list view
         patientProblemListView = findViewById(R.id.care_provider_patient_list_view);
 
+        // Care provider can view a patient's profile/contact information
         Button viewProfileButton = findViewById(R.id.view_profile);
 
         viewProfileButton.setOnClickListener(new View.OnClickListener() {
@@ -50,6 +52,24 @@ public class ViewPatientProblemsActivity extends AppCompatActivity {
                 intent.putExtra("user_id", patient.getUID());
                 // Launching the intent
                 startActivity(intent);
+            }
+        });
+
+        // Care provider can view records associated with a patient's problem
+        patientProblemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                // Getting the tapped object
+                Object object = patientProblemListView.getItemAtPosition(position);
+                Problem problem = Problem.class.cast(object);
+
+                // Creating the intent and putting the information it needs
+                Intent i = new Intent(adapterView.getContext(), CareProviderViewPatientProblemActivity.class);
+                i.putExtra("user_id", patient.getUID());
+                i.putExtra("problem_id", problem.getUID());
+                dataController.setSelectedProblem(problem);
+                // Starting the intent
+                startActivity(i);
             }
         });
     }

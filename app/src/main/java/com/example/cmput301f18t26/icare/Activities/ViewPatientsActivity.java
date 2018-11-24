@@ -48,6 +48,7 @@ public class ViewPatientsActivity extends AppCompatActivity {
                 R.id.patient_name,
                 dataController.getPatients()
         );
+
         patientList = findViewById(R.id.care_provider_patient_list);
         patientList.setAdapter(patientListAdapter);
 
