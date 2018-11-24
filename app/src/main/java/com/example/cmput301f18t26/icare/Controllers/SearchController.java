@@ -3,6 +3,7 @@ package com.example.cmput301f18t26.icare.Controllers;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.cmput301f18t26.icare.Models.BaseRecord;
 import com.example.cmput301f18t26.icare.Models.Patient;
 import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.User;
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.searchbox.client.JestResult;
+import io.searchbox.core.Delete;
+import io.searchbox.core.DeleteByQuery;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
@@ -33,6 +36,7 @@ public class SearchController {
     private static final String groupIndex = "cmput301f18t26test";
     private static final String userType = "user";
     private static final String problemType = "problem";
+    private static final String recordType = "record";
 
     /**
      * This method is used to instantiate our jestClient and save the instance to the
@@ -260,6 +264,101 @@ public class SearchController {
 
             // Getting the search ready
             Search search = new Search.Builder(query).addIndex(groupIndex).addType(problemType).build();
+
+            // Executing the search
+            try {
+                SearchResult result = jestClient.execute(search);
+                if (result.isSucceeded()) {
+                    return result;
+                } else {
+                    Log.e("Error", "Could not get the patient list for this care provider");
+                }
+
+            } catch (Exception e) {
+                Log.i("Error", e.getMessage());
+            }
+
+            return null;
+        }
+    }
+
+    public static class DeleteProblem extends AsyncTask<String, Void, JestResult> {
+        @Override
+        protected JestResult doInBackground(String... params) {
+            // Getting the delete query ready
+            Delete delete = new Delete.Builder(params[0]).index(groupIndex).type(problemType).build();
+
+            // Executing the query
+            try {
+                JestResult result = jestClient.execute(delete);
+                if (result.isSucceeded()) {
+                    return result;
+                } else {
+                    Log.e("Error", "Could not delete the problem on the server.");
+                }
+
+            } catch (Exception e) {
+                Log.i("Error", e.getMessage());
+            }
+
+            return null;
+        }
+    }
+
+    public static class AddRecord extends AsyncTask<BaseRecord, Void, JestResult> {
+        private JestResult result;
+
+        @Override
+        protected JestResult doInBackground(BaseRecord... records) {
+            BaseRecord record = records[0];
+            Index index = new Index.Builder(record).index(groupIndex).type(recordType).refresh(true)
+                    .id(record.getUID()).build();
+            try {
+                result = jestClient.execute(index);
+                return result;
+            } catch (Exception e) {
+                Log.i("Error", "Jest failed to execute", e);
+                return null;
+            }
+        }
+    }
+
+    public static class GetRecords extends AsyncTask<String, Void, JestResult> {
+
+        @Override
+        protected JestResult doInBackground(String... params) {
+            // Getting the query ready to fetch the problems of a user
+            String query = "{ \"query\": { \"bool\": { \"must\": [{ \"match\": { \"problemUID\": \"" + params[0] + "\" } }] } } }";
+
+            // Getting the search ready
+            Search search = new Search.Builder(query).addIndex(groupIndex).addType(recordType).build();
+
+            // Executing the search
+            try {
+                SearchResult result = jestClient.execute(search);
+                if (result.isSucceeded()) {
+                    return result;
+                } else {
+                    Log.e("Error", "Could not get the patient list for this care provider");
+                }
+
+            } catch (Exception e) {
+                Log.i("Error", e.getMessage());
+            }
+
+            return null;
+        }
+    }
+
+    public static class GetRecordUsingUID extends AsyncTask<String, Void, JestResult> {
+
+        @Override
+        protected JestResult doInBackground(String... params) {
+            // Getting the query ready to fetch the problems of a user
+            String query = "{ \"query\": { \"bool\": { \"must\": [{ \"match\": { \"_id\": \"" + params[0] + "\" } }] } } }";
+
+            // Getting the search ready
+            Search search = new Search.Builder(query).addIndex(groupIndex).addType(recordType).build();
 
             // Executing the search
             try {

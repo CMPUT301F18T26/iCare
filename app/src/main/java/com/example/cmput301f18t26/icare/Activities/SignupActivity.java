@@ -99,7 +99,6 @@ public class SignupActivity extends AppCompatActivity {
          * Given that our user is created properly and there are no validation errors,
          * let's save it to our DataController cache
          */
-        Log.i("Erro", "WHY1?!?!?!");
         dataController.signup(user);
         Toast.makeText(getApplicationContext(),
                 "User created successfully",

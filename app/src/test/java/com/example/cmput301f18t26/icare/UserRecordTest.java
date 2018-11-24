@@ -27,7 +27,7 @@ public class UserRecordTest {
 
 
 //        // First creating a userRecord
-        UserRecord record = new UserRecord(title, date, comment, problemID, location, bodyLocation, photos);
+        UserRecord record = new UserRecord(, date, comment, problemID, location, bodyLocation, photos, title);
 
         // Check if record ID is instantiated correctly
         //assertEquals(record.getRecordId(), id);
@@ -53,7 +53,7 @@ public class UserRecordTest {
         BodyLocation bodyLocation = BodyLocation.HEAD;
         ArrayList<String> photos = new ArrayList<>();
 
-        UserRecord record = new UserRecord(title, date, comment, problemID, location, bodyLocation, photos);
+        UserRecord record = new UserRecord(, date, comment, problemID, location, bodyLocation, photos, title);
 
         //Test that title is correct
         assertEquals(title, record.getTitle());
@@ -82,7 +82,7 @@ public class UserRecordTest {
         BodyLocation bodyLocation = BodyLocation.HEAD;
         ArrayList<String> photos = new ArrayList<>();
 
-        UserRecord record = new UserRecord(title, date, comment, problemID, location, bodyLocation, photos);
+        UserRecord record = new UserRecord(, date, comment, problemID, location, bodyLocation, photos, title);
 
         //Test that date is correct
         assertEquals(date, record.getDate());
@@ -112,7 +112,7 @@ public class UserRecordTest {
         BodyLocation bodyLocation = BodyLocation.HEAD;
         ArrayList<String> photos = new ArrayList<>();
 
-        UserRecord record = new UserRecord(title, date, comment, problemID, location, bodyLocation, photos);
+        UserRecord record = new UserRecord(, date, comment, problemID, location, bodyLocation, photos, title);
 
         //Test that comment is correct
         assertEquals(comment, record.getComment());
@@ -142,7 +142,7 @@ public class UserRecordTest {
         BodyLocation bodyLocation = BodyLocation.HEAD;
         ArrayList<String> photos = new ArrayList<>();
 
-        UserRecord record = new UserRecord(title, date, comment, problemID, location, bodyLocation, photos);
+        UserRecord record = new UserRecord(, date, comment, problemID, location, bodyLocation, photos, title);
 
         //Test that location is correct
         assertEquals(location, record.getLocation());
@@ -174,7 +174,7 @@ public class UserRecordTest {
         BodyLocation bodyLocation = BodyLocation.HEAD;
         ArrayList<String> photos = new ArrayList<>();
 
-        UserRecord record = new UserRecord(title, date, comment, problemID, location, bodyLocation, photos);
+        UserRecord record = new UserRecord(, date, comment, problemID, location, bodyLocation, photos, title);
 
         //Test that location is correct
         assertEquals(bodyLocation, record.getBodyLocation());
@@ -204,7 +204,7 @@ public class UserRecordTest {
         BodyLocation bodyLocation = BodyLocation.HEAD;
         ArrayList<String> photos = new ArrayList<>();
 
-        UserRecord record = new UserRecord(title, date, comment, problemID, location, bodyLocation, photos);
+        UserRecord record = new UserRecord(, date, comment, problemID, location, bodyLocation, photos, title);
         // Checking if photos length is 0
         assertEquals(photos.size(), 0);
 

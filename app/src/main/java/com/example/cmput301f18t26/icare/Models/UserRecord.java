@@ -1,12 +1,10 @@
 package com.example.cmput301f18t26.icare.Models;
 
-import com.example.cmput301f18t26.icare.BodyLocation;
-
 import java.util.ArrayList;
 
 /**
  * This class is a subclass of the records class. An object of this class is created when a user
- * wants to add a new record to their problems. recType = 1
+ * wants to add a new record to their problems. recType = 0
  */
 public class UserRecord extends BaseRecord {
     // Array list to store records for this user
@@ -17,17 +15,25 @@ public class UserRecord extends BaseRecord {
 
     /**
      * The constructor for this class.
-     * @param title
      * @param date
      * @param comment
      * @param problemID
      * @param location
      * @param bodyLocation
      * @param photos
+     * @param title
      */
-    public UserRecord(String title, String date, String comment, String problemID, ArrayList<Integer> location, String bodyLocation, ArrayList<String> photos){
-        super(title, date, comment, problemID);
-        super.setRecType(1);
+    public UserRecord(String date, String comment, String problemID, ArrayList<Integer> location, String bodyLocation, ArrayList<String> photos, String title){
+        super(date, comment, problemID, title);
+        super.setRecType(0);
+        this.location = location;
+        this.bodyLocation = bodyLocation;
+        this.photos = photos;
+    }
+
+    public UserRecord(String date, String comment, String problemID, ArrayList<Integer> location, String bodyLocation, ArrayList<String> photos, int role, String title){
+        super(date, comment, problemID, title);
+        super.setRecType(role);
         this.location = location;
         this.bodyLocation = bodyLocation;
         this.photos = photos;

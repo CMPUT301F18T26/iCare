@@ -1,15 +1,18 @@
 package com.example.cmput301f18t26.icare.Activities;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.IntentActions;
@@ -44,10 +47,26 @@ public class PatientViewProblemActivity extends AppCompatActivity {
         Button deleteButton = (Button) findViewById(R.id.delete_condition_button);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                // TODO: explain
+                // Showing toast because it takes a while
+                Toast.makeText(getApplicationContext(),
+                        "Deleting problem, please wait...",
+                        Toast.LENGTH_SHORT).show();
+                // So the user doesn't mess with anything else while we wait for ES to refresh
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 setResult(RESULT_OK);
+
+
                 dataController.deleteProblem(selectedProblem);
                 dataController.writeDataToFiles(getApplicationContext());
-                finish();
+                // TODO explain
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                }, 500);
             }
         });
 
