@@ -300,7 +300,7 @@ public class DataController {
     public void addProblem(Problem problem) {
         // save to our local DataStructure for Problems
         String userUID = problem.getUserUID();
-        /**
+        /*
          * This is literally straight outta a leetcode question ;)
          * try to fetch the current ArrayList of problems associated with the user, if user doesn't
          * exist in problemStorage yet (no problems) then load a default blank rrayList<Problem>.
@@ -359,9 +359,21 @@ public class DataController {
          * this is easy, just remove the problem by finding the problem with the same UID,
          * then add it back, if you do enough leetcode you will know this pattern well lol
          */
-        /*
-         * TODO: WRITE TO ES
-         */
+        // If we have a internet connection then save to ElasticSearch as well
+        if (MainActivity.checkConnection()) {
+            try {
+                // We are just calling add problem since it contains teh same logic as updating it
+                JestResult result = new SearchController.AddProblem().execute(problem).get();
+            } catch (Exception e) {
+                Log.i("Error", "Failed to create the problem", e);
+            }
+        } else{
+            /*
+             * TODO: Write to the other the local array so we can sync later.
+             */
+        }
+
+        // Now we update the info locally
         String userUID = problem.getUserUID();
         List<Problem> problemsList = problemStorage.get(userUID);
         for (Problem oldProblem : problemsList) {
