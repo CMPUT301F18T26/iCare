@@ -57,12 +57,21 @@ public class SignupActivity extends AppCompatActivity {
             return;
         }
 
-        /**
-         * Grab selected button from radio group and use that buttons index to fetch the role
+        /*
+         * Grab selected button from radio group and use that buttons index to fetch the role after checking if something is selected or not.
          *
          * THIS IS A HUGE HACK, THIS COULD BE REFACTORED BY USING ENUMS PROPERLY BUT WE WILL SAVE
          * THAT FOR LATER - if anybody wants to be a hero
          */
+        if (roleSelect.getCheckedRadioButtonId() == -1)
+        {
+            // Show toast saying choose the type of user you are
+            Toast.makeText(getApplicationContext(),
+                    "Invalid user data. Choose the type of user you are.",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+
         int roleEntrySelectedId = roleSelect.getCheckedRadioButtonId();
         roleButton = findViewById(roleEntrySelectedId);
         int role = roleSelect.indexOfChild(roleButton);

@@ -399,6 +399,8 @@ public class DataController {
             try {
                 // We are just calling add problem since it contains teh same logic as updating it
                 JestResult som = new SearchController.DeleteProblem().execute(problem.getUID()).get();
+                // Delete associated records
+                som = new SearchController.DeleteRecordsAssociatedWithProblem().execute(problem.getUID()).get();
             } catch (Exception e) {
                 Log.i("Error", "Failed to create the problem on ES", e);
                 /*

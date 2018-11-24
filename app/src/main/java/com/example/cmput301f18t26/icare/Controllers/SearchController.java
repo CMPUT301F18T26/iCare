@@ -7,6 +7,7 @@ import com.example.cmput301f18t26.icare.Models.BaseRecord;
 import com.example.cmput301f18t26.icare.Models.Patient;
 import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.User;
+import com.example.cmput301f18t26.icare.Models.UserRecord;
 import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
@@ -367,6 +368,38 @@ public class SearchController {
                     return result;
                 } else {
                     Log.e("Error", "Could not get the patient list for this care provider");
+                }
+
+            } catch (Exception e) {
+                Log.i("Error", e.getMessage());
+            }
+
+            return null;
+        }
+    }
+
+    public static class DeleteRecordsAssociatedWithProblem extends AsyncTask<String, Void, JestResult> {
+        @Override
+        protected JestResult doInBackground(String... params) {
+            // First we need to fetch all the records for this problem
+            String query = "{ \"query\": { \"bool\": { \"must\": [{ \"match\": { \"problemUID\": \"" + params[0] + "\" } }] } } }";
+
+            // Getting the search ready
+            Search search = new Search.Builder(query).addIndex(groupIndex).addType(recordType).build();
+
+            try {
+                JestResult result = jestClient.execute(search);
+                // Now we get the records a list
+                List<UserRecord> records = result.getSourceAsObjectList(UserRecord.class);
+                // For we start a loop for each record found
+                for (BaseRecord record: records){
+                    // Getting the delete query ready
+                    Delete delete = new Delete.Builder(record.getUID()).index(groupIndex).type(recordType).build();
+                    // Executing the query
+                    result = jestClient.execute(delete);
+                    if (!result.isSucceeded()) {
+                        Log.e("Error", "Could not delete the problem on the server.");
+                    }
                 }
 
             } catch (Exception e) {
