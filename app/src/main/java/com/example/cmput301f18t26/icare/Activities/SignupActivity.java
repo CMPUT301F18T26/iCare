@@ -88,7 +88,7 @@ public class SignupActivity extends AppCompatActivity {
                     "Error: Invalid user data",
                     Toast.LENGTH_SHORT).show();
             return;
-        } else if (user.usernameTaken()) {
+        } else if (user.usernameTaken() == true) {
             Toast.makeText(getApplicationContext(),
                     "Error: Username is taken, choose another.",
                     Toast.LENGTH_SHORT).show();
@@ -99,6 +99,7 @@ public class SignupActivity extends AppCompatActivity {
          * Given that our user is created properly and there are no validation errors,
          * let's save it to our DataController cache
          */
+        Log.i("Erro", "WHY1?!?!?!");
         dataController.signup(user);
         Toast.makeText(getApplicationContext(),
                 "User created successfully",

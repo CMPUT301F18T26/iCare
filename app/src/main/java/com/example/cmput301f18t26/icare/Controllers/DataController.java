@@ -159,7 +159,6 @@ public class DataController {
             User userToAdd = null;
             // Getting the user first
             JestResult result = new SearchController.SignInUser().execute(user.getUsername()).get();
-            Log.e("Error", result.getErrorMessage());
             // ooooo hacks!!!
             User fetchedCurrentUser = result.getSourceAsObject(User.class);
             // check the role and unpack to the proper object so that no data is lost
@@ -366,6 +365,9 @@ public class DataController {
                 JestResult result = new SearchController.AddProblem().execute(problem).get();
             } catch (Exception e) {
                 Log.i("Error", "Failed to create the problem", e);
+                /*
+                 * TODO: Write to the other the local array so we can sync later.
+                 */
             }
         } else{
             /*
@@ -394,6 +396,7 @@ public class DataController {
         /*
          * TODO: WRITE TO ES
          */
+
         // Getting the user id of the problem
         String userUID = problem.getUserUID();
         // Now removing the problem from the list
