@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -15,7 +14,8 @@ import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.R;
 
-public class AddEditRecordActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class ViewRecordActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+
     private DataController dataController;
     private EditText titleEntry;
     private EditText descriptionEntry;
@@ -35,9 +35,9 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
 
-        Fragment InfoFragment = new Fragment();
+        Fragment ViewInfoFragment = new Fragment();
 
-        loadFragment(new InfoFragment());//display Info Fragment By default - Tyler
+        loadFragment(new ViewInfoFragment());//display View Info Fragment By default - Tyler
     }
 
 
@@ -60,16 +60,16 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
 
         //track which object is clicked - tyler
         switch(menuItem.getItemId()){
-            case R.id.info:
-                fragment = new InfoFragment();
+            case R.id.info: //clicking the info button in bottom nav
+                fragment = new ViewInfoFragment(); // creates a new ViewInfoFragment
                 break;
 
             case R.id.geo:
-                fragment = new GeolocationFragment();
+                fragment = new ViewGeolocationFragment();
                 break;
 
             case R.id.body:
-                fragment = new BodylocationFragment();
+                fragment = new ViewBodylocationFragment();
                 break;
 
         }
