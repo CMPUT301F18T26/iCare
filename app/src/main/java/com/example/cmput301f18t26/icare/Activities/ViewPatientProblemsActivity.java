@@ -3,7 +3,9 @@ package com.example.cmput301f18t26.icare.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -36,6 +38,20 @@ public class ViewPatientProblemsActivity extends AppCompatActivity {
         patient = dataController.getPatients().get(position);
         // Getting the list view
         patientProblemListView = findViewById(R.id.care_provider_patient_list_view);
+
+        Button viewProfileButton = findViewById(R.id.view_profile);
+
+        viewProfileButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // View contact information
+                // Creating the intent
+                Intent intent = new Intent(ViewPatientProblemsActivity.this, ViewProfileActivity.class);
+                // Passing in the user id that will have its information displayed
+                intent.putExtra("user_id", patient.getUID());
+                // Launching the intent
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

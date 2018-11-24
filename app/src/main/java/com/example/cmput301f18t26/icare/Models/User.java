@@ -100,13 +100,13 @@ public abstract class User {
      * Fetches the information of a user with the matching uid.
      * @param uid
      */
-    public static User fetchUserInformation(String uid){
+    public static User fetchPatientInformation(String uid){
         User returnUser = null;
         try {
             // Getting the information on the user
             JestResult result = new SearchController.GetUserInfoUsingUId().execute(uid).get();
             // Now returning it as a User object
-            returnUser = result.getSourceAsObject(User.class);
+            returnUser = result.getSourceAsObject(Patient.class);
         } catch (Exception e) {
             Log.i("Error", e.getMessage());
         }
