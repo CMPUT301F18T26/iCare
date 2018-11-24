@@ -2,6 +2,7 @@ package com.example.cmput301f18t26.icare.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Adapter;
@@ -42,14 +43,18 @@ public class CareProviderViewPatientProblemActivity extends AppCompatActivity {
         recordListView = findViewById(R.id.record_list_view);
 
         // Now setting up the listener which will allow care provider to add comments
-//        Button addCommentButton = findViewById(R.id.add_new_comment_to_problem);
-//        addCommentButton.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                setResult(RESULT_OK);
-//                Intent i = new Intent(v.getContext(), AddEditProblemActivity.class);
-//                startActivity(i);
-//            }
-//        });
+        FloatingActionButton addCommentButton = findViewById(R.id.add_new_comment_to_problem);
+        addCommentButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                setResult(RESULT_OK);
+                Intent i = new Intent(v.getContext(), CareProviderAddCommentActivity.class);
+                // Adding information to show
+                i.putExtra("user_id", user.getUID());
+                i.putExtra("problem_id", problem.getUID());
+                DataController.getInstance().setSelectedProblem(problem);
+                startActivity(i);
+            }
+        });
     }
 
     @Override
