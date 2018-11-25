@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.cmput301f18t26.icare.Models.BaseRecord;
+import com.example.cmput301f18t26.icare.Models.ImageAsString;
 import com.example.cmput301f18t26.icare.Models.Patient;
 import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.User;
@@ -38,6 +39,7 @@ public class SearchController {
     private static final String userType = "user";
     private static final String problemType = "problem";
     private static final String recordType = "record";
+    private static final String imageType = "image";
 
     /**
      * This method is used to instantiate our jestClient and save the instance to the
@@ -318,6 +320,43 @@ public class SearchController {
                 return result;
             } catch (Exception e) {
                 Log.i("Error", "Jest failed to execute", e);
+                return null;
+            }
+        }
+    }
+
+    public static class AddImage extends AsyncTask<ImageAsString, Void, JestResult> {
+        private JestResult result;
+
+        @Override
+        protected JestResult doInBackground(ImageAsString... image) {
+            Index index = new Index.Builder(image[0]).index(groupIndex).type(imageType).refresh(true)
+                    .id(image[0].getUID()).build();
+            try {
+                result = jestClient.execute(index);
+                return result;
+            } catch (Exception e) {
+                Log.i("Error", "Jest failed to execute, image was not sent to server", e);
+                return null;
+            }
+        }
+    }
+
+    public static class GetImage extends AsyncTask<String, Void, JestResult> {
+        private JestResult result;
+
+        @Override
+        protected JestResult doInBackground(String... imageID) {
+            String query = "{ \"query\": { \"bool\": { \"must\": [{ \"match\": { \"problemUID\": \"" + imageID[0] + "\" } }] } } }";
+
+            // Getting the search ready
+            Search search = new Search.Builder(query).addIndex(groupIndex).addType(imageType).build();
+
+            try {
+                result = jestClient.execute(search);
+                return result;
+            } catch (Exception e) {
+                Log.i("Error", "Jest failed to execute, image was not sent to server", e);
                 return null;
             }
         }

@@ -9,6 +9,7 @@ import com.example.cmput301f18t26.icare.Activities.MainActivity;
 import com.example.cmput301f18t26.icare.Models.BaseRecord;
 import com.example.cmput301f18t26.icare.Models.CareProvider;
 import com.example.cmput301f18t26.icare.Models.CareProviderRecord;
+import com.example.cmput301f18t26.icare.Models.ImageAsString;
 import com.example.cmput301f18t26.icare.Models.Patient;
 import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.BaseRecord;
@@ -35,6 +36,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import io.searchbox.client.JestResult;
 import io.searchbox.core.SearchResult;
@@ -103,6 +105,11 @@ public class DataController {
      * past by either creating a new account on this device or by using a single use code to login.
      */
     private List<User> usersThatHaveSuccessfullyLoggedIn = new ArrayList<>();
+
+    /**
+     * Data structure to hold images. Its a hash map to make sure that out look time is constant.
+     */
+    private HashMap<String, ImageAsString> imageAsStringsHash = new HashMap<>();
 
     /**
      * This data structure stores the records or problems that need to be synced with the server
@@ -517,6 +524,65 @@ public class DataController {
             // Offline, give local records back
             return recordStorage.get(problem.getUID());
         }
+    }
+
+    /// ------------------------ IMAGE METHODS -----------------------------------------------------
+
+
+    public void addPhoto(ImageAsString ias){
+        // save to our local DataStructure for Problems
+        String imageID = ias.getUID();
+        /**
+         * Same pattern as Problem
+         */
+
+        // add the record to this list
+        imageAsStringsHash.put(imageID, ias);
+        // If we have a internet connection then save to ElasticSearch as well
+        if (MainActivity.checkConnection()) {
+            try {
+                JestResult result = new SearchController.AddImage().execute(imageAsStringsHash.get(imageID)).get();
+            } catch (Exception e) {
+                Log.i("Error", "Failed to create the record on ES", e);
+                /*
+                 * TODO: Write to the other the local array so we can sync later.
+                 */
+            }
+        } else{
+            /*
+             * TODO: Write to the other the local array so we can sync later.
+             */
+        }
+    }
+
+    public ImageAsString getPhoto(String UID){
+        // save to our local DataStructure for Problems
+        // Check if UID exists in has, if yes, just return
+        ImageAsString ias = imageAsStringsHash.get(UID);
+        if (ias != null){
+            return ias;
+        }else {
+            if (MainActivity.checkConnection()) {
+                // Getting the result from the server
+                JestResult result = null;
+                try {
+                    result = new SearchController.GetImage().execute(UID).get();
+                } catch (Exception e) {
+                    // Getting the record
+                    Log.e("Error", "Could not fetch image from server");
+                    Log.e("Error", e.getMessage());
+                }
+                // Saving to hasp map
+                ias = result.getSourceAsObject(ImageAsString.class);
+                imageAsStringsHash.put(UID, ias);
+            }
+        }
+
+        return ias;
+    }
+
+    public void ClearPhotosHashMap(){
+        imageAsStringsHash = new HashMap<>();
     }
 
     /// ------------------------ FILE READ/WRITE METHODS -------------------------------------------

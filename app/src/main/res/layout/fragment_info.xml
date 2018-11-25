@@ -97,17 +97,17 @@
         app:layout_constraintStart_toEndOf="@+id/record_comment_label"
         app:layout_constraintTop_toTopOf="@+id/record_comment_label" />
 
-    <!-- Change SRC here -->
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/add_photos_to_record"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:src="@drawable/ic_image_black_300dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/record_comment" />
+        app:layout_constraintTop_toBottomOf="@+id/record_comment"
+        app:layout_constraintBottom_toTopOf="@id/userRecord_save_button"/>
 
     <Button
         android:id="@+id/userRecord_save_button"
