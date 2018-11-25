@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -52,6 +53,20 @@ public class CareProviderViewPatientProblemActivity extends AppCompatActivity {
                 i.putExtra("user_id", user.getUID());
                 i.putExtra("problem_id", problem.getUID());
                 DataController.getInstance().setSelectedProblem(problem);
+                startActivity(i);
+            }
+        });
+
+        // Takes you to view record on press
+        recordListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Object object = recordListView.getItemAtPosition(position);
+                BaseRecord record = BaseRecord.class.cast(object);
+                DataController.getInstance().setSelectedRecord(record);
+
+                Intent i = new Intent(view.getContext(), ViewRecordActivity.class);
+                //i.putExtra("action", IntentActions.EDIT);
                 startActivity(i);
             }
         });
