@@ -347,7 +347,7 @@ public class SearchController {
 
         @Override
         protected JestResult doInBackground(String... imageID) {
-            String query = "{ \"query\": { \"bool\": { \"must\": [{ \"match\": { \"problemUID\": \"" + imageID[0] + "\" } }] } } }";
+            String query = "{ \"query\": { \"bool\": { \"must\": [{ \"match\": { \"UID\": \"" + imageID[0] + "\" } }] } } }";
 
             // Getting the search ready
             Search search = new Search.Builder(query).addIndex(groupIndex).addType(imageType).build();

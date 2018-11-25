@@ -31,7 +31,8 @@ public class ImageAsString {
         // https://stackoverflow.com/questions/9224056/android-bitmap-to-base64-string
         byte [] decodedBytes = Base64.decode(photo, Base64.DEFAULT);
 
-        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+        Bitmap temp =  BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+        return temp;
     }
 
     public String getUID() {

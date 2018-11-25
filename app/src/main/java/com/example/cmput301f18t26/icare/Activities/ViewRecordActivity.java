@@ -29,6 +29,7 @@ public class ViewRecordActivity extends AppCompatActivity implements BottomNavig
 
         //Bundle extras = getIntent().getExtras();
         dataController = DataController.getInstance();
+
         //selectedProblem = dataController.getSelectedProblem();
 
         setContentView(R.layout.activity_add_edit_record);
