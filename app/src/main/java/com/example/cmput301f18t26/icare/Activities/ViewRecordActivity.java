@@ -27,9 +27,9 @@ public class ViewRecordActivity extends AppCompatActivity implements BottomNavig
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bundle extras = getIntent().getExtras();
+        //Bundle extras = getIntent().getExtras();
         dataController = DataController.getInstance();
-        selectedProblem = dataController.getSelectedProblem();
+        //selectedProblem = dataController.getSelectedProblem();
 
         setContentView(R.layout.activity_add_edit_record);
         BottomNavigationView navigation = findViewById(R.id.navigation);

@@ -46,6 +46,12 @@ public class PatientViewProblemActivity extends AppCompatActivity {
         descriptionText = (TextView) findViewById(R.id.condition_view_description);
         dateText = (TextView) findViewById(R.id.condition_view_date);
 
+        //This gets the necessary data to display the Problem ListView
+        dataController = DataController.getInstance();
+        //currentUser = dataController.getCurrentUser();
+        //problemList = dataController.getProblems(currentUser.getUID());
+        recordListView = (ListView) findViewById(R.id.record_list_view);
+
         //Deletes problem and returns you to the Problem List View
         Button deleteButton = (Button) findViewById(R.id.delete_condition_button);
         deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -99,16 +105,16 @@ public class PatientViewProblemActivity extends AppCompatActivity {
             }
         });
 
-        // Takes you to view problem on press
+        // Takes you to view record on press
         recordListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Object object = recordListView.getItemAtPosition(position);
-                UserRecord record = UserRecord.class.cast(object);
+                BaseRecord record = BaseRecord.class.cast(object);
                 dataController.setSelectedRecord(record);
 
                 Intent i = new Intent(view.getContext(), ViewRecordActivity.class);
-                i.putExtra("action", IntentActions.EDIT);
+                //i.putExtra("action", IntentActions.EDIT);
                 startActivity(i);
             }
         });

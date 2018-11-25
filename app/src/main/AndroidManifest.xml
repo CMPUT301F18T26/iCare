@@ -34,12 +34,13 @@
         <activity android:name=".Activities.PatientViewProblemActivity" />
         <activity
             android:name=".Activities.AddEditRecordActivity"
-            android:label="@string/title_activity_add_edit_record"></activity>
+            android:label="@string/title_activity_add_edit_record" />
         <activity android:name=".Activities.ViewProfileActivity" />
         <activity android:name=".Activities.EditProfileActivity" />
         <activity android:name=".Activities.ViewPatientsActivity" />
         <activity android:name=".Activities.ViewPatientProblemsActivity" />
         <activity android:name=".Activities.SearchAddPatientsActivity" />
+        <activity android:name=".Activities.ViewRecordActivity"></activity>
     </application>
 
 </manifest>

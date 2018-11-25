@@ -7,103 +7,95 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.cmput301f18t26.icare.Controllers.DataController;
+import com.example.cmput301f18t26.icare.Controllers.RecordFactory;
+import com.example.cmput301f18t26.icare.Models.BaseRecord;
+import com.example.cmput301f18t26.icare.Models.Problem;
+import com.example.cmput301f18t26.icare.Models.User;
 import com.example.cmput301f18t26.icare.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ViewInfoFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ViewInfoFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+import static android.app.Activity.RESULT_OK;
+
+
 public class ViewInfoFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+        private DataController dataController;
+        private TextView titleEntry;
+        private TextView descriptionEntry;
+        private TextView dateStamp;
+        private Problem selectedProblem;
+        private ImageView images;
+        private User user;
 
-    private OnFragmentInteractionListener mListener;
+        Calendar cal = Calendar.getInstance();
+        Date date=cal.getTime();
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss yyyy-MM-dd");
+        String formattedDate=dateFormat.format(date);
 
-    public ViewInfoFragment() {
-        // Required empty public constructor
-    }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ViewInfoFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ViewInfoFragment newInstance(String param1, String param2) {
-        ViewInfoFragment fragment = new ViewInfoFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            dataController = DataController.getInstance();
+            user = dataController.getCurrentUser();
+
+            //passing the problem ID not sure if we will need this - tyler
+            selectedProblem = dataController.getSelectedProblem();
         }
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_view_info, container, false);
-    }
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_view_info, container, false);
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            //Get everything we need for the View
+            titleEntry = (TextView) rootView.findViewById(R.id.view_record_title);
+            descriptionEntry = (TextView) rootView.findViewById(R.id.record_comment);
+            dateStamp =  rootView.findViewById(R.id.record_date_and_time);
+            dateStamp.setText(formattedDate);
+
+            //Saves your Record and returns you to the Record List View
+
+            Button saveButton = (Button) rootView.findViewById(R.id.userRecord_save_button);
+            saveButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    getActivity().setResult(RESULT_OK);
+                    save();
+                    //TODO: add check to make sure values entered correctly
+                }
+
+            });
+
+
+            return rootView;
         }
-    }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+        public void save(){
+            //Get the values of the Title, Date and Description fields
+            String title = titleEntry.getText().toString().trim();
+            String description = descriptionEntry.getText().toString().trim();
+            user = dataController.getCurrentUser();
+            String userUID = user.getUID();
+            // Since this is a user created record
+            int recType = 0;
+
+            //Create a new record in the userRecordFactory.
+            BaseRecord record = RecordFactory.getRecord(formattedDate, description, selectedProblem.getUID(), null, null, null, recType, title);
+            dataController.addRecord(record);
+            Toast.makeText(getActivity(), "User Record added successfully", Toast.LENGTH_SHORT).show();
+
+            //Returns to the problem description and list of records for that problem.
+            getActivity().finish();
         }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }

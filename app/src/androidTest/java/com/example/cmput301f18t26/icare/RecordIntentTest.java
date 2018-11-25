@@ -15,10 +15,8 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.action.ViewActions.typeText;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.Matchers.anything;
 
 public class RecordIntentTest {
@@ -54,7 +52,7 @@ public class RecordIntentTest {
         //Click on addRecord
         onView(withId(R.id.add_new_record_button)).perform(click());
 
-        onView(withId(R.id.record_title)).perform(typeText("fake"));
+        onView(withId(R.id.view_record_title)).perform(typeText("fake"));
         onView(withId(R.id.record_comment)).perform(typeText("123"));
 
         onView(withId(R.id.record_comment)).perform(closeSoftKeyboard());

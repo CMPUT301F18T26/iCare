@@ -56,7 +56,7 @@ public class InfoFragment extends Fragment{
         View rootView = inflater.inflate(R.layout.fragment_info, container, false);
 
         //Get everything we need for the View
-        titleEntry = (EditText) rootView.findViewById(R.id.record_title);
+        titleEntry = (EditText) rootView.findViewById(R.id.view_record_title);
         descriptionEntry = (EditText) rootView.findViewById(R.id.record_comment);
         dateStamp =  rootView.findViewById(R.id.record_date_and_time);
         dateStamp.setText(formattedDate);
