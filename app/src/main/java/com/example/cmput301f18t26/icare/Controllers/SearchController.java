@@ -13,12 +13,14 @@ import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import io.searchbox.client.JestResult;
 import io.searchbox.core.Delete;
-import io.searchbox.core.DeleteByQuery;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
@@ -53,6 +55,33 @@ public class SearchController {
         JestClientFactory jestClientFactory = new JestClientFactory();
         jestClientFactory.setDroidClientConfig(clientConfig);
         jestClient = (JestDroidClient) jestClientFactory.getObject();
+    }
+
+    /**
+     * This class checks to see if our app is connected to the internet for making decisions
+     * about whether to use SearchController/ElasticSearch or to use the local cache in
+     * DataController
+     *
+     * True = online
+     * https://stackoverflow.com/questions/6493517/detect-if-android-device-has-internet-connection, user: Bilal Shahid
+     */
+    public static class CheckConnetion extends AsyncTask<Boolean, Void, Boolean> {
+        private JestResult result;
+
+        @Override
+        protected Boolean doInBackground(Boolean...booleans) {
+            boolean success = false;
+            try {
+                URL url = new URL("https://google.com");
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setConnectTimeout(500);
+                connection.connect();
+                success = connection.getResponseCode() == 200;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return success;
+        }
     }
 
     /**

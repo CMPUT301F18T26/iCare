@@ -6,11 +6,16 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.Controllers.SearchController;
 import com.example.cmput301f18t26.icare.R;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * Our main activity. This activity initializes with a launch screen where users may choose to
@@ -57,19 +62,5 @@ public class MainActivity extends AppCompatActivity {
     public void signup(View view) {
         Intent intent = new Intent(this, SignupActivity.class);
         startActivity(intent);
-    }
-
-    /**
-     * This method checks to see if our app is connected to the internet for making decisions
-     * about whether to use SearchController/ElasticSearch or to use the local cache in
-     * DataController
-     *
-     * True = online
-     */
-    public static boolean checkConnection() {
-        ConnectivityManager cm =
-                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        return activeNetwork != null && activeNetwork.isConnected();
     }
 }

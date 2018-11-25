@@ -243,7 +243,13 @@ public class DataController {
     public void addPatient(Patient patient){
         patientStorage.add(patient); // save to our local patient DataStructure
         // If we have a internet connection then save the patient to ElasticSearch as well
-        if (MainActivity.checkConnection()) {
+        Boolean internetStatus = false;
+        try {
+            internetStatus = new SearchController.CheckConnetion().execute(false).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (internetStatus) {
             patient.updateUserInfo(); // this saves the user's new CareProviderUID to ES
             // We do not need to do anything for care provider if the person is offline
         }
@@ -258,7 +264,13 @@ public class DataController {
      */
     public List<Patient> getPatients() {
         // If we have a internet connection then fetch from ElasticSearch first
-        if (MainActivity.checkConnection()) {
+        Boolean internetStatus = false;
+        try {
+            internetStatus = new SearchController.CheckConnetion().execute(false).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (internetStatus) {
             try {
                 patientStorage = new SearchController.GetPatients().execute(loggedInUser.getUID()).get();
             } catch (Exception e) {
@@ -281,7 +293,13 @@ public class DataController {
     public List<Patient> getPatients(String username){
         List<Patient> result = new ArrayList<>();
         // If we have a internet connection then fetch from ElasticSearch first
-        if (MainActivity.checkConnection()) {
+        Boolean internetStatus = false;
+        try {
+            internetStatus = new SearchController.CheckConnetion().execute(false).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (internetStatus) {
             try {
                 allPatientStorage = new SearchController.SearchPatients().execute(username).get();
             } catch (Exception e) {
@@ -320,7 +338,13 @@ public class DataController {
         // put the list back into problemStorage
         problemStorage.put(userUID, problemList);
         // If we have a internet connection then save to ElasticSearch as well
-        if (MainActivity.checkConnection()) {
+        Boolean internetStatus = false;
+        try {
+            internetStatus = new SearchController.CheckConnetion().execute(false).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (internetStatus) {
             try {
                 JestResult result = new SearchController.AddProblem().execute(problem).get();
             } catch (Exception e) {
@@ -341,7 +365,13 @@ public class DataController {
     public List<Problem> getProblems(String userId){
         List<Problem> problemList = null;
         // Checking if we have server connectivity
-        if (MainActivity.checkConnection()) {
+        Boolean internetStatus = false;
+        try {
+            internetStatus = new SearchController.CheckConnetion().execute(false).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (internetStatus) {
             // Connected to server
             try {
                 // Getting the results
@@ -369,7 +399,13 @@ public class DataController {
          * then add it back, if you do enough leetcode you will know this pattern well lol
          */
         // If we have a internet connection then save to ElasticSearch as well
-        if (MainActivity.checkConnection()) {
+        Boolean internetStatus = false;
+        try {
+            internetStatus = new SearchController.CheckConnetion().execute(false).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (internetStatus) {
             try {
                 // We are just calling add problem since it contains teh same logic as updating it
                 JestResult result = new SearchController.AddProblem().execute(problem).get();
@@ -403,7 +439,13 @@ public class DataController {
      * @param problem
      */
     public void deleteProblem(Problem problem) {
-        if (MainActivity.checkConnection()) {
+        Boolean internetStatus = false;
+        try {
+            internetStatus = new SearchController.CheckConnetion().execute(false).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (internetStatus) {
             try {
                 // We are just calling add problem since it contains teh same logic as updating it
                 JestResult som = new SearchController.DeleteProblem().execute(problem.getUID()).get();
@@ -466,7 +508,13 @@ public class DataController {
         // put the list back into problemStorage
         recordStorage.put(problemUID, recordList);
         // If we have a internet connection then save to ElasticSearch as well
-        if (MainActivity.checkConnection()) {
+        Boolean internetStatus = false;
+        try {
+            internetStatus = new SearchController.CheckConnetion().execute(false).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (internetStatus) {
             try {
                 JestResult result = new SearchController.AddRecord().execute(record).get();
             } catch (Exception e) {
@@ -489,7 +537,13 @@ public class DataController {
      */
     public List<BaseRecord> getRecords(Problem problem){
         // Checking if we have server connectivity
-        if (MainActivity.checkConnection()){
+        Boolean internetStatus = false;
+        try {
+            internetStatus = new SearchController.CheckConnetion().execute(false).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (internetStatus) {
             try{
                 // Getting the result from the server
                 JestResult result = new SearchController.GetRecords().execute(problem.getUID()).get();
@@ -513,7 +567,7 @@ public class DataController {
 
                 recordStorage.put(problem.getUID(), properlyCreatedRecords);
                 // Returning the records
-                List<BaseRecord> checker = recordStorage.get(problem.getUID());
+                List<BaseRecord> checker = recordStorage.getOrDefault(problem.getUID(), new ArrayList<BaseRecord>());
                 return checker;
             } catch (Exception e) {
                 Log.e("Error", "Failed to fetch records from server.");
@@ -523,7 +577,7 @@ public class DataController {
         }
         else{
             // Offline, give local records back
-            return recordStorage.get(problem.getUID());
+            return recordStorage.getOrDefault(problem.getUID(), new ArrayList<BaseRecord>());
         }
     }
 
@@ -540,7 +594,13 @@ public class DataController {
         // add the record to this list
         imageAsStringsHash.put(imageID, ias);
         // If we have a internet connection then save to ElasticSearch as well
-        if (MainActivity.checkConnection()) {
+        Boolean internetStatus = false;
+        try {
+            internetStatus = new SearchController.CheckConnetion().execute(false).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (internetStatus) {
             try {
                 JestResult result = new SearchController.AddImage().execute(imageAsStringsHash.get(imageID)).get();
             } catch (Exception e) {
@@ -563,7 +623,13 @@ public class DataController {
         if (ias != null){
             return ias;
         }else {
-            if (MainActivity.checkConnection()) {
+            Boolean internetStatus = false;
+            try {
+                internetStatus = new SearchController.CheckConnetion().execute(false).get();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (internetStatus) {
                 // Getting the result from the server
                 JestResult result = null;
                 try {

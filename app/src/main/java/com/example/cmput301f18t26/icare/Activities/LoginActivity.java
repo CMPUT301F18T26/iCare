@@ -15,6 +15,7 @@ import com.example.cmput301f18t26.icare.Models.User;
 import com.example.cmput301f18t26.icare.R;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText usernameEntry;
@@ -57,7 +58,13 @@ public class LoginActivity extends AppCompatActivity {
          *
          * Login and Signup are NOT supposed to work if you do not have an internet connection
          */
-        if (!MainActivity.checkConnection()) {
+        Boolean internetStatus = false;
+        try {
+            internetStatus = new SearchController.CheckConnetion().execute(false).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (!internetStatus) {
             Toast.makeText(getApplicationContext(),
                     "Error: No internet connection, login requires internet",
                     Toast.LENGTH_LONG).show();

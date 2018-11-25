@@ -10,9 +10,12 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
+import com.example.cmput301f18t26.icare.Controllers.SearchController;
 import com.example.cmput301f18t26.icare.Controllers.UserFactory;
 import com.example.cmput301f18t26.icare.Models.User;
 import com.example.cmput301f18t26.icare.R;
+
+import java.util.concurrent.ExecutionException;
 
 public class SignupActivity extends AppCompatActivity {
     private EditText usernameEntry;
@@ -50,7 +53,13 @@ public class SignupActivity extends AppCompatActivity {
          *
          * Login and Signup are NOT supposed to work if you do not have an internet connection
          */
-        if (!MainActivity.checkConnection()) {
+        Boolean internetStatus = false;
+        try {
+            internetStatus = new SearchController.CheckConnetion().execute(false).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (!internetStatus) {
             Toast.makeText(getApplicationContext(),
                     "Error: No internet connection, signup requires internet",
                     Toast.LENGTH_LONG).show();
