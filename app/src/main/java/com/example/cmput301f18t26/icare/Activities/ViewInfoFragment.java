@@ -31,12 +31,13 @@ import static android.app.Activity.RESULT_OK;
 public class ViewInfoFragment extends Fragment {
 
         private DataController dataController;
-        private TextView titleEntry;
-        private TextView descriptionEntry;
+        private TextView titleText;
+        private TextView descriptionText;
         private TextView dateStamp;
         private Problem selectedProblem;
         private ImageView images;
         private User user;
+        private BaseRecord selectedRecord;
 
         Calendar cal = Calendar.getInstance();
         Date date=cal.getTime();
@@ -60,8 +61,8 @@ public class ViewInfoFragment extends Fragment {
             View rootView = inflater.inflate(R.layout.fragment_view_info, container, false);
 
             //Get everything we need for the View
-            titleEntry = (TextView) rootView.findViewById(R.id.view_record_title);
-            descriptionEntry = (TextView) rootView.findViewById(R.id.record_comment);
+            titleText = (TextView) rootView.findViewById(R.id.view_record_title);
+            descriptionText = (TextView) rootView.findViewById(R.id.record_comment);
             dateStamp =  rootView.findViewById(R.id.record_date_and_time);
             dateStamp.setText(formattedDate);
 
@@ -77,14 +78,16 @@ public class ViewInfoFragment extends Fragment {
 
             });
 
+            this.selectedRecord = dataController.getSelectedRecord();
+            setValues(this.selectedRecord);
 
             return rootView;
         }
 
         public void save(){
             //Get the values of the Title, Date and Description fields
-            String title = titleEntry.getText().toString().trim();
-            String description = descriptionEntry.getText().toString().trim();
+            String title = titleText.getText().toString().trim();
+            String description = descriptionText.getText().toString().trim();
             user = dataController.getCurrentUser();
             String userUID = user.getUID();
             // Since this is a user created record
@@ -98,4 +101,16 @@ public class ViewInfoFragment extends Fragment {
             //Returns to the problem description and list of records for that problem.
             getActivity().finish();
         }
+
+    void setValues(BaseRecord record) {
+        //Title
+        titleText.setText(record.getTitle());
+        //Description
+        descriptionText.setText(record.getComment());
+
+        //Date
+        String strdate = record.getDate();
+        dateStamp.setText(strdate);
+    }
+
 }
