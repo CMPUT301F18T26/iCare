@@ -1,6 +1,7 @@
 package com.example.cmput301f18t26.icare.Activities;
 
 import android.content.Intent;
+import android.icu.text.AlphabeticIndex;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -18,6 +20,7 @@ import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.IntentActions;
 import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.BaseRecord;
+import com.example.cmput301f18t26.icare.Models.UserRecord;
 import com.example.cmput301f18t26.icare.R;
 
 import java.util.Calendar;
@@ -42,6 +45,12 @@ public class PatientViewProblemActivity extends AppCompatActivity {
         titleText = (TextView) findViewById(R.id.condition_view_name);
         descriptionText = (TextView) findViewById(R.id.condition_view_description);
         dateText = (TextView) findViewById(R.id.condition_view_date);
+
+        //This gets the necessary data to display the Problem ListView
+        dataController = DataController.getInstance();
+        //currentUser = dataController.getCurrentUser();
+        //problemList = dataController.getProblems(currentUser.getUID());
+        recordListView = (ListView) findViewById(R.id.record_list_view);
 
         //Deletes problem and returns you to the Problem List View
         Button deleteButton = (Button) findViewById(R.id.delete_condition_button);
@@ -95,6 +104,21 @@ public class PatientViewProblemActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        // Takes you to view record on press
+        recordListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Object object = recordListView.getItemAtPosition(position);
+                BaseRecord record = BaseRecord.class.cast(object);
+                dataController.setSelectedRecord(record);
+
+                Intent i = new Intent(view.getContext(), ViewRecordActivity.class);
+                //i.putExtra("action", IntentActions.EDIT);
+                startActivity(i);
+            }
+        });
+
     }
 
     protected void onStart(){
@@ -108,7 +132,7 @@ public class PatientViewProblemActivity extends AppCompatActivity {
         super.onResume();
         //Finding the necessary data to populate the text boxes and the Record List
         selectedProblem = dataController.getSelectedProblem();
-        Log.i("Error", selectedProblem.getUID());
+        //Log.i("Error", selectedProblem.getUID());
 
         userRecordList = dataController.getRecords(selectedProblem);
         recordListView = (ListView) findViewById(R.id.record_list_view);

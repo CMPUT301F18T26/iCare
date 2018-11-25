@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.example.cmput301f18t26.icare.R;
 
-public class BodylocationFragment extends Fragment{
+public class ViewBodylocationFragment extends Fragment{
 
     // ATTENTION! WHEN WORKING IN HERE I WOULD USE MY InfoFragment AS A REFERENCE FOR HOW TO WORK
     // IN A FRAGMENT. WHAT IS HERE RIGHT NOW IS JUST A PLACEHOLDER UNTIL EVERYTHING ELSE WAS
@@ -18,6 +18,6 @@ public class BodylocationFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_bodylocation, null);
+        return inflater.inflate(R.layout.fragment_view_bodylocation, null);
     }
 }

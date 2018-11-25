@@ -67,6 +67,7 @@ public class DataController {
     private static DataController onlyInstance = null; // the lone instance of our DataController
     private User loggedInUser = null; // set when a user logs in
     private Problem selectedProblem = null; // set when a problem is selected from a list
+    private BaseRecord selectedRecord = null; //set when a record is selected from a list
 
     /**
      * Data structure for storing any Patients seen associated with a Care Provider
@@ -581,9 +582,14 @@ public class DataController {
         return ias;
     }
 
-    public void ClearPhotosHashMap(){
+    public void ClearPhotosHashMap() {
         imageAsStringsHash = new HashMap<>();
     }
+
+    public void setSelectedRecord(BaseRecord record) { this.selectedRecord = record; }
+
+
+    public BaseRecord getSelectedRecord() { return this.selectedRecord; }
 
     /// ------------------------ FILE READ/WRITE METHODS -------------------------------------------
 

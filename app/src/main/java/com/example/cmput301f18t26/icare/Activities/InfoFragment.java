@@ -6,22 +6,17 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.FileProvider;
-import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,17 +30,13 @@ import com.example.cmput301f18t26.icare.Models.User;
 import com.example.cmput301f18t26.icare.PermissionRequest;
 import com.example.cmput301f18t26.icare.R;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 import java.util.UUID;
 
 import static android.app.Activity.RESULT_OK;
@@ -87,7 +78,7 @@ public class InfoFragment extends Fragment{
         View rootView = inflater.inflate(R.layout.fragment_info, container, false);
 
         //Get everything we need for the View
-        titleEntry = (EditText) rootView.findViewById(R.id.record_title);
+        titleEntry = (EditText) rootView.findViewById(R.id.view_record_title);
         descriptionEntry = (EditText) rootView.findViewById(R.id.record_comment);
         dateStamp =  rootView.findViewById(R.id.record_date_and_time);
         dateStamp.setText(formattedDate);

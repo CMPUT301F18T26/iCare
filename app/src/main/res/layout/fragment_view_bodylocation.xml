@@ -1,152 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <!-- TODO: Use the following methods to show or hide -->
-    <!-- Use view.setVisibility(View.VISIBLE); or view.setVisibility(View.GONE) when and element in
-    BottomNavigationView is tapped. -->
-    <!-- Change background tint of the button to show which part is selected.
-    Do not have an on click listener -->
-
-    <TextView
-        android:id="@+id/patient_record_main_label_info"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/record_info"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/record_title_label"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/record_title_colon"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/record_date_and_time_label"
-        app:layout_constraintTop_toBottomOf="@+id/patient_record_main_label_info" />
-
-    <TextView
-        android:id="@+id/view_record_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:text="Record Title"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/record_title_label"
-        app:layout_constraintTop_toTopOf="@+id/record_title_label" />
-
-    <TextView
-        android:id="@+id/record_date_and_time_label"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/date_and_time_colon"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_record_title" />
-
-    <TextView
-        android:id="@+id/record_date_and_time"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:text="Date and Time"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/record_date_and_time_label"
-        app:layout_constraintTop_toTopOf="@+id/record_date_and_time_label" />
-
-    <TextView
-        android:id="@+id/record_comment_label"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/comment_colon"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/record_date_and_time_label"
-        app:layout_constraintTop_toBottomOf="@+id/record_date_and_time" />
-
-    <TextView
-        android:id="@+id/record_comment"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:text="Comment"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/record_comment_label"
-        app:layout_constraintTop_toTopOf="@+id/record_comment_label" />
-
-    <!-- Change SRC here -->
-    <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/appCompatImageView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_image_black_300dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/record_comment" />
-
-    <TextView
-        android:id="@+id/patient_record_main_label_location"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/location"
-        android:textSize="30sp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- TODO: Follow these tutorials, then uncomment the fragment -->
-    <!-- https://developers.google.com/maps/documentation/android-sdk/start -->
-    <!-- https://developers.google.com/android/reference/com/google/android/gms/maps/SupportMapFragment -->
-    <!--<fragment xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:tools="http://schemas.android.com/tools"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:id="@+id/map"-->
-    <!--tools:context=".MapsActivity"-->
-    <!--android:visibility="gone"-->
-    <!--android:name="com.google.android.gms.maps.SupportMapFragment"-->
-    <!--app:layout_constraintTop_toBottomOf="@+id/patient_record_main_label_location"-->
-    <!--app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"-->
-    <!--android:layout_height="wrap_content" />-->
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ScrollView
         android:id="@+id/input_up_scroll_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="4dp"
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -251,11 +117,13 @@
                 app:layout_constraintStart_toEndOf="@+id/vertical_center_guideline"
                 app:layout_constraintTop_toBottomOf="@+id/back_body_location_photo" />
 
+           <!--Important! buttons have been disabled for view record !! - Tyler-->
             <Button
+                android:enabled="false"
                 android:id="@+id/front_head_button"
-                android:backgroundTint="@android:color/transparent"
                 android:layout_width="163dp"
                 android:layout_height="120dp"
+                android:backgroundTint="@android:color/transparent"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toStartOf="@+id/vertical_center_guideline"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -263,11 +131,12 @@
                 app:layout_constraintTop_toTopOf="@+id/front_body_location_photo" />
 
             <Button
+                android:enabled="false"
                 android:id="@+id/front_neck_shoulders_button"
-                android:backgroundTint="@android:color/transparent"
                 android:layout_width="171dp"
                 android:layout_height="68dp"
                 android:layout_marginTop="8dp"
+                android:backgroundTint="@android:color/transparent"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toStartOf="@+id/vertical_center_guideline"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -275,13 +144,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/front_head_button" />
 
             <Button
+                android:enabled="false"
                 android:id="@+id/front_right_arm_button"
-                android:backgroundTint="@android:color/transparent"
                 android:layout_width="38dp"
                 android:layout_height="146dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="68dp"
+                android:backgroundTint="@android:color/transparent"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toStartOf="@+id/vertical_center_guideline"
                 app:layout_constraintHorizontal_bias="0.719"
@@ -289,12 +159,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/front_head_button" />
 
             <Button
+                android:enabled="false"
                 android:id="@+id/front_left_arm_button"
-                android:backgroundTint="@android:color/transparent"
                 android:layout_width="37dp"
                 android:layout_height="133dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
+                android:backgroundTint="@android:color/transparent"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toStartOf="@+id/vertical_first_guideline"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -302,12 +173,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/front_neck_shoulders_button" />
 
             <Button
+                android:enabled="false"
                 android:id="@+id/front_torso_button"
-                android:backgroundTint="@android:color/transparent"
                 android:layout_width="85dp"
                 android:layout_height="166dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
+                android:backgroundTint="@android:color/transparent"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toStartOf="@+id/vertical_first_guideline"
                 app:layout_constraintHorizontal_bias="0.533"
@@ -315,12 +187,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/front_neck_shoulders_button" />
 
             <Button
+                android:enabled="false"
                 android:id="@+id/front_right_leg_button"
-                android:backgroundTint="@android:color/transparent"
                 android:layout_width="45dp"
                 android:layout_height="188dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
+                android:backgroundTint="@android:color/transparent"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toEndOf="@+id/front_body_location_photo"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -328,14 +201,15 @@
                 app:layout_constraintTop_toBottomOf="@+id/front_torso_button" />
 
             <Button
+                android:enabled="false"
                 android:id="@+id/front_left_leg_button"
-                android:backgroundTint="@android:color/transparent"
                 android:layout_width="45dp"
                 android:layout_height="188dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
+                android:backgroundTint="@android:color/transparent"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toEndOf="@+id/front_right_leg_button"
                 app:layout_constraintHorizontal_bias="0.455"
@@ -343,10 +217,11 @@
                 app:layout_constraintTop_toBottomOf="@+id/front_torso_button" />
 
             <Button
+                android:enabled="false"
                 android:id="@+id/back_head_button"
-                android:backgroundTint="@android:color/transparent"
                 android:layout_width="163dp"
                 android:layout_height="120dp"
+                android:backgroundTint="@android:color/transparent"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toStartOf="@+id/vertical_center_guideline"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -354,11 +229,12 @@
                 app:layout_constraintTop_toTopOf="@+id/back_body_location_photo" />
 
             <Button
+                android:enabled="false"
                 android:id="@+id/back_neck_shoulders_button"
-                android:backgroundTint="@android:color/transparent"
                 android:layout_width="171dp"
                 android:layout_height="68dp"
                 android:layout_marginTop="8dp"
+                android:backgroundTint="@android:color/transparent"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toStartOf="@+id/vertical_center_guideline"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -366,6 +242,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/back_head_button" />
 
             <Button
+                android:enabled="false"
                 android:id="@+id/back_right_arm_button"
                 android:layout_width="38dp"
                 android:layout_height="146dp"
@@ -381,12 +258,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/back_head_button" />
 
             <Button
+                android:enabled="false"
                 android:id="@+id/back_left_arm_button"
-                android:backgroundTint="@android:color/transparent"
                 android:layout_width="37dp"
                 android:layout_height="133dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
+                android:backgroundTint="@android:color/transparent"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toStartOf="@+id/vertical_third_guideline"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -394,12 +272,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/back_neck_shoulders_button" />
 
             <Button
+                android:enabled="false"
                 android:id="@+id/back_torso_button"
-                android:backgroundTint="@android:color/transparent"
                 android:layout_width="85dp"
                 android:layout_height="166dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
+                android:backgroundTint="@android:color/transparent"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toStartOf="@+id/vertical_third_guideline"
                 app:layout_constraintHorizontal_bias="0.533"
@@ -407,12 +286,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/back_neck_shoulders_button" />
 
             <Button
+                android:enabled="false"
                 android:id="@+id/back_right_leg_button"
-                android:backgroundTint="@android:color/transparent"
                 android:layout_width="45dp"
                 android:layout_height="188dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
+                android:backgroundTint="@android:color/transparent"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toEndOf="@+id/back_body_location_photo"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -420,14 +300,15 @@
                 app:layout_constraintTop_toBottomOf="@+id/back_torso_button" />
 
             <Button
+                android:enabled="false"
                 android:id="@+id/back_left_leg_button"
-                android:backgroundTint="@android:color/transparent"
                 android:layout_width="45dp"
                 android:layout_height="188dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
+                android:backgroundTint="@android:color/transparent"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toEndOf="@+id/back_right_leg_button"
                 app:layout_constraintHorizontal_bias="0.455"
@@ -435,16 +316,4 @@
                 app:layout_constraintTop_toBottomOf="@+id/back_torso_button" />
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:itemBackground="@color/colorPrimary"
-        app:itemIconTint="#ffffff"
-        app:itemTextColor="#ffffff"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/record_bottom_navigation" />
-
 </android.support.constraint.ConstraintLayout>
