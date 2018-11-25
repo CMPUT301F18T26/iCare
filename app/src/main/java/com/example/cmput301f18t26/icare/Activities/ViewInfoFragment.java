@@ -1,14 +1,11 @@
 package com.example.cmput301f18t26.icare.Activities;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -68,12 +65,22 @@ public class ViewInfoFragment extends Fragment {
 
             //Saves your Record and returns you to the Record List View
 
-            Button saveButton = (Button) rootView.findViewById(R.id.userRecord_save_button);
-            saveButton.setOnClickListener(new View.OnClickListener() {
+            Button editButton = (Button) rootView.findViewById(R.id.userRecord_Edit_Button);
+            editButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     getActivity().setResult(RESULT_OK);
-                    save();
-                    //TODO: add check to make sure values entered correctly
+
+                    //TODO: implement editing of record as tony explained
+                }
+
+            });
+
+            Button deleteButton = (Button) rootView.findViewById(R.id.delete_record_button);
+            editButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    getActivity().setResult(RESULT_OK);
+
+                    //TODO: implement deleting of record as tony explained
                 }
 
             });

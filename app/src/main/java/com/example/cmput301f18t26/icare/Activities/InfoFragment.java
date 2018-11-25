@@ -63,7 +63,7 @@ public class InfoFragment extends Fragment{
 
         //Saves your Record and returns you to the Record List View
 
-        Button saveButton = (Button) rootView.findViewById(R.id.userRecord_save_button);
+        Button saveButton = (Button) rootView.findViewById(R.id.userRecord_Edit_Button);
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 getActivity().setResult(RESULT_OK);

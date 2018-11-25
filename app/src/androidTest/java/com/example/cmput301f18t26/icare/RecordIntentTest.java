@@ -57,6 +57,6 @@ public class RecordIntentTest {
 
         onView(withId(R.id.record_comment)).perform(closeSoftKeyboard());
         //Save values
-        onView(withId(R.id.userRecord_save_button)).perform(click());
+        onView(withId(R.id.userRecord_Edit_Button)).perform(click());
     }
 }

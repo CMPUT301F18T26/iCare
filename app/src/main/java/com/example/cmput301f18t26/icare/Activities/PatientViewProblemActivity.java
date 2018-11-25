@@ -132,7 +132,7 @@ public class PatientViewProblemActivity extends AppCompatActivity {
         super.onResume();
         //Finding the necessary data to populate the text boxes and the Record List
         selectedProblem = dataController.getSelectedProblem();
-        Log.i("Error", selectedProblem.getUID());
+        //Log.i("Error", selectedProblem.getUID());
 
         userRecordList = dataController.getRecords(selectedProblem);
         recordListView = (ListView) findViewById(R.id.record_list_view);
