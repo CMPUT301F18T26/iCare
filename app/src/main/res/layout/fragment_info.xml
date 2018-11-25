@@ -109,6 +109,19 @@
         app:layout_constraintTop_toBottomOf="@+id/record_comment"
         app:layout_constraintBottom_toTopOf="@id/userRecord_save_button"/>
 
+    <!-- https://stackoverflow.com/questions/5442183/using-the-animated-circle-in-an-imageview-while-loading-stuff -->
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:indeterminateTint="@color/colorPrimary"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/record_comment"
+        app:layout_constraintBottom_toTopOf="@+id/userRecord_save_button"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
     <Button
         android:id="@+id/userRecord_save_button"
         android:layout_width="0dp"

@@ -14,12 +14,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
+import com.example.cmput301f18t26.icare.GestureHelper;
 import com.example.cmput301f18t26.icare.Models.BaseRecord;
 import com.example.cmput301f18t26.icare.Models.ImageAsString;
 import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.User;
 import com.example.cmput301f18t26.icare.Models.UserRecord;
-import com.example.cmput301f18t26.icare.OnSwipeTouchListener;
 import com.example.cmput301f18t26.icare.R;
 
 import java.text.DateFormat;
@@ -44,6 +44,11 @@ public class ViewInfoFragment extends Fragment {
     private ArrayList<Bitmap> bitMapOfImages = new ArrayList<Bitmap>();
     private ProgressBar progressBar;
     private int imageDisplayedRightNow;
+    private boolean playingSlideShow;
+    private Handler slideShowHandler;
+    private Handler imageLoadHandler;
+    private Runnable slideShowRunnable;
+    private Runnable imageLoadRunnable;
 
     Calendar cal = Calendar.getInstance();
     Date date=cal.getTime();
@@ -54,6 +59,9 @@ public class ViewInfoFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // No slide show when starting
+        playingSlideShow = true;
 
         dataController = DataController.getInstance();
         user = dataController.getCurrentUser();
@@ -112,52 +120,122 @@ public class ViewInfoFragment extends Fragment {
         }
 
         // Need to create a check handler here or it is never created
-        createCheckHandler();
+        createCheckImagesDownloadedHandler();
 
         setValues(this.selectedRecord);
         return rootView;
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        // Needs to be overridden so we can stop handlers
+        cancelHandlers();
+    }
+
     // https://stackoverflow.com/questions/6425611/android-run-a-task-periodically
-    private void createCheckHandler(){
-        Handler handler=new Handler();
-        handler.postDelayed(new Runnable() {
+    private void createCheckImagesDownloadedHandler(){
+        imageLoadHandler=new Handler();
+
+        imageLoadRunnable = new Runnable() {
             @Override
             public void run() {
-                voidCheckIfDone();
+                checkIfDone();
             }
-        },100);
+        };
+
+        imageLoadHandler.postDelayed(imageLoadRunnable,100);
+    }
+
+    private void changeImageHandlerDuringSlideShow(){
+        slideShowHandler=new Handler();
+        slideShowRunnable = new Runnable() {
+            @Override
+            public void run() {
+                slideShowImageShow();
+            }
+        };
+
+        slideShowHandler.postDelayed(slideShowRunnable,2500);
+
+    }
+
+    private void slideShowImageShow() {
+        if (playingSlideShow == true && bitMapOfImages.size() > 0) {
+            // CHecking if the number got too big
+            if (imageDisplayedRightNow >= bitMapOfImages.size()){
+                imageDisplayedRightNow = 0;
+            }
+
+            // Switching image
+            imageView.setImageBitmap(bitMapOfImages.get(imageDisplayedRightNow));
+            Toast.makeText(getActivity(), "Displaying: " + (imageDisplayedRightNow + 1) + "/" + (bitMapOfImages.size()), Toast.LENGTH_SHORT).show();
+
+            // Incrementing the image
+            imageDisplayedRightNow++;
+            // Starting a handler to swich image
+            changeImageHandlerDuringSlideShow();
+        }
+    }
+
+    private void cancelHandlers(){
+        // So the app doesn't crash
+        if (slideShowHandler != null && imageLoadHandler != null){
+            slideShowHandler.removeCallbacks(slideShowRunnable);
+            imageLoadHandler.removeCallbacks(imageLoadRunnable);
+        }
     }
 
     //
     @SuppressLint("ClickableViewAccessibility")
-    private void voidCheckIfDone(){
+    private void checkIfDone(){
         if (imagesLoaded == false ){
-            createCheckHandler();
+            createCheckImagesDownloadedHandler();
         } else {
             // Now we take away the loading bar
             progressBar.setVisibility(View.GONE);
             // Now we display
             imageView.setVisibility(View.VISIBLE);
-            // First image is being displayed
+            // Starting slideshow
+            // First image is being displayed, since slideShowImageShow i
             imageDisplayedRightNow = 0;
-            imageView.setImageBitmap(bitMapOfImages.get(imageDisplayedRightNow));
+            if (bitMapOfImages.size() > 0) {
+                Toast.makeText(getActivity(), "Displaying: " + (imageDisplayedRightNow + 1) + "/" + (bitMapOfImages.size()), Toast.LENGTH_SHORT).show();
+                slideShowImageShow();
+            }
 
-            // https://stackoverflow.com/questions/4139288/android-how-to-handle-right-to-left-swipe-gestures
-            imageView.setOnTouchListener(new OnSwipeTouchListener(getActivity()) {
-                public void onSwipeRight() {
-                    imageDisplayedRightNow--;
-                    if (imageDisplayedRightNow < 0){
-                        imageDisplayedRightNow++;
+            imageView.setOnTouchListener(new GestureHelper(getActivity()) {
+                public void onClick() {
+                    // Start slide show if it is stopped
+                    if (playingSlideShow == false && bitMapOfImages.size() > 0){
+                        Toast.makeText(getActivity(), "Playing Slideshow", Toast.LENGTH_SHORT).show();
+                        playingSlideShow = true;
+                        slideShowImageShow();
+                    } else if (bitMapOfImages.size() > 0){
+                        Toast.makeText(getActivity(), "Slideshow Stopped", Toast.LENGTH_SHORT).show();
+                        // Stop slide show
+                        playingSlideShow = false;
                     }
-                    imageView.setImageBitmap(bitMapOfImages.get(imageDisplayedRightNow));
+                };
+                public void onSwipeRight() {
+                    if (bitMapOfImages.size() > 0) {
+                        imageDisplayedRightNow--;
+                        if (imageDisplayedRightNow < 0){
+                            imageDisplayedRightNow++;
+                        }
+                        imageView.setImageBitmap(bitMapOfImages.get(imageDisplayedRightNow));
+                        Toast.makeText(getActivity(), "Displaying: " + (imageDisplayedRightNow + 1) + "/" + (bitMapOfImages.size()), Toast.LENGTH_SHORT).show();
+                    }
                 }
                 public void onSwipeLeft() {
-                    imageDisplayedRightNow++;
-                    if (imageDisplayedRightNow >= bitMapOfImages.size()){
-                        imageDisplayedRightNow--;
+                    if (bitMapOfImages.size() > 0) {
+                        imageDisplayedRightNow++;
+                        if (imageDisplayedRightNow >= bitMapOfImages.size()){
+                            imageDisplayedRightNow--;
+                        }
+                        imageView.setImageBitmap(bitMapOfImages.get(imageDisplayedRightNow));
+                        Toast.makeText(getActivity(), "Displaying: " + (imageDisplayedRightNow + 1) + "/" + (bitMapOfImages.size()), Toast.LENGTH_SHORT).show();
                     }
-                    imageView.setImageBitmap(bitMapOfImages.get(imageDisplayedRightNow));
                 }
             });
         }

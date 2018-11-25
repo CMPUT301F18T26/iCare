@@ -1,5 +1,6 @@
 package com.example.cmput301f18t26.icare.Activities;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,11 +19,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.Controllers.RecordFactory;
+import com.example.cmput301f18t26.icare.GestureHelper;
 import com.example.cmput301f18t26.icare.Models.BaseRecord;
 import com.example.cmput301f18t26.icare.Models.ImageAsString;
 import com.example.cmput301f18t26.icare.Models.Problem;
@@ -88,8 +91,10 @@ public class InfoFragment extends Fragment{
         Button saveButton = (Button) rootView.findViewById(R.id.userRecord_save_button);
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Processing, please wait.", Toast.LENGTH_SHORT).show();
-                getActivity().setResult(RESULT_OK);
+                // Showing the progress bar
+                ProgressBar progressBar = getActivity().findViewById(R.id.progress_bar);
+                progressBar.setVisibility(View.VISIBLE);
+
                 save();
                 //TODO: add check to make sure values entered correctly
             }
@@ -165,26 +170,32 @@ public class InfoFragment extends Fragment{
 
             // Done taking imageView
             builder.setNegativeButton("No More", new DialogInterface.OnClickListener() {
+                @SuppressLint("ClickableViewAccessibility")
                 public void onClick(DialogInterface dialog, int id) {
                     // User cancelled the dialog
+                    imageDisplayedRightNow = imageUris.size() - 1;
+                    imageView.setImageDrawable(Drawable.createFromPath(imageUris.get(imageDisplayedRightNow).getPath()));
+                    Toast.makeText(getActivity(), "Displaying: " + (imageDisplayedRightNow + 1) + "/" + (imageUris.size()), Toast.LENGTH_SHORT).show();
                     // After an image has been added once, you can no longer edit them and we let the user view the images they have added
-                    imageView.setOnClickListener(new View.OnClickListener() {
-                        public void onClick(View v) {
+                    imageView.setOnTouchListener(new GestureHelper(getActivity()) {
+                        public void onClick() {
                             Toast.makeText(getActivity(), "Image(s) have already been added. You can only edit this field once.", Toast.LENGTH_SHORT).show();
-                        }
+                        };
                         public void onSwipeRight() {
-                            imageDisplayedRightNow++;
-                            if (imageDisplayedRightNow >= imageUris.size()){
-                                imageDisplayedRightNow--;
-                            }
-                            imageView.setImageDrawable(Drawable.createFromPath(imageUris.get(imageDisplayedRightNow).getPath()));
-                        }
-                        public void onSwipeLeft() {
                             imageDisplayedRightNow--;
                             if (imageDisplayedRightNow < 0){
                                 imageDisplayedRightNow++;
                             }
                             imageView.setImageDrawable(Drawable.createFromPath(imageUris.get(imageDisplayedRightNow).getPath()));
+                            Toast.makeText(getActivity(), "Displaying: " + (imageDisplayedRightNow + 1) + "/" + (imageUris.size()), Toast.LENGTH_SHORT).show();
+                        }
+                        public void onSwipeLeft() {
+                            imageDisplayedRightNow++;
+                            if (imageDisplayedRightNow >= imageUris.size()){
+                                imageDisplayedRightNow = imageUris.size() - 1;
+                            }
+                            imageView.setImageDrawable(Drawable.createFromPath(imageUris.get(imageDisplayedRightNow).getPath()));
+                            Toast.makeText(getActivity(), "Displaying: " + (imageDisplayedRightNow + 1) + "/" + (imageUris.size()), Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -193,7 +204,7 @@ public class InfoFragment extends Fragment{
             AlertDialog dialog = builder.create();
             dialog.show();
         } else {
-            Toast.makeText(getActivity(), "Something went wrong while selecting imageView.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Something went wrong while getting images.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -225,19 +236,14 @@ public class InfoFragment extends Fragment{
         //Create a new record in the userRecordFactory.
         BaseRecord record = RecordFactory.getRecord(formattedDate, description, selectedProblem.getUID(), null, null, imageList, recType, title);
         dataController.addRecord(record);
-        Toast.makeText(getActivity(), "User Record added successfully", Toast.LENGTH_SHORT).show();
 
-        // https://stackoverflow.com/questions/3489543/how-to-call-a-method-with-a-separate-thread-in-java
         // Sending all imageView to server
-        Thread t1 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for (ImageAsString iasIter: imageAsStringList){
-                    dataController.addPhoto(iasIter);
-                }
-            }
-        });
-        t1.start();
+        for (ImageAsString iasIter: imageAsStringList){
+            dataController.addPhoto(iasIter);
+        }
+
+        Toast.makeText(getActivity(), "Added record to the list of records.", Toast.LENGTH_SHORT).show();
+        getActivity().setResult(RESULT_OK);
 
         //Returns to the problem description and list of records for that problem.
         getActivity().finish();
