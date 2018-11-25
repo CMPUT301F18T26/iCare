@@ -12,6 +12,9 @@ import com.example.cmput301f18t26.icare.R;
 
 public class ViewBodylocationFragment extends Fragment{
 
+    // ATTENTION! WHEN WORKING IN HERE I WOULD USE MY InfoFragment AS A REFERENCE FOR HOW TO WORK
+    // IN A FRAGMENT. WHAT IS HERE RIGHT NOW IS JUST A PLACEHOLDER UNTIL EVERYTHING ELSE WAS
+    //ACTUALLY IMPLEMENTED. THANKS - TYLER
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
