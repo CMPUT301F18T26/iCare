@@ -581,6 +581,10 @@ public class DataController {
         return ias;
     }
 
+    public void ClearPhotosHashMap(){
+        imageAsStringsHash = new HashMap<>();
+    }
+
     /// ------------------------ FILE READ/WRITE METHODS -------------------------------------------
 
     /**
