@@ -154,6 +154,13 @@ public class DataController {
     }
 
     /**
+     * Was created so that it would check if we have network connectivity every so often
+     */
+//    private checkInternetAfterFiveSecs(){
+//
+//    }
+
+    /**
      * Created to check if device is online or offline
      */
     public boolean checkInternet(){

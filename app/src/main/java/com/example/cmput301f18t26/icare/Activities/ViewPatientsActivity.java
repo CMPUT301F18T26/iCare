@@ -61,17 +61,25 @@ public class ViewPatientsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view,
                                     int position, long id) {
-                Intent intent = new Intent(adapterView.getContext(), ViewPatientProblemsActivity.class);
-                intent.putExtra(SELECTED_PATIENT, position);
-                startActivity(intent);
+                if (DataController.getInstance().checkInternet()) {
+                    Intent intent = new Intent(adapterView.getContext(), ViewPatientProblemsActivity.class);
+                    intent.putExtra(SELECTED_PATIENT, position);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "You can only perform this action online.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         // Add action for clicking on a add patient
         addPatientButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(addPatientButton.getContext(), SearchAddPatientsActivity.class);
-                startActivity(intent);
+                if (DataController.getInstance().checkInternet()) {
+                    Intent intent = new Intent(addPatientButton.getContext(), SearchAddPatientsActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "You can only perform this action online.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

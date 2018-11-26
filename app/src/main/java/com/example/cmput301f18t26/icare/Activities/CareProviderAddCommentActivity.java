@@ -67,26 +67,30 @@ public class CareProviderAddCommentActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // https://stackoverflow.com/questions/6290531/check-if-edittext-is-empty
                 // Checking if comment is empty
-                EditText commentView = (EditText) findViewById(R.id.comment);
-                String comment = commentView.getText().toString();
-                if (comment.matches("")) {
-                    Toast.makeText(CareProviderAddCommentActivity.this, "Error: Invalid comment.", Toast.LENGTH_SHORT).show();
-                    return;
+                if (DataController.getInstance().checkInternet()) {
+                    EditText commentView = (EditText) findViewById(R.id.comment);
+                    String comment = commentView.getText().toString();
+                    if (comment.matches("")) {
+                        Toast.makeText(CareProviderAddCommentActivity.this, "Error: Invalid comment.", Toast.LENGTH_SHORT).show();
+                        return;
+                    } else {
+                        //Get the values of the Title, Date and Description fields
+                        String title = "Doctor's Comment";
+                        String description = commentView.getText().toString().trim();
+                        String userUID = user.getUID();
+                        // Since this is a user created record
+                        int recType = 1;
+
+                        //Create a new record in the userRecordFactory.
+                        BaseRecord record = RecordFactory.getRecord(formattedTime, description, problem.getUID(), null, null, null, recType, title);
+                        DataController.getInstance().addRecord(record);
+                        Toast.makeText(CareProviderAddCommentActivity.this, "Doctor Comment added successfully", Toast.LENGTH_SHORT).show();
+
+                        //Returns to the problem description and list of records for that problem.
+                        CareProviderAddCommentActivity.this.finish();
+                    }
                 } else {
-                    //Get the values of the Title, Date and Description fields
-                    String title = "Doctor's Comment";
-                    String description = commentView.getText().toString().trim();
-                    String userUID = user.getUID();
-                    // Since this is a user created record
-                    int recType = 1;
-
-                    //Create a new record in the userRecordFactory.
-                    BaseRecord record = RecordFactory.getRecord(formattedTime, description, problem.getUID(), null, null, null, recType, title);
-                    DataController.getInstance().addRecord(record);
-                    Toast.makeText(CareProviderAddCommentActivity.this, "Doctor Comment added successfully", Toast.LENGTH_SHORT).show();
-
-                    //Returns to the problem description and list of records for that problem.
-                    CareProviderAddCommentActivity.this.finish();
+                    Toast.makeText(CareProviderAddCommentActivity.this, "You can only perform this action online.", Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -53,10 +53,15 @@ public class SearchAddPatientsActivity extends AppCompatActivity{
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                patients.clear();
-                patients.addAll(dataController.getPatients(patientSearch.getText().toString()));
-                patientListAdapter.notifyDataSetChanged();
-                dataController.writeDataToFiles(getApplicationContext());
+                if (DataController.getInstance().checkInternet()) {
+                    patients.clear();
+                    patients.addAll(dataController.getPatients(patientSearch.getText().toString()));
+                    patientListAdapter.notifyDataSetChanged();
+                    dataController.writeDataToFiles(getApplicationContext());
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "You can only perform this action online.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -66,15 +71,19 @@ public class SearchAddPatientsActivity extends AppCompatActivity{
                 Modify the patient to contain the careProviderUID instead of an
                 empty careProviderUID
                  */
-                Patient patient = patients.get(position);
-                patient.setCareProviderUID(dataController.getCurrentUser().getUID());
-                dataController.addPatient(patient);
+                if (DataController.getInstance().checkInternet()) {
+                    Patient patient = patients.get(position);
+                    patient.setCareProviderUID(dataController.getCurrentUser().getUID());
+                    dataController.addPatient(patient);
 
-                Toast.makeText(getApplicationContext(),
-                        "Patient Added!",
-                        Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),
+                            "Patient Added!",
+                            Toast.LENGTH_SHORT).show();
 
-                finish();
+                    finish();
+                } else {
+                    Toast.makeText(getApplicationContext(), "You can only perform this action online.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

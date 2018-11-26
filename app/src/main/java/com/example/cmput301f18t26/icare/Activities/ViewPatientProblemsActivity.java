@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.Models.Patient;
@@ -45,13 +46,17 @@ public class ViewPatientProblemsActivity extends AppCompatActivity {
 
         viewProfileButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // View contact information
-                // Creating the intent
-                Intent intent = new Intent(ViewPatientProblemsActivity.this, ViewProfileActivity.class);
-                // Passing in the user id that will have its information displayed
-                intent.putExtra("user_id", patient.getUID());
-                // Launching the intent
-                startActivity(intent);
+                if (DataController.getInstance().checkInternet()) {
+                    // View contact information
+                    // Creating the intent
+                    Intent intent = new Intent(ViewPatientProblemsActivity.this, ViewProfileActivity.class);
+                    // Passing in the user id that will have its information displayed
+                    intent.putExtra("user_id", patient.getUID());
+                    // Launching the intent
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "You can only perform this action online.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -59,17 +64,21 @@ public class ViewPatientProblemsActivity extends AppCompatActivity {
         patientProblemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                // Getting the tapped object
-                Object object = patientProblemListView.getItemAtPosition(position);
-                Problem problem = Problem.class.cast(object);
+                if (DataController.getInstance().checkInternet()) {
+                    // Getting the tapped object
+                    Object object = patientProblemListView.getItemAtPosition(position);
+                    Problem problem = Problem.class.cast(object);
 
-                // Creating the intent and putting the information it needs
-                Intent i = new Intent(adapterView.getContext(), CareProviderViewPatientProblemActivity.class);
-                i.putExtra("user_id", patient.getUID());
-                i.putExtra("problem_id", problem.getUID());
-                dataController.setSelectedProblem(problem);
-                // Starting the intent
-                startActivity(i);
+                    // Creating the intent and putting the information it needs
+                    Intent i = new Intent(adapterView.getContext(), CareProviderViewPatientProblemActivity.class);
+                    i.putExtra("user_id", patient.getUID());
+                    i.putExtra("problem_id", problem.getUID());
+                    dataController.setSelectedProblem(problem);
+                    // Starting the intent
+                    startActivity(i);
+                } else {
+                    Toast.makeText(getApplicationContext(), "You can only perform this action online.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

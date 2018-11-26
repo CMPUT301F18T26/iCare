@@ -56,26 +56,28 @@ public class PatientViewProblemActivity extends AppCompatActivity {
         Button deleteButton = (Button) findViewById(R.id.delete_condition_button);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // TODO: explain
-                // Showing toast because it takes a while
-                Toast.makeText(getApplicationContext(),
-                        "Deleting problem, please wait...",
-                        Toast.LENGTH_SHORT).show();
-                // So the user doesn't mess with anything else while we wait for ES to refresh
-                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                setResult(RESULT_OK);
+                if (DataController.getInstance().checkInternet()) {
+                    // Showing toast because it takes a while
+                    Toast.makeText(getApplicationContext(),
+                            "Deleting problem, please wait...",
+                            Toast.LENGTH_SHORT).show();
+                    // So the user doesn't mess with anything else while we wait for ES to refresh
+                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    setResult(RESULT_OK);
 
 
-                dataController.deleteProblem(selectedProblem);
-                dataController.writeDataToFiles(getApplicationContext());
-                // TODO explain
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        finish();
-                    }
-                }, 500);
+                    dataController.deleteProblem(selectedProblem);
+                    dataController.writeDataToFiles(getApplicationContext());
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            finish();
+                        }
+                    }, 500);
+                } else {
+                    Toast.makeText(getApplicationContext(), "You can only perform this action online.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -109,13 +111,17 @@ public class PatientViewProblemActivity extends AppCompatActivity {
         recordListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Object object = recordListView.getItemAtPosition(position);
-                BaseRecord record = BaseRecord.class.cast(object);
-                dataController.setSelectedRecord(record);
+                if (DataController.getInstance().checkInternet()) {
+                    Object object = recordListView.getItemAtPosition(position);
+                    BaseRecord record = BaseRecord.class.cast(object);
+                    dataController.setSelectedRecord(record);
 
-                Intent i = new Intent(view.getContext(), ViewRecordActivity.class);
-                //i.putExtra("action", IntentActions.EDIT);
-                startActivity(i);
+                    Intent i = new Intent(view.getContext(), ViewRecordActivity.class);
+                    //i.putExtra("action", IntentActions.EDIT);
+                    startActivity(i);
+                } else {
+                    Toast.makeText(getApplicationContext(), "You can only perform this action online.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
