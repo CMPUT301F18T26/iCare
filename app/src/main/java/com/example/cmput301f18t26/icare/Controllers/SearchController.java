@@ -41,6 +41,7 @@ public class SearchController {
 
     private static final String elasticSearchURL = "http://cmput301.softwareprocess.es:8080/";
     private static final String groupIndex = "cmput301f18t26test";
+    private static final String checkType = "check";
     private static final String userType = "user";
     private static final String problemType = "problem";
     private static final String recordType = "record";
@@ -69,20 +70,16 @@ public class SearchController {
      * https://stackoverflow.com/questions/1402005/how-to-check-if-internet-connection-is-present-in-java
      */
     public static class CheckConnection extends AsyncTask<Boolean, Void, Boolean> {
+        private JestResult result;
         @Override
-        protected Boolean doInBackground(Boolean...booleans) {
-            try(Socket socket = new Socket())
-            {
-                int port = 80;
-                InetSocketAddress socketAddress = new InetSocketAddress("google.com", port);
-                socket.connect(socketAddress, 500);
-
+        protected Boolean doInBackground(Boolean... none) {
+            Index index = new Index.Builder("1").index(groupIndex).type(checkType).refresh(true).id("1").build();
+            Log.i("Error", index.toString());
+            try {
+                result = jestClient.execute(index);
                 return true;
-            }
-            catch(UnknownHostException unknownHost)
-            {
-                return false;
-            } catch (IOException e) {
+            } catch (Exception e) {
+                Log.i("Error", "Jest failed to execute", e);
                 return false;
             }
         }

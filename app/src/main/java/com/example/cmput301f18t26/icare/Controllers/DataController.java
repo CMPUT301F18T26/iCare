@@ -440,8 +440,10 @@ public class DataController {
                 // Getting the results
                 JestResult result = new SearchController.GetProblems().execute(userId).get();
                 // Putting it into a list
-                problemStorage.put(userId, result.getSourceAsObjectList(Problem.class));
-                return problemStorage.get(userId);
+                if (result != null){
+                    problemStorage.put(userId, result.getSourceAsObjectList(Problem.class));
+                }
+                return problemStorage.getOrDefault(userId, new ArrayList<Problem>());
             } catch (Exception e) {
                 Log.i("Error", "Failed to fetch problems from the server", e);
                 // Got an error, try getting it locally
@@ -575,24 +577,26 @@ public class DataController {
                 // Getting the result from the server
                 JestResult result = new SearchController.GetRecords().execute(problem.getUID()).get();
                 // Putting the records into temp storage
-                List<UserRecord> tempRecords = (ArrayList<UserRecord>) result.getSourceAsObjectList(UserRecord.class);
-                // Final storage for properly created records
-                ArrayList<BaseRecord> properlyCreatedRecords = new ArrayList<>();
-                // Now we need to iterate through the temp array list
-                for (BaseRecord record: tempRecords){
-                    // First get the record
-                    result = new SearchController.GetRecordUsingUID().execute(record.getUID()).get();
-                    // Now we check to see the record type
-                    if (record.getRecType() == 0) {
-                        // User record
-                        properlyCreatedRecords.add(result.getSourceAsObject(UserRecord.class));
-                    } else{
-                        // Care provider record
-                        properlyCreatedRecords.add(result.getSourceAsObject(CareProviderRecord.class));
+                if (result != null) {
+                    List<UserRecord> tempRecords = (ArrayList<UserRecord>) result.getSourceAsObjectList(UserRecord.class);
+                    // Final storage for properly created records
+                    ArrayList<BaseRecord> properlyCreatedRecords = new ArrayList<>();
+                    // Now we need to iterate through the temp array list
+                    for (BaseRecord record: tempRecords){
+                        // First get the record
+                        result = new SearchController.GetRecordUsingUID().execute(record.getUID()).get();
+                        // Now we check to see the record type
+                        if (record.getRecType() == 0) {
+                            // User record
+                            properlyCreatedRecords.add(result.getSourceAsObject(UserRecord.class));
+                        } else{
+                            // Care provider record
+                            properlyCreatedRecords.add(result.getSourceAsObject(CareProviderRecord.class));
+                        }
                     }
-                }
 
-                recordStorage.put(problem.getUID(), properlyCreatedRecords);
+                    recordStorage.put(problem.getUID(), properlyCreatedRecords);
+                }
                 // Returning the records
                 List<BaseRecord> checker = recordStorage.getOrDefault(problem.getUID(), new ArrayList<BaseRecord>());
                 return checker;
