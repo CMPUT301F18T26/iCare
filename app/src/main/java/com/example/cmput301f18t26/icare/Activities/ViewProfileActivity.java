@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.Models.User;
@@ -63,9 +64,13 @@ public class ViewProfileActivity extends AppCompatActivity {
             Button editButton = findViewById(R.id.edit_profile);
             editButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    // Creating the intent to start EditProfileActivity and starting it
-                    Intent newActivity = new Intent(ViewProfileActivity.this, EditProfileActivity.class);
-                    startActivity(newActivity);
+                    if (DataController.getInstance().checkInternet()) {
+                        // Creating the intent to start EditProfileActivity and starting it
+                        Intent newActivity = new Intent(ViewProfileActivity.this, EditProfileActivity.class);
+                        startActivity(newActivity);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "You can only perform this action online.", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
         }

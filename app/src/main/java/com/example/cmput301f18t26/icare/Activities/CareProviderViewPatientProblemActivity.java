@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.IntentActions;
@@ -47,13 +48,17 @@ public class CareProviderViewPatientProblemActivity extends AppCompatActivity {
         FloatingActionButton addCommentButton = findViewById(R.id.add_new_comment_to_problem);
         addCommentButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                setResult(RESULT_OK);
-                Intent i = new Intent(v.getContext(), CareProviderAddCommentActivity.class);
-                // Adding information to show
-                i.putExtra("user_id", user.getUID());
-                i.putExtra("problem_id", problem.getUID());
-                DataController.getInstance().setSelectedProblem(problem);
-                startActivity(i);
+                if (DataController.getInstance().checkInternet()) {
+                    setResult(RESULT_OK);
+                    Intent i = new Intent(v.getContext(), CareProviderAddCommentActivity.class);
+                    // Adding information to show
+                    i.putExtra("user_id", user.getUID());
+                    i.putExtra("problem_id", problem.getUID());
+                    DataController.getInstance().setSelectedProblem(problem);
+                    startActivity(i);
+                } else {
+                    Toast.makeText(getApplicationContext(), "You can only perform this action online.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -61,13 +66,17 @@ public class CareProviderViewPatientProblemActivity extends AppCompatActivity {
         recordListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Object object = recordListView.getItemAtPosition(position);
-                BaseRecord record = BaseRecord.class.cast(object);
-                DataController.getInstance().setSelectedRecord(record);
+                if (DataController.getInstance().checkInternet()) {
+                    Object object = recordListView.getItemAtPosition(position);
+                    BaseRecord record = BaseRecord.class.cast(object);
+                    DataController.getInstance().setSelectedRecord(record);
 
-                Intent i = new Intent(view.getContext(), ViewRecordActivity.class);
-                //i.putExtra("action", IntentActions.EDIT);
-                startActivity(i);
+                    Intent i = new Intent(view.getContext(), ViewRecordActivity.class);
+                    //i.putExtra("action", IntentActions.EDIT);
+                    startActivity(i);
+                } else {
+                    Toast.makeText(getApplicationContext(), "You can only perform this action online.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

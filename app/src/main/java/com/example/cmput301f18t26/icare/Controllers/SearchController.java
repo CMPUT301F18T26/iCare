@@ -13,12 +13,17 @@ import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
 import io.searchbox.client.JestResult;
 import io.searchbox.core.Delete;
-import io.searchbox.core.DeleteByQuery;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
@@ -53,6 +58,34 @@ public class SearchController {
         JestClientFactory jestClientFactory = new JestClientFactory();
         jestClientFactory.setDroidClientConfig(clientConfig);
         jestClient = (JestDroidClient) jestClientFactory.getObject();
+    }
+
+    /**
+     * This class checks to see if our app is connected to the internet for making decisions
+     * about whether to use SearchController/ElasticSearch or to use the local cache in
+     * DataController
+     *
+     * True = online
+     * https://stackoverflow.com/questions/1402005/how-to-check-if-internet-connection-is-present-in-java
+     */
+    public static class CheckConnection extends AsyncTask<Boolean, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(Boolean...booleans) {
+            try(Socket socket = new Socket())
+            {
+                int port = 80;
+                InetSocketAddress socketAddress = new InetSocketAddress("google.com", port);
+                socket.connect(socketAddress, 500);
+
+                return true;
+            }
+            catch(UnknownHostException unknownHost)
+            {
+                return false;
+            } catch (IOException e) {
+                return false;
+            }
+        }
     }
 
     /**

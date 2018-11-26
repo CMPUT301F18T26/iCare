@@ -10,7 +10,7 @@ import java.util.UUID;
 import io.searchbox.client.JestResult;
 
 /**
- * Our user class could be a Patient or CareProvider. So, this class is abstract and cannot be initialized
+ * Our user class could be a Patient or CareProvider. So, this class is abstract and cannot be initialized, Patient = 0, Care Provider = 1
  */
 public abstract class User {
     private String UID; // let's make this immutable (its in caps cause convention)
