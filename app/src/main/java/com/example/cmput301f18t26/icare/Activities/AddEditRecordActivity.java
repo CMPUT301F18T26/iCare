@@ -84,4 +84,6 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
         // Writing to file
         dataController.writeDataToFiles(getApplicationContext());
     }
+
+
 }

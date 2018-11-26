@@ -57,13 +57,14 @@ public class InfoFragment extends Fragment{
     private ArrayList<Uri> imageUris = new ArrayList<>();
     private Uri imageFileUri;
     private int imageDisplayedRightNow;
-
+    private String title;
 
     Calendar cal = Calendar.getInstance();
     Date date=cal.getTime();
     DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss yyyy-MM-dd");
     String formattedDate=dateFormat.format(date);
-
+    static final String STATE_USER = "user";
+    private String mUser;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,6 +75,23 @@ public class InfoFragment extends Fragment{
 
         //passing the problem ID not sure if we will need this - tyler
         selectedProblem = dataController.getSelectedProblem();
+
+        // Check whether we're recreating a previously destroyed instance
+        if (savedInstanceState != null) {
+            // Restore value of members from saved state
+            title = savedInstanceState.getString("title");
+        } else {
+            // Probably initialize members with default values for a new instance
+            mUser = "NewUser";
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putString(STATE_USER, mUser);
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putString("Title",title);
     }
 
     @Override
@@ -210,7 +228,7 @@ public class InfoFragment extends Fragment{
 
     public void save(){
         //Get the values of the Title, Date and Description fields
-        String title = titleEntry.getText().toString().trim();
+        title = titleEntry.getText().toString().trim();
         String description = descriptionEntry.getText().toString().trim();
         user = dataController.getCurrentUser();
         String userUID = user.getUID();
@@ -248,4 +266,5 @@ public class InfoFragment extends Fragment{
         //Returns to the problem description and list of records for that problem.
         getActivity().finish();
     }
+
 }
