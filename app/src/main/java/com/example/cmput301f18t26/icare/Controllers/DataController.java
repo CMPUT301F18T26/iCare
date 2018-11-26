@@ -3,6 +3,7 @@ package com.example.cmput301f18t26.icare.Controllers;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Handler;
 import android.util.Log;
 
 import com.example.cmput301f18t26.icare.Activities.MainActivity;
@@ -136,7 +137,9 @@ public class DataController {
     /**
      * Private constructor here to enforce Singleton Pattern
      */
-    private DataController() { }
+    private DataController() {
+        checkInternetAfterFiveSecs();
+    }
 
     // ------------------------ PUBLIC METHODS FOR INTERACTING WITH DATACONTROLLER -----------------
 
@@ -156,9 +159,16 @@ public class DataController {
     /**
      * Was created so that it would check if we have network connectivity every so often
      */
-//    private checkInternetAfterFiveSecs(){
-//
-//    }
+    private void checkInternetAfterFiveSecs(){
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                checkedInternet = false;
+                checkInternet();
+                checkInternetAfterFiveSecs();
+            }
+        }, 5000);
+    }
 
     /**
      * Created to check if device is online or offline
