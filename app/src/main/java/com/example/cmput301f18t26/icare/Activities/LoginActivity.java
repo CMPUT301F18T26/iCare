@@ -58,12 +58,7 @@ public class LoginActivity extends AppCompatActivity {
          *
          * Login and Signup are NOT supposed to work if you do not have an internet connection
          */
-        Boolean internetStatus = false;
-        try {
-            internetStatus = new SearchController.CheckConnetion().execute(false).get();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        boolean internetStatus =  dataController.checkInternet();
         if (!internetStatus) {
             Toast.makeText(getApplicationContext(),
                     "Error: No internet connection, login requires internet",
@@ -87,14 +82,8 @@ public class LoginActivity extends AppCompatActivity {
          * Check DataController to see if User is valid
          */
         try {
-            // Check if we have a user logged in before
-            if (dataController.getCurrentUser() != null){
-                // Grab the user from local memory
-                user = dataController.login(username, getApplicationContext());
-            } else{
-                // grab the user from ES
-                user = dataController.login(username);
-            }
+            // grab the user from ES
+            user = dataController.login(username);
             // go to either view Patient or view Problem screen depending on type of user logged in
             if (user.getRole() == 0) {
                 Intent intent = new Intent(this, PatientViewProblemListActivity.class);

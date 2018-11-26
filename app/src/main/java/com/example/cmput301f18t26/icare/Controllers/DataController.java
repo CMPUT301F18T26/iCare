@@ -117,8 +117,10 @@ public class DataController {
      * when we regain connectivity.
      */
     private List<Problem> problemsSavedOnlyLocally = new ArrayList<>();
-    private List<BaseRecord> baseRecordsSavedOnlyLocally = new ArrayList<>();
-    private List<UserRecord> userRecordsSavedOnlyLocally = new ArrayList<>();
+    private List<BaseRecord> recordsSavedOnlyLocally = new ArrayList<>();
+    private List<ImageAsString> imagesSavedLocally = new ArrayList<>();
+    private boolean checkedInternet = false;
+    private boolean haveInternet;
 
     /**
      * Files names that are used when we read or write data from files in this class
@@ -129,7 +131,7 @@ public class DataController {
     private String usersThatHaveSuccessfullyLoggedInFile = "usersThatHaveSuccessfullyLoggedInFile_test";
     private String problemsSavedOnlyLocallyFile = "problemsSavedOnlyLocally_file";
     private String baseRecordsSavedOnlyLocallyFile = "baseRecordsSavedOnlyLocallyFile_file";
-    private String userRecordsSavedOnlyLocallyFile = "userRecordsSavedOnlyLocally_file";
+    private String imagesSavedLocallyFile = "imagesSavedLocallyFile_file";
 
     /**
      * Private constructor here to enforce Singleton Pattern
@@ -152,9 +154,82 @@ public class DataController {
     }
 
     /**
-     * TODO SETUP METHOD
+     * Created to check if device is online or offline
      */
+    public boolean checkInternet(){
+        if (checkedInternet == false) {
+            Boolean internetStatus = false;
+            try {
+                internetStatus = new SearchController.CheckConnection().execute(false).get();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            haveInternet = internetStatus;
+            checkedInternet = true;
+        }
 
+        return haveInternet;
+    }
+
+    /**
+     * Created to send the data changes made offline to server
+     */
+    public void sendDataToServer(){
+        // First send all the problem
+        boolean remove = true;
+        for (Problem problem: problemsSavedOnlyLocally){
+            // If we have a internet connection then save to ElasticSearch as well
+            boolean internetStatus =  this.checkInternet();
+            if (internetStatus) {
+                try {
+                    JestResult result = new SearchController.AddProblem().execute(problem).get();
+                } catch (Exception e) {
+                    Log.i("Error", "Failed to create the problem", e);
+                    remove = false;
+                }
+            }
+        }
+
+        if (remove) {
+            problemsSavedOnlyLocally = new ArrayList<>();
+        }
+        remove = true;
+
+        // Now send all the records saved locally
+        for (BaseRecord record: recordsSavedOnlyLocally){
+            boolean internetStatus =  this.checkInternet();
+            if (internetStatus) {
+                try {
+                    JestResult result = new SearchController.AddRecord().execute(record).get();
+                } catch (Exception e) {
+                    remove = false;
+                    Log.i("Error", "Failed to create the record on ES", e);
+                }
+            }
+        }
+
+        if (remove) {
+            recordsSavedOnlyLocally = new ArrayList<>();
+        }
+        remove = true;
+
+        // Now send images saved locally
+        for (ImageAsString ias: imagesSavedLocally){
+            boolean internetStatus =  this.checkInternet();
+            if (internetStatus) {
+                try {
+                    JestResult result = new SearchController.AddImage().execute(ias).get();
+                } catch (Exception e) {
+                    remove = false;
+                    Log.i("Error", "Failed to create the record on ES", e);
+                }
+            }
+        }
+
+        if (remove) {
+            imagesSavedLocally = new ArrayList<>();
+        }
+    }
     // ------------------------ USER LOGIN/SIGNUP/LOGGEDINUSER METHODS -----------------------------
 
     /**
@@ -211,11 +286,9 @@ public class DataController {
 
     /**
      * Logging in the last logged in user
-     * @param username
-     * @param context
      * @return
      */
-    public User login(String username, Context context){
+    public User login(){
         return loggedInUser;
     }
 
@@ -243,12 +316,7 @@ public class DataController {
     public void addPatient(Patient patient){
         patientStorage.add(patient); // save to our local patient DataStructure
         // If we have a internet connection then save the patient to ElasticSearch as well
-        Boolean internetStatus = false;
-        try {
-            internetStatus = new SearchController.CheckConnetion().execute(false).get();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        boolean internetStatus =  this.checkInternet();
         if (internetStatus) {
             patient.updateUserInfo(); // this saves the user's new CareProviderUID to ES
             // We do not need to do anything for care provider if the person is offline
@@ -264,12 +332,7 @@ public class DataController {
      */
     public List<Patient> getPatients() {
         // If we have a internet connection then fetch from ElasticSearch first
-        Boolean internetStatus = false;
-        try {
-            internetStatus = new SearchController.CheckConnetion().execute(false).get();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        boolean internetStatus =  this.checkInternet();
         if (internetStatus) {
             try {
                 patientStorage = new SearchController.GetPatients().execute(loggedInUser.getUID()).get();
@@ -293,12 +356,7 @@ public class DataController {
     public List<Patient> getPatients(String username){
         List<Patient> result = new ArrayList<>();
         // If we have a internet connection then fetch from ElasticSearch first
-        Boolean internetStatus = false;
-        try {
-            internetStatus = new SearchController.CheckConnetion().execute(false).get();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        boolean internetStatus =  this.checkInternet();
         if (internetStatus) {
             try {
                 allPatientStorage = new SearchController.SearchPatients().execute(username).get();
@@ -338,12 +396,7 @@ public class DataController {
         // put the list back into problemStorage
         problemStorage.put(userUID, problemList);
         // If we have a internet connection then save to ElasticSearch as well
-        Boolean internetStatus = false;
-        try {
-            internetStatus = new SearchController.CheckConnetion().execute(false).get();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        boolean internetStatus =  this.checkInternet();
         if (internetStatus) {
             try {
                 JestResult result = new SearchController.AddProblem().execute(problem).get();
@@ -351,9 +404,7 @@ public class DataController {
                 Log.i("Error", "Failed to create the problem", e);
             }
         } else{
-            /*
-             * TODO: Write to the other the local array so we can sync later.
-             */
+            problemsSavedOnlyLocally.add(problem);
         }
     }
 
@@ -365,12 +416,7 @@ public class DataController {
     public List<Problem> getProblems(String userId){
         List<Problem> problemList = null;
         // Checking if we have server connectivity
-        Boolean internetStatus = false;
-        try {
-            internetStatus = new SearchController.CheckConnetion().execute(false).get();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        boolean internetStatus =  this.checkInternet();
         if (internetStatus) {
             // Connected to server
             try {
@@ -385,7 +431,6 @@ public class DataController {
                 return problemStorage.getOrDefault(userId, new ArrayList<Problem>());
             }
         }
-
         return problemStorage.getOrDefault(userId, new ArrayList<Problem>());
     }
 
@@ -399,26 +444,17 @@ public class DataController {
          * then add it back, if you do enough leetcode you will know this pattern well lol
          */
         // If we have a internet connection then save to ElasticSearch as well
-        Boolean internetStatus = false;
-        try {
-            internetStatus = new SearchController.CheckConnetion().execute(false).get();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        boolean internetStatus =  this.checkInternet();
         if (internetStatus) {
             try {
                 // We are just calling add problem since it contains teh same logic as updating it
                 JestResult result = new SearchController.AddProblem().execute(problem).get();
             } catch (Exception e) {
                 Log.i("Error", "Failed to create the problem", e);
-                /*
-                 * TODO: Write to the other the local array so we can sync later.
-                 */
+                problemsSavedOnlyLocally.add(problem);
             }
         } else{
-            /*
-             * TODO: Write to the other the local array so we can sync later.
-             */
+            problemsSavedOnlyLocally.add(problem);
         }
 
         // Now we update the info locally
@@ -439,12 +475,7 @@ public class DataController {
      * @param problem
      */
     public void deleteProblem(Problem problem) {
-        Boolean internetStatus = false;
-        try {
-            internetStatus = new SearchController.CheckConnetion().execute(false).get();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        boolean internetStatus =  this.checkInternet();
         if (internetStatus) {
             try {
                 // We are just calling add problem since it contains teh same logic as updating it
@@ -453,15 +484,8 @@ public class DataController {
                 som = new SearchController.DeleteRecordsAssociatedWithProblem().execute(problem.getUID()).get();
             } catch (Exception e) {
                 Log.i("Error", "Failed to create the problem on ES", e);
-                /*
-                 * TODO: Write to the other the local array so we can sync later.
-                 */
             }
-        } else{
-            /*
-             * TODO: Write to the other the local array so we can sync later.
-             */
-        }
+        }// Offline deleting not supported
 
         // Getting the user id of the problem
         String userUID = problem.getUserUID();
@@ -508,25 +532,16 @@ public class DataController {
         // put the list back into problemStorage
         recordStorage.put(problemUID, recordList);
         // If we have a internet connection then save to ElasticSearch as well
-        Boolean internetStatus = false;
-        try {
-            internetStatus = new SearchController.CheckConnetion().execute(false).get();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        boolean internetStatus =  this.checkInternet();
         if (internetStatus) {
             try {
                 JestResult result = new SearchController.AddRecord().execute(record).get();
             } catch (Exception e) {
                 Log.i("Error", "Failed to create the record on ES", e);
-                /*
-                 * TODO: Write to the other the local array so we can sync later.
-                 */
+                recordsSavedOnlyLocally.add(record);
             }
         } else{
-            /*
-             * TODO: Write to the other the local array so we can sync later.
-             */
+            recordsSavedOnlyLocally.add(record);
         }
     }
 
@@ -537,12 +552,7 @@ public class DataController {
      */
     public List<BaseRecord> getRecords(Problem problem){
         // Checking if we have server connectivity
-        Boolean internetStatus = false;
-        try {
-            internetStatus = new SearchController.CheckConnetion().execute(false).get();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        boolean internetStatus =  this.checkInternet();
         if (internetStatus) {
             try{
                 // Getting the result from the server
@@ -587,32 +597,20 @@ public class DataController {
     public void addPhoto(ImageAsString ias){
         // save to our local DataStructure for Problems
         String imageID = ias.getUID();
-        /**
-         * Same pattern as Problem
-         */
 
         // add the record to this list
         imageAsStringsHash.put(imageID, ias);
         // If we have a internet connection then save to ElasticSearch as well
-        Boolean internetStatus = false;
-        try {
-            internetStatus = new SearchController.CheckConnetion().execute(false).get();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        boolean internetStatus =  this.checkInternet();
         if (internetStatus) {
             try {
                 JestResult result = new SearchController.AddImage().execute(imageAsStringsHash.get(imageID)).get();
             } catch (Exception e) {
                 Log.i("Error", "Failed to create the record on ES", e);
-                /*
-                 * TODO: Write to the other the local array so we can sync later.
-                 */
+                imagesSavedLocally.add(ias);
             }
         } else{
-            /*
-             * TODO: Write to the other the local array so we can sync later.
-             */
+            imagesSavedLocally.add(ias);
         }
     }
 
@@ -623,12 +621,7 @@ public class DataController {
         if (ias != null){
             return ias;
         }else {
-            Boolean internetStatus = false;
-            try {
-                internetStatus = new SearchController.CheckConnetion().execute(false).get();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            boolean internetStatus =  this.checkInternet();
             if (internetStatus) {
                 // Getting the result from the server
                 JestResult result = null;
@@ -681,100 +674,100 @@ public class DataController {
             Log.e("Error", "Could not read last logged in user from file");
         }
         // Commented out to test ES
-//
-//        // Now we try to read problems from the last run
-//        try {
-//            // Getting to read the file
-//            FileInputStream fis = context.openFileInput(problemStorageFile);
-//            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-//            // Getting the gson builder
-//            Gson gson = new GsonBuilder().create();
-//            // Now we create the type
-//            Type mapListProblemType = new TypeToken<Map<String, List<Problem>>>(){}.getType();
-//            // Now reading from file
-//            problemStorage = gson.fromJson(in, mapListProblemType);
-//        } catch (IOException e){
-//            Log.e("Error", "Could not read problems from last use");
-//        }
-//
-//        // Now we try to read records from the last run
-//        try {
-//            // Getting to read the file
-//            FileInputStream fis = context.openFileInput(recordStorageFile);
-//            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-//            // Getting the gson builder
-//            // Custom deserializer for this class
-//            Gson gson = new GsonBuilder()
-//                    .registerTypeAdapter(BaseRecord.class, new RecordDeserializer())
-//                    .create();
-//            // Now we create the type
-//            Type mapListRecordType = new TypeToken<Map<String, List<BaseRecord>>>(){}.getType();
-//            // Now reading from file
-//            recordStorage = gson.fromJson(in, mapListRecordType);
-//        } catch (IOException e){
-//            Log.e("Error", "Could not read problems from last use");
-//        }
-//
-//        // Now we try to read the users that have usersThatHaveSuccessfullyLoggedIn on this device
-//        // by signing up on this or using a unique code to log in
-//        try {
-//            // Getting to read the file
-//            FileInputStream fis = context.openFileInput(usersThatHaveSuccessfullyLoggedInFile);
-//            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-//            // Getting the gson builder
-//            Gson gson = new GsonBuilder().create();
-//            // Now we create the type
-//            Type userListType = new TypeToken<List<User>>(){}.getType();
-//            // Now reading from file
-//            usersThatHaveSuccessfullyLoggedIn = gson.fromJson(in, userListType);
-//        } catch (IOException e){
-//            Log.e("Error", "Could not read usersThatHaveSuccessfullyLoggedIn from last use");
-//        }
-//
-//        // Now we try to read problems that were only saved locally and were not synced with the cloud
-//        try {
-//            // Getting to read the file
-//            FileInputStream fis = context.openFileInput(problemsSavedOnlyLocallyFile);
-//            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-//            // Getting the gson builder
-//            Gson gson = new GsonBuilder().create();
-//            // Now we create the type
-//            Type problemList = new TypeToken<List<Problem>>(){}.getType();
-//            // Now reading from file
-//            problemsSavedOnlyLocally = gson.fromJson(in, problemList);
-//        } catch (IOException e){
-//            Log.e("Error", "Could not read problemsSavedOnlyLocallyFile from last use");
-//        }
-//
-//        // Now we try to read base records that were only saved locally and were not synced with the cloud
-//        try {
-//            // Getting to read the file
-//            FileInputStream fis = context.openFileInput(baseRecordsSavedOnlyLocallyFile);
-//            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-//            // Getting the gson builder
-//            Gson gson = new GsonBuilder().create();
-//            // Now we create the type
-//            Type baseRecordList = new TypeToken<List<BaseRecord>>(){}.getType();
-//            // Now reading from file
-//            baseRecordsSavedOnlyLocally = gson.fromJson(in, baseRecordList);
-//        } catch (IOException e){
-//            Log.e("Error", "Could not read baseRecordsSavedOnlyLocally from last use");
-//        }
-//
-//        // Now we try to read user records that were only saved locally and were not synced with the cloud
-//        try {
-//            // Getting to read the file
-//            FileInputStream fis = context.openFileInput(userRecordsSavedOnlyLocallyFile);
-//            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-//            // Getting the gson builder
-//            Gson gson = new GsonBuilder().create();
-//            // Now we create the type
-//            Type userRecordList = new TypeToken<List<UserRecord> >(){}.getType();
-//            // Now reading from file
-//            userRecordsSavedOnlyLocally = gson.fromJson(in, userRecordList);
-//        } catch (IOException e){
-//            Log.e("Error", "Could not read userRecordsSavedOnlyLocally from last use");
-//        }
+
+        // Now we try to read problems from the last run
+        try {
+            // Getting to read the file
+            FileInputStream fis = context.openFileInput(problemStorageFile);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+            // Getting the gson builder
+            Gson gson = new GsonBuilder().create();
+            // Now we create the type
+            Type mapListProblemType = new TypeToken<Map<String, List<Problem>>>(){}.getType();
+            // Now reading from file
+            problemStorage = gson.fromJson(in, mapListProblemType);
+        } catch (IOException e){
+            Log.e("Error", "Could not read problems from last use");
+        }
+
+        // Now we try to read records from the last run
+        try {
+            // Getting to read the file
+            FileInputStream fis = context.openFileInput(recordStorageFile);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+            // Getting the gson builder
+            // Custom deserializer for this class
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(BaseRecord.class, new RecordDeserializer())
+                    .create();
+            // Now we create the type
+            Type mapListRecordType = new TypeToken<Map<String, List<UserRecord>>>(){}.getType();
+            // Now reading from file
+            recordStorage = gson.fromJson(in, mapListRecordType);
+        } catch (IOException e){
+            Log.e("Error", "Could not read problems from last use");
+        }
+
+        // Now we try to read the users that have usersThatHaveSuccessfullyLoggedIn on this device
+        // by signing up on this or using a unique code to log in
+        try {
+            // Getting to read the file
+            FileInputStream fis = context.openFileInput(usersThatHaveSuccessfullyLoggedInFile);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+            // Getting the gson builder
+            Gson gson = new GsonBuilder().create();
+            // Now we create the type
+            Type userListType = new TypeToken<List<User>>(){}.getType();
+            // Now reading from file
+            usersThatHaveSuccessfullyLoggedIn = gson.fromJson(in, userListType);
+        } catch (IOException e){
+            Log.e("Error", "Could not read usersThatHaveSuccessfullyLoggedIn from last use");
+        }
+
+        // Now we try to read problems that were only saved locally and were not synced with the cloud
+        try {
+            // Getting to read the file
+            FileInputStream fis = context.openFileInput(problemsSavedOnlyLocallyFile);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+            // Getting the gson builder
+            Gson gson = new GsonBuilder().create();
+            // Now we create the type
+            Type problemList = new TypeToken<List<Problem>>(){}.getType();
+            // Now reading from file
+            problemsSavedOnlyLocally = gson.fromJson(in, problemList);
+        } catch (IOException e){
+            Log.e("Error", "Could not read problemsSavedOnlyLocallyFile from last use");
+        }
+
+        // Now we try to read base records that were only saved locally and were not synced with the cloud
+        try {
+            // Getting to read the file
+            FileInputStream fis = context.openFileInput(baseRecordsSavedOnlyLocallyFile);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+            // Getting the gson builder
+            Gson gson = new GsonBuilder().create();
+            // Now we create the type
+            Type baseRecordList = new TypeToken<List<UserRecord>>(){}.getType();
+            // Now reading from file
+            recordsSavedOnlyLocally = gson.fromJson(in, baseRecordList);
+        } catch (IOException e){
+            Log.e("Error", "Could not read baseRecordsSavedOnlyLocally from last use");
+        }
+
+        // Now we try to read base records that were only saved locally and were not synced with the cloud
+        try {
+            // Getting to read the file
+            FileInputStream fis = context.openFileInput(imagesSavedLocallyFile);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+            // Getting the gson builder
+            Gson gson = new GsonBuilder().create();
+            // Now we create the type
+            Type baseRecordList = new TypeToken<List<ImageAsString>>(){}.getType();
+            // Now reading from file
+            imagesSavedLocally = gson.fromJson(in, baseRecordList);
+        } catch (IOException e){
+            Log.e("Error", "Could not read imagesSavedLocally from last use");
+        }
     }
 
     /**
@@ -797,102 +790,102 @@ public class DataController {
         } catch (IOException e){
             Log.e("Error", "Could not write last logged in user from file");
         }
-//
-//        // Now we try to read problems from the last run
-//        try {
-//            // Stream to send data to file
-//            FileOutputStream fos = context.openFileOutput(problemStorageFile, Context.MODE_PRIVATE);
-//            // Getting the write which will be used to write to file
-//            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
-//            // Writing JSON
-//            Gson gson = new Gson();
-//            gson.toJson(problemStorage, out);
-//            out.flush();
-//            // Closing File
-//            fos.close();
-//        } catch (IOException e){
-//            Log.e("Error", "Could not write problems from last use");
-//        }
-//
-//        // Now we try to read records from the last run
-//        try {
-//            // Stream to send data to file
-//            FileOutputStream fos = context.openFileOutput(recordStorageFile, Context.MODE_PRIVATE);
-//            // Getting the write which will be used to write to file
-//            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
-//            // Writing JSON
-//            Gson gson = new Gson();
-//            gson.toJson(recordStorage, out);
-//            out.flush();
-//            // Closing File
-//            fos.close();
-//        } catch (IOException e){
-//            Log.e("Error", "Could not write problems from last use");
-//        }
-//
-//        // Now we try to read the users that have usersThatHaveSuccessfullyLoggedIn on this device
-//        // by signing up on this or using a unique code to log in
-//        try {
-//            // Stream to send data to file
-//            FileOutputStream fos = context.openFileOutput(usersThatHaveSuccessfullyLoggedInFile, Context.MODE_PRIVATE);
-//            // Getting the write which will be used to write to file
-//            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
-//            // Writing JSON
-//            Gson gson = new Gson();
-//            gson.toJson(usersThatHaveSuccessfullyLoggedIn, out);
-//            out.flush();
-//            // Closing File
-//            fos.close();
-//        } catch (IOException e){
-//            Log.e("Error", "Could not write usersThatHaveSuccessfullyLoggedIn from last use");
-//        }
-//
-//        // Now we try to read problems that were only saved locally and were not synced with the cloud
-//        try {
-//            // Stream to send data to file
-//            FileOutputStream fos = context.openFileOutput(problemsSavedOnlyLocallyFile, Context.MODE_PRIVATE);
-//            // Getting the write which will be used to write to file
-//            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
-//            // Writing JSON
-//            Gson gson = new Gson();
-//            gson.toJson(problemsSavedOnlyLocally, out);
-//            out.flush();
-//            // Closing File
-//            fos.close();
-//        } catch (IOException e){
-//            Log.e("Error", "Could not write problemsSavedOnlyLocallyFile from last use");
-//        }
-//
-//        // Now we try to read base records that were only saved locally and were not synced with the cloud
-//        try {
-//            // Stream to send data to file
-//            FileOutputStream fos = context.openFileOutput(baseRecordsSavedOnlyLocallyFile, Context.MODE_PRIVATE);
-//            // Getting the write which will be used to write to file
-//            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
-//            // Writing JSON
-//            Gson gson = new Gson();
-//            gson.toJson(baseRecordsSavedOnlyLocally, out);
-//            out.flush();
-//            // Closing File
-//            fos.close();
-//        } catch (IOException e){
-//            Log.e("Error", "Could not write baseRecordsSavedOnlyLocally from last use");
-//        }
-//
-//        // Now we try to read user records that were only saved locally and were not synced with the cloud
-//        try {
-//            // Stream to send data to file
-//            FileOutputStream fos = context.openFileOutput(userRecordsSavedOnlyLocallyFile, Context.MODE_PRIVATE);
-//            // Getting the write which will be used to write to file
-//            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
-//            // Writing JSON
-//            Gson gson = new Gson();
-//            gson.toJson(userRecordsSavedOnlyLocally, out);
-//            out.flush();
-//            // Closing File
-//            fos.close();
-//        } catch (IOException e){
-//            Log.e("Error", "Could not write userRecordsSavedOnlyLocally from last use");
-//        }
+
+        // Now we try to read problems from the last run
+        try {
+            // Stream to send data to file
+            FileOutputStream fos = context.openFileOutput(problemStorageFile, Context.MODE_PRIVATE);
+            // Getting the write which will be used to write to file
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+            // Writing JSON
+            Gson gson = new Gson();
+            gson.toJson(problemStorage, out);
+            out.flush();
+            // Closing File
+            fos.close();
+        } catch (IOException e){
+            Log.e("Error", "Could not write problems from last use");
+        }
+
+        // Now we try to read records from the last run
+        try {
+            // Stream to send data to file
+            FileOutputStream fos = context.openFileOutput(recordStorageFile, Context.MODE_PRIVATE);
+            // Getting the write which will be used to write to file
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+            // Writing JSON
+            Gson gson = new Gson();
+            gson.toJson(recordStorage, out);
+            out.flush();
+            // Closing File
+            fos.close();
+        } catch (IOException e){
+            Log.e("Error", "Could not write problems from last use");
+        }
+
+        // Now we try to read the users that have usersThatHaveSuccessfullyLoggedIn on this device
+        // by signing up on this or using a unique code to log in
+        try {
+            // Stream to send data to file
+            FileOutputStream fos = context.openFileOutput(usersThatHaveSuccessfullyLoggedInFile, Context.MODE_PRIVATE);
+            // Getting the write which will be used to write to file
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+            // Writing JSON
+            Gson gson = new Gson();
+            gson.toJson(usersThatHaveSuccessfullyLoggedIn, out);
+            out.flush();
+            // Closing File
+            fos.close();
+        } catch (IOException e){
+            Log.e("Error", "Could not write usersThatHaveSuccessfullyLoggedIn from last use");
+        }
+
+        // Now we try to read problems that were only saved locally and were not synced with the cloud
+        try {
+            // Stream to send data to file
+            FileOutputStream fos = context.openFileOutput(problemsSavedOnlyLocallyFile, Context.MODE_PRIVATE);
+            // Getting the write which will be used to write to file
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+            // Writing JSON
+            Gson gson = new Gson();
+            gson.toJson(problemsSavedOnlyLocally, out);
+            out.flush();
+            // Closing File
+            fos.close();
+        } catch (IOException e){
+            Log.e("Error", "Could not write problemsSavedOnlyLocallyFile from last use");
+        }
+
+        // Now we try to read base records that were only saved locally and were not synced with the cloud
+        try {
+            // Stream to send data to file
+            FileOutputStream fos = context.openFileOutput(baseRecordsSavedOnlyLocallyFile, Context.MODE_PRIVATE);
+            // Getting the write which will be used to write to file
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+            // Writing JSON
+            Gson gson = new Gson();
+            gson.toJson(recordsSavedOnlyLocally, out);
+            out.flush();
+            // Closing File
+            fos.close();
+        } catch (IOException e){
+            Log.e("Error", "Could not write baseRecordsSavedOnlyLocally from last use");
+        }
+
+        // Now we try to read base records that were only saved locally and were not synced with the cloud
+        try {
+            // Stream to send data to file
+            FileOutputStream fos = context.openFileOutput(imagesSavedLocallyFile, Context.MODE_PRIVATE);
+            // Getting the write which will be used to write to file
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+            // Writing JSON
+            Gson gson = new Gson();
+            gson.toJson(imagesSavedLocally, out);
+            out.flush();
+            // Closing File
+            fos.close();
+        } catch (IOException e){
+            Log.e("Error", "Could not write baseRecordsSavedOnlyLocally from last use");
+        }
     }
 }

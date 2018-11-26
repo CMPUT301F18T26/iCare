@@ -15,7 +15,10 @@ import com.searchly.jestdroid.JestDroidClient;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,24 +66,25 @@ public class SearchController {
      * DataController
      *
      * True = online
-     * https://stackoverflow.com/questions/6493517/detect-if-android-device-has-internet-connection, user: Bilal Shahid
+     * https://stackoverflow.com/questions/1402005/how-to-check-if-internet-connection-is-present-in-java
      */
-    public static class CheckConnetion extends AsyncTask<Boolean, Void, Boolean> {
-        private JestResult result;
-
+    public static class CheckConnection extends AsyncTask<Boolean, Void, Boolean> {
         @Override
         protected Boolean doInBackground(Boolean...booleans) {
-            boolean success = false;
-            try {
-                URL url = new URL("https://google.com");
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setConnectTimeout(500);
-                connection.connect();
-                success = connection.getResponseCode() == 200;
-            } catch (IOException e) {
-                e.printStackTrace();
+            try(Socket socket = new Socket())
+            {
+                int port = 80;
+                InetSocketAddress socketAddress = new InetSocketAddress("google.com", port);
+                socket.connect(socketAddress, 500);
+
+                return true;
             }
-            return success;
+            catch(UnknownHostException unknownHost)
+            {
+                return false;
+            } catch (IOException e) {
+                return false;
+            }
         }
     }
 

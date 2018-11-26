@@ -53,12 +53,7 @@ public class SignupActivity extends AppCompatActivity {
          *
          * Login and Signup are NOT supposed to work if you do not have an internet connection
          */
-        Boolean internetStatus = false;
-        try {
-            internetStatus = new SearchController.CheckConnetion().execute(false).get();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        boolean internetStatus =  dataController.checkInternet();
         if (!internetStatus) {
             Toast.makeText(getApplicationContext(),
                     "Error: No internet connection, signup requires internet",

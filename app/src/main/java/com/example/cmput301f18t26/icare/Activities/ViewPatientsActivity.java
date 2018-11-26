@@ -2,19 +2,23 @@ package com.example.cmput301f18t26.icare.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
+import com.example.cmput301f18t26.icare.Controllers.SearchController;
 import com.example.cmput301f18t26.icare.Models.Patient;
+import com.example.cmput301f18t26.icare.Models.User;
 import com.example.cmput301f18t26.icare.R;
 
 public class ViewPatientsActivity extends AppCompatActivity {
@@ -70,12 +74,37 @@ public class ViewPatientsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 
     @Override
     protected void onResume(){
         super.onResume();
+
+        // CHeck it the user has internet
+        // Checking internet connection
+        boolean internetStatus =  dataController.checkInternet();
+
+        // Getting data controller
+        DataController dataController = DataController.getInstance();
+
+        // Getting the logged in user
+        User userLoggedIn = dataController.getCurrentUser();
+
+        // The current activity is the list of patients and there is not internet connection, just log the user out
+        if (!internetStatus){
+            dataController.logout();
+            dataController.writeDataToFiles(getApplicationContext());
+            Toast.makeText(getApplicationContext(), "Logging out. Care provider cannot use the app offline..",  Toast.LENGTH_SHORT).show();
+
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    finish();
+                }
+            }, 500);
+        }
+
         // initialize patient list view items
         patientListAdapter = new ArrayAdapter<>(
                 this,
