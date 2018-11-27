@@ -7,17 +7,23 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.cmput301f18t26.icare.R;
 
 public class BodylocationFragment extends Fragment{
 
-    // ATTENTION! WHEN WORKING IN HERE I WOULD USE MY InfoFragment AS A REFERENCE FOR HOW TO WORK
-    // IN A FRAGMENT. WHAT IS HERE RIGHT NOW IS JUST A PLACEHOLDER UNTIL EVERYTHING ELSE WAS
-    //ACTUALLY IMPLEMENTED. THANKS - TYLER
+    private TextView title;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_bodylocation, null);
+        View bodyView = inflater.inflate(R.layout.fragment_bodylocation, null);
+
+        //Title of the page
+        title = (TextView) bodyView.findViewById(R.id.patient_record_body_label_location);
+
+
+        return bodyView;
     }
 }

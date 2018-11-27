@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
     <ScrollView
         android:id="@+id/input_up_scroll_view"
         android:layout_width="match_parent"
@@ -170,43 +171,51 @@
             <Button
                 android:id="@+id/front_torso_button"
                 android:layout_width="85dp"
-                android:layout_height="166dp"
+                android:layout_height="57dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
                 android:backgroundTint="@android:color/transparent"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toStartOf="@+id/vertical_first_guideline"
-                app:layout_constraintHorizontal_bias="0.533"
+                app:layout_constraintHorizontal_bias="0.913"
                 app:layout_constraintStart_toStartOf="@+id/vertical_first_guideline"
                 app:layout_constraintTop_toBottomOf="@+id/front_neck_shoulders_button" />
 
             <Button
+                android:id="@+id/front_stomach_button"
+                android:layout_width="85dp"
+                android:layout_height="106dp"
+                android:layout_marginBottom="8dp"
+                android:backgroundTint="@android:color/transparent"
+                app:layout_constraintBottom_toTopOf="@+id/front_right_leg_button"
+                app:layout_constraintEnd_toStartOf="@+id/vertical_first_guideline"
+                app:layout_constraintStart_toStartOf="@+id/vertical_first_guideline"
+                app:layout_constraintTop_toBottomOf="@+id/front_torso_button"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <Button
                 android:id="@+id/front_right_leg_button"
                 android:layout_width="45dp"
-                android:layout_height="188dp"
+                android:layout_height="190dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
                 android:backgroundTint="@android:color/transparent"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toEndOf="@+id/front_body_location_photo"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="0.032"
                 app:layout_constraintStart_toStartOf="@+id/vertical_first_guideline"
-                app:layout_constraintTop_toBottomOf="@+id/front_torso_button" />
+                app:layout_constraintTop_toBottomOf="@+id/front_stomach_button" />
 
             <Button
                 android:id="@+id/front_left_leg_button"
                 android:layout_width="45dp"
-                android:layout_height="188dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_height="190dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:backgroundTint="@android:color/transparent"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toEndOf="@+id/front_right_leg_button"
-                app:layout_constraintHorizontal_bias="0.455"
+                app:layout_constraintHorizontal_bias="0.432"
                 app:layout_constraintStart_toStartOf="@+id/front_left_arm_button"
-                app:layout_constraintTop_toBottomOf="@+id/front_torso_button" />
+                app:layout_constraintTop_toBottomOf="@+id/front_stomach_button" />
 
             <Button
                 android:id="@+id/back_head_button"
@@ -260,11 +269,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/back_neck_shoulders_button" />
 
             <Button
-                android:id="@+id/back_torso_button"
+                android:id="@+id/back_upper_back_button"
                 android:layout_width="85dp"
-                android:layout_height="166dp"
+                android:layout_height="55dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
                 android:backgroundTint="@android:color/transparent"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toStartOf="@+id/vertical_third_guideline"
@@ -273,33 +281,42 @@
                 app:layout_constraintTop_toBottomOf="@+id/back_neck_shoulders_button" />
 
             <Button
+                android:id="@+id/back_lower_back_button"
+                android:layout_width="85dp"
+                android:layout_height="111dp"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="@android:color/transparent"
+                android:textColor="#ffffff"
+                app:layout_constraintEnd_toStartOf="@+id/vertical_third_guideline"
+                app:layout_constraintHorizontal_bias="0.533"
+                app:layout_constraintStart_toStartOf="@+id/vertical_third_guideline"
+                app:layout_constraintTop_toBottomOf="@+id/back_upper_back_button" />
+
+            <Button
                 android:id="@+id/back_right_leg_button"
                 android:layout_width="45dp"
                 android:layout_height="188dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
                 android:backgroundTint="@android:color/transparent"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toEndOf="@+id/back_body_location_photo"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/vertical_third_guideline"
-                app:layout_constraintTop_toBottomOf="@+id/back_torso_button" />
+                app:layout_constraintTop_toBottomOf="@+id/back_lower_back_button" />
 
             <Button
                 android:id="@+id/back_left_leg_button"
                 android:layout_width="45dp"
                 android:layout_height="188dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:backgroundTint="@android:color/transparent"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toEndOf="@+id/back_right_leg_button"
-                app:layout_constraintHorizontal_bias="0.455"
+                app:layout_constraintHorizontal_bias="0.447"
                 app:layout_constraintStart_toStartOf="@+id/back_left_arm_button"
-                app:layout_constraintTop_toBottomOf="@+id/back_torso_button" />
+                app:layout_constraintTop_toBottomOf="@+id/back_lower_back_button" />
+
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>
-
