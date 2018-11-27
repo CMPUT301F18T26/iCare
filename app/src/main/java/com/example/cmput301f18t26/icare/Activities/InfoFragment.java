@@ -57,13 +57,15 @@ public class InfoFragment extends Fragment{
     private ArrayList<Uri> imageUris = new ArrayList<>();
     private Uri imageFileUri;
     private int imageDisplayedRightNow;
+    private String title;
 
 
     Calendar cal = Calendar.getInstance();
     Date date=cal.getTime();
     DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss yyyy-MM-dd");
     String formattedDate=dateFormat.format(date);
-
+    static final String STATE_USER = "user";
+    private String mUser = "NewUser";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,6 +76,14 @@ public class InfoFragment extends Fragment{
 
         //passing the problem ID not sure if we will need this - tyler
         selectedProblem = dataController.getSelectedProblem();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        title = titleEntry.getText().toString().trim();
+        Bundle savedInstanceState = new Bundle();
+        onSaveInstanceState(savedInstanceState);
     }
 
     @Override
@@ -210,7 +220,7 @@ public class InfoFragment extends Fragment{
 
     public void save(){
         //Get the values of the Title, Date and Description fields
-        String title = titleEntry.getText().toString().trim();
+        title = titleEntry.getText().toString().trim();
         String description = descriptionEntry.getText().toString().trim();
         user = dataController.getCurrentUser();
         String userUID = user.getUID();
@@ -248,4 +258,5 @@ public class InfoFragment extends Fragment{
         //Returns to the problem description and list of records for that problem.
         getActivity().finish();
     }
+
 }
