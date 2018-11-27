@@ -46,4 +46,6 @@ public class UserRecord extends BaseRecord {
     //Photos Getters and Setters
     public ArrayList<String> getPhotos(){ return this.photos = photos;}
 
+
+
 }

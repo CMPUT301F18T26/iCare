@@ -432,6 +432,7 @@ public class DataController {
         return recordStorage.getOrDefault(problemUID, new ArrayList<BaseRecord>());
     }
 
+
     /**
      * The method should be called immediately upon the creation of the MainActivity because we need
      * to read data that was written to files to fetch state of the app.

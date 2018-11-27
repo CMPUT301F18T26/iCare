@@ -1,5 +1,6 @@
 package com.example.cmput301f18t26.icare.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -28,6 +29,7 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
         super.onCreate(savedInstanceState);
 
         Bundle extras = getIntent().getExtras();
+
         dataController = DataController.getInstance();
         selectedProblem = dataController.getSelectedProblem();
 
