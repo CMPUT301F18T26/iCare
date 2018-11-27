@@ -23,8 +23,8 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
     private ImageView images;
     private Problem selectedProblem;
     private Fragment infoFragment;
-    private Fragment geoFragment;
-    private Fragment bodyFragment;
+    private Fragment geoFragment = new GeolocationFragment();
+    private Fragment bodyFragment = new BodylocationFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +67,11 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
                 break;
 
             case R.id.geo:
-                fragment = new GeolocationFragment();
+                fragment = geoFragment;
                 break;
 
             case R.id.body:
-                fragment = new BodylocationFragment();
+                fragment = bodyFragment;
                 break;
 
         }
