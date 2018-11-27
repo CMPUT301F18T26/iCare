@@ -17,6 +17,7 @@ public abstract class User {
     private String username;
     private String email;
     private String phone;
+    private String singleUseCode;
     private int role; // Patient = 0, Care Provider = 1
 
     /**
@@ -161,4 +162,7 @@ public abstract class User {
         return getUsername();
     }
 
+    public String getSingleUseCode() { return singleUseCode; }
+
+    public void setSingleUseCode(String singleUseCode) { this.singleUseCode = singleUseCode; }
 }

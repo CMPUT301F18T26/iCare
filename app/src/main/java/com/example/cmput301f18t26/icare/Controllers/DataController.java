@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 import io.searchbox.client.JestResult;
@@ -265,13 +266,13 @@ public class DataController {
     }
 
     /**
-     * Logging in a user using their username.
-     * @param username
+     * Logging in a user using their passIn.
+     * @param passIn
      * @return User
      */
-    public User login(String username){
+    public User login(String passIn){
         try {
-            JestResult result = new SearchController.SignInUser().execute(username).get();
+            JestResult result = new SearchController.SignInUser().execute(passIn).get();
             // ooooo hacks!!!
             // Even more hacky
             Patient fetchedCurrentUser = result.getSourceAsObject(Patient.class);
@@ -284,6 +285,10 @@ public class DataController {
         } catch (Exception e) {
             loggedInUser = null;
             Log.i("Error", "Problem talking to ES instance");
+        }
+
+        if (passIn.length() < 8) {
+            usersThatHaveSuccessfullyLoggedIn.add(loggedInUser.getUID());
         }
 
         return loggedInUser;
@@ -333,6 +338,18 @@ public class DataController {
 
         // Return
         return trustedUser;
+    }
+
+    public String generateSingleUseCode(User user) {
+        // First we get the UID of the user
+        String userUID = user.getUID();
+        // Now we generate a new UUID and shorten it
+        String singleUseCode = UUID.randomUUID().toString();
+        singleUseCode = singleUseCode.substring(0, 8);
+        // Saving the code to the ES server
+
+
+        return singleUseCode;
     }
 
     // ------------------------ CARE PROVIDER's PATIENT METHODS ------------------------------------

@@ -49,7 +49,9 @@
         <activity android:name=".Activities.SearchAddPatientsActivity" />
         <activity android:name=".Activities.CareProviderViewPatientProblemActivity" />
         <activity android:name=".Activities.CareProviderAddCommentActivity" />
-        <activity android:name=".Activities.ViewRecordActivity"></activity>
+        <activity android:name=".Activities.ViewRecordActivity" />
+        <activity android:name=".Activities.ViewSingleUseCodeActivity" />
+
     </application>
 
 </manifest>

@@ -40,6 +40,7 @@ public class SearchController {
     private static final String problemType = "problem";
     private static final String recordType = "record";
     private static final String imageType = "image";
+    private static final String singleUseCodeType = "singleUseCode";
 
     /**
      * This method is used to instantiate our jestClient and save the instance to the
@@ -144,17 +145,30 @@ public class SearchController {
 
         @Override
         protected JestResult doInBackground (String... userParams) {
-
-            String query =
-                    "{\n" +
-                    "  \"query\": {\n" +
-                    "    \"bool\": {\n" +
-                    "      \"must\": [\n" +
-                    "        { \"match\": { \"username\": \"" + userParams[0] + "\"}}\n" +
-                    "      ]\n" +
-                    "    }\n" +
-                    "  }\n" +
-                    "}";
+            String query = null;
+            if (userParams[0].length() >= 8){
+                query =
+                        "{\n" +
+                                "  \"query\": {\n" +
+                                "    \"bool\": {\n" +
+                                "      \"must\": [\n" +
+                                "        { \"match\": { \"username\": \"" + userParams[0] + "\"}}\n" +
+                                "      ]\n" +
+                                "    }\n" +
+                                "  }\n" +
+                                "}";
+            } else {
+                query =
+                        "{\n" +
+                                "  \"query\": {\n" +
+                                "    \"bool\": {\n" +
+                                "      \"must\": [\n" +
+                                "        { \"match\": { \"singleUseCode\": \"" + userParams[0] + "\"}}\n" +
+                                "      ]\n" +
+                                "    }\n" +
+                                "  }\n" +
+                                "}";
+            }
 
             Search search = new Search.Builder(query).addIndex(groupIndex).addType(userType).build();
 
