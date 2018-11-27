@@ -24,19 +24,12 @@ public enum BodyLocation {
     BACK_RIGHT_LEG ("Back Right Leg"),
     BACK_LEFT_LEG ("Back Left Leg");
 
-
-    private String id;
-    //Every body location belongs to a user record
-    private UserRecord userRecord;
-    public String bodyLocation;
-
+    private String bodyLocation;
 
     BodyLocation(String bodyLocation){
         this.bodyLocation = bodyLocation;
     }
 
-    public String getId() { return this.id; }
-    public void setId(String id) { this.id = id; }
     public String toString(){return this.bodyLocation;}
     public String getBodyLocation(){return this.bodyLocation;}
     public void setBodyLocation(String bodyLocation) { this.bodyLocation = bodyLocation;}

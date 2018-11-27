@@ -44,6 +44,7 @@ public class ViewBodylocationFragment extends Fragment {
             bodyLocation = userRecord.getBodyLocation();
         }
 
+        //Sets the title at the top to the bodyLocation String.
         if (bodyLocation != null){
             bodyLocationString = bodyLocation.getBodyLocation();
             title.setText(bodyLocationString);

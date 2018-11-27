@@ -31,8 +31,9 @@ public class BodylocationFragment extends Fragment {
 
         /**
          * Unfortunately I couldn't get the below to work with a fragment. Something about
-         * the view was different from a fragment to a normal activity and all online
-         * research said to use a onClickListener. As a result I have 16 onClickListeners.
+         * the view was different from a fragment to a normal activity and all online sources
+         * said to use an onClickListener. As a result I have 16 onClickListeners which isn't
+         * pretty but I couldn't find any way around it.
          *
          * public void chooseBodyLocation(View view) {
          *         title = (TextView) getView().findViewById(R.id.patient_record_body_label_location);
