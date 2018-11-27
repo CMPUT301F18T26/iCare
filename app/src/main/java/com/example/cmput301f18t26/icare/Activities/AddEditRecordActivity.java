@@ -55,12 +55,12 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
     }
 
 
-    //called whenever one of the bottom nav buttons is selected - tyler
+    //called whenever one of the bottom nav buttons is selected
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Fragment fragment = null;
 
-        //track which object is clicked - tyler
+        //track which object is clicked
         switch(menuItem.getItemId()){
             case R.id.info:
                 fragment = infoFragment;
