@@ -69,6 +69,7 @@ public class DataController {
     private User loggedInUser = null; // set when a user logs in
     private Problem selectedProblem = null; // set when a problem is selected from a list
     private BaseRecord selectedRecord = null; //set when a record is selected from a list
+    private String currentBodyLocation = null;
 
     /**
      * Data structure for storing any Patients seen associated with a Care Provider
@@ -612,6 +613,13 @@ public class DataController {
         }
     }
 
+    public void setCurrentBodyLocation(String bodyLocation){
+        currentBodyLocation = bodyLocation;
+    }
+
+    public String getCurrentBodyLocation(){
+        return currentBodyLocation;
+    }
     /// ------------------------ IMAGE METHODS -----------------------------------------------------
 
 

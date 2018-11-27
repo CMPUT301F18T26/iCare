@@ -13,6 +13,7 @@ import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.cmput301f18t26.icare.BodyLocation;
 import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.Controllers.RecordFactory;
 import com.example.cmput301f18t26.icare.GestureHelper;
@@ -57,7 +59,8 @@ public class InfoFragment extends Fragment{
     private ArrayList<Uri> imageUris = new ArrayList<>();
     private Uri imageFileUri;
     private int imageDisplayedRightNow;
-
+    private String bodyLocationString;
+    private BodyLocation bodyLocation;
 
     Calendar cal = Calendar.getInstance();
     Date date=cal.getTime();
@@ -87,7 +90,6 @@ public class InfoFragment extends Fragment{
         dateStamp.setText(formattedDate);
 
         //Saves your Record and returns you to the Record List View
-
         Button saveButton = (Button) rootView.findViewById(R.id.userRecord_save_button);
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -209,6 +211,17 @@ public class InfoFragment extends Fragment{
     }
 
     public void save(){
+
+        //Retrieves the current body location string sets the BodyLocation. If
+        //there is no string the BodyLocation will just be null.
+        bodyLocationString = dataController.getCurrentBodyLocation();
+        if (bodyLocationString != null){
+            bodyLocation = BodyLocation.valueOf(bodyLocationString);
+            String string = bodyLocation.getBodyLocation();
+        }
+        else{
+            bodyLocation = null;
+        }
         //Get the values of the Title, Date and Description fields
         String title = titleEntry.getText().toString().trim();
         String description = descriptionEntry.getText().toString().trim();
@@ -234,7 +247,7 @@ public class InfoFragment extends Fragment{
         }
 
         //Create a new record in the userRecordFactory.
-        BaseRecord record = RecordFactory.getRecord(formattedDate, description, selectedProblem.getUID(), null, null, imageList, recType, title);
+        BaseRecord record = RecordFactory.getRecord(formattedDate, description, selectedProblem.getUID(), null, bodyLocation, imageList, recType, title);
         dataController.addRecord(record);
 
         // Sending all imageView to server

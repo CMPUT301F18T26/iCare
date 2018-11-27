@@ -30,6 +30,7 @@ public enum BodyLocation {
     private UserRecord userRecord;
     public String bodyLocation;
 
+
     BodyLocation(String bodyLocation){
         this.bodyLocation = bodyLocation;
     }
