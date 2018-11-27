@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,7 +65,7 @@ public class InfoFragment extends Fragment{
     DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss yyyy-MM-dd");
     String formattedDate=dateFormat.format(date);
     static final String STATE_USER = "user";
-    private String mUser;
+    private String mUser = "NewUser";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,16 +76,6 @@ public class InfoFragment extends Fragment{
 
         //passing the problem ID not sure if we will need this - tyler
         selectedProblem = dataController.getSelectedProblem();
-
-        // Check whether we're recreating a previously destroyed instance
-        if (savedInstanceState != null) {
-            // Restore value of members from saved state
-            title = savedInstanceState.getString("Title");
-            titleEntry.setText(title);
-        } else {
-            // Probably initialize members with default values for a new instance
-            mUser = "NewUser";
-        }
     }
 
     @Override
@@ -95,23 +84,6 @@ public class InfoFragment extends Fragment{
         title = titleEntry.getText().toString().trim();
         Bundle savedInstanceState = new Bundle();
         onSaveInstanceState(savedInstanceState);
-    }
-
-//    @Override
-//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-//        super.onActivityCreated(savedInstanceState);
-//
-//        title = savedInstanceState.getString("Title");
-//        titleEntry.setText(title);
-//
-//    }
-
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        // Always call the superclass so it can save the view hierarchy state
-        savedInstanceState.putString("Title",title);
-        super.onSaveInstanceState(savedInstanceState);
-
     }
 
     @Override

@@ -22,6 +22,9 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
     private TextView dateStamp;
     private ImageView images;
     private Problem selectedProblem;
+    private Fragment infoFragment;
+    private Fragment geoFragment;
+    private Fragment bodyFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +38,8 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
 
-        Fragment InfoFragment = new Fragment();
-
-        loadFragment(new InfoFragment());//display Info Fragment By default - Tyler
+        infoFragment = new InfoFragment();
+        loadFragment(infoFragment);//display Info Fragment By default - Tyler
     }
 
 
@@ -61,7 +63,7 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
         //track which object is clicked - tyler
         switch(menuItem.getItemId()){
             case R.id.info:
-                fragment = new InfoFragment();
+                fragment = infoFragment;
                 break;
 
             case R.id.geo:
