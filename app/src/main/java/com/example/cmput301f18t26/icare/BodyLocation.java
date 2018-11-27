@@ -7,7 +7,7 @@ public enum BodyLocation {
     //Front Locations
     FRONT_HEAD ("Front Head"),
     FRONT_NECK_SHOULDERS ("Front Neck and Shoulders"),
-    FRONT_TORSO ("Torso"),
+    FRONT_CHEST ("Chest"),
     FRONT_STOMACH("Stomach"),
     FRONT_RIGHT_ARM ("Front Right Arm"),
     FRONT_LEFT_ARM ("Front Left Arm"),

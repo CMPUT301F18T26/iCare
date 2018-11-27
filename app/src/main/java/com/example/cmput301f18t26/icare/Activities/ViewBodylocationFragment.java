@@ -1,23 +1,53 @@
 package com.example.cmput301f18t26.icare.Activities;
 
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.example.cmput301f18t26.icare.BodyLocation;
+import com.example.cmput301f18t26.icare.Controllers.DataController;
+import com.example.cmput301f18t26.icare.Models.BaseRecord;
+import com.example.cmput301f18t26.icare.Models.UserRecord;
 import com.example.cmput301f18t26.icare.R;
 
-public class ViewBodylocationFragment extends Fragment{
+public class ViewBodylocationFragment extends Fragment {
 
-    // ATTENTION! WHEN WORKING IN HERE I WOULD USE MY InfoFragment AS A REFERENCE FOR HOW TO WORK
-    // IN A FRAGMENT. WHAT IS HERE RIGHT NOW IS JUST A PLACEHOLDER UNTIL EVERYTHING ELSE WAS
-    //ACTUALLY IMPLEMENTED. THANKS - TYLER
+    private DataController dataController;
+    private TextView title;
+    private BaseRecord currentRecord;
+    private BodyLocation bodyLocation = null;
+    private String bodyLocationString;
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_view_bodylocation, null);
+        View bodyView = inflater.inflate(R.layout.fragment_view_bodylocation, null);
+        dataController = DataController.getInstance();
+
+        //Title of the page
+        title = (TextView) bodyView.findViewById(R.id.patient_record_body_label_location);
+        //Find the record we are working with
+        currentRecord = dataController.getSelectedRecord();
+
+        // Now getting the bodyLocation if the class is a UserRecord
+        if (UserRecord.class == currentRecord.getClass()) {
+            // Getting the record as a user record
+            UserRecord userRecord = (UserRecord) currentRecord;
+            //Find the bodyLocation
+            bodyLocation = userRecord.getBodyLocation();
+        }
+
+        if (bodyLocation != null){
+            bodyLocationString = bodyLocation.getBodyLocation();
+            title.setText(bodyLocationString);
+        }
+        return bodyView;
     }
 }

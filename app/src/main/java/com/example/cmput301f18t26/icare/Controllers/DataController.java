@@ -613,13 +613,37 @@ public class DataController {
         }
     }
 
+    /**
+     * Sets the current body location as a string in DataController. This allows us to
+     * easily pass the body location between fragments (BodyLocationFragment and InfoFragment)
+     * before the UserRecord has been created yet.
+     * @param bodyLocation
+     */
     public void setCurrentBodyLocation(String bodyLocation){
         currentBodyLocation = bodyLocation;
     }
 
+    /**
+     * Allows you to retrieve the previously set currentBodyLocation. Used in InfoFragment to
+     * retrieve the string so you can add a BodyLocation type to the inputs for UserRecordFactory.
+     * @return
+     */
     public String getCurrentBodyLocation(){
         return currentBodyLocation;
     }
+
+    /**
+     * Sets the currentBodyLocation to null. This is used to avoid accidentally adding bodyLocations
+     * to new Records in InfoFragment. If you create a new record, add a body location, then that
+     * body location string will be saved in DataController. If you then create another new record
+     * and this time don't add a body location, you don't want DataController still adding
+     * the previously saved body location to your record.
+     */
+    public void deleteCurrentBodyLocation(){
+        currentBodyLocation = null;
+    }
+
+
     /// ------------------------ IMAGE METHODS -----------------------------------------------------
 
 
