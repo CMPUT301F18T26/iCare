@@ -29,7 +29,7 @@ public class BodylocationFragment extends Fragment{
         //Title of the page
         title = (TextView) bodyView.findViewById(R.id.patient_record_body_label_location);
 
-        //Front head
+        //Front head -- seems like this will need to be repeated for every enum option
         Button front_head_button = (Button) bodyView.findViewById(R.id.front_head_button);
         front_head_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

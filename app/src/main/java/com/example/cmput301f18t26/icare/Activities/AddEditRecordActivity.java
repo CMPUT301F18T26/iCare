@@ -29,16 +29,6 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
         super.onCreate(savedInstanceState);
 
         Bundle extras = getIntent().getExtras();
-
-//        if (extras != null){
-//           bodyLocation = extras.getString("Body Location");
-//           Log.d("fuck activity", bodyLocation);
-//        }
-//        else{
-//            Log.d("fuck activity", "null");
-//        }
-
-
         dataController = DataController.getInstance();
         selectedProblem = dataController.getSelectedProblem();
 
@@ -64,19 +54,15 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
     }
 
 
-    //called whenever one of the bottom nav buttons is selected - tyler
+    //called whenever one of the bottom nav buttons is selected
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Fragment fragment = null;
 
-        //track which object is clicked - tyler
+        //track which object is clicked
         switch(menuItem.getItemId()){
             case R.id.info:
-//                Bundle b = new Bundle();
-//               // b.putString("Body Location", "Front Head");
-//                Log.d("Fuck activity", "here");
                 fragment = new InfoFragment();
-             //   fragment.setArguments(b);
                 break;
 
             case R.id.geo:
