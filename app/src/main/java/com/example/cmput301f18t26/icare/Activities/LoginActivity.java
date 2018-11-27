@@ -85,19 +85,23 @@ public class LoginActivity extends AppCompatActivity {
             // grab the user from ES
             user = dataController.login(username);
             // go to either view Patient or view Problem screen depending on type of user logged in
-            if (user.getRole() == 0) {
-                Intent intent = new Intent(this, PatientViewProblemListActivity.class);
-                startActivity(intent);
+            if (user != null && dataController.userInUsersThatHaveSuccessfullyLoggedIn(user.getUID())) {
+                if (user.getRole() == 0) {
+                    Intent intent = new Intent(this, PatientViewProblemListActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(this, ViewPatientsActivity.class);
+                    startActivity(intent);
+                }
+            } else if (user != null) {
+                Toast.makeText(getApplicationContext(), "Login failed. Use a single use code to login.", Toast.LENGTH_SHORT).show();
             } else {
-                Intent intent = new Intent(this, ViewPatientsActivity.class);
-                startActivity(intent);
+                Toast.makeText(getApplicationContext(), "Login failed. Username not found.", Toast.LENGTH_SHORT).show();
             }
 
         } catch (Exception e) {
             Log.i("Error", "Could not find that User");
-            Toast.makeText(getApplicationContext(),
-                    "User not found",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "User not found", Toast.LENGTH_SHORT).show();
         }
     }
 }

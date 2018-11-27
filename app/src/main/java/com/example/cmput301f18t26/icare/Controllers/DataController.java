@@ -107,7 +107,7 @@ public class DataController {
      * Data structure stores the list of users who have successfully logged in on this device in the
      * past by either creating a new account on this device or by using a single use code to login.
      */
-    private List<User> usersThatHaveSuccessfullyLoggedIn = new ArrayList<>();
+    private List<String> usersThatHaveSuccessfullyLoggedIn = new ArrayList<>();
 
     /**
      * Data structure to hold images. Its a hash map to make sure that out look time is constant.
@@ -256,29 +256,16 @@ public class DataController {
      */
     public void signup(User user) {
         try {
-            // The account was successfully created using this device
             new SearchController.AddUser().execute(user);
             // Now we can add it to a list of user accounts that were created on this device
-            User userToAdd = null;
-            // Getting the user first
-            JestResult result = new SearchController.SignInUser().execute(user.getUsername()).get();
-            // ooooo hacks!!!
-            User fetchedCurrentUser = result.getSourceAsObject(User.class);
-            // check the role and unpack to the proper object so that no data is lost
-            if (fetchedCurrentUser.getRole() == 0) {
-                userToAdd = result.getSourceAsObject(Patient.class);
-            } else {
-                userToAdd = result.getSourceAsObject(CareProvider.class);
-            }
-            // Now storing it to file
-            usersThatHaveSuccessfullyLoggedIn.add(userToAdd);
+            usersThatHaveSuccessfullyLoggedIn.add(user.getUID());
         } catch (Exception e) {
             Log.i("Error", "Failed to create the user", e);
         }
     }
 
     /**
-     * Logging in a new user
+     * Logging in a user using their username.
      * @param username
      * @return User
      */
@@ -294,11 +281,11 @@ public class DataController {
             } else {
                 loggedInUser = result.getSourceAsObject(CareProvider.class);
             }
-            return loggedInUser;
         } catch (Exception e) {
             loggedInUser = null;
             Log.i("Error", "Problem talking to ES instance");
         }
+
         return loggedInUser;
     }
 
@@ -323,6 +310,29 @@ public class DataController {
      */
     public User getCurrentUser() {
         return loggedInUser;
+    }
+
+    /**
+     * Checks if a user has successfully logged into this device before, either by creating their
+     * account on this device or using a single use code to sign in.
+     * @param UID
+     * @return
+     */
+    public boolean userInUsersThatHaveSuccessfullyLoggedIn(String UID){
+        // Will hold the return value
+        boolean trustedUser = false;
+
+        // Iterating through usersThatHaveSuccessfullyLoggedIn and trying to find UID in the list, if found, the loop is terminated instantly
+        for (String userUID: usersThatHaveSuccessfullyLoggedIn){
+            if (userUID.equals(UID)){
+                // User has logged in before, set return value to true and break
+                trustedUser = true;
+                break;
+            }
+        }
+
+        // Return
+        return trustedUser;
     }
 
     // ------------------------ CARE PROVIDER's PATIENT METHODS ------------------------------------
@@ -670,6 +680,7 @@ public class DataController {
         return ias;
     }
 
+
     public void ClearPhotosHashMap() {
         imageAsStringsHash = new HashMap<>();
     }
@@ -678,6 +689,8 @@ public class DataController {
 
 
     public BaseRecord getSelectedRecord() { return this.selectedRecord; }
+
+
 
     /// ------------------------ FILE READ/WRITE METHODS -------------------------------------------
 
@@ -746,9 +759,9 @@ public class DataController {
             // Getting the gson builder
             Gson gson = new GsonBuilder().create();
             // Now we create the type
-            Type userListType = new TypeToken<List<User>>(){}.getType();
+            Type userStringListType = new TypeToken<List<String>>(){}.getType();
             // Now reading from file
-            usersThatHaveSuccessfullyLoggedIn = gson.fromJson(in, userListType);
+            usersThatHaveSuccessfullyLoggedIn = gson.fromJson(in, userStringListType);
         } catch (IOException e){
             Log.e("Error", "Could not read usersThatHaveSuccessfullyLoggedIn from last use");
         }
