@@ -14,9 +14,17 @@ import android.widget.TextView;
 import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.R;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import static android.support.test.InstrumentationRegistry.getContext;
 
 public class AddEditRecordActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback {
     private DataController dataController;
@@ -37,6 +45,7 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
 
         //Create a new instance of the support map fragment
         sMapFragment = SupportMapFragment.newInstance();
+        
 
         Bundle extras = getIntent().getExtras();
         dataController = DataController.getInstance();
@@ -98,10 +107,23 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
         dataController.writeDataToFiles(getApplicationContext());
     }
 
-
+    //ToDo on map resume stuff
     @Override
     public void onMapReady(GoogleMap googleMap) {
         //when map is loaded do everything in here.
+
+        //MapsInitializer.initialize(getContext());
+        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
+
+        // Add a marker in Edmonton, and move the camera to the correct position.
+        LatLng edmonton = new LatLng(53.5444, -113.4909);
+        //Create the marker
+        googleMap.addMarker(new MarkerOptions().position(edmonton).title("Edmonton Alberta"));
+        //Set the initial camera zoom level
+        googleMap.moveCamera(CameraUpdateFactory.zoomTo(10));
+        //Move the camera to the marker position
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(edmonton));
 
     }
 }
