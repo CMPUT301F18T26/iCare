@@ -233,6 +233,7 @@ public class InfoFragment extends Fragment{
         bodyLocationString = dataController.getCurrentBodyLocation();
         if (bodyLocationString != null){
             bodyLocation = BodyLocation.valueOf(bodyLocationString);
+            dataController.deleteCurrentBodyLocation();
         }
         else{
             bodyLocation = null;
