@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.cmput301f18t26.icare.Activities.MainActivity;
 import com.example.cmput301f18t26.icare.Models.BaseRecord;
@@ -37,6 +38,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 import io.searchbox.client.JestResult;
@@ -432,6 +435,10 @@ public class DataController {
      * @return
      */
     public List<Problem> getProblems(String userId){
+        // Check local storage first
+        if (problemsSavedOnlyLocally.contains(userId)) {
+            return problemStorage.get(userId);
+        }
         List<Problem> problemList = null;
         // Checking if we have server connectivity
         boolean internetStatus =  this.checkInternet();
@@ -571,47 +578,77 @@ public class DataController {
      * @return
      */
     public List<BaseRecord> getRecords(Problem problem){
-        // Checking if we have server connectivity
-        boolean internetStatus =  this.checkInternet();
-        if (internetStatus) {
-            try{
-                // Getting the result from the server
-                JestResult result = new SearchController.GetRecords().execute(problem.getUID()).get();
-                // Putting the records into temp storage
-                if (result != null) {
-                    List<UserRecord> tempRecords = (ArrayList<UserRecord>) result.getSourceAsObjectList(UserRecord.class);
-                    // Final storage for properly created records
-                    ArrayList<BaseRecord> properlyCreatedRecords = new ArrayList<>();
-                    // Now we need to iterate through the temp array list
-                    for (BaseRecord record: tempRecords){
-                        // First get the record
-                        result = new SearchController.GetRecordUsingUID().execute(record.getUID()).get();
-                        // Now we check to see the record type
-                        if (record.getRecType() == 0) {
-                            // User record
-                            properlyCreatedRecords.add(result.getSourceAsObject(UserRecord.class));
-                        } else{
-                            // Care provider record
-                            properlyCreatedRecords.add(result.getSourceAsObject(CareProviderRecord.class));
-                        }
-                    }
-
-                    recordStorage.put(problem.getUID(), properlyCreatedRecords);
-                }
-                // Returning the records
-                List<BaseRecord> checker = recordStorage.getOrDefault(problem.getUID(), new ArrayList<BaseRecord>());
-                return checker;
-            } catch (Exception e) {
-                Log.e("Error", "Failed to fetch records from server.");
-                // Something went wrong, just give local records back
-                return recordStorage.get(problem.getUID());
-            }
-        }
-        else{
-            // Offline, give local records back
+        // if the problem is already in the record storage, return the related records.
+        // this should be kept up to data.
+        if (recordStorage.containsKey(problem.getUID())){
+            return recordStorage.get(problem.getUID());
+        } else {
+            // Otherwise we need to grab records.
+            fetchRecords();
             return recordStorage.getOrDefault(problem.getUID(), new ArrayList<BaseRecord>());
         }
     }
+
+    /**
+     * Get all records and store them in record storage
+     */
+    private void fetchRecords() {
+        // Checking if we have server connectivity
+        Set<String> problemUIDs = problemStorage.keySet();
+
+        boolean connection = this.checkInternet();
+        if (connection) {
+            for (String pUID : problemUIDs) {
+                fetchUserRecords(pUID);
+                fetchCareProviderRecords(pUID);
+            }
+        }
+    }
+
+    private void fetchUserRecords(String problemUID){
+        try{
+            // Get all User records related to this user from the server
+            JestResult result = new SearchController.GetAllRecords().execute(problemUID, "0").get();
+            // Putting the records into temp storage
+            if (result != null) {
+                for (UserRecord r : result.getSourceAsObjectList(UserRecord.class)) {
+                    if (recordStorage.containsKey(r.getProblemUID())) {
+                        recordStorage.get(r.getProblemUID()).add(r);
+                    } else {
+                        List<BaseRecord> records = new ArrayList<>();
+                        records.add(r);
+                        recordStorage.put(r.getProblemUID(), records);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Log.e("Error", "Failed to fetch records from server.");
+            // Something went wrong, just give local records back
+        }
+    }
+
+    private void fetchCareProviderRecords(String problemUID){
+        try{
+            // Get all User records related to this user from the server
+            JestResult result = new SearchController.GetAllRecords().execute(problemUID, "1").get();
+            // Putting the records into temp storage
+            if (result != null) {
+                for (CareProviderRecord r : result.getSourceAsObjectList(CareProviderRecord.class)) {
+                    if (recordStorage.containsKey(r.getProblemUID())) {
+                        recordStorage.get(r.getProblemUID()).add(r);
+                    } else {
+                        List<BaseRecord> records = new ArrayList<>();
+                        records.add(r);
+                        recordStorage.put(r.getProblemUID(), records);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Log.e("Error", "Failed to fetch records from server.");
+            // Something went wrong, just give local records back
+        }
+    }
+
 
     public void setCurrentBodyLocation(String bodyLocation){
         currentBodyLocation = bodyLocation;
@@ -917,4 +954,37 @@ public class DataController {
             Log.e("Error", "Could not write baseRecordsSavedOnlyLocally from last use");
         }
     }
+
+    /// ---------------------------------Search Records/Problems methods----------------------------
+    ArrayList<Problem> pSearchResults;
+    ArrayList<BaseRecord> rSearchResults;
+    /**
+     * Search by Keyword
+     *
+     * Return all Problems or Records that contain the provided keyword
+     * Currently implemented using a simple bubble search :(
+     */
+    public void searchByKeyword(Class c, String keyword){
+        for (Problem p : getProblems(getCurrentUser().getUID())) {
+            if (p.getDescription().contains(keyword) || p.getTitle().contains(keyword)) {
+                pSearchResults.add(p);
+            }
+        }
+        for (String pUID : recordStorage.keySet()){
+            for (BaseRecord r : Objects.requireNonNull(recordStorage.get(pUID))) {
+                if (r.getComment().contains(keyword) || r.getTitle().contains(keyword)) {
+                    rSearchResults.add(r);
+                }
+            }
+        }
+    }
+
+    public List<BaseRecord> getRecordSearchResults() {
+        return rSearchResults;
+    }
+
+    public List<Problem> getProblemSearchResults() {
+        return pSearchResults;
+    }
+
 }

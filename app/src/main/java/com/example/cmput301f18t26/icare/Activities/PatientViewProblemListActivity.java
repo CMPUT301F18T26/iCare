@@ -16,11 +16,14 @@ import android.widget.Toast;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.IntentActions;
+import com.example.cmput301f18t26.icare.Models.Patient;
 import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.User;
 import com.example.cmput301f18t26.icare.R;
 
 import java.util.List;
+
+import io.searchbox.core.Search;
 
 public class PatientViewProblemListActivity extends AppCompatActivity {
 
@@ -92,6 +95,13 @@ public class PatientViewProblemListActivity extends AppCompatActivity {
         int id = item.getItemId();
         // Executing code depending on which item is selected
         switch (id){
+            case R.id.search:
+                // go to search activity
+                intent = new Intent(PatientViewProblemListActivity.this, SearchRecordsProblemsActivity.class);
+                startActivity(intent);
+
+                return super.onOptionsItemSelected(item);
+
             case R.id.contact_information:
                 // View contact information
                 // Creating the intent

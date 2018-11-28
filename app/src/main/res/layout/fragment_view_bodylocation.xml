@@ -128,7 +128,8 @@
                 app:layout_constraintEnd_toStartOf="@+id/vertical_center_guideline"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/front_body_location_photo"
-                app:layout_constraintTop_toTopOf="@+id/front_body_location_photo" />
+                app:layout_constraintTop_toTopOf="@+id/front_body_location_photo"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Button
                 android:enabled="false"
@@ -141,7 +142,8 @@
                 app:layout_constraintEnd_toStartOf="@+id/vertical_center_guideline"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/front_body_location_photo"
-                app:layout_constraintTop_toBottomOf="@+id/front_head_button" />
+                app:layout_constraintTop_toBottomOf="@+id/front_head_button"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Button
                 android:enabled="false"
@@ -156,7 +158,8 @@
                 app:layout_constraintEnd_toStartOf="@+id/vertical_center_guideline"
                 app:layout_constraintHorizontal_bias="0.719"
                 app:layout_constraintStart_toStartOf="@+id/vertical_first_guideline"
-                app:layout_constraintTop_toBottomOf="@+id/front_head_button" />
+                app:layout_constraintTop_toBottomOf="@+id/front_head_button"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Button
                 android:enabled="false"
@@ -170,7 +173,8 @@
                 app:layout_constraintEnd_toStartOf="@+id/vertical_first_guideline"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/front_body_location_photo"
-                app:layout_constraintTop_toBottomOf="@+id/front_neck_shoulders_button" />
+                app:layout_constraintTop_toBottomOf="@+id/front_neck_shoulders_button"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Button
                 android:enabled="false"
@@ -184,7 +188,8 @@
                 app:layout_constraintEnd_toStartOf="@+id/vertical_first_guideline"
                 app:layout_constraintHorizontal_bias="0.533"
                 app:layout_constraintStart_toStartOf="@+id/vertical_first_guideline"
-                app:layout_constraintTop_toBottomOf="@+id/front_neck_shoulders_button" />
+                app:layout_constraintTop_toBottomOf="@+id/front_neck_shoulders_button"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Button
                 android:enabled="false"
@@ -198,7 +203,8 @@
                 app:layout_constraintEnd_toEndOf="@+id/front_body_location_photo"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/vertical_first_guideline"
-                app:layout_constraintTop_toBottomOf="@+id/front_torso_button" />
+                app:layout_constraintTop_toBottomOf="@+id/front_torso_button"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Button
                 android:enabled="false"
@@ -214,7 +220,8 @@
                 app:layout_constraintEnd_toEndOf="@+id/front_right_leg_button"
                 app:layout_constraintHorizontal_bias="0.455"
                 app:layout_constraintStart_toStartOf="@+id/front_left_arm_button"
-                app:layout_constraintTop_toBottomOf="@+id/front_torso_button" />
+                app:layout_constraintTop_toBottomOf="@+id/front_torso_button"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Button
                 android:enabled="false"
@@ -226,7 +233,8 @@
                 app:layout_constraintEnd_toStartOf="@+id/vertical_center_guideline"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/back_body_location_photo"
-                app:layout_constraintTop_toTopOf="@+id/back_body_location_photo" />
+                app:layout_constraintTop_toTopOf="@+id/back_body_location_photo"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Button
                 android:enabled="false"
@@ -239,7 +247,8 @@
                 app:layout_constraintEnd_toStartOf="@+id/vertical_center_guideline"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/back_body_location_photo"
-                app:layout_constraintTop_toBottomOf="@+id/back_head_button" />
+                app:layout_constraintTop_toBottomOf="@+id/back_head_button"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Button
                 android:enabled="false"
@@ -255,7 +264,8 @@
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toEndOf="@+id/back_body_location_photo"
                 app:layout_constraintStart_toStartOf="@+id/vertical_third_guideline"
-                app:layout_constraintTop_toBottomOf="@+id/back_head_button" />
+                app:layout_constraintTop_toBottomOf="@+id/back_head_button"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Button
                 android:enabled="false"
@@ -269,7 +279,8 @@
                 app:layout_constraintEnd_toStartOf="@+id/vertical_third_guideline"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/back_body_location_photo"
-                app:layout_constraintTop_toBottomOf="@+id/back_neck_shoulders_button" />
+                app:layout_constraintTop_toBottomOf="@+id/back_neck_shoulders_button"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Button
                 android:enabled="false"
@@ -283,7 +294,8 @@
                 app:layout_constraintEnd_toStartOf="@+id/vertical_third_guideline"
                 app:layout_constraintHorizontal_bias="0.533"
                 app:layout_constraintStart_toStartOf="@+id/vertical_third_guideline"
-                app:layout_constraintTop_toBottomOf="@+id/back_neck_shoulders_button" />
+                app:layout_constraintTop_toBottomOf="@+id/back_neck_shoulders_button"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Button
                 android:enabled="false"
@@ -297,7 +309,8 @@
                 app:layout_constraintEnd_toEndOf="@+id/back_body_location_photo"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/vertical_third_guideline"
-                app:layout_constraintTop_toBottomOf="@+id/back_torso_button" />
+                app:layout_constraintTop_toBottomOf="@+id/back_torso_button"
+                style="?android:attr/borderlessButtonStyle"/>
 
             <Button
                 android:enabled="false"
@@ -313,7 +326,8 @@
                 app:layout_constraintEnd_toEndOf="@+id/back_right_leg_button"
                 app:layout_constraintHorizontal_bias="0.455"
                 app:layout_constraintStart_toStartOf="@+id/back_left_arm_button"
-                app:layout_constraintTop_toBottomOf="@+id/back_torso_button" />
+                app:layout_constraintTop_toBottomOf="@+id/back_torso_button"
+                style="?android:attr/borderlessButtonStyle"/>
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>
