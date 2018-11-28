@@ -11,6 +11,7 @@
     <string name="patient">Patient</string>
     <string name="problems">Problems</string>
     <string name="conditions">Problems</string>
+    <string name="records">Records</string>
     <string name="condition_colon">Problem Details</string>
     <string name="condition_name_colon">Problem Name:</string>
     <string name="date_added_colon">Date Added:</string>
@@ -40,6 +41,7 @@
     <string name="save">Save</string>
     <string name="info">Info</string>
     <string name="geo">Geo</string>
+    <string name="keyword">Keyword</string>
     <string name="body">Body</string>
     <string name="record_info">Record Info</string>
     <string name="date_and_time_colon">Date and Time:</string>
@@ -62,6 +64,7 @@
     <string name="log_out">Log out</string>
     <string name="edit_contact_information">Edit Contact Information</string>
     <string name="view_profile_of_patient">View Profile Of Patient</string>
+    <string name="results">Results</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
