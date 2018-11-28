@@ -4,6 +4,11 @@
     <item
         android:id="@+id/contact_information"
         android:title="@string/contact_information" />
+
+    <item
+        android:id="@+id/generate_single_use_code"
+        android:title="Generate Single Use Code" />
+
     <item
         android:id="@+id/search"
         android:title="@string/search_problems_or_records" />

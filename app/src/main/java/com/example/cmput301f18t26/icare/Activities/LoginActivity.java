@@ -19,6 +19,7 @@ import java.util.concurrent.ExecutionException;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText usernameEntry;
+    private EditText singleUseCodeView;
     private DataController dataController;
 
     @Override
@@ -28,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // initialize all elements of view in our activity
         usernameEntry = findViewById(R.id.username_entry);
+        singleUseCodeView = findViewById(R.id.code_entry);
 
         // grab the instance of our DataController, it will lazy load it if not created elsewhere
         dataController = DataController.getInstance();
@@ -52,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
     public void signin(View view) {
         // grab the raw forms of our TEXT inputs
         String username = usernameEntry.getText().toString().trim();
+        String singleUseCode = singleUseCodeView.getText().toString().trim();
 
         /*
          * Check if we have an internet connection
@@ -67,37 +70,60 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         /*
+         * Check that only one login failed has a value
+         */
+        if (!username.isEmpty() && !singleUseCode.isEmpty()) {
+            Toast.makeText(getApplicationContext(),
+                    "Error: Please enter a username or single use code, not both.",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        /*
          * Lets check the old fashioned way whether our inputs are correct, they are simple
          * enough to not have to delegate to an object or controller
          */
-        if (username.isEmpty()) {
+        if (username.isEmpty() && singleUseCode.isEmpty()) {
             Toast.makeText(getApplicationContext(),
-                    "Error: Invalid login data",
+                    "Error: Enter a valid username or single use code.",
                     Toast.LENGTH_SHORT).show();
             return;
         }
 
         User user = null;
+
+        String passIn = null;
+
+        if (!username.isEmpty()) {
+            passIn = username;
+        } else {
+            passIn = singleUseCode;
+        }
+
         /*
          * Check DataController to see if User is valid
          */
         try {
             // grab the user from ES
-            user = dataController.login(username);
+            user = dataController.login(passIn);
             // go to either view Patient or view Problem screen depending on type of user logged in
-            if (user.getRole() == 0) {
-                Intent intent = new Intent(this, PatientViewProblemListActivity.class);
-                startActivity(intent);
+            if (user != null && dataController.userInUsersThatHaveSuccessfullyLoggedIn(user.getUID())) {
+                if (user.getRole() == 0) {
+                    Intent intent = new Intent(this, PatientViewProblemListActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(this, ViewPatientsActivity.class);
+                    startActivity(intent);
+                }
+            } else if (user != null) {
+                Toast.makeText(getApplicationContext(), "Login failed. Use a single use code to login.", Toast.LENGTH_SHORT).show();
             } else {
-                Intent intent = new Intent(this, ViewPatientsActivity.class);
-                startActivity(intent);
+                Toast.makeText(getApplicationContext(), "Login failed. Username not found.", Toast.LENGTH_SHORT).show();
             }
 
         } catch (Exception e) {
             Log.i("Error", "Could not find that User");
-            Toast.makeText(getApplicationContext(),
-                    "User not found",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "User not found", Toast.LENGTH_SHORT).show();
         }
     }
 }

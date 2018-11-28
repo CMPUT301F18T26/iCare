@@ -72,7 +72,6 @@ public class ViewRecordActivity extends AppCompatActivity implements BottomNavig
             case R.id.body:
                 fragment = new ViewBodylocationFragment();
                 break;
-
         }
 
         return loadFragment(fragment);

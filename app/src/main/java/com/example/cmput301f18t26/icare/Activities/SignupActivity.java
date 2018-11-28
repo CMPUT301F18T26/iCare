@@ -108,7 +108,7 @@ public class SignupActivity extends AppCompatActivity {
             return;
         }
 
-        /**
+        /*
          * Given that our user is created properly and there are no validation errors,
          * let's save it to our DataController cache
          */
@@ -116,6 +116,10 @@ public class SignupActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(),
                 "User created successfully",
                 Toast.LENGTH_SHORT).show();
+
+        // Now writing to file
+        dataController.writeDataToFiles(getApplicationContext());
+
         finish();
     }
 

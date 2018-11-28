@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 import io.searchbox.client.JestResult;
@@ -109,7 +110,7 @@ public class DataController {
      * Data structure stores the list of users who have successfully logged in on this device in the
      * past by either creating a new account on this device or by using a single use code to login.
      */
-    private List<User> usersThatHaveSuccessfullyLoggedIn = new ArrayList<>();
+    private List<String> usersThatHaveSuccessfullyLoggedIn = new ArrayList<>();
 
     /**
      * Data structure to hold images. Its a hash map to make sure that out look time is constant.
@@ -258,35 +259,22 @@ public class DataController {
      */
     public void signup(User user) {
         try {
-            // The account was successfully created using this device
             new SearchController.AddUser().execute(user);
             // Now we can add it to a list of user accounts that were created on this device
-            User userToAdd = null;
-            // Getting the user first
-            JestResult result = new SearchController.SignInUser().execute(user.getUsername()).get();
-            // ooooo hacks!!!
-            User fetchedCurrentUser = result.getSourceAsObject(User.class);
-            // check the role and unpack to the proper object so that no data is lost
-            if (fetchedCurrentUser.getRole() == 0) {
-                userToAdd = result.getSourceAsObject(Patient.class);
-            } else {
-                userToAdd = result.getSourceAsObject(CareProvider.class);
-            }
-            // Now storing it to file
-            usersThatHaveSuccessfullyLoggedIn.add(userToAdd);
+            usersThatHaveSuccessfullyLoggedIn.add(user.getUID());
         } catch (Exception e) {
             Log.i("Error", "Failed to create the user", e);
         }
     }
 
     /**
-     * Logging in a new user
-     * @param username
+     * Logging in a user using their passIn.
+     * @param passIn
      * @return User
      */
-    public User login(String username){
+    public User login(String passIn){
         try {
-            JestResult result = new SearchController.SignInUser().execute(username).get();
+            JestResult result = new SearchController.SignInUser().execute(passIn).get();
             // ooooo hacks!!!
             // Even more hacky
             Patient fetchedCurrentUser = result.getSourceAsObject(Patient.class);
@@ -296,11 +284,20 @@ public class DataController {
             } else {
                 loggedInUser = result.getSourceAsObject(CareProvider.class);
             }
-            return loggedInUser;
         } catch (Exception e) {
             loggedInUser = null;
             Log.i("Error", "Problem talking to ES instance");
         }
+
+        if (!(passIn.length() > 8)) {
+            // Adding to trusted users
+            usersThatHaveSuccessfullyLoggedIn.add(loggedInUser.getUID());
+            // Taking the single use code away since its been used
+            loggedInUser.setSingleUseCode(null);
+            // Sending to server
+            new SearchController.AddUser().execute(loggedInUser);
+        }
+
         return loggedInUser;
     }
 
@@ -325,6 +322,39 @@ public class DataController {
      */
     public User getCurrentUser() {
         return loggedInUser;
+    }
+
+    /**
+     * Checks if a user has successfully logged into this device before, either by creating their
+     * account on this device or using a single use code to sign in.
+     * @param UID
+     * @return
+     */
+    public boolean userInUsersThatHaveSuccessfullyLoggedIn(String UID){
+        // Will hold the return value
+        boolean trustedUser = false;
+
+        // Iterating through usersThatHaveSuccessfullyLoggedIn and trying to find UID in the list, if found, the loop is terminated instantly
+        for (String userUID: usersThatHaveSuccessfullyLoggedIn){
+            if (userUID.equals(UID)){
+                // User has logged in before, set return value to true and break
+                trustedUser = true;
+                break;
+            }
+        }
+
+        // Return
+        return trustedUser;
+    }
+
+    public String generateSingleUseCode(User user) {
+        // First we get the UID of the user
+        String userUID = user.getUID();
+        // Now we generate a new UUID and shorten it
+        String singleUseCode = UUID.randomUUID().toString();
+        singleUseCode = singleUseCode.substring(0, 8);
+        // Returning the code
+        return singleUseCode;
     }
 
     // ------------------------ CARE PROVIDER's PATIENT METHODS ------------------------------------
@@ -615,21 +645,44 @@ public class DataController {
         }
     }
 
+    /**
+     * Sets the current body location as a string in DataController. This allows us to
+     * easily pass the body location between fragments (BodyLocationFragment and InfoFragment)
+     * before the UserRecord has been created yet.
+     * @param bodyLocation
+     */
     public void setCurrentBodyLocation(String bodyLocation){
         currentBodyLocation = bodyLocation;
     }
 
+    /**
+     * Allows you to retrieve the previously set currentBodyLocation. Used in InfoFragment to
+     * retrieve the string so you can add a BodyLocation type to the inputs for UserRecordFactory.
+     * @return
+     */
     public String getCurrentBodyLocation(){
         return currentBodyLocation;
     }
 
-    public void setCurrentGeoLocation(LatLng geoLocation){
+    /**
+     * Sets the currentBodyLocation to null. This is used to avoid accidentally adding bodyLocations
+     * to new Records in InfoFragment. If you create a new record, add a body location, then that
+     * body location string will be saved in DataController. If you then create another new record
+     * and this time don't add a body location, you don't want DataController still adding
+     * the previously saved body location to your record.
+     */
+    public void deleteCurrentBodyLocation(){
+        currentBodyLocation = null;
+    }
+
+     public void setCurrentGeoLocation(LatLng geoLocation){
         currentGeoLocation = geoLocation;
     }
 
     public LatLng getCurrentGeoLocation(){
         return currentGeoLocation;
     }
+
     /// ------------------------ IMAGE METHODS -----------------------------------------------------
 
 
@@ -680,6 +733,7 @@ public class DataController {
         return ias;
     }
 
+
     public void ClearPhotosHashMap() {
         imageAsStringsHash = new HashMap<>();
     }
@@ -688,6 +742,8 @@ public class DataController {
 
 
     public BaseRecord getSelectedRecord() { return this.selectedRecord; }
+
+
 
     /// ------------------------ FILE READ/WRITE METHODS -------------------------------------------
 
@@ -756,9 +812,9 @@ public class DataController {
             // Getting the gson builder
             Gson gson = new GsonBuilder().create();
             // Now we create the type
-            Type userListType = new TypeToken<List<User>>(){}.getType();
+            Type userStringListType = new TypeToken<List<String>>(){}.getType();
             // Now reading from file
-            usersThatHaveSuccessfullyLoggedIn = gson.fromJson(in, userListType);
+            usersThatHaveSuccessfullyLoggedIn = gson.fromJson(in, userStringListType);
         } catch (IOException e){
             Log.e("Error", "Could not read usersThatHaveSuccessfullyLoggedIn from last use");
         }
