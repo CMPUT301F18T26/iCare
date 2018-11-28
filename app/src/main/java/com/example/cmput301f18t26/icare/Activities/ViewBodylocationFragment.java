@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.cmput301f18t26.icare.BodyLocation;
@@ -23,6 +24,7 @@ public class ViewBodylocationFragment extends Fragment {
     private BaseRecord currentRecord;
     private BodyLocation bodyLocation = null;
     private String bodyLocationString;
+    int[] IMAGES ={R.drawable.head_selected, R.drawable.left_arm,R.drawable.right_arm,R.drawable.torso,R.drawable.shoulders,R.drawable.left_leg,R.drawable.right_leg};
 
 
     @Nullable
@@ -48,6 +50,19 @@ public class ViewBodylocationFragment extends Fragment {
         if (bodyLocation != null){
             bodyLocationString = bodyLocation.getBodyLocation();
             title.setText(bodyLocationString);
+            ImageView imageView = (ImageView) bodyView.findViewById(R.id.front_body_location_photo);
+
+            switch(bodyLocationString){
+                case "Front Head":
+                    imageView.setImageResource(IMAGES[0]);
+                    break;
+
+//                case "Shoulders::
+//                    fragment = sMapFragment;
+//                    break;
+//
+
+            }
         }
         return bodyView;
     }
