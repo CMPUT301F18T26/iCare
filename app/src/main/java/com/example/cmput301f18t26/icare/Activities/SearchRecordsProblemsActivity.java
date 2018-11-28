@@ -14,43 +14,28 @@ import android.widget.TextView;
 import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.R;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 
-public class AddEditRecordActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback {
+public class SearchRecordsProblemsActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     private DataController dataController;
-    private EditText titleEntry;
-    private EditText descriptionEntry;
-    private TextView dateStamp;
-    private ImageView images;
-    private Problem selectedProblem;
-    private Fragment infoFragment;
+
+    // Three possible fragments for searching
+    private Fragment keywordFragment = new KeywordFragment();
     private Fragment geoFragment = new GeolocationFragment();
     private Fragment bodyFragment = new BodylocationFragment();
-
-    SupportMapFragment sMapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Create a new instance of the support map fragment
-        sMapFragment = SupportMapFragment.newInstance();
-
         Bundle extras = getIntent().getExtras();
         dataController = DataController.getInstance();
-        selectedProblem = dataController.getSelectedProblem();
 
-        setContentView(R.layout.activity_add_edit_record);
-        BottomNavigationView navigation = findViewById(R.id.navigation);
+        setContentView(R.layout.activity_patient_search_records_problems);
+        BottomNavigationView navigation = findViewById(R.id.search_navigation);
         navigation.setOnNavigationItemSelectedListener(this);
 
-        sMapFragment.getMapAsync(this);
-
-
-        infoFragment = new InfoFragment();
-        loadFragment(infoFragment);//display Info Fragment By default - Tyler
+        keywordFragment = new InfoFragment();
+        loadFragment(keywordFragment);//display Info Fragment By default - Tyler
     }
 
 
@@ -70,15 +55,15 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Fragment fragment = null;
-        android.support.v4.app.FragmentManager sFm = getSupportFragmentManager();
 
+        //track which object is clicked
         switch(menuItem.getItemId()){
             case R.id.info:
-                fragment = infoFragment;
+                fragment = keywordFragment;
                 break;
 
             case R.id.geo:
-                fragment = sMapFragment;
+                fragment = geoFragment;
                 break;
 
             case R.id.body:
@@ -99,9 +84,4 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
     }
 
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        //when map is loaded do everything in here.
-
-    }
 }

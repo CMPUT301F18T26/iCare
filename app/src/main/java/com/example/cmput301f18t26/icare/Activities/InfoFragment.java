@@ -90,6 +90,7 @@ public class InfoFragment extends Fragment{
         onSaveInstanceState(savedInstanceState);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_info, container, false);
@@ -99,6 +100,8 @@ public class InfoFragment extends Fragment{
         descriptionEntry = (EditText) rootView.findViewById(R.id.record_comment);
         dateStamp =  rootView.findViewById(R.id.record_date_and_time);
         dateStamp.setText(formattedDate);
+
+
 
         //Saves your Record and returns you to the Record List View
         Button saveButton = (Button) rootView.findViewById(R.id.userRecord_save_button);
@@ -116,10 +119,32 @@ public class InfoFragment extends Fragment{
 
         // Creating on click listener
         imageView = rootView.findViewById(R.id.add_photos_to_record);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Adding the photos
+
+        // If the images have already been taken, displaying them
+        if (imageUris.size() > 0){
+            imageView.setImageDrawable(Drawable.createFromPath(imageUris.get(imageDisplayedRightNow).getPath()));
+            Toast.makeText(getActivity(), "Displaying: " + (imageDisplayedRightNow + 1) + "/" + (imageUris.size()), Toast.LENGTH_SHORT).show();
+        }
+
+        imageView.setOnTouchListener(new GestureHelper(getActivity()) {
+            public void onClick() {
                 takeAPhoto();
+            };
+            public void onSwipeRight() {
+                imageDisplayedRightNow--;
+                if (imageDisplayedRightNow < 0){
+                    imageDisplayedRightNow++;
+                }
+                imageView.setImageDrawable(Drawable.createFromPath(imageUris.get(imageDisplayedRightNow).getPath()));
+                Toast.makeText(getActivity(), "Displaying: " + (imageDisplayedRightNow + 1) + "/" + (imageUris.size()), Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeLeft() {
+                imageDisplayedRightNow++;
+                if (imageDisplayedRightNow >= imageUris.size()){
+                    imageDisplayedRightNow = imageUris.size() - 1;
+                }
+                imageView.setImageDrawable(Drawable.createFromPath(imageUris.get(imageDisplayedRightNow).getPath()));
+                Toast.makeText(getActivity(), "Displaying: " + (imageDisplayedRightNow + 1) + "/" + (imageUris.size()), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -190,27 +215,6 @@ public class InfoFragment extends Fragment{
                     imageView.setImageDrawable(Drawable.createFromPath(imageUris.get(imageDisplayedRightNow).getPath()));
                     Toast.makeText(getActivity(), "Displaying: " + (imageDisplayedRightNow + 1) + "/" + (imageUris.size()), Toast.LENGTH_SHORT).show();
                     // After an image has been added once, you can no longer edit them and we let the user view the images they have added
-                    imageView.setOnTouchListener(new GestureHelper(getActivity()) {
-                        public void onClick() {
-                            Toast.makeText(getActivity(), "Image(s) have already been added. You can only edit this field once.", Toast.LENGTH_SHORT).show();
-                        };
-                        public void onSwipeRight() {
-                            imageDisplayedRightNow--;
-                            if (imageDisplayedRightNow < 0){
-                                imageDisplayedRightNow++;
-                            }
-                            imageView.setImageDrawable(Drawable.createFromPath(imageUris.get(imageDisplayedRightNow).getPath()));
-                            Toast.makeText(getActivity(), "Displaying: " + (imageDisplayedRightNow + 1) + "/" + (imageUris.size()), Toast.LENGTH_SHORT).show();
-                        }
-                        public void onSwipeLeft() {
-                            imageDisplayedRightNow++;
-                            if (imageDisplayedRightNow >= imageUris.size()){
-                                imageDisplayedRightNow = imageUris.size() - 1;
-                            }
-                            imageView.setImageDrawable(Drawable.createFromPath(imageUris.get(imageDisplayedRightNow).getPath()));
-                            Toast.makeText(getActivity(), "Displaying: " + (imageDisplayedRightNow + 1) + "/" + (imageUris.size()), Toast.LENGTH_SHORT).show();
-                        }
-                    });
                 }
             });
 
@@ -229,6 +233,7 @@ public class InfoFragment extends Fragment{
         bodyLocationString = dataController.getCurrentBodyLocation();
         if (bodyLocationString != null){
             bodyLocation = BodyLocation.valueOf(bodyLocationString);
+            dataController.deleteCurrentBodyLocation();
         }
         else{
             bodyLocation = null;

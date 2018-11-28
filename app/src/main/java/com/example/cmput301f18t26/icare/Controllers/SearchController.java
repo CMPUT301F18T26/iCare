@@ -13,12 +13,6 @@ import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,7 +68,7 @@ public class SearchController {
         @Override
         protected Boolean doInBackground(Boolean... none) {
             Index index = new Index.Builder("1").index(groupIndex).type(checkType).refresh(true).id("1").build();
-            Log.i("Error", index.toString());
+            Log.i("Info", index.toString());
             try {
                 result = jestClient.execute(index);
                 return true;
