@@ -34,8 +34,8 @@ public class SearchRecordsProblemsActivity extends AppCompatActivity implements 
         BottomNavigationView navigation = findViewById(R.id.search_navigation);
         navigation.setOnNavigationItemSelectedListener(this);
 
-        keywordFragment = new InfoFragment();
-        loadFragment(keywordFragment);//display Info Fragment By default - Tyler
+        keywordFragment = new KeywordFragment();
+        loadFragment(keywordFragment);//display keyword Fragment By default - Tyler
     }
 
 

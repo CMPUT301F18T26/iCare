@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.ToggleButton;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
@@ -29,7 +30,7 @@ public class ViewSearchResultsActivity extends AppCompatActivity {
 
     ListView results;
 
-    ToggleButton toggleResults = findViewById(R.id.toggle_results);
+    Switch toggleResults;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +45,19 @@ public class ViewSearchResultsActivity extends AppCompatActivity {
         recordAdapter = new ArrayAdapter<>(
                 this,
                 R.layout.userrecords_list_item,
+                R.id.record_name,
                 recordList
         );
         problemAdapter = new ArrayAdapter<>(
                 this,
                 R.layout.problems_list_item,
+                R.id.condition_name,
                 problemList
         );
+
+        results = findViewById(R.id.search_results);
+        results.setAdapter(problemAdapter);
+        toggleResults = findViewById(R.id.toggle_results);
 
         toggleResults.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

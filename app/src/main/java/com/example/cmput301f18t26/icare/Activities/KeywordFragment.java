@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -24,8 +25,7 @@ public class KeywordFragment extends Fragment {
 
     private EditText keywordText;
     private RadioGroup searchSelect;
-    private RadioButton selectedSearchType;
-    private Button search;
+    private ImageButton search;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,24 +43,22 @@ public class KeywordFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_info, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_search_by_keyword, container, false);
 
         //Get everything we need for the View
         keywordText = rootView.findViewById(R.id.edit_text_search_by_keyword);
-        searchSelect = rootView.findViewById(R.id.radio_group_search);
         search = rootView.findViewById(R.id.search);
 
         //Saves your Record and returns you to the Record List View
-        Button search = rootView.findViewById(R.id.search_by_keyword_button);
+        search = rootView.findViewById(R.id.search_by_keyword_button);
         search.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (keywordText.getText().length() != 0) {
+                if (keywordText.getText().length() == 0) {
                     Toast.makeText( getActivity(),
-                            "Please enter a proper email.",
+                            "Please enter a search term!",
                             Toast.LENGTH_SHORT).show();
                 } else {
-                    Class c = searchSelect.getCheckedRadioButtonId() == 0 ? Problem.class : BaseRecord.class;
-                    dataController.searchByKeyword(c, keywordText.getText().toString());
+                    dataController.searchByKeyword(keywordText.getText().toString());
                     Intent intent = new Intent(getContext(), ViewSearchResultsActivity.class);
                     startActivity(intent);
                 }

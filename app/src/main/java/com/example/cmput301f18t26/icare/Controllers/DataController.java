@@ -988,15 +988,16 @@ public class DataController {
      * Return all Problems or Records that contain the provided keyword
      * Currently implemented using a simple bubble search :(
      */
-    public void searchByKeyword(Class c, String keyword){
+    public void searchByKeyword(String keyword){
+        pSearchResults = new ArrayList<>();
+        rSearchResults = new ArrayList<>();
         for (Problem p : getProblems(getCurrentUser().getUID())) {
             if (p.getDescription().contains(keyword) || p.getTitle().contains(keyword)) {
                 pSearchResults.add(p);
             }
-        }
-        for (String pUID : recordStorage.keySet()){
-            for (BaseRecord r : Objects.requireNonNull(recordStorage.get(pUID))) {
+            for (BaseRecord r : Objects.requireNonNull(recordStorage.get(p.getUID()))) {
                 if (r.getComment().contains(keyword) || r.getTitle().contains(keyword)) {
+                    pSearchResults.add(p);
                     rSearchResults.add(r);
                 }
             }

@@ -54,20 +54,14 @@
         <activity android:name=".Activities.CareProviderViewPatientProblemActivity" />
         <activity android:name=".Activities.CareProviderAddCommentActivity" />
         <activity android:name=".Activities.ViewRecordActivity"></activity>
-<<<<<<< HEAD
         <activity android:name=".Activities.SearchRecordsProblemsActivity"></activity>
         <activity android:name=".Activities.ViewSearchResultsActivity" />
-=======
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"/>
 
         <meta-data android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyDusp4BSXA9N4oAsFF-VE_7aBlYe5AkoLY" />
-
-
->>>>>>> master
     </application>
 
 </manifest>
