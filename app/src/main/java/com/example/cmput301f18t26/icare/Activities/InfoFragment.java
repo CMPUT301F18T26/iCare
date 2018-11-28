@@ -77,7 +77,7 @@ public class InfoFragment extends Fragment{
 
         dataController = DataController.getInstance();
         user = dataController.getCurrentUser();
-
+        setHasOptionsMenu(false);
         //passing the problem ID not sure if we will need this - tyler
         selectedProblem = dataController.getSelectedProblem();
     }
@@ -94,7 +94,7 @@ public class InfoFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_info, container, false);
-
+        setHasOptionsMenu(false);
         //Get everything we need for the View
         titleEntry = (EditText) rootView.findViewById(R.id.view_record_title);
         descriptionEntry = (EditText) rootView.findViewById(R.id.record_comment);

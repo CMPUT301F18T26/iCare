@@ -1,6 +1,7 @@
 package com.example.cmput301f18t26.icare.Activities;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -11,10 +12,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.Models.Problem;
@@ -25,6 +29,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -50,16 +55,28 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
     private GoogleMap map;
     private static final int DEFAULT_ZOOM = 14;
     private LatLng defaultLocation = new LatLng(53.509,-113.5);
+    private static final String KEY_CAMERA_POSITION = "camera_position";
+    private static final String KEY_LOCATION = "location";
+    private CameraPosition cameraPosition;
 
     SupportMapFragment sMapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        //getActionBar().setTitle("Add Record");
+        getSupportActionBar().setTitle("Add Record");
         //Create a new instance of the support map fragment
         sMapFragment = SupportMapFragment.newInstance();
+        sMapFragment.setHasOptionsMenu(true);
 
+        //TODO on resume custom method for the instance fragment
+        //sMapFragment.onResume();
+
+        if (savedInstanceState != null) {
+            lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
+            cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
+        }
 
         Bundle extras = getIntent().getExtras();
         dataController = DataController.getInstance();
@@ -76,7 +93,21 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
         loadFragment(infoFragment);//display Info Fragment By default - Tyler
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Creating the menu options from the xml file
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.save_current_location, menu);
+        return false;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        // set/save the geolocation of the record
+        Toast.makeText(getApplicationContext(),"Your location has been added to the record",Toast.LENGTH_SHORT).show();
+        return true;
+    }
     private boolean loadFragment(Fragment fragment) {
         if (fragment != null) {
             getSupportFragmentManager()
@@ -122,6 +153,13 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
     }
 
     //ToDo on map resume stuff
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        getCurrentLocation();
+//    }
+
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         //when map is loaded do everything in here.
@@ -184,6 +222,15 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
             }
         } catch (SecurityException e)  {
             Log.e("Exception: %s", e.getMessage());
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if (map != null) {
+            outState.putParcelable(KEY_CAMERA_POSITION, map.getCameraPosition());
+            outState.putParcelable(KEY_LOCATION, lastKnownLocation);
+            super.onSaveInstanceState(outState);
         }
     }
 }

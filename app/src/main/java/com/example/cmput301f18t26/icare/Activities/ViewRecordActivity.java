@@ -26,7 +26,7 @@ public class ViewRecordActivity extends AppCompatActivity implements BottomNavig
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        getSupportActionBar().setTitle("View Record");
         //Bundle extras = getIntent().getExtras();
         dataController = DataController.getInstance();
 
