@@ -58,6 +58,7 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
     private CameraPosition cameraPosition;
+    private LatLng currentLocation;
 
     SupportMapFragment sMapFragment;
 
@@ -77,7 +78,7 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
             lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
             cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
         }
-
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         Bundle extras = getIntent().getExtras();
         dataController = DataController.getInstance();
         selectedProblem = dataController.getSelectedProblem();
@@ -106,6 +107,8 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
         Intent intent;
         // set/save the geolocation of the record
         Toast.makeText(getApplicationContext(),"Your location has been added to the record",Toast.LENGTH_SHORT).show();
+        
+
         return true;
     }
     private boolean loadFragment(Fragment fragment) {
@@ -177,18 +180,19 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
             ActivityCompat.requestPermissions(this,
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-            map.setMyLocationEnabled(true);
-            map.getUiSettings().setMyLocationButtonEnabled(true);
+            map.setMyLocationEnabled(false);
+            map.getUiSettings().setMyLocationButtonEnabled(false);
         }
 
-        // Add a marker in Edmonton, and move the camera to the correct position.
-        LatLng edmonton = new LatLng(53.5444, -113.4909);
-        //Create the marker
-        map.addMarker(new MarkerOptions().position(edmonton).title("Edmonton Alberta"));
-        //Set the initial camera zoom level
-        map.moveCamera(CameraUpdateFactory.zoomTo(10));
-        //Move the camera to the marker position
-        map.moveCamera(CameraUpdateFactory.newLatLng(edmonton));
+        getCurrentLocation();
+//        // Add a marker in Edmonton, and move the camera to the correct position.
+//        LatLng edmonton = new LatLng(53.5444, -113.4909);
+//        //Create the marker
+//        map.addMarker(new MarkerOptions().position(edmonton).title("Edmonton Alberta"));
+//        //Set the initial camera zoom level
+//        map.moveCamera(CameraUpdateFactory.zoomTo(DEFAULT_ZOOM));
+//        //Move the camera to the marker position
+//        map.moveCamera(CameraUpdateFactory.newLatLng(edmonton));
 
     }
 
@@ -201,16 +205,17 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
                     @Override
                     public void onComplete(@NonNull com.google.android.gms.tasks.Task<Location> task) {
                         lastKnownLocation = task.getResult();
+
                         if (task.isSuccessful()&&lastKnownLocation!=null) {
 
+                            //set the current location to pass
+                            currentLocation = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+                            Toast.makeText(getApplicationContext(),currentLocation.toString(),Toast.LENGTH_SHORT).show();
                             // Set the map's camera position to the current location of the devices
-                            map.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                                    new LatLng(lastKnownLocation.getLatitude(),
-                                            lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+                            map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, DEFAULT_ZOOM));
 
                         } else {
-                            map.moveCamera(CameraUpdateFactory
-                                    .newLatLngZoom(defaultLocation, DEFAULT_ZOOM));
+                            map.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, DEFAULT_ZOOM));
                             map.getUiSettings().setMyLocationButtonEnabled(false);
                         }
                     }
