@@ -386,45 +386,16 @@ public class SearchController {
         }
     }
 
+    
     /**
-     * Get records associated with the problemID
+     * Get all records associated with the problemUID
      */
     public static class GetRecords extends AsyncTask<String, Void, JestResult> {
 
         @Override
         protected JestResult doInBackground(String... params) {
             // Getting the query ready to fetch the problems of a user
-            String query = "{ \"query\": { \"bool\": { \"must\": [{ \"match\": { \"problemUID\": \"" + params[0] + "\" } }] } } }";
-
-            // Getting the search ready
-            Search search = new Search.Builder(query).addIndex(groupIndex).addType(recordType).build();
-
-            // Executing the search
-            try {
-                SearchResult result = jestClient.execute(search);
-                if (result.isSucceeded()) {
-                    return result;
-                } else {
-                    Log.e("Error", "Could not get the patient list for this care provider");
-                }
-
-            } catch (Exception e) {
-                Log.i("Error", e.getMessage());
-            }
-
-            return null;
-        }
-    }
-
-    /**
-     * Get all records associated with the userUID
-     */
-    public static class GetAllRecords extends AsyncTask<String, Void, JestResult> {
-
-        @Override
-        protected JestResult doInBackground(String... params) {
-            // Getting the query ready to fetch the problems of a user
-            String query = "{ \"query\": { \"bool\": { \"must\": [{ \"match\": { \"userUID\": \"" + params[0] + "\" } }, { \"match\": { \"recType\": " + params[0] + "\" } } ] } } }";
+            String query = "{ \"query\": { \"bool\": { \"must\": [{ \"match\": { \"problemUID\": \"" + params[0] + "\" } }, { \"match\": { \"recType\": " + params[0] + "\" } } ] } } }";
 
             // Getting the search ready
             Search search = new Search.Builder(query).addIndex(groupIndex).addType(recordType).build();

@@ -501,27 +501,23 @@ public class DataController {
      * Deletes the problem from the problemList
      * @param problem
      */
-    public void deleteProblem(Problem problem) {
-        boolean internetStatus =  this.checkInternet();
-        if (internetStatus) {
+    public boolean deleteProblem(Problem problem) {
+        // if internet, replicate to the ES instance
+        if (this.checkInternet()) {
+            //remove from local storage
+            problemStorage.get(getCurrentUser().getUID()).remove(problem);
+            recordStorage.remove(problem.getUID());
             try {
                 // We are just calling add problem since it contains teh same logic as updating it
                 JestResult som = new SearchController.DeleteProblem().execute(problem.getUID()).get();
                 // Delete associated records
                 som = new SearchController.DeleteRecordsAssociatedWithProblem().execute(problem.getUID()).get();
+                return true;
             } catch (Exception e) {
                 Log.i("Error", "Failed to create the problem on ES", e);
             }
-        }// Offline deleting not supported
-
-        // Getting the user id of the problem
-        String userUID = problem.getUserUID();
-        // Now removing the problem from the list
-        problemStorage.get(userUID).remove(problem);
-        // We also need to remove the records for this problem
-        if (recordStorage.containsKey(problem.getUID())){
-            recordStorage.remove(problem.getUID());
         }
+        return false; // Offline deleting not supported
     }
 
     /**
@@ -605,10 +601,14 @@ public class DataController {
         }
     }
 
+    /**
+     * Fetch all records of type UserRecord
+     * @param problemUID
+     */
     private void fetchUserRecords(String problemUID){
         try{
             // Get all User records related to this user from the server
-            JestResult result = new SearchController.GetAllRecords().execute(problemUID, "0").get();
+            JestResult result = new SearchController.GetRecords().execute(problemUID, "0").get();
             // Putting the records into temp storage
             if (result != null) {
                 for (UserRecord r : result.getSourceAsObjectList(UserRecord.class)) {
@@ -627,10 +627,14 @@ public class DataController {
         }
     }
 
+    /**
+     * Fetch all records of type CareProviderRecord
+     * @param problemUID
+     */
     private void fetchCareProviderRecords(String problemUID){
         try{
             // Get all User records related to this user from the server
-            JestResult result = new SearchController.GetAllRecords().execute(problemUID, "1").get();
+            JestResult result = new SearchController.GetRecords().execute(problemUID, "1").get();
             // Putting the records into temp storage
             if (result != null) {
                 for (CareProviderRecord r : result.getSourceAsObjectList(CareProviderRecord.class)) {
@@ -980,8 +984,10 @@ public class DataController {
     }
 
     /// ---------------------------------Search Records/Problems methods----------------------------
-    ArrayList<Problem> pSearchResults;
-    ArrayList<BaseRecord> rSearchResults;
+
+    // These arrays are used to store the results of any of the searches
+    private ArrayList<Problem> pSearchResults;
+    private ArrayList<BaseRecord> rSearchResults;
     /**
      * Search by Keyword
      *
@@ -1004,10 +1010,18 @@ public class DataController {
         }
     }
 
+    /**
+     *
+     * @return the list of records obtained by the search
+     */
     public List<BaseRecord> getRecordSearchResults() {
         return rSearchResults;
     }
 
+    /**
+     *
+     * @return the list of problems obtained by the search
+     */
     public List<Problem> getProblemSearchResults() {
         return pSearchResults;
     }

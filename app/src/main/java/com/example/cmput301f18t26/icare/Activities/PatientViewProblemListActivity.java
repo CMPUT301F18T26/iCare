@@ -1,10 +1,11 @@
 package com.example.cmput301f18t26.icare.Activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,14 +17,11 @@ import android.widget.Toast;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.IntentActions;
-import com.example.cmput301f18t26.icare.Models.Patient;
 import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.User;
 import com.example.cmput301f18t26.icare.R;
 
 import java.util.List;
-
-import io.searchbox.core.Search;
 
 public class PatientViewProblemListActivity extends AppCompatActivity {
 
@@ -54,6 +52,37 @@ public class PatientViewProblemListActivity extends AppCompatActivity {
                 Intent i = new Intent(view.getContext(), PatientViewProblemActivity.class);
                 i.putExtra("action", IntentActions.EDIT);
                 startActivity(i);
+            }
+        });
+
+        problemListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                AlertDialog.Builder alert = new AlertDialog.Builder(
+                        PatientViewProblemListActivity.this);
+                alert.setTitle("Delete Problem");
+                alert.setMessage("Are you sure to delete this problem and associated records?");
+                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (dataController.deleteProblem(problemList.get(position))){
+                            dataController.writeDataToFiles(getApplicationContext());
+                            adapter.notifyDataSetChanged();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "You can only perform this action online.", Toast.LENGTH_SHORT).show();
+                        }
+                        dialog.dismiss();
+                    }
+                });
+                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                alert.show();
+                return true;
             }
         });
 
