@@ -242,7 +242,6 @@ public class InfoFragment extends Fragment{
 
         geoLocation = dataController.getCurrentGeoLocation();
 
-        Toast.makeText(getActivity(),geoLocation.toString(),Toast.LENGTH_SHORT).show();
 
         //Get the values of the Title, Date and Description fields
         title = titleEntry.getText().toString().trim();
@@ -277,7 +276,7 @@ public class InfoFragment extends Fragment{
             dataController.addPhoto(iasIter);
         }
 
-        //Toast.makeText(getActivity(), "Added record to the list of records.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Added record to the list of records.", Toast.LENGTH_SHORT).show();
         getActivity().setResult(RESULT_OK);
 
         //Returns to the problem description and list of records for that problem.
