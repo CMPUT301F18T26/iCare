@@ -52,7 +52,7 @@ public abstract class User {
      * @return boolean
      */
     public boolean validate() {
-        if (this.username.isEmpty() || this.username.length() < 8
+        if (this.username.isEmpty() || this.username.length() <= 8
                 || this.email.isEmpty() || this.phone.isEmpty()) {
             // IF ANY TEXT FIELD IS EMPTY
             return false;

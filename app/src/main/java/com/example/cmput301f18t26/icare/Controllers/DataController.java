@@ -287,8 +287,13 @@ public class DataController {
             Log.i("Error", "Problem talking to ES instance");
         }
 
-        if (passIn.length() < 8) {
+        if (!(passIn.length() > 8)) {
+            // Adding to trusted users
             usersThatHaveSuccessfullyLoggedIn.add(loggedInUser.getUID());
+            // Taking the single use code away since its been used
+            loggedInUser.setSingleUseCode(null);
+            // Sending to server
+            new SearchController.AddUser().execute(loggedInUser);
         }
 
         return loggedInUser;
@@ -346,9 +351,7 @@ public class DataController {
         // Now we generate a new UUID and shorten it
         String singleUseCode = UUID.randomUUID().toString();
         singleUseCode = singleUseCode.substring(0, 8);
-        // Saving the code to the ES server
-
-
+        // Returning the code
         return singleUseCode;
     }
 

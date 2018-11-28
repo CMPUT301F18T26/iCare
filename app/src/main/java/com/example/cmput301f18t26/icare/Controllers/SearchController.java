@@ -146,7 +146,7 @@ public class SearchController {
         @Override
         protected JestResult doInBackground (String... userParams) {
             String query = null;
-            if (userParams[0].length() >= 8){
+            if (userParams[0].length() > 8){
                 query =
                         "{\n" +
                                 "  \"query\": {\n" +
