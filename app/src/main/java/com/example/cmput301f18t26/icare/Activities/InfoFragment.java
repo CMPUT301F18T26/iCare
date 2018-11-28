@@ -34,6 +34,7 @@ import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.User;
 import com.example.cmput301f18t26.icare.PermissionRequest;
 import com.example.cmput301f18t26.icare.R;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -62,6 +63,7 @@ public class InfoFragment extends Fragment{
     private String title;
     private String bodyLocationString;
     private BodyLocation bodyLocation;
+    private LatLng geoLocation = null;
 
 
     Calendar cal = Calendar.getInstance();
@@ -237,6 +239,11 @@ public class InfoFragment extends Fragment{
         else{
             bodyLocation = null;
         }
+
+        geoLocation = dataController.getCurrentGeoLocation();
+
+        Toast.makeText(getActivity(),geoLocation.toString(),Toast.LENGTH_SHORT).show();
+
         //Get the values of the Title, Date and Description fields
         title = titleEntry.getText().toString().trim();
         String description = descriptionEntry.getText().toString().trim();
@@ -270,7 +277,7 @@ public class InfoFragment extends Fragment{
             dataController.addPhoto(iasIter);
         }
 
-        Toast.makeText(getActivity(), "Added record to the list of records.", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "Added record to the list of records.", Toast.LENGTH_SHORT).show();
         getActivity().setResult(RESULT_OK);
 
         //Returns to the problem description and list of records for that problem.

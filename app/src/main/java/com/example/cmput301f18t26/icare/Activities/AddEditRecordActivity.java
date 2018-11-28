@@ -107,7 +107,7 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
         Intent intent;
         // set/save the geolocation of the record
         Toast.makeText(getApplicationContext(),"Your location has been added to the record",Toast.LENGTH_SHORT).show();
-        
+        dataController.setCurrentGeoLocation(currentLocation);
 
         return true;
     }

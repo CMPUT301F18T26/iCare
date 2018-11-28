@@ -18,6 +18,7 @@ import com.example.cmput301f18t26.icare.Models.User;
 import com.example.cmput301f18t26.icare.Models.UserRecord;
 import com.example.cmput301f18t26.icare.RecordDeserializer;
 import com.example.cmput301f18t26.icare.UserDeserializer;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -70,6 +71,7 @@ public class DataController {
     private Problem selectedProblem = null; // set when a problem is selected from a list
     private BaseRecord selectedRecord = null; //set when a record is selected from a list
     private String currentBodyLocation = null;
+    private LatLng currentGeoLocation = null;
 
     /**
      * Data structure for storing any Patients seen associated with a Care Provider
@@ -619,6 +621,14 @@ public class DataController {
 
     public String getCurrentBodyLocation(){
         return currentBodyLocation;
+    }
+
+    public void setCurrentGeoLocation(LatLng geoLocation){
+        currentGeoLocation = geoLocation;
+    }
+
+    public LatLng getCurrentGeoLocation(){
+        return currentGeoLocation;
     }
     /// ------------------------ IMAGE METHODS -----------------------------------------------------
 
