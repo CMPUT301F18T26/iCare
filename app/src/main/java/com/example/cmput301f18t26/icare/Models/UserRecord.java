@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.media.Image;
 
 import com.example.cmput301f18t26.icare.BodyLocation;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 public class UserRecord extends BaseRecord {
     // Array list to store records for this user
     // Location is stored with lat and long, not Location
-    private ArrayList<Integer> location;
+    private LatLng location;
     private List<String> photos;
     private BodyLocation bodyLocation;
 
@@ -29,7 +30,7 @@ public class UserRecord extends BaseRecord {
      * @param photos
      * @param title
      */
-    public UserRecord(String date, String comment, String problemID, ArrayList<Integer> location, BodyLocation bodyLocation, List<String> photos, String title){
+    public UserRecord(String date, String comment, String problemID, LatLng location, BodyLocation bodyLocation, List<String> photos, String title){
         super(date, comment, problemID, title);
         super.setRecType(0);
         this.location = location;
@@ -37,7 +38,7 @@ public class UserRecord extends BaseRecord {
         this.photos = photos;
     }
 
-    public UserRecord(String date, String comment, String problemID, ArrayList<Integer> location, BodyLocation bodyLocation, List<String> photos, int role, String title){
+    public UserRecord(String date, String comment, String problemID, LatLng location, BodyLocation bodyLocation, List<String> photos, int role, String title){
         super(date, comment, problemID, title);
         super.setRecType(role);
         this.location = location;
@@ -46,9 +47,9 @@ public class UserRecord extends BaseRecord {
     }
 
     //Location Getters and Setters
-    public ArrayList<Integer> getLocation(){return this.location;}
+    public LatLng getLocation(){return this.location;}
 
-    public void setLocation(ArrayList<Integer> location){this.location = location;}
+    public void setLocation(LatLng location){this.location = location;}
 
     //BodyLocation Getters and Setters
     public BodyLocation getBodyLocation(){ return this.bodyLocation;}

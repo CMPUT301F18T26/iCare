@@ -268,7 +268,7 @@ public class InfoFragment extends Fragment{
         }
 
         //Create a new record in the userRecordFactory.
-        BaseRecord record = RecordFactory.getRecord(formattedDate, description, selectedProblem.getUID(), null, bodyLocation, imageList, recType, title);
+        BaseRecord record = RecordFactory.getRecord(formattedDate, description, selectedProblem.getUID(), geoLocation, bodyLocation, imageList, recType, title);
         dataController.addRecord(record);
 
         // Sending all imageView to server
