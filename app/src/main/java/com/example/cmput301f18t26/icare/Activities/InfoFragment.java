@@ -34,6 +34,7 @@ import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.User;
 import com.example.cmput301f18t26.icare.PermissionRequest;
 import com.example.cmput301f18t26.icare.R;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -62,6 +63,7 @@ public class InfoFragment extends Fragment{
     private String title;
     private String bodyLocationString;
     private BodyLocation bodyLocation;
+    private LatLng geoLocation = null;
 
 
     Calendar cal = Calendar.getInstance();
@@ -77,7 +79,7 @@ public class InfoFragment extends Fragment{
 
         dataController = DataController.getInstance();
         user = dataController.getCurrentUser();
-
+        setHasOptionsMenu(false);
         //passing the problem ID not sure if we will need this - tyler
         selectedProblem = dataController.getSelectedProblem();
     }
@@ -94,7 +96,7 @@ public class InfoFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_info, container, false);
-
+        setHasOptionsMenu(false);
         //Get everything we need for the View
         titleEntry = (EditText) rootView.findViewById(R.id.view_record_title);
         descriptionEntry = (EditText) rootView.findViewById(R.id.record_comment);
@@ -238,6 +240,10 @@ public class InfoFragment extends Fragment{
         else{
             bodyLocation = null;
         }
+
+        geoLocation = dataController.getCurrentGeoLocation();
+
+
         //Get the values of the Title, Date and Description fields
         title = titleEntry.getText().toString().trim();
         String description = descriptionEntry.getText().toString().trim();
@@ -263,7 +269,7 @@ public class InfoFragment extends Fragment{
         }
 
         //Create a new record in the userRecordFactory.
-        BaseRecord record = RecordFactory.getRecord(formattedDate, description, selectedProblem.getUID(), null, bodyLocation, imageList, recType, title);
+        BaseRecord record = RecordFactory.getRecord(formattedDate, description, selectedProblem.getUID(), geoLocation, bodyLocation, imageList, recType, title);
         dataController.addRecord(record);
 
         // Sending all imageView to server

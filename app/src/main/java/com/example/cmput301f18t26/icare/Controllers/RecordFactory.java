@@ -8,6 +8,7 @@ import com.example.cmput301f18t26.icare.BodyLocation;
 import com.example.cmput301f18t26.icare.Models.BaseRecord;
 import com.example.cmput301f18t26.icare.Models.CareProviderRecord;
 import com.example.cmput301f18t26.icare.Models.UserRecord;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ public class RecordFactory {
      * @param title
      * @return
      */
-    public static BaseRecord getRecord(String date, String comment, String problemUID, ArrayList<Integer> location, BodyLocation bodyLocation, List<String> photos, int recType, String title){
+    public static BaseRecord getRecord(String date, String comment, String problemUID, LatLng location, BodyLocation bodyLocation, List<String> photos, int recType, String title){
         BaseRecord record;
         // Depending on what distinguishes a UserRecord from a Record or other types of record,
         // use case statements to determine what type of Record to construct
