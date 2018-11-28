@@ -47,6 +47,23 @@
         android:inputType="textPersonName"
         android:maxLength="28"
         app:layout_constraintBottom_toTopOf="@+id/horizontal_center_guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/code_entry"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="4dp"
+        android:ems="10"
+        android:hint="@string/single_use_code"
+        android:inputType="textPersonName"
+        android:maxLength="28"
         app:layout_constraintTop_toBottomOf="@+id/horizontal_center_guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -67,7 +84,7 @@
         android:textColor="#ffffff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username_entry" />
+        app:layout_constraintTop_toBottomOf="@+id/code_entry" />
 
 
 </android.support.constraint.ConstraintLayout>

@@ -53,6 +53,8 @@
         <activity android:name=".Activities.SearchAddPatientsActivity" />
         <activity android:name=".Activities.CareProviderViewPatientProblemActivity" />
         <activity android:name=".Activities.CareProviderAddCommentActivity" />
+        <activity android:name=".Activities.ViewRecordActivity" />
+        <activity android:name=".Activities.ViewSingleUseCodeActivity" />
         <activity android:name=".Activities.ViewRecordActivity"></activity>
 
         <meta-data
@@ -61,7 +63,6 @@
 
         <meta-data android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyDusp4BSXA9N4oAsFF-VE_7aBlYe5AkoLY" />
-
 
     </application>
 

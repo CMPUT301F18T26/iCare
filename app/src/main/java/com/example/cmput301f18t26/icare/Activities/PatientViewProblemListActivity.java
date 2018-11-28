@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -106,6 +105,23 @@ public class PatientViewProblemListActivity extends AppCompatActivity {
                 dataController.logout();
                 dataController.writeDataToFiles(getApplicationContext());
                 finish();
+                return super.onOptionsItemSelected(item);
+            case R.id.generate_single_use_code:
+                // When the user generates a single use code
+                String singleUseCode = dataController.generateSingleUseCode(currentUser);
+                // Saving the code to the user profile
+                currentUser = dataController.getCurrentUser();
+                currentUser.setSingleUseCode(singleUseCode);
+                // Updating the user
+                currentUser.updateUserInfo();
+                // Now login again
+                dataController.login(currentUser.getUsername());
+                // Now opening the intent to show activity
+                intent = new Intent(PatientViewProblemListActivity.this, ViewSingleUseCodeActivity.class);
+                // Passing in the user id that will have its information displayed
+                intent.putExtra("single_use_code", singleUseCode);
+                // Launching the intent
+                startActivity(intent);
                 return super.onOptionsItemSelected(item);
             default:
                 return super.onOptionsItemSelected(item);

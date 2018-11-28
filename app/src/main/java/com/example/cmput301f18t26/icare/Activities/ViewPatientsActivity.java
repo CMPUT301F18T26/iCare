@@ -16,7 +16,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
-import com.example.cmput301f18t26.icare.Controllers.SearchController;
 import com.example.cmput301f18t26.icare.Models.Patient;
 import com.example.cmput301f18t26.icare.Models.User;
 import com.example.cmput301f18t26.icare.R;
@@ -35,6 +34,8 @@ public class ViewPatientsActivity extends AppCompatActivity {
     // Singular data controller
     private DataController dataController;
 
+    User currentUser;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +45,8 @@ public class ViewPatientsActivity extends AppCompatActivity {
 
         // initialize UI elements
         addPatientButton = findViewById(R.id.add_new_patient);
+
+        currentUser = dataController.getCurrentUser();
 
         // initialize patient list view items
         patientListAdapter = new ArrayAdapter<>(
@@ -154,6 +157,23 @@ public class ViewPatientsActivity extends AppCompatActivity {
                 dataController.logout();
                 dataController.writeDataToFiles(getApplicationContext());
                 finish();
+                return super.onOptionsItemSelected(item);
+            case R.id.generate_single_use_code:
+                // When the user generates a single use code
+                String singleUseCode = dataController.generateSingleUseCode(currentUser);
+                // Saving the code to the user profile
+                currentUser = dataController.getCurrentUser();
+                currentUser.setSingleUseCode(singleUseCode);
+                // Updating the user
+                currentUser.updateUserInfo();
+                // Now login again
+                dataController.login(currentUser.getUsername());
+                // Now opening the intent to show activity
+                intent = new Intent(ViewPatientsActivity.this, ViewSingleUseCodeActivity.class);
+                // Passing in the user id that will have its information displayed
+                intent.putExtra("single_use_code", singleUseCode);
+                // Launching the intent
+                startActivity(intent);
                 return super.onOptionsItemSelected(item);
             default:
                 return super.onOptionsItemSelected(item);
