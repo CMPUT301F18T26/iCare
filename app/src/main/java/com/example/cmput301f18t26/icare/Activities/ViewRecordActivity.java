@@ -108,11 +108,13 @@ public class ViewRecordActivity extends AppCompatActivity implements BottomNavig
         String mapLabel = selectedRecord.getTitle();
         map = googleMap;
 
-        //Create the marker
-        map.addMarker(new MarkerOptions().position(recordLocation).title(mapLabel));
-        //Set the initial camera zoom level
-        map.moveCamera(CameraUpdateFactory.zoomTo(14));
-        //Move the camera to the marker position
-        map.moveCamera(CameraUpdateFactory.newLatLng(recordLocation));
+        if(recordLocation != null) {
+            //Create the marker
+            map.addMarker(new MarkerOptions().position(recordLocation).title(mapLabel));
+            //Set the initial camera zoom level
+            map.moveCamera(CameraUpdateFactory.zoomTo(14));
+            //Move the camera to the marker position
+            map.moveCamera(CameraUpdateFactory.newLatLng(recordLocation));
+        }
     }
 }
