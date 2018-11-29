@@ -7,6 +7,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -22,11 +25,15 @@ import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.BaseRecord;
 import com.example.cmput301f18t26.icare.Models.UserRecord;
 import com.example.cmput301f18t26.icare.R;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Calendar;
 import java.util.List;
 
-public class PatientViewProblemActivity extends AppCompatActivity {
+public class PatientViewProblemActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private DataController dataController;
     private Problem selectedProblem;
@@ -36,10 +43,15 @@ public class PatientViewProblemActivity extends AppCompatActivity {
     private List<BaseRecord> userRecordList;
     private ListView recordListView;
     private ArrayAdapter<BaseRecord> adapter;
+    SupportMapFragment sMapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        sMapFragment = SupportMapFragment.newInstance();
+        sMapFragment.setHasOptionsMenu(true);
+
         setContentView(R.layout.activity_patient_condition_view);
         //Setting the TextViews to variables for later use
         titleText = (TextView) findViewById(R.id.condition_view_name);
@@ -125,6 +137,8 @@ public class PatientViewProblemActivity extends AppCompatActivity {
             }
         });
 
+        sMapFragment.getMapAsync(this);
+
     }
 
     protected void onStart(){
@@ -165,5 +179,43 @@ public class PatientViewProblemActivity extends AppCompatActivity {
         int day = c.get(Calendar.DAY_OF_MONTH);
         String strdate = day + "/" + month + "/" + year;
         dateText.setText(strdate);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Creating the menu options from the xml file
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.view_records_map, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        return true;
+    }
+
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+
+      List<BaseRecord> allRecords =  dataController.getRecords(selectedProblem);
+      List<LatLng> locations;
+
+      for (BaseRecord each:allRecords){
+          // Now getting the bodyLocation if the class is a UserRecord
+          if (UserRecord.class == each.getClass()) {
+              // Getting the record as a user record
+              UserRecord userRecord = (UserRecord) each;
+              //Find the bodyLocation
+              LatLng location = userRecord.getLocation();
+              String title = userRecord.getTitle();
+              //add the marker to the map
+
+          }
+
+
+      }
+
     }
 }
