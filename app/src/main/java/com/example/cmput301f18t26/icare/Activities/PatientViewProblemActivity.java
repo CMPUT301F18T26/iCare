@@ -1,9 +1,12 @@
 package com.example.cmput301f18t26.icare.Activities;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.icu.text.AlphabeticIndex;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,15 +28,17 @@ import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.BaseRecord;
 import com.example.cmput301f18t26.icare.Models.UserRecord;
 import com.example.cmput301f18t26.icare.R;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Calendar;
 import java.util.List;
 
-public class PatientViewProblemActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class PatientViewProblemActivity extends AppCompatActivity {
 
     private DataController dataController;
     private Problem selectedProblem;
@@ -43,14 +48,12 @@ public class PatientViewProblemActivity extends AppCompatActivity implements OnM
     private List<BaseRecord> userRecordList;
     private ListView recordListView;
     private ArrayAdapter<BaseRecord> adapter;
-    SupportMapFragment sMapFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        sMapFragment = SupportMapFragment.newInstance();
-        sMapFragment.setHasOptionsMenu(true);
 
         setContentView(R.layout.activity_patient_condition_view);
         //Setting the TextViews to variables for later use
@@ -137,7 +140,7 @@ public class PatientViewProblemActivity extends AppCompatActivity implements OnM
             }
         });
 
-        sMapFragment.getMapAsync(this);
+
 
     }
 
@@ -192,30 +195,52 @@ public class PatientViewProblemActivity extends AppCompatActivity implements OnM
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
+        //run the map fragment
+        Intent i = new Intent(this, RecordMapActivity.class);
+        startActivity(i);
+
         return true;
     }
 
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-
-      List<BaseRecord> allRecords =  dataController.getRecords(selectedProblem);
-      List<LatLng> locations;
-
-      for (BaseRecord each:allRecords){
-          // Now getting the bodyLocation if the class is a UserRecord
-          if (UserRecord.class == each.getClass()) {
-              // Getting the record as a user record
-              UserRecord userRecord = (UserRecord) each;
-              //Find the bodyLocation
-              LatLng location = userRecord.getLocation();
-              String title = userRecord.getTitle();
-              //add the marker to the map
-
-          }
-
-
-      }
-
-    }
+//    private boolean loadFragment(Fragment fragment) {
+//        if (fragment != null) {
+//            getSupportFragmentManager()
+//                    .beginTransaction()
+//                    .replace(R.id.fragment_container, fragment)
+//                    .commit();
+//            return true;
+//        }
+//        return false;
+//    }
+//
+//
+//    @Override
+//    public void onMapReady(GoogleMap googleMap) {
+//        map = googleMap;
+//
+//      List<BaseRecord> allRecords =  dataController.getRecords(selectedProblem);
+//      List<LatLng> locations;
+//
+//      for (BaseRecord each:allRecords){
+//          // Now getting the bodyLocation if the class is a UserRecord
+//          if (UserRecord.class == each.getClass()) {
+//              // Getting the record as a user record
+//              UserRecord userRecord = (UserRecord) each;
+//              //Find the bodyLocation
+//              LatLng location = userRecord.getLocation();
+//              String title = userRecord.getTitle();
+//              //add the marker to the map
+//              //Create the marker
+//              map.addMarker(new MarkerOptions().position(location).title(title));
+//              //Set the initial camera zoom level
+//              map.moveCamera(CameraUpdateFactory.zoomTo(14));
+//              //Move the camera to the marker position
+//              map.moveCamera(CameraUpdateFactory.newLatLng(location));
+//
+//          }
+//
+//
+//      }
+//
+//    }
 }
