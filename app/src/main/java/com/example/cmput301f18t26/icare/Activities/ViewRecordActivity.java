@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.Models.BaseRecord;
 import com.example.cmput301f18t26.icare.Models.Problem;
+import com.example.cmput301f18t26.icare.Models.UserRecord;
 import com.example.cmput301f18t26.icare.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -103,18 +104,24 @@ public class ViewRecordActivity extends AppCompatActivity implements BottomNavig
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        LatLng recordLocation = dataController.getCurrentGeoLocation();
         BaseRecord selectedRecord = dataController.getSelectedRecord();
-        String mapLabel = selectedRecord.getTitle();
         map = googleMap;
 
-        if(recordLocation != null) {
+        if (UserRecord.class == selectedRecord.getClass()) {
+            // Getting the record as a user record
+            UserRecord userRecord = (UserRecord) selectedRecord;
+            //Find the bodyLocation
+            LatLng location = userRecord.getLocation();
+            String title = userRecord.getTitle();
+            //add the marker to the map
             //Create the marker
-            map.addMarker(new MarkerOptions().position(recordLocation).title(mapLabel));
-            //Set the initial camera zoom level
-            map.moveCamera(CameraUpdateFactory.zoomTo(14));
-            //Move the camera to the marker position
-            map.moveCamera(CameraUpdateFactory.newLatLng(recordLocation));
+            if (location != null) {
+                map.addMarker(new MarkerOptions().position(location).title(title));
+                //Set the initial camera zoom level
+                map.moveCamera(CameraUpdateFactory.zoomTo(14));
+                //Move the camera to the marker position
+                map.moveCamera(CameraUpdateFactory.newLatLng(location));
+            }
         }
     }
 }
