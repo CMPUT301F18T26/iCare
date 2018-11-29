@@ -145,13 +145,12 @@
                 android:id="@+id/front_right_arm_button"
                 android:layout_width="38dp"
                 android:layout_height="146dp"
-                android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="68dp"
+                android:layout_marginTop="76dp"
                 android:backgroundTint="@android:color/transparent"
                 android:textColor="#ffffff"
                 app:layout_constraintEnd_toStartOf="@+id/vertical_center_guideline"
-                app:layout_constraintHorizontal_bias="0.719"
+                app:layout_constraintHorizontal_bias="0.76"
                 app:layout_constraintStart_toStartOf="@+id/vertical_first_guideline"
                 app:layout_constraintTop_toBottomOf="@+id/front_head_button" />
 

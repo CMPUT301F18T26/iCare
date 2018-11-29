@@ -5,37 +5,33 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
-import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.R;
 
 public class SearchRecordsProblemsActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     private DataController dataController;
 
     // Three possible fragments for searching
-    private Fragment keywordFragment = new KeywordFragment();
-    private Fragment geoFragment = new GeolocationFragment();
-    private Fragment bodyFragment = new BodylocationFragment();
+    private Fragment keywordFragment;
+    private Fragment geoFragment;
+    private Fragment bodyFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bundle extras = getIntent().getExtras();
         dataController = DataController.getInstance();
 
         setContentView(R.layout.activity_patient_search_records_problems);
         BottomNavigationView navigation = findViewById(R.id.search_navigation);
         navigation.setOnNavigationItemSelectedListener(this);
 
-        keywordFragment = new KeywordFragment();
-        loadFragment(keywordFragment);//display keyword Fragment By default - Tyler
+        keywordFragment = new SearchByKeywordFragment();
+        bodyFragment = new SearchByBodyLocationFragment();
+
+        loadFragment(keywordFragment);
     }
 
 
@@ -58,15 +54,15 @@ public class SearchRecordsProblemsActivity extends AppCompatActivity implements 
 
         //track which object is clicked
         switch(menuItem.getItemId()){
-            case R.id.info:
+            case R.id.search_by_keyword:
                 fragment = keywordFragment;
                 break;
 
-            case R.id.geo:
+            case R.id.search_by_location:
                 fragment = geoFragment;
                 break;
 
-            case R.id.body:
+            case R.id.search_by_body:
                 fragment = bodyFragment;
                 break;
 
@@ -82,6 +78,4 @@ public class SearchRecordsProblemsActivity extends AppCompatActivity implements 
         // Writing to file
         dataController.writeDataToFiles(getApplicationContext());
     }
-
-
 }

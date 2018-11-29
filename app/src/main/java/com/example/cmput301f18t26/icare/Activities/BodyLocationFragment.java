@@ -1,5 +1,6 @@
 package com.example.cmput301f18t26.icare.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,11 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.cmput301f18t26.icare.BodyLocation;
 import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.R;
 
-public class BodylocationFragment extends Fragment {
+public class BodyLocationFragment extends Fragment {
 
     private DataController dataController;
     private TextView title;
@@ -48,6 +51,7 @@ public class BodylocationFragment extends Fragment {
          *                 }
          *      }
          */
+
 
 
         //Front head

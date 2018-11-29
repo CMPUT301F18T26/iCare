@@ -8,8 +8,16 @@
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="453dp"
-        app:layout_constraintBottom_toTopOf="@+id/search_navigation"></FrameLayout>
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/search_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/map"></FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></FrameLayout>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/search_navigation"

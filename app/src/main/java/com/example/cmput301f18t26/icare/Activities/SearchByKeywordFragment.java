@@ -20,7 +20,7 @@ import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.UserRecord;
 import com.example.cmput301f18t26.icare.R;
 
-public class KeywordFragment extends Fragment {
+public class SearchByKeywordFragment extends Fragment {
     private DataController dataController;
 
     private EditText keywordText;

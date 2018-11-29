@@ -27,9 +27,7 @@ public class PatientTest {
 
         DataController dataController = DataController.getInstance();
 
-        User u = UserFactory.getUser(username, password, email, phone, role);
-
-        dataController.addUser(u);
+        User u = UserFactory.getUser(username, password, email, role, "");
 
     }
 }

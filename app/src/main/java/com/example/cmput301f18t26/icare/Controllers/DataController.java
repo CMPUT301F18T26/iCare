@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.cmput301f18t26.icare.Activities.MainActivity;
+import com.example.cmput301f18t26.icare.BodyLocation;
 import com.example.cmput301f18t26.icare.Models.BaseRecord;
 import com.example.cmput301f18t26.icare.Models.CareProvider;
 import com.example.cmput301f18t26.icare.Models.CareProviderRecord;
@@ -620,7 +621,7 @@ public class DataController {
     /**
      * Get all records and store them in record storage
      */
-    private void fetchRecords() {
+    public void fetchRecords() {
         // Checking if we have server connectivity
         Set<String> problemUIDs = problemStorage.keySet();
 
@@ -1031,22 +1032,54 @@ public class DataController {
     private ArrayList<Problem> pSearchResults;
     private ArrayList<BaseRecord> rSearchResults;
     /**
-     * Search by Keyword
+     * Search by Keyword.
      *
-     * Return all Problems or Records that contain the provided keyword
-     * Currently implemented using a simple bubble search :(
+     * Return all Problems or Records that contain the provided keyword.
+     *
+     * @param keyword: the keyword to search on
      */
     public void searchByKeyword(String keyword){
         pSearchResults = new ArrayList<>();
         rSearchResults = new ArrayList<>();
         for (Problem p : getProblems(getCurrentUser().getUID())) {
+            // check if the problem description or title contains the keyword
             if (p.getDescription().contains(keyword) || p.getTitle().contains(keyword)) {
+                // add it if it does
                 pSearchResults.add(p);
             }
             for (BaseRecord r : Objects.requireNonNull(recordStorage.get(p.getUID()))) {
+                // check if the record description or title contain the keyword
                 if (r.getComment().contains(keyword) || r.getTitle().contains(keyword)) {
+                    // add that record, and it associated problem if it does
                     pSearchResults.add(p);
                     rSearchResults.add(r);
+                }
+            }
+        }
+    }
+
+    /**
+     * Search by BodyLocation
+     *
+     * Store all Records that match the given bodyLocation.
+     * Additionally, store all Problems with Records that match the given bodyLocation.
+     *
+     * @param bodyLocation: the body location to search on
+     */
+    public void searchByBodyLocation(BodyLocation bodyLocation) {
+        pSearchResults = new ArrayList<>();
+        rSearchResults = new ArrayList<>();
+        for (Problem p : getProblems(getCurrentUser().getUID())) {
+            // foreach problem, grab all records
+            for (BaseRecord r : Objects.requireNonNull(recordStorage.get(p.getUID()))) {
+                // if the record is a UserRecord, cast it, and check it's body location
+                if (r.getRecType() == 0) {
+                    UserRecord ur = UserRecord.class.cast(r);
+                    assert ur != null;
+                    if(ur.getBodyLocation() == bodyLocation){
+                        rSearchResults.add(ur);
+                        pSearchResults.add(p);
+                    }
                 }
             }
         }
@@ -1067,5 +1100,6 @@ public class DataController {
     public List<Problem> getProblemSearchResults() {
         return pSearchResults;
     }
+
 
 }
