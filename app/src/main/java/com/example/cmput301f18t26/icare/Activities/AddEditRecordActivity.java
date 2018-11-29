@@ -1,6 +1,5 @@
 package com.example.cmput301f18t26.icare.Activities;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -26,17 +25,12 @@ import com.example.cmput301f18t26.icare.R;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.tasks.OnCompleteListener;
-
-
-import static android.support.test.InstrumentationRegistry.getContext;
 
 public class AddEditRecordActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
     private DataController dataController;
@@ -47,7 +41,7 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
     private Problem selectedProblem;
     private Fragment infoFragment;
     private Fragment geoFragment = new GeolocationFragment();
-    private Fragment bodyFragment = new BodylocationFragment();
+    private Fragment bodyFragment = new BodyLocationFragment();
     private boolean mLocationPermissionGranted;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private FusedLocationProviderClient mFusedLocationClient;
