@@ -11,10 +11,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
+import com.example.cmput301f18t26.icare.Models.BaseRecord;
 import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.R;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
-public class ViewRecordActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class ViewRecordActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback {
 
     private DataController dataController;
     private EditText titleEntry;
@@ -22,6 +29,8 @@ public class ViewRecordActivity extends AppCompatActivity implements BottomNavig
     private TextView dateStamp;
     private ImageView images;
     private Problem selectedProblem;
+    SupportMapFragment sMapFragment;
+    private GoogleMap map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +39,17 @@ public class ViewRecordActivity extends AppCompatActivity implements BottomNavig
         //Bundle extras = getIntent().getExtras();
         dataController = DataController.getInstance();
 
-        //selectedProblem = dataController.getSelectedProblem();
+        getSupportActionBar().setTitle("View Record");
+        //Create a new instance of the support map fragment
+        sMapFragment = SupportMapFragment.newInstance();
+        sMapFragment.setHasOptionsMenu(false);
+
 
         setContentView(R.layout.activity_add_edit_record);
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
+
+        sMapFragment.getMapAsync(this);
 
         Fragment ViewInfoFragment = new Fragment();
 
@@ -66,7 +81,7 @@ public class ViewRecordActivity extends AppCompatActivity implements BottomNavig
                 break;
 
             case R.id.geo:
-                fragment = new ViewGeolocationFragment();
+                fragment = sMapFragment;
                 break;
 
             case R.id.body:
@@ -83,5 +98,23 @@ public class ViewRecordActivity extends AppCompatActivity implements BottomNavig
         super.onStop();
         // Writing to file
         dataController.writeDataToFiles(getApplicationContext());
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+
+        LatLng recordLocation = dataController.getCurrentGeoLocation();
+        BaseRecord selectedRecord = dataController.getSelectedRecord();
+        String mapLabel = selectedRecord.getTitle();
+        map = googleMap;
+
+        if(recordLocation != null) {
+            //Create the marker
+            map.addMarker(new MarkerOptions().position(recordLocation).title(mapLabel));
+            //Set the initial camera zoom level
+            map.moveCamera(CameraUpdateFactory.zoomTo(14));
+            //Move the camera to the marker position
+            map.moveCamera(CameraUpdateFactory.newLatLng(recordLocation));
+        }
     }
 }
