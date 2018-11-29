@@ -2,7 +2,6 @@ package com.example.cmput301f18t26.icare.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -10,12 +9,9 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
-import com.example.cmput301f18t26.icare.Controllers.SearchController;
 import com.example.cmput301f18t26.icare.Controllers.UserFactory;
 import com.example.cmput301f18t26.icare.Models.User;
 import com.example.cmput301f18t26.icare.R;
-
-import java.util.concurrent.ExecutionException;
 
 public class SignupActivity extends AppCompatActivity {
     private EditText usernameEntry;
@@ -35,7 +31,7 @@ public class SignupActivity extends AppCompatActivity {
         usernameEntry = findViewById(R.id.username_entry);
         phoneEntry = findViewById(R.id.phone_entry);
         emailEntry = findViewById(R.id.email_entry);
-        roleSelect = findViewById(R.id.role_entry);
+        roleSelect = findViewById(R.id.role_selection);
 
         // grab the instance of our DataController, it will lazy load it if not created elsewhere
         dataController = DataController.getInstance();

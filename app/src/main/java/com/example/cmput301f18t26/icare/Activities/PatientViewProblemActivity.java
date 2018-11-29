@@ -67,35 +67,6 @@ public class PatientViewProblemActivity extends AppCompatActivity {
         //problemList = dataController.getProblems(currentUser.getUID());
         recordListView = (ListView) findViewById(R.id.record_list_view);
 
-        //Deletes problem and returns you to the Problem List View
-        Button deleteButton = (Button) findViewById(R.id.delete_condition_button);
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (DataController.getInstance().checkInternet()) {
-                    // Showing toast because it takes a while
-                    Toast.makeText(getApplicationContext(),
-                            "Deleting problem, please wait...",
-                            Toast.LENGTH_SHORT).show();
-                    // So the user doesn't mess with anything else while we wait for ES to refresh
-                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                    setResult(RESULT_OK);
-
-
-                    dataController.deleteProblem(selectedProblem);
-                    dataController.writeDataToFiles(getApplicationContext());
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            finish();
-                        }
-                    }, 500);
-                } else {
-                    Toast.makeText(getApplicationContext(), "You can only perform this action online.", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
         //Takes you to Add/Edit Problem screen telling it to EDIT
         Button editButton = (Button) findViewById(R.id.edit_condition);
         editButton.setOnClickListener(new View.OnClickListener() {

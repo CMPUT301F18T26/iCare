@@ -7,5 +7,10 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <!--https://stackoverflow.com/questions/39474428/android-switch-how-do-i-change-the-on-color-to-green/39474893-->
+    <style name="SwitchTheme" parent="Theme.AppCompat.Light">
+        <item name="android:colorButtonNormal">@color/colorPrimaryDark</item>
+        <item name="android:colorControlNormal">@color/colorPrimary</item>
+    </style>
 
 </resources>

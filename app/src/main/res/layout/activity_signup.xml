@@ -90,7 +90,7 @@
         app:layout_constraintTop_toBottomOf="@+id/phone_entry" />
 
     <RadioGroup
-        android:id="@+id/role_entry"
+        android:id="@+id/role_selection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -133,7 +133,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/role_entry" />
+        app:layout_constraintTop_toBottomOf="@+id/role_selection" />
 
 
 </android.support.constraint.ConstraintLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/search_by_keyword"
+        android:enabled="true"
+        android:icon="@android:drawable/ic_search_category_default"
+        android:title="@string/keyword" />
+    <item
+        android:id="@+id/search_by_location"
+        android:enabled="true"
+        android:icon="@drawable/ic_map_white_24dp"
+        android:title="@string/geo" />
+    <item
+        android:id="@+id/search_by_body"
+        android:enabled="true"
+        android:icon="@drawable/ic_accessibility_white_24dp"
+        android:title="@string/body" />
+</menu>

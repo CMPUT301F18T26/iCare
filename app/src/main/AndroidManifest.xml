@@ -55,7 +55,9 @@
         <activity android:name=".Activities.CareProviderAddCommentActivity" />
         <activity android:name=".Activities.ViewRecordActivity" />
         <activity android:name=".Activities.ViewSingleUseCodeActivity" />
-        <activity android:name=".Activities.ViewRecordActivity" />
+        <activity android:name=".Activities.ViewRecordActivity"></activity>
+        <activity android:name=".Activities.SearchRecordsProblemsActivity"></activity>
+        <activity android:name=".Activities.ViewSearchResultsActivity" />
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -65,6 +67,7 @@
             android:value="AIzaSyDusp4BSXA9N4oAsFF-VE_7aBlYe5AkoLY" />
 
         <activity android:name=".Activities.RecordMapActivity"></activity>
+
     </application>
 
 </manifest>
