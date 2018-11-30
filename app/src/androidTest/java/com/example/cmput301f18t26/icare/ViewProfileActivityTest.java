@@ -9,6 +9,7 @@ import com.example.cmput301f18t26.icare.Activities.MainActivity;
 import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.Models.User;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,11 +32,34 @@ public class ViewProfileActivityTest {
     public ActivityTestRule<MainActivity> mActivityRule
             = new ActivityTestRule<>(MainActivity.class);
 
+    /**
+     * Variables that will be used to log in , etc
+     */
+    private String existingPatient;
+
+    @Before
+    public void setUp(){
+        // Assigning values
+        existingPatient = "existingTestPatient";
+    }
+
     @Test
     public void testProfile(){
+        //Logging in
+        try{
+            openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+            onView(withText(containsString("Log out"))).perform(click());
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e) {
+                ;
+            }
+        } catch (Exception e){
+
+        }
         // Logging in
         onView(withId(R.id.login_button)).perform(click());
-        onView(withId(R.id.username_entry)).perform(typeText("fake"));
+        onView(withId(R.id.username_entry)).perform(typeText(existingPatient));
         onView(withId(R.id.login_button)).perform(click());
 
         // Getting to the view profile page
@@ -55,9 +79,21 @@ public class ViewProfileActivityTest {
 
     @Test
     public void editProfile(){
+        //Logging in
+        try{
+            openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+            onView(withText(containsString("Log out"))).perform(click());
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e) {
+                ;
+            }
+        } catch (Exception e){
+
+        }
         // Logging in
         onView(withId(R.id.login_button)).perform(click());
-        onView(withId(R.id.username_entry)).perform(typeText("fake"));
+        onView(withId(R.id.username_entry)).perform(typeText(existingPatient));
         onView(withId(R.id.login_button)).perform(click());
 
         // Getting to the view profile page

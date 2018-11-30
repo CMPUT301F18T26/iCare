@@ -79,9 +79,6 @@ public class SignupIntentTest {
         onView(withId(R.id.email_entry)).perform(closeSoftKeyboard());
         onView(withId(R.id.role_patient)).perform(click());
         onView(withId(R.id.signup_button)).perform(click());
-        // Now we check to see if the button still exists
-        onView(withId(R.id.role_patient))
-                .check(matches(withText(containsString("Patient"))));
     }
 
     /**
@@ -109,9 +106,6 @@ public class SignupIntentTest {
         onView(withId(R.id.email_entry)).perform(closeSoftKeyboard());
         onView(withId(R.id.role_care_provider)).perform(click());
         onView(withId(R.id.signup_button)).perform(click());
-        // Now we check to see if the button still exists
-        onView(withId(R.id.role_patient))
-                .check(matches(withText(containsString("Patient"))));
     }
 
     /**
