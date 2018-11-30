@@ -1,7 +1,6 @@
 package com.example.cmput301f18t26.icare.Activities;
 
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -28,7 +27,8 @@ public class ViewBodylocationFragment extends Fragment {
     private ImageView backBody;
     int[] IMAGES ={R.drawable.head_selected,
             R.drawable.shoulders,
-            R.drawable.torso,
+            R.drawable.upper_torso,
+            R.drawable.lower_torso,
             R.drawable.right_arm,
             R.drawable.left_arm,
             R.drawable.right_leg,
@@ -56,7 +56,8 @@ public class ViewBodylocationFragment extends Fragment {
             bodyLocation = userRecord.getBodyLocation();
         }
 
-        //Takes your selection and reflects it in the header and the stick figure display
+        //If the user made a selection, takes the selection and reflects it in the header and
+        // the stick figure display
         if (bodyLocation != null){
             bodyLocationString = bodyLocation.getBodyLocation();
             title.setText(bodyLocationString);
@@ -79,26 +80,23 @@ public class ViewBodylocationFragment extends Fragment {
             case "Front Neck and Shoulders":
                 frontBody.setImageResource(IMAGES[1]);
                 break;
-                //Waiting for new images
-                /*
-                case "Chest":
-                    frontBody.setImageResource(IMAGES[XX]);
-                    break;
-                case "Stomach":
-                    frontBody.setImageResource(IMAGES[XX]);
-                    break;
-                    */
-            case "Front Right Arm":
+            case "Chest":
+                frontBody.setImageResource(IMAGES[2]);
+                break;
+            case "Stomach":
                 frontBody.setImageResource(IMAGES[3]);
                 break;
-            case "Front Left Arm":
+            case "Front Right Arm":
                 frontBody.setImageResource(IMAGES[4]);
                 break;
-            case "Front Right Leg":
+            case "Front Left Arm":
                 frontBody.setImageResource(IMAGES[5]);
                 break;
-            case "Front Left Leg":
+            case "Front Right Leg":
                 frontBody.setImageResource(IMAGES[6]);
+                break;
+            case "Front Left Leg":
+                frontBody.setImageResource(IMAGES[7]);
                 break;
 
             //Back of the body
@@ -108,25 +106,23 @@ public class ViewBodylocationFragment extends Fragment {
             case "Back Neck and Shoulders":
                 backBody.setImageResource(IMAGES[1]);
                 break;
-                /*
-                case "Upper Back":
-                    backBody.setImageResource(IMAGES[XX]);
-                    break;
-                case "Lower Back":
-                    backBody.setImageResource(IMAGES[XX]);
-                    break;
-                    */
-            case "Back Right Arm":
+            case "Upper Back":
+                backBody.setImageResource(IMAGES[2]);
+                break;
+            case "Lower Back":
                 backBody.setImageResource(IMAGES[3]);
                 break;
-            case "Back Left Arm":
+            case "Back Right Arm":
                 backBody.setImageResource(IMAGES[4]);
                 break;
-            case "Back Right Leg":
+            case "Back Left Arm":
                 backBody.setImageResource(IMAGES[5]);
                 break;
-            case "Back Left Leg":
+            case "Back Right Leg":
                 backBody.setImageResource(IMAGES[6]);
+                break;
+            case "Back Left Leg":
+                backBody.setImageResource(IMAGES[7]);
                 break;
         }
     }

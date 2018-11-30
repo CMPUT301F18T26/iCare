@@ -1,7 +1,5 @@
 package com.example.cmput301f18t26.icare;
 
-import com.example.cmput301f18t26.icare.Models.UserRecord;
-
 public enum BodyLocation {
 
     //Front Locations
@@ -29,7 +27,6 @@ public enum BodyLocation {
     BodyLocation(String bodyLocation){
         this.bodyLocation = bodyLocation;
     }
-
     public String toString(){return this.bodyLocation;}
     public String getBodyLocation(){return this.bodyLocation;}
     public void setBodyLocation(String bodyLocation) { this.bodyLocation = bodyLocation;}

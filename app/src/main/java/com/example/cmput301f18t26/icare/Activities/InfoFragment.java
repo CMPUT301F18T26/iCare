@@ -231,10 +231,12 @@ public class InfoFragment extends Fragment{
 
         //Retrieves the current body location string and sets the BodyLocation accordingly.
         //If there is no string (ie when you add a record without specifying a body location)
-        // the BodyLocation will just be null.
+        //the BodyLocation will just be null.
         bodyLocationString = dataController.getCurrentBodyLocation();
         if (bodyLocationString != null){
             bodyLocation = BodyLocation.valueOf(bodyLocationString);
+            //This removes the selected body location from DataController, to prevent
+            //the body location accidentally being used during future records adds.
             dataController.deleteCurrentBodyLocation();
         }
         else{

@@ -27,7 +27,8 @@ public class BodyLocationFragment extends Fragment {
     private ImageView backBody;
     int[] IMAGES ={R.drawable.head_selected,
             R.drawable.shoulders,
-            R.drawable.torso,
+            R.drawable.upper_torso,
+            R.drawable.lower_torso,
             R.drawable.right_arm,
             R.drawable.left_arm,
             R.drawable.right_leg,
@@ -47,40 +48,24 @@ public class BodyLocationFragment extends Fragment {
         title = (TextView) bodyView.findViewById(R.id.patient_record_body_label_location);
 
         /**
-         * Unfortunately I couldn't get the below to work with a fragment. Something about
-         * the view was different from a fragment to a normal activity and all online sources
-         * said to use an onClickListener. As a result I have 16 onClickListeners which isn't
-         * pretty but I couldn't find any way around it.
-         *
-         * public void chooseBodyLocation(View view) {
-         *         title = (TextView) getView().findViewById(R.id.patient_record_body_label_location);
-         *         switch (view.getId()) {
-         *             //Front Head
-         *             case R.id.front_head_button:
-         *                 name = "Front Head";
-         *                 title.setText(name);
-         *                 bodyLocation.setBodyLocation(name);
-         *                 break;
-         *                 }
-         *      }
+         * The below button listeners listen for a click on the stick figure. Upon a click, the
+         * image and header text will represent your selection and your selection will
+         * be saved in DataController.
          */
-
-
-
         //Front head
         Button front_head_button = (Button) bodyView.findViewById(R.id.front_head_button);
         front_head_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //removes previous selection from image if there was one
-                frontBody.setImageResource(IMAGES[7]);
-                backBody.setImageResource(IMAGES[7]);
+                //Removes previous selection from image if there was one
+                frontBody.setImageResource(IMAGES[8]);
+                backBody.setImageResource(IMAGES[8]);
                 //Sets body location string to match enum options
                 bodyLocation = "FRONT_HEAD";
-                //changes the header text
+                //Changes the header text
                 title.setText("Front Head");
-                //saves the enum selection in the dataController to pass to InfoFragment
+                //Saves the enum selection in the dataController to pass to InfoFragment
                 dataController.setCurrentBodyLocation(bodyLocation);
-                //sets the stick figure to your new selection
+                //Sets the stick figure to your new selection
                 frontBody.setImageResource(IMAGES[0]);
             }
         });
@@ -89,8 +74,8 @@ public class BodyLocationFragment extends Fragment {
         Button front_neck_shoulders_button = (Button) bodyView.findViewById(R.id.front_neck_shoulders_button);
         front_neck_shoulders_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                frontBody.setImageResource(IMAGES[7]);
-                backBody.setImageResource(IMAGES[7]);
+                frontBody.setImageResource(IMAGES[8]);
+                backBody.setImageResource(IMAGES[8]);
                 bodyLocation = "FRONT_NECK_SHOULDERS";
                 title.setText("Front Neck and Shoulders");
                 dataController.setCurrentBodyLocation(bodyLocation);
@@ -102,13 +87,12 @@ public class BodyLocationFragment extends Fragment {
         Button front_chest_button = (Button) bodyView.findViewById(R.id.front_chest_button);
         front_chest_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                frontBody.setImageResource(IMAGES[7]);
-                backBody.setImageResource(IMAGES[7]);
+                frontBody.setImageResource(IMAGES[8]);
+                backBody.setImageResource(IMAGES[8]);
                 bodyLocation = "FRONT_CHEST";
                 title.setText("Chest");
                 dataController.setCurrentBodyLocation(bodyLocation);
-                //waiting for new image for torso section
-                //frontBody.setImageResource(IMAGES[XX]);
+                frontBody.setImageResource(IMAGES[2]);
             }
         });
 
@@ -116,13 +100,12 @@ public class BodyLocationFragment extends Fragment {
         Button front_stomach_button = (Button) bodyView.findViewById(R.id.front_stomach_button);
         front_stomach_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                frontBody.setImageResource(IMAGES[7]);
-                backBody.setImageResource(IMAGES[7]);
+                frontBody.setImageResource(IMAGES[8]);
+                backBody.setImageResource(IMAGES[8]);
                 bodyLocation = "FRONT_STOMACH";
                 title.setText("Stomach");
                 dataController.setCurrentBodyLocation(bodyLocation);
-                //waiting for new image for torso section
-                //frontBody.setImageResource(IMAGES[XX]);
+                frontBody.setImageResource(IMAGES[3]);
             }
         });
 
@@ -130,12 +113,12 @@ public class BodyLocationFragment extends Fragment {
         Button front_right_arm_button = (Button) bodyView.findViewById(R.id.front_right_arm_button);
         front_right_arm_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                frontBody.setImageResource(IMAGES[7]);
-                backBody.setImageResource(IMAGES[7]);
+                frontBody.setImageResource(IMAGES[8]);
+                backBody.setImageResource(IMAGES[8]);
                 bodyLocation = "FRONT_RIGHT_ARM";
                 title.setText("Front Right Arm");
                 dataController.setCurrentBodyLocation(bodyLocation);
-                frontBody.setImageResource(IMAGES[3]);
+                frontBody.setImageResource(IMAGES[4]);
 
             }
         });
@@ -144,12 +127,12 @@ public class BodyLocationFragment extends Fragment {
         Button front_left_arm_button = (Button) bodyView.findViewById(R.id.front_left_arm_button);
         front_left_arm_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                frontBody.setImageResource(IMAGES[7]);
-                backBody.setImageResource(IMAGES[7]);
+                frontBody.setImageResource(IMAGES[8]);
+                backBody.setImageResource(IMAGES[8]);
                 bodyLocation = "FRONT_LEFT_ARM";
                 title.setText("Front Left Arm");
                 dataController.setCurrentBodyLocation(bodyLocation);
-                frontBody.setImageResource(IMAGES[4]);
+                frontBody.setImageResource(IMAGES[5]);
 
             }
         });
@@ -158,12 +141,12 @@ public class BodyLocationFragment extends Fragment {
         Button front_right_leg_button = (Button) bodyView.findViewById(R.id.front_right_leg_button);
         front_right_leg_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                frontBody.setImageResource(IMAGES[7]);
-                backBody.setImageResource(IMAGES[7]);
+                frontBody.setImageResource(IMAGES[8]);
+                backBody.setImageResource(IMAGES[8]);
                 bodyLocation = "FRONT_RIGHT_LEG";
                 title.setText("Front Right Leg");
                 dataController.setCurrentBodyLocation(bodyLocation);
-                frontBody.setImageResource(IMAGES[5]);
+                frontBody.setImageResource(IMAGES[6]);
             }
         });
 
@@ -171,12 +154,12 @@ public class BodyLocationFragment extends Fragment {
         Button front_left_leg_button = (Button) bodyView.findViewById(R.id.front_left_leg_button);
         front_left_leg_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                frontBody.setImageResource(IMAGES[7]);
-                backBody.setImageResource(IMAGES[7]);
+                frontBody.setImageResource(IMAGES[8]);
+                backBody.setImageResource(IMAGES[8]);
                 bodyLocation = "FRONT_LEFT_LEG";
                 title.setText("Front Left Leg");
                 dataController.setCurrentBodyLocation(bodyLocation);
-                frontBody.setImageResource(IMAGES[6]);
+                frontBody.setImageResource(IMAGES[7]);
             }
         });
 
@@ -184,8 +167,8 @@ public class BodyLocationFragment extends Fragment {
         Button back_head_button = (Button) bodyView.findViewById(R.id.back_head_button);
         back_head_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                frontBody.setImageResource(IMAGES[7]);
-                backBody.setImageResource(IMAGES[7]);
+                frontBody.setImageResource(IMAGES[8]);
+                backBody.setImageResource(IMAGES[8]);
                 bodyLocation = "BACK_HEAD";
                 title.setText("Back Head");
                 dataController.setCurrentBodyLocation(bodyLocation);
@@ -197,8 +180,8 @@ public class BodyLocationFragment extends Fragment {
         Button back_neck_shoulders_button = (Button) bodyView.findViewById(R.id.back_neck_shoulders_button);
         back_neck_shoulders_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                frontBody.setImageResource(IMAGES[7]);
-                backBody.setImageResource(IMAGES[7]);
+                frontBody.setImageResource(IMAGES[8]);
+                backBody.setImageResource(IMAGES[8]);
                 bodyLocation = "BACK__NECK_SHOULDERS";
                 title.setText("Back Neck and Shoulders");
                 dataController.setCurrentBodyLocation(bodyLocation);
@@ -210,12 +193,12 @@ public class BodyLocationFragment extends Fragment {
         Button back_upper_back_button = (Button) bodyView.findViewById(R.id.back_upper_back_button);
         back_upper_back_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                frontBody.setImageResource(IMAGES[7]);
-                backBody.setImageResource(IMAGES[7]);
+                frontBody.setImageResource(IMAGES[8]);
+                backBody.setImageResource(IMAGES[8]);
                 bodyLocation = "BACK_UPPER_BACK";
                 title.setText("Upper Back");
                 dataController.setCurrentBodyLocation(bodyLocation);
-                //backBody.setImageResource(IMAGES[2]);
+                backBody.setImageResource(IMAGES[2]);
             }
         });
 
@@ -223,12 +206,12 @@ public class BodyLocationFragment extends Fragment {
         Button back_lower_back_button = (Button) bodyView.findViewById(R.id.back_lower_back_button);
         back_lower_back_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                frontBody.setImageResource(IMAGES[7]);
-                backBody.setImageResource(IMAGES[7]);
+                frontBody.setImageResource(IMAGES[8]);
+                backBody.setImageResource(IMAGES[8]);
                 bodyLocation = "BACK_LOWER_BACK";
                 title.setText("Lower Back");
                 dataController.setCurrentBodyLocation(bodyLocation);
-                //backBody.setImageResource(IMAGES[3]);
+                backBody.setImageResource(IMAGES[3]);
             }
         });
 
@@ -236,12 +219,12 @@ public class BodyLocationFragment extends Fragment {
         Button back_right_arm_button = (Button) bodyView.findViewById(R.id.back_right_arm_button);
         back_right_arm_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                frontBody.setImageResource(IMAGES[7]);
-                backBody.setImageResource(IMAGES[7]);
+                frontBody.setImageResource(IMAGES[8]);
+                backBody.setImageResource(IMAGES[8]);
                 bodyLocation = "BACK_RIGHT_ARM";
                 title.setText("Back Right Arm");
                 dataController.setCurrentBodyLocation(bodyLocation);
-                backBody.setImageResource(IMAGES[3]);
+                backBody.setImageResource(IMAGES[4]);
             }
         });
 
@@ -249,12 +232,12 @@ public class BodyLocationFragment extends Fragment {
         Button back_left_arm_button = (Button) bodyView.findViewById(R.id.back_left_arm_button);
         back_left_arm_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                frontBody.setImageResource(IMAGES[7]);
-                backBody.setImageResource(IMAGES[7]);
+                frontBody.setImageResource(IMAGES[8]);
+                backBody.setImageResource(IMAGES[8]);
                 bodyLocation = "BACK_LEFT_ARM";
                 title.setText("Back Left Arm");
                 dataController.setCurrentBodyLocation(bodyLocation);
-                backBody.setImageResource(IMAGES[4]);
+                backBody.setImageResource(IMAGES[5]);
             }
         });
 
@@ -262,12 +245,12 @@ public class BodyLocationFragment extends Fragment {
         Button back_right_leg_button = (Button) bodyView.findViewById(R.id.back_right_leg_button);
         back_right_leg_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                frontBody.setImageResource(IMAGES[7]);
-                backBody.setImageResource(IMAGES[7]);
+                frontBody.setImageResource(IMAGES[8]);
+                backBody.setImageResource(IMAGES[8]);
                 bodyLocation = "BACK_RIGHT_LEG";
                 title.setText("Back Right Leg");
                 dataController.setCurrentBodyLocation(bodyLocation);
-                backBody.setImageResource(IMAGES[5]);
+                backBody.setImageResource(IMAGES[6]);
             }
         });
 
@@ -275,12 +258,12 @@ public class BodyLocationFragment extends Fragment {
         Button back_left_leg_button = (Button) bodyView.findViewById(R.id.back_left_leg_button);
         back_left_leg_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                frontBody.setImageResource(IMAGES[7]);
-                backBody.setImageResource(IMAGES[7]);
+                frontBody.setImageResource(IMAGES[8]);
+                backBody.setImageResource(IMAGES[8]);
                 bodyLocation = "BACK_LEFT_LEG";
                 title.setText("Back Left Leg");
                 dataController.setCurrentBodyLocation(bodyLocation);
-                backBody.setImageResource(IMAGES[6]);
+                backBody.setImageResource(IMAGES[7]);
             }
         });
         return bodyView;
