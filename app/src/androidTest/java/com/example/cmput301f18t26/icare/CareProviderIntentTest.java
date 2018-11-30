@@ -24,6 +24,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.TestCase.assertTrue;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.Matchers.anything;
 
 
@@ -33,7 +34,7 @@ public class CareProviderIntentTest {
 
     private DataController dataController;
 
-    private static String testPatientUsername = "testP";
+    private static String testPatientUsername = "existingTestPatient";
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule
@@ -41,9 +42,22 @@ public class CareProviderIntentTest {
 
     @Before
     public void testCareProviderLogin(){
+        //Logging in
+        try{
+            openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+            onView(withText(containsString("Log out"))).perform(click());
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e) {
+                ;
+            }
+        } catch (Exception e){
+
+        }
+
         // Logging in
         onView(withId(R.id.login_button)).perform(click());
-        onView(withId(R.id.username_entry)).perform(typeText("testCP"));
+        onView(withId(R.id.username_entry)).perform(typeText("existingTestCP"));
         onView(withId(R.id.login_button)).perform(click());
         // get the dataController
         dataController = DataController.getInstance();

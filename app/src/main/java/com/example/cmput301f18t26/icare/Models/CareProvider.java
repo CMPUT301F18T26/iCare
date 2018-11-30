@@ -18,31 +18,4 @@ public class CareProvider extends User {
         // Instantiate via our super-class method
         super(username, email, phone, 1);
     }
-
-    // Getters and setters
-    public void getPatientIds() {
-
-    }
-
-    public void setPatientIds(ArrayList<String> patientIds) {
-
-    }
-
-    // Editing the list of problems
-    // Adding a new problem
-
-    /**
-     * Editing the list of patients. Adds a new patient.
-     * @param patientId
-     */
-    public void addPatient(String patientId){
-
-    }
-
-    /**
-     * Editing the list of patients. Deletes a patient from the list..
-     * @param patientId
-     */
-    public void deletePatient(String patientId){
-    }
 }

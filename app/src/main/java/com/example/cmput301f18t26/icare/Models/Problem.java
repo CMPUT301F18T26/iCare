@@ -12,7 +12,6 @@ public class Problem {
     //UID stands for Unique ID
     private final String UID;
     private String title;
-    private ArrayList<String> recordIds;
     private Calendar date;
     private String description;
     private String userUID;
@@ -81,28 +80,4 @@ public class Problem {
     public void setDate(Calendar date) { this.date = date; }
     public String getDescription() { return this.description; }
     public void setDescription(String description) { this.description = description; }
-
-    /**
-     * Adds a new record to the list of records associated with this problem.
-     * @param rid
-     */
-    public void addRecord(String rid){
-
-    }
-
-    /**
-     * Deletes a record from the list of records maintained in this class and associated with this problem.
-     * @param rid
-     */
-    public void removeRecord(String rid){
-
-    }
-
-    public BaseRecord getRecord(int i) {
-        return null;
-    }
-
-    public ArrayList<BaseRecord> getRecords(){
-        return null;
-    }
 }

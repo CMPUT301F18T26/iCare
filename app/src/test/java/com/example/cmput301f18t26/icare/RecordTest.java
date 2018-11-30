@@ -1,6 +1,7 @@
 package com.example.cmput301f18t26.icare;
 
-import com.example.cmput301f18t26.icare.Models.Record;
+import com.example.cmput301f18t26.icare.Controllers.RecordFactory;
+import com.example.cmput301f18t26.icare.Models.BaseRecord;
 
 import org.junit.Test;
 
@@ -12,7 +13,6 @@ import java.util.Date;
 import static org.junit.Assert.*;
 
 public class RecordTest {
-
     @Test
     public void testNewRecordConstructor(){
         String title = "Test";
@@ -23,7 +23,7 @@ public class RecordTest {
         String comment = "testtest";
         String problemID = "12345678";
 
-        Record r = new Record(title, formattedDate, comment,problemID);
+        BaseRecord r = RecordFactory.getRecord(formattedDate, comment, "sdkfljalks123-123da", null, null, null, 0, title);
         assertEquals(r.getTitle(), title);
         assertEquals(r.getDate(), formattedDate);
         assertEquals(r.getComment(), comment);
@@ -39,13 +39,13 @@ public class RecordTest {
         String comment = "test";
         String problemID = "12345678";
 
-        Record r = new Record(title, formattedDate, comment,problemID);
+        BaseRecord r = RecordFactory.getRecord(formattedDate, comment, "sdkfljalks123-123da", null, null, null, 0, title);
 
         assertEquals(r.getTitle(), title);
         title = "New Title";
         r.setTitle(title);
         assertEquals(r.getTitle(), title);
-        assertEquals(r.getDate(), date.toString());
+        assertEquals(r.getDate(), formattedDate);
 
 
         assertEquals(r.getComment(), comment);
