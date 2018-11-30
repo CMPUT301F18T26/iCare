@@ -120,6 +120,7 @@
 
             <Button
                 android:id="@+id/front_head_button"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="163dp"
                 android:layout_height="120dp"
                 android:backgroundTint="@android:color/transparent"
@@ -131,6 +132,7 @@
 
             <Button
                 android:id="@+id/front_neck_shoulders_button"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="171dp"
                 android:layout_height="68dp"
                 android:layout_marginTop="8dp"
@@ -143,6 +145,7 @@
 
             <Button
                 android:id="@+id/front_right_arm_button"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="38dp"
                 android:layout_height="146dp"
                 android:layout_marginStart="8dp"
@@ -156,6 +159,7 @@
 
             <Button
                 android:id="@+id/front_left_arm_button"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="37dp"
                 android:layout_height="133dp"
                 android:layout_marginEnd="8dp"
@@ -169,6 +173,7 @@
 
             <Button
                 android:id="@+id/front_chest_button"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="85dp"
                 android:layout_height="57dp"
                 android:layout_marginEnd="8dp"
@@ -181,6 +186,7 @@
 
             <Button
                 android:id="@+id/front_stomach_button"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="85dp"
                 android:layout_height="106dp"
                 android:layout_marginBottom="8dp"
@@ -193,6 +199,7 @@
 
             <Button
                 android:id="@+id/front_right_leg_button"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="45dp"
                 android:layout_height="190dp"
                 android:layout_marginEnd="8dp"
@@ -205,6 +212,7 @@
 
             <Button
                 android:id="@+id/front_left_leg_button"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="45dp"
                 android:layout_height="190dp"
                 android:layout_marginStart="8dp"
@@ -218,6 +226,7 @@
 
             <Button
                 android:id="@+id/back_head_button"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="163dp"
                 android:layout_height="120dp"
                 android:backgroundTint="@android:color/transparent"
@@ -229,6 +238,7 @@
 
             <Button
                 android:id="@+id/back_neck_shoulders_button"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="171dp"
                 android:layout_height="68dp"
                 android:layout_marginTop="8dp"
@@ -241,6 +251,7 @@
 
             <Button
                 android:id="@+id/back_right_arm_button"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="38dp"
                 android:layout_height="146dp"
                 android:layout_marginEnd="8dp"
@@ -256,6 +267,7 @@
 
             <Button
                 android:id="@+id/back_left_arm_button"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="37dp"
                 android:layout_height="133dp"
                 android:layout_marginEnd="8dp"
@@ -269,6 +281,7 @@
 
             <Button
                 android:id="@+id/back_upper_back_button"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="85dp"
                 android:layout_height="55dp"
                 android:layout_marginEnd="8dp"
@@ -281,6 +294,7 @@
 
             <Button
                 android:id="@+id/back_lower_back_button"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="85dp"
                 android:layout_height="111dp"
                 android:layout_marginEnd="8dp"
@@ -293,6 +307,7 @@
 
             <Button
                 android:id="@+id/back_right_leg_button"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="45dp"
                 android:layout_height="188dp"
                 android:layout_marginEnd="8dp"
@@ -305,6 +320,7 @@
 
             <Button
                 android:id="@+id/back_left_leg_button"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="45dp"
                 android:layout_height="188dp"
                 android:layout_marginStart="8dp"
