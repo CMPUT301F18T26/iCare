@@ -13,7 +13,6 @@ import java.util.Date;
 import static org.junit.Assert.*;
 
 public class RecordTest {
-
     @Test
     public void testNewRecordConstructor(){
         String title = "Test";
