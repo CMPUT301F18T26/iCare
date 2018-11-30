@@ -43,7 +43,6 @@ public class BodyLocationFragment extends Fragment {
          *         switch (view.getId()) {
          *             //Front Head
          *             case R.id.front_head_button:
-         *                 Log.d("fuck", "front head");
          *                 name = "Front Head";
          *                 title.setText(name);
          *                 bodyLocation.setBodyLocation(name);

@@ -24,7 +24,15 @@ public class ViewBodylocationFragment extends Fragment {
     private BaseRecord currentRecord;
     private BodyLocation bodyLocation = null;
     private String bodyLocationString;
-    int[] IMAGES ={R.drawable.head_selected, R.drawable.left_arm,R.drawable.right_arm,R.drawable.torso,R.drawable.shoulders,R.drawable.left_leg,R.drawable.right_leg};
+    private ImageView frontBody;
+    private ImageView backBody;
+    int[] IMAGES ={R.drawable.head_selected,
+            R.drawable.shoulders,
+            R.drawable.torso,
+            R.drawable.right_arm,
+            R.drawable.left_arm,
+            R.drawable.right_leg,
+            R.drawable.left_leg};
 
 
     @Nullable
@@ -32,6 +40,8 @@ public class ViewBodylocationFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View bodyView = inflater.inflate(R.layout.fragment_view_bodylocation, null);
         dataController = DataController.getInstance();
+        frontBody = (ImageView) bodyView.findViewById(R.id.front_body_location_photo);
+        backBody = (ImageView) bodyView.findViewById(R.id.back_body_location_photo);
 
         //Title of the page
         title = (TextView) bodyView.findViewById(R.id.patient_record_body_label_location);
@@ -46,24 +56,78 @@ public class ViewBodylocationFragment extends Fragment {
             bodyLocation = userRecord.getBodyLocation();
         }
 
-        //Sets the title at the top to the bodyLocation String.
+        //Takes your selection and reflects it in the header and the stick figure display
         if (bodyLocation != null){
             bodyLocationString = bodyLocation.getBodyLocation();
             title.setText(bodyLocationString);
-            ImageView imageView = (ImageView) bodyView.findViewById(R.id.front_body_location_photo);
-
-            switch(bodyLocationString){
-                case "Front Head":
-                    imageView.setImageResource(IMAGES[0]);
-                    break;
-
-//                case "Shoulders::
-//                    fragment = sMapFragment;
-//                    break;
-//
-
-            }
+            setBodyImage(bodyLocationString);
         }
         return bodyView;
+    }
+
+    /**
+     * Takes the string of your body location selection and reflects your selection
+     * on the stick figure display.
+     * @param bodyLocation
+     */
+    public void setBodyImage(String bodyLocation){
+        switch(bodyLocation){
+            //Front of the body
+            case "Front Head":
+                frontBody.setImageResource(IMAGES[0]);
+                break;
+            case "Front Neck and Shoulders":
+                frontBody.setImageResource(IMAGES[1]);
+                break;
+                //Waiting for new images
+                /*
+                case "Chest":
+                    frontBody.setImageResource(IMAGES[XX]);
+                    break;
+                case "Stomach":
+                    frontBody.setImageResource(IMAGES[XX]);
+                    break;
+                    */
+            case "Front Right Arm":
+                frontBody.setImageResource(IMAGES[3]);
+                break;
+            case "Front Left Arm":
+                frontBody.setImageResource(IMAGES[4]);
+                break;
+            case "Front Right Leg":
+                frontBody.setImageResource(IMAGES[5]);
+                break;
+            case "Front Left Leg":
+                frontBody.setImageResource(IMAGES[6]);
+                break;
+
+            //Back of the body
+            case "Back Head":
+                backBody.setImageResource(IMAGES[0]);
+                break;
+            case "Back Neck and Shoulders":
+                backBody.setImageResource(IMAGES[1]);
+                break;
+                /*
+                case "Upper Back":
+                    backBody.setImageResource(IMAGES[XX]);
+                    break;
+                case "Lower Back":
+                    backBody.setImageResource(IMAGES[XX]);
+                    break;
+                    */
+            case "Back Right Arm":
+                backBody.setImageResource(IMAGES[3]);
+                break;
+            case "Back Left Arm":
+                backBody.setImageResource(IMAGES[4]);
+                break;
+            case "Back Right Leg":
+                backBody.setImageResource(IMAGES[5]);
+                break;
+            case "Back Left Leg":
+                backBody.setImageResource(IMAGES[6]);
+                break;
+        }
     }
 }
