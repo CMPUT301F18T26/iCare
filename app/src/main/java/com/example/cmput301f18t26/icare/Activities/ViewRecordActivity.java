@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.Models.BaseRecord;
@@ -21,6 +22,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import static android.app.PendingIntent.getActivity;
 
 public class ViewRecordActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback {
 
@@ -75,19 +78,36 @@ public class ViewRecordActivity extends AppCompatActivity implements BottomNavig
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Fragment fragment = null;
 
-        //track which object is clicked - tyler
-        switch(menuItem.getItemId()){
-            case R.id.info: //clicking the info button in bottom nav
-                fragment = new ViewInfoFragment(); // creates a new ViewInfoFragment
-                break;
+        if (dataController.getSelectedRecord().getRecType() == 0) {
+            //track which object is clicked - tyler
+            switch (menuItem.getItemId()) {
+                case R.id.info: //clicking the info button in bottom nav
+                    fragment = new ViewInfoFragment(); // creates a new ViewInfoFragment
+                    break;
 
-            case R.id.geo:
-                fragment = sMapFragment;
-                break;
+                case R.id.geo:
+                    fragment = sMapFragment;
+                    break;
 
-            case R.id.body:
-                fragment = new ViewBodylocationFragment();
-                break;
+                case R.id.body:
+                    fragment = new ViewBodylocationFragment();
+                    break;
+            }
+        } else {
+            //track which object is clicked - tyler
+            switch (menuItem.getItemId()) {
+                case R.id.info: //clicking the info button in bottom nav
+                    Toast.makeText(getApplicationContext(), "This is a doctor's comment, this option is not available on this type of record.", Toast.LENGTH_SHORT).show();
+                    break;
+
+                case R.id.geo:
+                    Toast.makeText(getApplicationContext(), "This is a doctor's comment, this option is not available on this type of record.", Toast.LENGTH_SHORT).show();
+                    break;
+
+                case R.id.body:
+                    Toast.makeText(getApplicationContext(), "This is a doctor's comment, this option is not available on this type of record.", Toast.LENGTH_SHORT).show();
+                    break;
+            }
         }
 
         return loadFragment(fragment);

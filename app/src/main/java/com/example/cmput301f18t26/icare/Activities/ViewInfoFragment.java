@@ -70,7 +70,6 @@ public class ViewInfoFragment extends Fragment {
         selectedProblem = dataController.getSelectedProblem();
 
         // We need to get the imageView
-
     }
 
     @Override
@@ -93,7 +92,7 @@ public class ViewInfoFragment extends Fragment {
         this.selectedRecord = dataController.getSelectedRecord();
 
         // Now getting all the imageView if this is a user record
-        if (UserRecord.class == this.selectedRecord.getClass()){
+        if (this.selectedRecord.getRecType() == 0){
             // Getting the record as a user record
             UserRecord userRec = (UserRecord) this.selectedRecord;
             final List<String> userPhotos = userRec.getPhotos();
@@ -117,10 +116,14 @@ public class ViewInfoFragment extends Fragment {
                 }
             });
             t1.start();
+            // Need to create a check handler here or it is never created
+            createCheckImagesDownloadedHandler();
+        } else {
+            // Photos gone
+            rootView.findViewById(R.id.add_photos_to_record).setVisibility(View.GONE);
+            rootView.findViewById(R.id.progress_bar).setVisibility(View.GONE);
         }
 
-        // Need to create a check handler here or it is never created
-        createCheckImagesDownloadedHandler();
 
         setValues(this.selectedRecord);
         return rootView;
