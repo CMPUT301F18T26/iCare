@@ -105,6 +105,8 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
 
         return true;
     }
+
+
     private boolean loadFragment(Fragment fragment) {
         if (fragment != null) {
             getSupportFragmentManager()

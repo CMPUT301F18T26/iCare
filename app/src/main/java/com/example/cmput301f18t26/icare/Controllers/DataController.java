@@ -1,6 +1,7 @@
 package com.example.cmput301f18t26.icare.Controllers;
 
 import android.content.Context;
+import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
@@ -1077,6 +1078,35 @@ public class DataController {
                     UserRecord ur = UserRecord.class.cast(r);
                     assert ur != null;
                     if(ur.getBodyLocation() == bodyLocation){
+                        rSearchResults.add(ur);
+                        pSearchResults.add(p);
+                    }
+                }
+            }
+        }
+    }
+
+
+    public void searchByLocation(LatLng latLng) {
+        pSearchResults = new ArrayList<>();
+        rSearchResults = new ArrayList<>();
+        float[] distance = new float[1];
+        for (Problem p : getProblems(getCurrentUser().getUID())) {
+            // foreach problem, grab all records
+            for (BaseRecord r : Objects.requireNonNull(recordStorage.get(p.getUID()))) {
+                // if the record is a UserRecord, cast it, and check it's body location
+                if (r.getRecType() == 0) {
+                    UserRecord ur = UserRecord.class.cast(r);
+                    assert ur != null;
+                    if (ur.getLocation() == null) {continue;}
+                    Location.distanceBetween(
+                            latLng.latitude,
+                            latLng.longitude,
+                            ur.getLocation().latitude,
+                            ur.getLocation().longitude,
+                            distance
+                    );
+                    if(distance[0] < 3000){
                         rSearchResults.add(ur);
                         pSearchResults.add(p);
                     }
