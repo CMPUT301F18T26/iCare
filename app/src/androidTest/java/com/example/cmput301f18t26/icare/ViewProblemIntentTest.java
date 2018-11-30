@@ -72,10 +72,6 @@ public class ViewProblemIntentTest {
         onView(withId(R.id.patient_conditions_label))
                 .check(matches(withText(containsString("Problems"))));
 
-        //We go straight to the view problem page
-        //First we fetch the current user
-        DataController dataController = DataController.getInstance();
-        User u = dataController.getCurrentUser();
         //Go to add new problem
         onView(withId(R.id.add_new_problem_button)).perform(click());
         // Now we add values
