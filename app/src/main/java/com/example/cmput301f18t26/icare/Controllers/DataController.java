@@ -726,6 +726,12 @@ public class DataController {
         return currentGeoLocation;
     }
 
+
+    //Same as deleteCurrentBodyLocation
+    public void deleteCurrentGeoLocation(){
+        currentGeoLocation = null;
+    }
+
     /// ------------------------ IMAGE METHODS -----------------------------------------------------
 
 
