@@ -13,13 +13,17 @@ import com.example.cmput301f18t26.icare.Models.BaseRecord;
 import com.example.cmput301f18t26.icare.Models.Problem;
 import com.example.cmput301f18t26.icare.Models.UserRecord;
 import com.example.cmput301f18t26.icare.R;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecordMapActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -28,6 +32,7 @@ public class RecordMapActivity extends AppCompatActivity implements OnMapReadyCa
     SupportMapFragment sMapFragment;
     private GoogleMap map;
     Problem selectedProblem;
+    private ArrayList<Marker> markers = new ArrayList<Marker>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +65,7 @@ public class RecordMapActivity extends AppCompatActivity implements OnMapReadyCa
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
+        int padding = 0; // offset from edges of the map in pixels
 
         List<BaseRecord> allRecords =  dataController.getRecords(selectedProblem);
         List<LatLng> locations;
@@ -75,12 +81,21 @@ public class RecordMapActivity extends AppCompatActivity implements OnMapReadyCa
                 //add the marker to the map
                 //Create the marker
                 if(location != null) {
-                    map.addMarker(new MarkerOptions().position(location).title(title));
-                    //Set the initial camera zoom level
-                    map.moveCamera(CameraUpdateFactory.zoomTo(14));
-                    //Move the camera to the marker position
-                    map.moveCamera(CameraUpdateFactory.newLatLng(location));
+                    //create marker and add marker to the map
+                    Marker marker = map.addMarker(new MarkerOptions().position(location).title(title));
+                    //add each marker to a list of all markers
+                    markers.add(marker);
                 }
+
+                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                for (Marker marker : markers) {
+                    builder.include(marker.getPosition());
+                }
+                LatLngBounds bounds = builder.build();
+
+                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+                googleMap.animateCamera(cu);
+                
             }
 
 
