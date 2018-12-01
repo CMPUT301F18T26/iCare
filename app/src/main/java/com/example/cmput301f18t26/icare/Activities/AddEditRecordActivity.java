@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -30,6 +31,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 
 public class AddEditRecordActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
@@ -40,8 +42,9 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
     private ImageView images;
     private Problem selectedProblem;
     private Fragment infoFragment;
-    private Fragment geoFragment = new GeolocationFragment();
-    private Fragment bodyFragment = new BodyLocationFragment();
+    private Fragment geoFragment;
+    private Fragment bodyFragment;
+    private FragmentManager fm;
     private boolean mLocationPermissionGranted;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private FusedLocationProviderClient mFusedLocationClient;
@@ -53,8 +56,7 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
     private static final String KEY_LOCATION = "location";
     private CameraPosition cameraPosition;
     private LatLng currentLocation;
-
-    SupportMapFragment sMapFragment;
+    private SupportMapFragment sMapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +66,6 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
         //Create a new instance of the support map fragment
         sMapFragment = SupportMapFragment.newInstance();
         sMapFragment.setHasOptionsMenu(true);
-
-        //TODO on resume custom method for the instance fragment
-        //sMapFragment.onResume();
 
         if (savedInstanceState != null) {
             lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
@@ -82,10 +81,25 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
         navigation.setOnNavigationItemSelectedListener(this);
 
         sMapFragment.getMapAsync(this);
-
-
         infoFragment = new InfoFragment();
-        loadFragment(infoFragment);//display Info Fragment By default - Tyler
+        geoFragment = new GeolocationFragment();
+        bodyFragment = new BodyLocationFragment();
+
+        fm = getSupportFragmentManager();
+        fm
+                .beginTransaction()
+                .add(R.id.fragment_container, infoFragment)
+                .commitNow();
+        fm
+                .beginTransaction()
+                .add(R.id.fragment_container, sMapFragment)
+                .commitNow();
+        fm
+                .beginTransaction()
+                .add(R.id.fragment_container, bodyFragment)
+                .commitNow();
+
+        loadFragment(infoFragment); //display Info Fragment By default - Tyler
     }
 
     @Override
@@ -109,10 +123,27 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
 
     private boolean loadFragment(Fragment fragment) {
         if (fragment != null) {
-            getSupportFragmentManager()
+             if(fragment==infoFragment)
+                    fm
                     .beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
-                    .commit();
+                    .show(infoFragment)
+                    .hide(sMapFragment)
+                    .hide(bodyFragment)
+                    .commitNow();
+            if(fragment==sMapFragment)
+                fm
+                        .beginTransaction()
+                        .show(sMapFragment)
+                        .hide(infoFragment)
+                        .hide(bodyFragment)
+                        .commitNow();
+            if(fragment==bodyFragment)
+                fm
+                        .beginTransaction()
+                        .show(bodyFragment)
+                        .hide(sMapFragment)
+                        .hide(infoFragment)
+                        .commitNow();
             return true;
         }
         return false;
@@ -151,13 +182,8 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
         dataController.writeDataToFiles(getApplicationContext());
     }
 
-    //ToDo on map resume stuff
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        getCurrentLocation();
-//    }
-
+    //cite this - tyler
+    //https://stackoverflow.com/questions/45207709/how-to-add-marker-on-google-maps-android
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -180,15 +206,36 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
             map.getUiSettings().setMyLocationButtonEnabled(false);
         }
 
+        googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+
+            @Override
+            public void onMapClick(LatLng latLng) {
+
+                // Creating a marker
+                MarkerOptions markerOptions = new MarkerOptions();
+
+                // Setting the position for the marker
+                markerOptions.position(latLng);
+
+                // Setting the title for the marker.
+                // This will be displayed on taping the marker
+                markerOptions.title(latLng.latitude + " : " + latLng.longitude);
+
+                // Clears the previously touched position
+                map.clear();
+
+                // Animating to the touched position
+                map.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+
+                // Placing a marker on the touched position
+                map.addMarker(markerOptions);
+                dataController.setCurrentGeoLocation(latLng);
+
+            }
+        });
+
         getCurrentLocation();
-//        // Add a marker in Edmonton, and move the camera to the correct position.
-//        LatLng edmonton = new LatLng(53.5444, -113.4909);
-//        //Create the marker
-//        map.addMarker(new MarkerOptions().position(edmonton).title("Edmonton Alberta"));
-//        //Set the initial camera zoom level
-//        map.moveCamera(CameraUpdateFactory.zoomTo(DEFAULT_ZOOM));
-//        //Move the camera to the marker position
-//        map.moveCamera(CameraUpdateFactory.newLatLng(edmonton));
+
 
     }
 
