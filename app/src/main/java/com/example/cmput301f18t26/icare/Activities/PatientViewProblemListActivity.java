@@ -43,6 +43,7 @@ public class PatientViewProblemListActivity extends AppCompatActivity {
         problemList = dataController.getProblems(currentUser.getUID());
         dataController.fetchRecords();
         problemListView = (ListView) findViewById(R.id.patient_conditions_list_view);
+        dataController.setSearchUserUID(currentUser.getUID());
         // Takes you to view problem on press
         problemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

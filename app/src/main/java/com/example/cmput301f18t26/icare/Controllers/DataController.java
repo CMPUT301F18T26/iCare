@@ -1032,6 +1032,7 @@ public class DataController {
     // These arrays are used to store the results of any of the searches
     private ArrayList<Problem> pSearchResults;
     private ArrayList<BaseRecord> rSearchResults;
+    private String searchUserUID = "";
     /**
      * Search by Keyword.
      *
@@ -1042,7 +1043,7 @@ public class DataController {
     public void searchByKeyword(String keyword){
         pSearchResults = new ArrayList<>();
         rSearchResults = new ArrayList<>();
-        for (Problem p : getProblems(getCurrentUser().getUID())) {
+        for (Problem p : getProblems(searchUserUID)) {
             // check if the problem description or title contains the keyword
             if (p.getDescription().contains(keyword) || p.getTitle().contains(keyword)) {
                 // add it if it does
@@ -1070,7 +1071,7 @@ public class DataController {
     public void searchByBodyLocation(BodyLocation bodyLocation) {
         pSearchResults = new ArrayList<>();
         rSearchResults = new ArrayList<>();
-        for (Problem p : getProblems(getCurrentUser().getUID())) {
+        for (Problem p : getProblems(searchUserUID)) {
             // foreach problem, grab all records
             for (BaseRecord r : Objects.requireNonNull(recordStorage.get(p.getUID()))) {
                 // if the record is a UserRecord, cast it, and check it's body location
@@ -1091,7 +1092,7 @@ public class DataController {
         pSearchResults = new ArrayList<>();
         rSearchResults = new ArrayList<>();
         float[] distance = new float[1];
-        for (Problem p : getProblems(getCurrentUser().getUID())) {
+        for (Problem p : getProblems(searchUserUID)) {
             // foreach problem, grab all records
             for (BaseRecord r : Objects.requireNonNull(recordStorage.get(p.getUID()))) {
                 // if the record is a UserRecord, cast it, and check it's body location
@@ -1132,4 +1133,7 @@ public class DataController {
     }
 
 
+    public void setSearchUserUID(String uid) {
+        searchUserUID = uid;
+    }
 }

@@ -3,6 +3,9 @@ package com.example.cmput301f18t26.icare.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -84,6 +87,23 @@ public class ViewPatientProblemsActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Creating the menu options from the xml file
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.search_patient, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = new Intent(this, SearchRecordsProblemsActivity.class);
+        dataController.setSearchUserUID(patient.getUID());
+        startActivity(intent);
+        return true;
+    }
+
+
+    @Override
     protected void onResume(){
         super.onResume();
         // This will be done every time a resume happens
@@ -92,6 +112,9 @@ public class ViewPatientProblemsActivity extends AppCompatActivity {
         patientName.setText(patient.getUsername());
         // Get the list of problems a patient has
         problemList = dataController.getProblems(patient.getUID());
+        for (Problem p : problemList){
+            p.setNumRecords(dataController.getRecords(p).size());
+        }
         // Getting an adapter for the array
         adapter = new ArrayAdapter<>(this,
                 R.layout.problems_list_item,R.id.condition_name,

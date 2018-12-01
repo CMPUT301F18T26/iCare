@@ -54,7 +54,6 @@ public class PatientViewProblemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         setContentView(R.layout.activity_patient_condition_view);
         //Setting the TextViews to variables for later use
         titleText = (TextView) findViewById(R.id.condition_view_name);

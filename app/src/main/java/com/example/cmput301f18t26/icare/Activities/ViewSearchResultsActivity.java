@@ -75,6 +75,9 @@ public class ViewSearchResultsActivity extends AppCompatActivity {
 
         recordList = dataController.getRecordSearchResults();
         problemList = dataController.getProblemSearchResults();
+        for (Problem p : problemList){
+            p.setNumRecords(dataController.getRecords(p).size());
+        }
 
         recordAdapter = new ArrayAdapter<>(
                 this,
