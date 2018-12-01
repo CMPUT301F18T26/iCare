@@ -30,6 +30,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 
 public class AddEditRecordActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
@@ -180,15 +181,36 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
             map.getUiSettings().setMyLocationButtonEnabled(false);
         }
 
+        googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+
+            @Override
+            public void onMapClick(LatLng latLng) {
+
+                // Creating a marker
+                MarkerOptions markerOptions = new MarkerOptions();
+
+                // Setting the position for the marker
+                markerOptions.position(latLng);
+
+                // Setting the title for the marker.
+                // This will be displayed on taping the marker
+                markerOptions.title(latLng.latitude + " : " + latLng.longitude);
+
+                // Clears the previously touched position
+                map.clear();
+
+                // Animating to the touched position
+                map.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+
+                // Placing a marker on the touched position
+                map.addMarker(markerOptions);
+                dataController.setCurrentGeoLocation(latLng);
+
+            }
+        });
+
         getCurrentLocation();
-//        // Add a marker in Edmonton, and move the camera to the correct position.
-//        LatLng edmonton = new LatLng(53.5444, -113.4909);
-//        //Create the marker
-//        map.addMarker(new MarkerOptions().position(edmonton).title("Edmonton Alberta"));
-//        //Set the initial camera zoom level
-//        map.moveCamera(CameraUpdateFactory.zoomTo(DEFAULT_ZOOM));
-//        //Move the camera to the marker position
-//        map.moveCamera(CameraUpdateFactory.newLatLng(edmonton));
+
 
     }
 
