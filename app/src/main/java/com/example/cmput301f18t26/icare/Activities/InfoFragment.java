@@ -244,7 +244,8 @@ public class InfoFragment extends Fragment{
         }
 
         geoLocation = dataController.getCurrentGeoLocation();
-
+        //same as deleteCurrentBodyLocation
+        dataController.deleteCurrentGeoLocation();
 
         //Get the values of the Title, Date and Description fields
         title = titleEntry.getText().toString().trim();
