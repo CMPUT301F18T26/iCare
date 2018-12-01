@@ -1,6 +1,8 @@
 package com.example.cmput301f18t26.icare.Models;
 
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.UUID;
 
 /**
@@ -64,8 +66,6 @@ public abstract class BaseRecord {
 
     @Override
     public String toString(){
-        // http://www.ntu.edu.sg/home/ehchua/programming/java/DateTimeCalendar.html
-        String date = this.getDate();
-        return this.getTitle() + " - " + date;
+        return title + "\n" + date;
     }
 }

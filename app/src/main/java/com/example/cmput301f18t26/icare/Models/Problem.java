@@ -1,5 +1,7 @@
 package com.example.cmput301f18t26.icare.Models;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.UUID;
@@ -15,6 +17,7 @@ public class Problem {
     private Calendar date;
     private String description;
     private String userUID;
+    private Integer nRecords;
 
     /**
      * The constructor. Creates an object with the parameter passed in.
@@ -25,7 +28,6 @@ public class Problem {
      */
     public Problem(String title, Calendar date, String description, String userUID) {
         this.UID = UUID.randomUUID().toString();
-//        Log.d("tyler",this.UID);
         this.userUID = userUID;
         this.title = title;
         this.date = date;
@@ -58,14 +60,9 @@ public class Problem {
      * @return
      */
     public String toString(){
-
-        //http://www.ntu.edu.sg/home/ehchua/programming/java/DateTimeCalendar.html
-        int year = date.get(Calendar.YEAR);
-        int month = date.get(Calendar.MONTH) + 1;      // 0 to 11
-        int day = date.get(Calendar.DAY_OF_MONTH);
-
-        String strdate = day + "/" + month + "/" + year;
-        return title + " - " + strdate;
+        DateFormat dateFormat = new SimpleDateFormat("EEE, MMM dd, yyyy @ hh:mm a");
+        String strdate = dateFormat.format(date.getTime());
+        return title + "\n" + strdate + "\n" + "Number of Records: " + nRecords.toString();
     }
 
     // Getters and setters
@@ -80,4 +77,7 @@ public class Problem {
     public void setDate(Calendar date) { this.date = date; }
     public String getDescription() { return this.description; }
     public void setDescription(String description) { this.description = description; }
+    public int getNumRecords(){ return this.nRecords; }
+    public void setNumRecords(int nRecords){this.nRecords = nRecords;}
+    public void incrementNRecords(){nRecords++;}
 }

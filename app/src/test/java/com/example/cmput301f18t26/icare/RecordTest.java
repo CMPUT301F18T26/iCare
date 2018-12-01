@@ -18,7 +18,7 @@ public class RecordTest {
         String title = "Test";
         Calendar cal = Calendar.getInstance();
         Date date=cal.getTime();
-        DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("EEE, MMM dd, yyyy @ hh:mm a");
         String formattedDate = dateFormat.format(date);
         String comment = "testtest";
         String problemID = "12345678";
@@ -34,7 +34,7 @@ public class RecordTest {
         String title = "Test";
         Calendar cal = Calendar.getInstance();
         Date date=cal.getTime();
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss yyyy-MM-dd");
+        DateFormat dateFormat = new SimpleDateFormat("EEE, MMM dd, yyyy @ hh:mm a");
         String formattedDate = dateFormat.format(date);
         String comment = "test";
         String problemID = "12345678";

@@ -52,7 +52,7 @@ public class ViewInfoFragment extends Fragment {
 
     Calendar cal = Calendar.getInstance();
     Date date=cal.getTime();
-    DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss yyyy-MM-dd");
+    DateFormat dateFormat = new SimpleDateFormat("EEE, MMM dd, yyyy @ hh:mm a");
     String formattedDate=dateFormat.format(date);
 
 
