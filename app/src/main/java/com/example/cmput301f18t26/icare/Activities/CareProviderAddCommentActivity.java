@@ -56,7 +56,7 @@ public class CareProviderAddCommentActivity extends AppCompatActivity {
         // Time stamp for this comment
         Calendar cal = Calendar.getInstance();
         Date time = cal.getTime();
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss yyyy-MM-dd");
+        DateFormat dateFormat = new SimpleDateFormat("EEE, MMM dd, yyyy @ hh:mm a");
         final String formattedTime = dateFormat.format(time);
         TextView timeStampView = findViewById(R.id.record_comment_time);
 

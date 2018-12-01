@@ -43,7 +43,6 @@ public class PatientViewProblemListActivity extends AppCompatActivity {
         problemList = dataController.getProblems(currentUser.getUID());
         dataController.fetchRecords();
         problemListView = (ListView) findViewById(R.id.patient_conditions_list_view);
-
         // Takes you to view problem on press
         problemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -104,6 +103,9 @@ public class PatientViewProblemListActivity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
         problemList = dataController.getProblems(currentUser.getUID());
+        for (Problem p : problemList){
+            p.setNumRecords(dataController.getRecords(p).size());
+        }
         adapter = new ArrayAdapter<>(this,
                 R.layout.problems_list_item,R.id.condition_name,
                 problemList);
