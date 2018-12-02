@@ -12,9 +12,10 @@ A simple app that allows patients and care-providers to record and view previous
 
 ### Intent tests
 The intent tests need to be run in a certain order to properly test the UI of the app.
-1. Run the signup tests
-2. Run the login tests
-3. Run all the other tests
+1. Clear the database of all existing users/problems/records
+2. Run the signup tests
+3. Run the login tests
+4. Run all the other tests
 
 ## The Team
 ### CMPUT301F18T26
