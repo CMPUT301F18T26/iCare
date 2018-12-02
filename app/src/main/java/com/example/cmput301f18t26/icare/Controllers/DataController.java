@@ -1064,13 +1064,13 @@ public class DataController {
         rSearchResults = new ArrayList<>();
         for (Problem p : getProblems(searchUserUID)) {
             // check if the problem description or title contains the keyword
-            if (p.getDescription().contains(keyword) || p.getTitle().contains(keyword)) {
+            if (p.getDescription().toLowerCase().contains(keyword.toLowerCase()) || p.getTitle().toLowerCase().contains(keyword.toLowerCase())) {
                 // add it if it does
                 pSearchResults.add(p);
             }
             for (BaseRecord r : Objects.requireNonNull(recordStorage.get(p.getUID()))) {
                 // check if the record description or title contain the keyword
-                if (r.getComment().contains(keyword) || r.getTitle().contains(keyword)) {
+                if (r.getComment().toLowerCase().contains(keyword.toLowerCase()) || r.getTitle().toLowerCase().contains(keyword.toLowerCase())) {
                     // add that record, and it associated problem if it does
                     pSearchResults.add(p);
                     rSearchResults.add(r);

@@ -110,6 +110,7 @@ public class ViewPatientProblemsActivity extends AppCompatActivity {
         // grab the patient name text view and reset the patient name to the current patients name
         patientName = findViewById(R.id.condition_view_patient_name);
         patientName.setText(patient.getUsername());
+        dataController.setSearchUserUID(patient.getUID());
         // Get the list of problems a patient has
         problemList = dataController.getProblems(patient.getUID());
         for (Problem p : problemList){
