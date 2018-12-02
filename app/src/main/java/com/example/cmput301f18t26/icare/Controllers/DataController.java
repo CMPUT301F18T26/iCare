@@ -731,7 +731,7 @@ public class DataController {
         currentBodyLocation = null;
     }
 
-     public void setCurrentGeoLocation(LatLng geoLocation){
+    public void setCurrentGeoLocation(LatLng geoLocation){
         currentGeoLocation = geoLocation;
     }
 
