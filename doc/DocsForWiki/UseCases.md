@@ -21,6 +21,9 @@
 19. [UploadBodyLocationPhotos](#UploadBodyLocationPhotos)
 20. [ViewBodyLocationOfRecord](#ViewBodyLocationOfRecord)
 21. [LogIn](#LogIn)
+22. [GenerateSingleUseCode](#GenerateSingleUseCode)
+23. [RemoveBodyLocationPhotos](#RemoveBodyLocationPhotos)
+24. [SystemUsesElasticSearchForServer](#SystemUsesElasticSearchForServer)
 
 ### AddNewProblem <a name="AddNewProblem"></a>
 | Use Case 1           | AddNewProblem                                                                                                                          |
@@ -148,48 +151,49 @@
 | Open Issues          |                                                                                                                                        |
 
 ### AddNewRecord <a name="AddNewRecord"></a>
-| Use Case 5           | AddNewRecord                                                                                                                                                                         |
-|----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Related User Story   | US 01.05.01, US 02.02.01, US 02.03.01, US 02.04.01, US 02.05.01, US 02.06.01, US 02.08.01, US 02.09.01, US 08.01.01, US 09.01.01, US 09.01.02, US 09.03.01, US 10.01.01, US 11.02.01 |
-| Participating Actors | User, Sys Admin                                                                                                                                                                      |
-| Goal                 | Create a new record associated with the desired problem.                                                                                                                             |
-| Trigger              | User chooses the add new record option.                                                                                                                                              |
-| Precondition         | 1. User knows the problem for which the user wants to add a new record                                                                                                               |
-|                      | 2. User has previously recorded the problem for which the user wants to add the new record for                                                                                       |
-|                      | 3. User is a patient                                                                                                                                                                 |
-| Postcondition        | On success:                                                                                                                                                                          |
-|                      | 1. A new record has been added with an associated problem.                                                                                                                           |
-|                      | 2. A message indicating success is displayed.                                                                                                                                        |
-| Basic Flow           | 1. System prompts the user to select a problem to associated with the record with                                                                                                    |
-|                      | 2. User selects the problem                                                                                                                                                          |
-|                      | 3. System adds a time stamp to the record                                                                                                                                            |
-|                      | 4. System reminds user to take photos in similar conditions as the other photos.                                                                                                     |
-|                      | 5. System prompts the user to add a geo-location, body location, title, comment and photos to the record.                                                                            |
-|                      | 6. User optionally enters a title                                                                                                                                                    |
-|                      | 7. User optionally enters a comment                                                                                                                                                  |
-|                      | 8. User optionally specifies a body location using a point location on the front/back body location photos                                                                           |
-|                      | 9. User optionally geo-codes the record using a map                                                                                                                                  |
-|                      | 10. User optionally attaches one or more photos of the problem                                                                                                                       |
-|                      | 11. User saves the record                                                                                                                                                            |
-|                      | 12. System creates the record                                                                                                                                                        |
-|                      | 13. System displays a success message                                                                                                                                                |
-| Exceptions           | 9. Location data for the app has not been enabled                                                                                                                                    |
-|                      | 9.1 System displays error message stating that it failed to add location data to the record.                                                                                         |
-|                      | 10a. System cannot access the photo directory on the device                                                                                                                          |
-|                      | 10a.1 System displays an error message stating that it failed to attach the photo(s) to the record.                                                                                  |
-|                      | 10b. User attaches more than 10 photos                                                                                                                                               |
-|                      | 10b.1 System displays an error message stating that too many images have been added to the record. Only 10 images at most can be attached to a record                                |
-|                      | 10b.2 System prompts the user to fix the issue                                                                                                                                       |
-|                      | 10c. User attaches a photo larger than 65546 bytes                                                                                                                                   |
-|                      | 10c.1 System displays an error message stating that the size of a given photo is too large                                                                                           |
-|                      | 10c.2 System prompts the user to fix the issue                                                                                                                                       |
-| Qualities            | System is fast, responsive and reactive. If system is offline, the record is saved locally and then synced when the system is online.                                                |
-| Constraints          |                                                                                                                                                                                      |
-| Includes             |                                                                                                                                                                                      |
-| Extends              |                                                                                                                                                                                      |
-| Related Artifacts    |                                                                                                                                                                                      |
-| Notes                |                                                                                                                                                                                      |
-| Open Issues          |                                                                                                                                                                                      |
+| Use Case 5           | AddNewRecord                                                                                                                                                                                      |
+|----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Related User Story   | US 01.05.01, US 02.02.01, US 02.03.01, US 02.04.01, US 02.05.01, US 02.06.01, US 02.08.01, US 02.09.01, US 08.01.01, US 09.01.01, US 09.01.02, US 09.03.01, US 10.01.01, US 11.02.01, US 11.05.01 |
+| Participating Actors | User, Sys Admin                                                                                                                                                                                   |
+| Goal                 | Create a new record associated with the desired problem.                                                                                                                                          |
+| Trigger              | User chooses the add new record option.                                                                                                                                                           |
+| Precondition         | 1. User knows the problem for which the user wants to add a new record                                                                                                                            |
+|                      | 2. User has previously recorded the problem for which the user wants to add the new record for                                                                                                    |
+|                      | 3. User is a patient                                                                                                                                                                              |
+| Postcondition        | On success:                                                                                                                                                                                       |
+|                      | 1. A new record has been added with an associated problem.                                                                                                                                        |
+|                      | 2. A message indicating success is displayed.                                                                                                                                                     |
+| Basic Flow           | 1. System prompts the user to select a problem to associated with the record with                                                                                                                 |
+|                      | 2. User selects the problem                                                                                                                                                                       |
+|                      | 3. System adds a time stamp to the record                                                                                                                                                         |
+|                      | 4. System reminds user to take photos in similar conditions as the other photos.                                                                                                                  |
+|                      | 5. System prompts the user to add a geo-location, body location, title, comment and photos to the record.                                                                                         |
+|                      | 6. User optionally enters a title                                                                                                                                                                 |
+|                      | 7. User optionally enters a comment                                                                                                                                                               |
+|                      | 8. User optionally specifies a body location using a point location on the front/back body location photos                                                                                        |
+|                      | 9. User optionally geo-codes the record using a map                                                                                                                                               |
+|                      | 10. User optionally attaches one or more photos of the problem                                                                                                                                    |
+|                      | 11. User saves the record                                                                                                                                                                         |
+|                      | 12. System creates the record                                                                                                                                                                     |
+|                      | 13. System displays a success message                                                                                                                                                             |
+| Exceptions           | 9. Location data for the app has not been enabled                                                                                                                                                 |
+|                      | 9.1 System displays error message stating that it failed to add location data to the record.                                                                                                      |
+|                      | 10a. System cannot access the photo directory on the device                                                                                                                                       |
+|                      | 10a.1 System displays an error message stating that it failed to attach the photo(s) to the record.                                                                                               |
+|                      | 10b. User attaches more than 10 photos                                                                                                                                                            |
+|                      | 10b.1 System displays an error message stating that too many images have been added to the record. Only 10 images at most can be attached to a record                                             |
+|                      | 10b.2 System prompts the user to fix the issue                                                                                                                                                    |
+|                      | 10c. User attaches a photo larger than 65546 bytes                                                                                                                                                |
+|                      | 10c.1 System displays an error message stating that the size of a given photo is too large                                                                                                        |
+|                      | 10c.2 System prompts the user to fix the issue                                                                                                                                                    |
+| Qualities            | System is fast, responsive and reactive. If system is offline, the record is saved locally and then synced when the system is online.                                                             |
+| Constraints          |                                                                                                                                                                                                   |
+| Includes             |                                                                                                                                                                                                   |
+| Extends              |                                                                                                                                                                                                   |
+| Related Artifacts    |                                                                                                                                                                                                   |
+| Notes                |                                                                                                                                                                                                   |
+| Open Issues          |                                                                                                                                                                                                   |
+
 
 ### ViewRecordsAssociatedWithProblem <a name="ViewRecordsAssociatedWithProblem"></a>
 | Use Case 6           | ViewRecordsAssociatedWithProblem                                                                                                                                                                 |
@@ -243,45 +247,45 @@
 | Open Issues          |                                                                                                     |
 
 ### AddNewUserAccount <a name="AddNewUserAccount"></a>
-| Use Case 8           | AddNewUserAccount                                                                                                                                                         |
-|----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Related User Story   | US 03.01.01, US 03.01.02, US 03.01.03                                                                                                                                     |
-| Participating Actors | User                                                                                                                                                                      |
-| Goal                 | User creates a new account                                                                                                                                                |
-| Trigger              | User chooses the AddNewUserAccount(sign-up) option                                                                                                                        |
-| Precondition         | 1. User must be online                                                                                                                                                    |
-|                      | 2. User must know the unique userid and password the user wants to use                                                                                                    |
-|                      | 3. User must know his/her contact information                                                                                                                             |
-|                      | 4. User must know if he/she is a patient or care-provider                                                                                                                 |
-| Postcondition        | On success:                                                                                                                                                               |
-|                      | 1. New user account for the user has been created                                                                                                                         |
-|                      | 2. System displays a message indicating success                                                                                                                           |
-| Basic Flow           | 1. System prompts the user to enter a unique userid, password, email address and phone number                                                                             |
-|                      | 2. User enters a unique userid and password                                                                                                                               |
-|                      | 3. User selects if he/she is a care-provider or patient                                                                                                                   |
-|                      | 4. User enters an email address                                                                                                                                           |
-|                      | 5. User enters a phone number                                                                                                                                             |
-|                      | 6. User selects the action to create account                                                                                                                              |
-|                      | 7. System creates a new account                                                                                                                                           |
-|                      | 8. System displays success message                                                                                                                                        |
-| Exceptions           | 2. User’s userid is not unique                                                                                                                                            |
-|                      | 2.1 System displays an error message indicating the userid is not unique                                                                                                  |
-|                      | 2.2 System prompts the user to fix the error                                                                                                                              |
-|                      | 2 User’s userid is too short                                                                                                                                              |
-|                      | 2.1 System displays an error message indicating the userid is must be 8 characters or longer                                                                              |
-|                      | 2.2 System prompts the user to fix the error                                                                                                                              |
-|                      | 3 User has not selected if the user is a care provider or patient                                                                                                         |
-|                      | 3.1 System displays an error message indicating the user must select if he/she is a care-provider or patient                                                              |
-|                      | 3.2 System prompts the user to fix the error                                                                                                                              |
-| Qualities            | System is fast, responsive and reactive.                                                                                                                                  |
-| Constraints          | 1. User id must be unique                                                                                                                                                 |
-|                      | 2. User id must be 8 characters or longer                                                                                                                                 |
-|                      | 3. User must specify if he/she is a patient or a care-provider                                                                                                            |
-| Includes             |                                                                                                                                                                           |
-| Extends              |                                                                                                                                                                           |
-| Related Artifacts    |                                                                                                                                                                           |
-| Notes                | Since no user stories for the creation of accounts for care-providers have been given, the requirements for patient’s user profiles have been extended to care-providers. |
-| Open Issues          |                                                                                                                                                                           |
+| Use Case 8           | AddNewUserAccount                                                                                                                                                                                                                                    |
+|----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Related User Story   | US 03.01.01, US 03.01.02, US 03.01.03, US 03.04.01                                                                                                                                                                                                   |
+| Participating Actors | User                                                                                                                                                                                                                                                 |
+| Goal                 | User creates a new account                                                                                                                                                                                                                           |
+| Trigger              | User chooses the AddNewUserAccount(sign-up) option                                                                                                                                                                                                   |
+| Precondition         | 1. User must be online                                                                                                                                                                                                                               |
+|                      | 2. User must know the unique userid the user wants to use                                                                                                                                                                                            |
+|                      | 3. User must know his/her contact information                                                                                                                                                                                                        |
+|                      | 4. User must know if he/she is a patient or care-provider                                                                                                                                                                                            |
+| Postcondition        | On success:                                                                                                                                                                                                                                          |
+|                      | 1. New user account for the user has been created                                                                                                                                                                                                    |
+|                      | 2. System displays a message indicating success                                                                                                                                                                                                      |
+| Basic Flow           | 1. System prompts the user to enter a unique userid, email address and phone number                                                                                                                                                                  |
+|                      | 2. User enters a unique userid.                                                                                                                                                                                                                      |
+|                      | 3. User selects if he/she is a care-provider or patient                                                                                                                                                                                              |
+|                      | 4. User enters an email address                                                                                                                                                                                                                      |
+|                      | 5. User enters a phone number                                                                                                                                                                                                                        |
+|                      | 6. User selects the action to create account                                                                                                                                                                                                         |
+|                      | 7. System creates a new account                                                                                                                                                                                                                      |
+|                      | 8. System displays success message                                                                                                                                                                                                                   |
+| Exceptions           | 2. User’s userid is not unique                                                                                                                                                                                                                       |
+|                      | 2.1 System displays an error message indicating the userid is not unique                                                                                                                                                                             |
+|                      | 2.2 System prompts the user to fix the error                                                                                                                                                                                                         |
+|                      | 2 User’s userid is too short                                                                                                                                                                                                                         |
+|                      | 2.1 System displays an error message indicating the userid is must be 8 characters or longer                                                                                                                                                         |
+|                      | 2.2 System prompts the user to fix the error                                                                                                                                                                                                         |
+|                      | 3 User has not selected if the user is a care provider or patient                                                                                                                                                                                    |
+|                      | 3.1 System displays an error message indicating the user must select if he/she is a care-provider or patient                                                                                                                                         |
+|                      | 3.2 System prompts the user to fix the error                                                                                                                                                                                                         |
+| Qualities            | System is fast, responsive and reactive.                                                                                                                                                                                                             |
+| Constraints          | 1. User id must be unique                                                                                                                                                                                                                            |
+|                      | 2. User id must be 8 characters or longer                                                                                                                                                                                                            |
+|                      | 3. User must specify if he/she is a patient or a care-provider                                                                                                                                                                                       |
+| Includes             |                                                                                                                                                                                                                                                      |
+| Extends              |                                                                                                                                                                                                                                                      |
+| Related Artifacts    |                                                                                                                                                                                                                                                      |
+| Notes                | Since no user stories for the creation of accounts for care-providers have been given, the requirements for patient’s user profiles have been extended to care-providers. The user should not have to use a password to log in at any point of time. |
+| Open Issues          |                                                                                                                                                                                                                                                      |
 
 
 ### EditContactInformation <a name="EditContactInformation"></a>
@@ -523,39 +527,41 @@
 | Open Issues          |                                                                                                                                                                                                  |
 
 ### UploadBodyLocationPhotos <a name="UploadBodyLocationPhotos"></a>
-| Use Case 19           | UploadBodyLocationPhotos  |
-|----------------------|---|
-| Related User Story   |  US 09.03.01, US 11.01.01, US 11.03.01 |
-| Participating Actors |  User, Sys Admin |
-| Goal                 | User uploads front and back body location photos  |
-| Trigger              | User chooses upload front and back body location photos action  |
-| Precondition         | 1. User is online  |
-|   |2. User is a patient  |
-|   |3. User has already taken photos of front and back of their body  |
-| Postcondition        | On success:  |
-|   | 1. System displays a message that a user has uploaded photos of front and back of their body  |
-| Basic Flow           | 1. System prompts the user to select front and back body location photos from the library  |
-|   |2. User selects the images  |
-|   |3. System prompts the user to specify which photo is of the front of the body, which image is of the back of the body.  |
-|   |4. User specifies which photo is of the front of the body, which image is of the back of the body.  |
-|   |5. User saves the photos  |
-|   |6. System uploads the photos, if body location photos already exist, overwrite them.  |
-| Exceptions           | 1. System does not have access to the photo library  |
-|   |1.1 System displays a message indicating that the system does not have access to the photo library  |
-|   |1.2 System prompts the user to fix the issue  |
-|   |2a. The size of the selected images is larger than 65536 bytes  |
-|   |2a.1 System displays a message indicating that the size of the selected images is larger than 65536 bytes  |
-|   |2a.2 System prompts the user to fix the issue  |
-|   |2b. User has tried to select more than 2 images  |
-|   |2b.1 System displays a message indicating that only two images should be selected  |
-|   |2b.2 System prompts the user to fix the issue  |
-| Qualities            | System is fast, responsive and reactive.  |
-| Constraints          |   |
-| Includes             |   |
-| Extends              |   |
-| Related Artifacts    |   |
-| Notes                |   |
-| Open Issues          |   |
+| Use Case 19          | UploadBodyLocationPhotos                                                                                               |
+|----------------------|------------------------------------------------------------------------------------------------------------------------|
+| Related User Story   | US 09.03.01, US 11.01.01, US 11.03.01, US 11.06.01, US 11.08.01, US 11.09.01                                           |
+| Participating Actors | User, Sys Admin                                                                                                        |
+| Goal                 | User uploads front and back body location photos                                                                       |
+| Trigger              | User chooses upload front and back body location photos action                                                         |
+| Precondition         | 1. User is online                                                                                                      |
+|                      | 2. User is a patient                                                                                                   |
+|                      | 3. User has already taken photos of front and back of their body                                                       |
+| Postcondition        | On success:                                                                                                            |
+|                      | 1. System displays a message that a user has uploaded photos of front and back of their body                           |
+| Basic Flow           | 1. System prompts the user to select front and back body location photos from the library                              |
+|                      | 2. User selects the images                                                                                             |
+|                      | 3. System prompts the user to specify which photo is of the front of the body, which image is of the back of the body. |
+|                      | 4. User specifies which photo is of the front of the body, which image is of the back of the body.                     |
+|                      | 5. User saves the photos locally                                                                                       |
+|                      | 6. System uploads the photos, if body location photos already exist, overwrite them.                                   |
+| Exceptions           | 1. System does not have access to the photo library                                                                    |
+|                      | 1.1 System displays a message indicating that the system does not have access to the photo library                     |
+|                      | 1.2 System prompts the user to fix the issue                                                                           |
+|                      | 2a. The size of the selected images is larger than 65536 bytes                                                         |
+|                      | 2a.1 System displays a message indicating that the size of the selected images is larger than 65536 bytes              |
+|                      | 2a.2 System prompts the user to fix the issue                                                                          |
+|                      | 2b. User has tried to select more than 2 images                                                                        |
+|                      | 2b.1 System displays a message indicating that only two images should be selected                                      |
+|                      | 2b.2 System prompts the user to fix the issue                                                                          |
+| Qualities            | System is fast, responsive and reactive.                                                                               |
+| Constraints          |                                                                                                                        |
+| Includes             |                                                                                                                        |
+| Extends              |                                                                                                                        |
+| Related Artifacts    |                                                                                                                        |
+| Notes                |                                                                                                                        |
+| Open Issues          |                                                                                                                        |
+
+
 
 ### ViewBodyLocationOfRecord <a name="ViewBodyLocationOfRecord"></a>
 | Use Case 20          | ViewBodyLocationOfRecord                                                                            |
@@ -580,29 +586,103 @@
 | Open Issues          |                                                                                                     |
 
 ### LogIn <a name="LogIn"></a>
-| Use Case 21          | LogIn                                                                                                                                    |
-|----------------------|------------------------------------------------------------------------------------------------------------------------------------------|
-| Related User Story   |                                                                                                                                          |
-| Participating Actors | User                                                                                                                                     |
-| Goal                 | User has successfully logged into their account.                                                                                         |
-| Trigger              | User opens the app and is prompted to log-in                                                                                             |
-| Precondition         | 1. User already has an account                                                                                                           |
-|                      | 2. User remembers their userid/username and password                                                                                     |
-|                      | 3. User is not already logged into the app                                                                                               |
-| Postcondition        | On success:                                                                                                                              |
-|                      | 1. System displays a success message                                                                                                     |
-| Basic Flow           | 1. System displays the log-in screen.                                                                                                    |
-|                      | 2. System prompts the user to enter userid/username and password                                                                         |
-|                      | 3. User enters their userid/username and password                                                                                        |
-|                      | 3. User taps the log-in button                                                                                                           |
-|                      | 3. System checks if the userid/username already exist in the database and that the user has entered the correct password for the account |
-|                      | 4. System displays a success message                                                                                                     |
-| Exceptions           | 4. Userid/password does not match an match an existing combination                                                                       |
-|                      | 1.1 System displays an error message indicating that the userid/password does not match an match an existing combination                 |
-| Qualities            | System is fast, responsive and reactive. If system is offline, the locally saved records are shown.                                      |
-| Constraints          |                                                                                                                                          |
-| Includes             |                                                                                                                                          |
-| Extends              |                                                                                                                                          |
-| Related Artifacts    |                                                                                                                                          |
-| Notes                |                                                                                                                                          |
-| Open Issues          |                                                                                                                                          |
+| Use Case 21          | LogIn                                                                                                                                                                                                                                      |
+|----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Related User Story   | US 03.05.01, US 03.06.01, US 03.07.01                                                                                                                                                                                                      |
+| Participating Actors | User                                                                                                                                                                                                                                       |
+| Goal                 | User has successfully logged into their account.                                                                                                                                                                                           |
+| Trigger              | User opens the app and is prompted to log-in                                                                                                                                                                                               |
+| Precondition         | 1. User already has an account                                                                                                                                                                                                             |
+|                      | 2. User remembers their userid/username.                                                                                                                                                                                                   |
+|                      | 3. User is not already logged into the app                                                                                                                                                                                                 |
+|                      | 4. If this is the first time a user if logging into the app or the account was not created on this app, the user has generated a single use code.                                                                                          |
+|                      | 5. User must be online                                                                                                                                                                                                                     |
+| Postcondition        | On success:                                                                                                                                                                                                                                |
+|                      | 1. System displays a success message                                                                                                                                                                                                       |
+| Basic Flow           | 1. System displays the log-in screen.                                                                                                                                                                                                      |
+|                      | 2. System prompts the user to enter userid/username or a single use code                                                                                                                                                                   |
+|                      | 3. User enters their userid/username or a single use code.                                                                                                                                                                                 |
+|                      | 3. User taps the log-in button                                                                                                                                                                                                             |
+|                      | 4. System checks if the userid/username already exist in the database, if the user has already successfully logged in on this device, the user is logged in using the username, otherwise the user is logged in using the single use code. |
+|                      | 5. System displays a success message                                                                                                                                                                                                       |
+| Exceptions           | 4a. Username does not exist                                                                                                                                                                                                                |
+|                      | 4a.1 System displays an error message indicating that an account with the username does not exist                                                                                                                                          |
+|                      | 4b The user has not successfully logged in on this device before or the account was note created on this device                                                                                                                            |
+|                      | 4b.1 Inform the user to create a single use code to log in                                                                                                                                                                                 |
+| Qualities            | System is fast, responsive and reactive. If system is offline, the locally saved records are shown.                                                                                                                                        |
+| Constraints          |                                                                                                                                                                                                                                            |
+| Includes             |                                                                                                                                                                                                                                            |
+| Extends              |                                                                                                                                                                                                                                            |
+| Related Artifacts    |                                                                                                                                                                                                                                            |
+| Notes                |                                                                                                                                                                                                                                            |
+| Open Issues          |                                                                                                                                                                                                                                            |
+
+### GenerateSingleUseCode <a name="GenerateSingleUseCode"></a>
+| Use Case 22          | GenerateSingleUseCode                                                                               |
+|----------------------|-----------------------------------------------------------------------------------------------------|
+| Related User Story   | US 03.06.01, US 03.07.01                                                                            |
+| Participating Actors | User                                                                                                |
+| Goal                 | Create a single use code that the user can use to log into another device.                          |
+| Trigger              | User chooses the create single use code option                                                      |
+| Precondition         | 1. User must be logged in                                                                           |
+|                      | 1. User must be logged in                                                                           |
+|                      | 2. User must be online                                                                              |
+| Postcondition        | On Success:                                                                                         |
+|                      | 1. System generated a unique 8 character single use code                                            |
+|                      | 2. System displays the single use code                                                              |
+| Basic Flow           | 1. System generates a unique 8 character code                                                       |
+|                      | 2. System sends the single use code to the server                                                   |
+|                      | 3. Display the single use code                                                                      |
+| Exceptions           | 2. User is offline                                                                                  |
+|                      | 2.1 System displays an error message, telling the user to go online                                 |
+| Qualities            | System is fast, responsive and reactive. If system is offline, the locally saved records are shown. |
+| Constraints          |                                                                                                     |
+| Includes             |                                                                                                     |
+| Extends              |                                                                                                     |
+| Related Artifacts    |                                                                                                     |
+| Notes                |                                                                                                     |
+| Open Issues          |                                                                                                     |
+
+### RemoveBodyLocationPhotos <a name="RemoveBodyLocationPhotos"></a>
+| Use Case 23            | RemoveBodyLocationPhotos                                                                                                 |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Related User Story     | US 11.07.01                                                                                                              |
+| Participating Actors   | User                                                                                                                     |
+| Goal                   | User removes front and back body location photos                                                                         |
+| Trigger                | User chooses the remove body location photos action                                                                      |
+| Precondition           | 1. User is online                                                                                                        |
+|                        | 2. User is a patient                                                                                                     |
+|                        | 3. User has already taken and stored body location photos                                                                |
+| Postcondition          | On success:                                                                                                              |
+|                        | 1. System displays a message saying that body location photos have been removed                                          |
+| Basic Flow             | 1. User selects the delete body location photos option                                                                   |
+|                        | 2. System deletes the body location photos locally                                                                       |
+|                        | 3. System deletes the body location photos from the server.                                                              |
+| Exceptions             |                                                                                                                          |
+| Qualities              | System is fast, responsive and reactive.                                                                                 |
+| Constraints            |                                                                                                                          |
+| Includes               |                                                                                                                          |
+| Extends                |                                                                                                                          |
+| Related Artifacts      |                                                                                                                          |
+| Notes                  |                                                                                                                          |
+| Open Issues            |                                                                                                                          |
+
+### SystemUsesElasticSearchForServer <a name="SystemUsesElasticSearchForServer"></a>
+| Use Case 24          | SystemUsesElasticSearchForServer                               |
+|----------------------|----------------------------------------------------------------|
+| Related User Story   | US 12.01.01                                                    |
+| Participating Actors | Sys-admin                                                      |
+| Goal                 | System uses elastic search                                     |
+| Trigger              |                                                                |
+| Precondition         | 1. An elastic search must already be set up                    |
+| Postcondition        | On success:                                                    |
+|                      | 1. System uses Elastisearch as a backend                       |
+| Basic Flow           | 1. System communicates with elasticsearch server to store data |
+| Exceptions           |                                                                |
+| Qualities            | System is fast, responsive and reactive.                       |
+| Constraints          |                                                                |
+| Includes             |                                                                |
+| Extends              |                                                                |
+| Related Artifacts    |                                                                |
+| Notes                |                                                                |
+| Open Issues          |                                                                |

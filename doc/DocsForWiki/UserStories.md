@@ -144,6 +144,5 @@ These descriptions may change to correct omissions and clarify noticed issues.
 ## Sys-admin <a name="sys_admin"></a>
 
 - US 12.01.01 *new* As a sysadmin, I want to use a Free/Libre Open Source Software service-side tool such as Elasticsearch to host this application. No proprietary software for data-hosting.
-"Wow" Factor
 
 <a name="user_stories_footnote">*</a> User Stories were fetched from the project description provided by Abram Hindle
