@@ -101,8 +101,30 @@ public class RecordIntentTest {
         onView(withId(R.id.record_comment)).perform(closeSoftKeyboard());
 
         // Body location
-        // Go to the other one
         onView(withId(R.id.body)).perform(click());
+
+        // Assign body location
+        onView(withId(R.id.front_chest_button)).perform(click());
+        // Now check that the label changed
+        onView(withId(R.id.patient_record_body_label_location)).check(matches(withText(BodyLocation.FRONT_CHEST.toString())));
+
+        // Assign new body location
+        onView(withId(R.id.back_head_button)).perform(click());
+        // Now check that the label changed
+        onView(withId(R.id.patient_record_body_label_location)).check(matches(withText(BodyLocation.BACK_HEAD.toString())));
+
+        // Assign new body location
+        onView(withId(R.id.front_right_arm_button)).perform(click());
+        // Now check that the label changed
+        onView(withId(R.id.patient_record_body_label_location)).check(matches(withText(BodyLocation.FRONT_RIGHT_ARM.toString())));
+
+        // Assign new body location
+        onView(withId(R.id.back_left_leg_button)).perform(click());
+        // Now check that the label changed
+        onView(withId(R.id.patient_record_body_label_location)).check(matches(withText(BodyLocation.BACK_LEFT_LEG.toString())));
+
+
+        // Go to the other one
         onView(withId(R.id.geo)).perform(click());
         try {
             Thread.sleep(1000);

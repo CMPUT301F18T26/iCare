@@ -143,7 +143,7 @@ public class DataController {
     private String imagesSavedLocallyFile = "imagesSavedLocallyFile_file";
 
     /**
-     * Private constructor here to enforce Singleton Pattern
+     * Private constructor here to enforce Singleton Pattern. We also call a private method which checks if we are connected to the ES server every 5 seconds.
      */
     private DataController() {
         checkInternetAfterFiveSecs();
@@ -179,7 +179,9 @@ public class DataController {
     }
 
     /**
-     * Created to check if device is online or offline
+     * Created to check if device is online or offline. The status is cached for 5 seconds.
+     * So, when this method is called most of the time, the cached status is returned to speed up
+     * the app.
      */
     public boolean checkInternet(){
         if (checkedInternet == false) {
@@ -197,7 +199,10 @@ public class DataController {
     }
 
     /**
-     * Created to send the data changes made offline to server
+     * Created to send the data changes made offline to server. Whenever the app is offline,
+     * problems and records are saved offline and written to a file. When the app is started again
+     * and connected to the ES server, this method sends all the offline problems and records to
+     * the server.
      */
     public void sendDataToServer(){
         // First send all the problem
@@ -258,7 +263,7 @@ public class DataController {
     // ------------------------ USER LOGIN/SIGNUP/LOGGEDINUSER METHODS -----------------------------
 
     /**
-     * Signing up a new user
+     * Signing up a new user. Sends the information to the ES server.
      * @param user
      */
     public void signup(User user) {
@@ -272,7 +277,9 @@ public class DataController {
     }
 
     /**
-     * Logging in a user using their passIn.
+     * Logging in a user using their passIn. passIn can either be a single use code or their
+     * username. If passIn <= 8, then it is assumed to be a single use code, otherwise it is assumed
+     * to be a username.
      * @param passIn
      * @return User
      */
@@ -306,7 +313,7 @@ public class DataController {
     }
 
     /**
-     * Logging in the last logged in user
+     * Logging in the last logged in user. This is only possible if the user has not logged out.
      * @return
      */
     public User login(){
@@ -314,14 +321,15 @@ public class DataController {
     }
 
     /**
-     * Logging the user out
+     * Logging the user out. Set the loggedInUser to null, this change is not written to file. That
+     * needs to be done manually.
      */
     public void logout(){
         loggedInUser = null;
     }
 
     /**
-     * Retrives the current logged in User (can only be set via login)
+     * Retrives the current logged in User (can only be set via login).
      * @return current user
      */
     public User getCurrentUser() {
@@ -329,8 +337,8 @@ public class DataController {
     }
 
     /**
-     * Checks if a user has successfully logged into this device before, either by creating their
-     * account on this device or using a single use code to sign in.
+     * Returns true if a user has successfully logged into this device before, either by creating
+     * their account on this device or using a single use code to sign in. Else, returns false.
      * @param UID
      * @return
      */
@@ -351,6 +359,11 @@ public class DataController {
         return trustedUser;
     }
 
+    /**
+     * Generates an 8 character single use code for the user to log into a new device.
+     * @param user
+     * @return
+     */
     public String generateSingleUseCode(User user) {
         // First we get the UID of the user
         String userUID = user.getUID();

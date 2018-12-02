@@ -10,6 +10,15 @@
 8. [Photographs](#photographs)
 9. [Geolocation and Maps](#geolocation_and_maps)
 10. [Body-locations](#body_locations)
+11. [Sys-Admin](#sys_admin)
+
+Needs in (Partial) User Story Form
+
+User needs are expressed in the form of partial user stories:
+
+As a <role>, I want <goal>.
+
+These descriptions may change to correct omissions and clarify noticed issues.
 
 ## Task Basics <a name="task_basics"></a>
 
@@ -62,6 +71,14 @@
 
 - US 03.03.01 As a patient or care provider, I want to, whenever a username is shown, be able to retrieve and see its corresponding contact information.
 
+- US 03.04.01 *new* As a patient or care provider, I do not want to have to ever use a password, remember a password, or have to care about a password. If I need security tokens or anything like that it must be hidden from me.
+
+- US 03.05.01 *new* As a patient or care provider, when I use a new device I want to be able to use the same profile.
+
+- US 03.06.01 *new* As a patient, I want to be able to share a very short code, or something visually scannable by a photo camera, with a care provider so they can add my profile.
+
+- US 03.07.01 *new* As a patient, I want to be able to share a very short code, or something visually scannable by a photo camera, with myself so I can enable a new device to browse as me.
+
 ## Searching <a name="searching"></a>
 
 - US 04.01.01 As a patient or care provider, I want to specify a set of keywords, and search for all problems or records that contains all the keywords.
@@ -113,5 +130,20 @@
 - US 11.03.01 As a patient, I should be able to have at least 2 body location pictures.
 
 - US 11.04.01 As a patient, when I view a body location it should be a clear indicator of a point on a body-location picture.
+
+- US 11.05.01 *new* As a patient, when making a record I want to choose from available body locations to associate with a photo or a record.
+
+- US 11.06.01 *new* As a patient, I should be able to add body location photos.
+
+- US 11.07.01 *new* As a patient, I should be able to remove body location photos.
+
+- US 11.08.01 *new* As a patient, I should be able to label body location photos.
+
+- US 11.09.01 *new* As a patient, I want body-location photos stored locally on my device (and remotely) so that access to them is fast.
+
+## Sys-admin <a name="sys_admin"></a>
+
+- US 12.01.01 *new* As a sysadmin, I want to use a Free/Libre Open Source Software service-side tool such as Elasticsearch to host this application. No proprietary software for data-hosting.
+"Wow" Factor
 
 <a name="user_stories_footnote">*</a> User Stories were fetched from the project description provided by Abram Hindle

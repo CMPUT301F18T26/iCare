@@ -21,7 +21,7 @@ public class UserRecord extends BaseRecord {
     private BodyLocation bodyLocation;
 
     /**
-     * The constructor for this class.
+     * One of the constructors for this class.
      * @param date
      * @param comment
      * @param problemID
@@ -38,6 +38,17 @@ public class UserRecord extends BaseRecord {
         this.photos = photos;
     }
 
+    /**
+     * One of the constructors for this class.
+     * @param date
+     * @param comment
+     * @param problemID
+     * @param location
+     * @param bodyLocation
+     * @param photos
+     * @param role
+     * @param title
+     */
     public UserRecord(String date, String comment, String problemID, LatLng location, BodyLocation bodyLocation, List<String> photos, int role, String title){
         super(date, comment, problemID, title);
         super.setRecType(role);

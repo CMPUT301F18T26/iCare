@@ -15,7 +15,7 @@
 13. [ViewAssignedPatients](#ViewAssignedPatients)
 14. [AddNewPatient](#AddNewPatient)
 15. [ViewProblemsForPatient](#ViewProblemsForPatient)
-16. [AddCommentToRecord](#AddCommentToRecord)
+16. [AddCommentToProblem](#AddCommentToProblem)
 17. [ViewGeoLocationForRecord](#ViewGeoLocationForRecord)
 18. [ViewGeoLocationForAllRecords](#ViewGeoLocationForAllRecords)
 19. [UploadBodyLocationPhotos](#UploadBodyLocationPhotos)
@@ -451,21 +451,21 @@
 | Notes                |                                                                                |
 | Open Issues          |                                                                                |
 
-### AddCommentToRecord <a name="AddCommentToRecord"></a>
-| Use Case 16          | AddCommentToRecord                                                                  |
+### AddCommentToProblem <a name="AddCommentToProblem"></a>
+| Use Case 16          | AddCommentToProblem                                                                 |
 |----------------------|-------------------------------------------------------------------------------------|
 | Related User Story   | US 02.07.01, US 07.01.01                                                            |
 | Participating Actors | User                                                                                |
-| Goal                 | Add comment to a given record                                                       |
-| Trigger              | User takes action that adds a comment to a given record after entering a comment    |
+| Goal                 | Add comment to a given problem                                                      |
+| Trigger              | User takes action that adds a comment to a given problem after entering a comment   |
 | Precondition         | 1. User must be online                                                              |
 |                      | 2. User must be care-provider                                                       |
 |                      | 3. User must have the patient already added to their list                           |
-|                      | 4. User must know the record and problem for which they want to add a comment       |
-|                      | 5. The record for which the user wants to add the comment already exists            |
+|                      | 4. User must know the problem for which they want to add a comment                  |
+|                      | 5. The problem for which the user wants to add the comment already exists           |
 | Postcondition        | On success:                                                                         |
-|                      | 1. System displays a message indicating that a comment has been added to the record |
-| Basic Flow           | 1. System adds the given comment to the desired record                              |
+|                      | 1. System displays a message indicating that a comment has been added to the problem |
+| Basic Flow           | 1. System adds the given comment to the desired problem                             |
 |                      | 2. System displays a success message                                                |
 | Exceptions           |                                                                                     |
 | Qualities            | System is fast, responsive and reactive.                                            |
@@ -606,4 +606,3 @@
 | Related Artifacts    |                                                                                                                                          |
 | Notes                |                                                                                                                                          |
 | Open Issues          |                                                                                                                                          |
-
