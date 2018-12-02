@@ -27,6 +27,12 @@ import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.Matchers.anything;
 
+/*
+ ***************************************************************************************************
+ * THE INTENT TESTS NEED TO RUN IN A SPECIFIC SEQUENCE TO TEST THE UI PROPERLY, READ THE "How to run
+  * tests" SECTION IN THE README FILE TO LEARN HOW THIS SEQUENCE.
+ ***************************************************************************************************
+ */
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest

@@ -25,6 +25,13 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.Matchers.anything;
 
+/*
+ ***************************************************************************************************
+ * THE INTENT TESTS NEED TO RUN IN A SPECIFIC SEQUENCE TO TEST THE UI PROPERLY, READ THE "How to run
+ * tests" SECTION IN THE README FILE TO LEARN HOW THIS SEQUENCE.
+ ***************************************************************************************************
+ */
+
 public class RecordIntentTest {
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule
