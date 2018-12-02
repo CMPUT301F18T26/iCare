@@ -42,6 +42,7 @@ public class RecordMapActivity extends AppCompatActivity implements OnMapReadyCa
         selectedProblem = dataController.getSelectedProblem();
         sMapFragment = SupportMapFragment.newInstance();
         //sMapFragment.setHasOptionsMenu(true);
+        getSupportActionBar().setTitle("All Record Locations");
 
 
         sMapFragment.getMapAsync(this);
@@ -65,7 +66,7 @@ public class RecordMapActivity extends AppCompatActivity implements OnMapReadyCa
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-        int padding = 0; // offset from edges of the map in pixels
+        int padding = 200; // offset from edges of the map in pixels
 
         List<BaseRecord> allRecords =  dataController.getRecords(selectedProblem);
         List<LatLng> locations;
