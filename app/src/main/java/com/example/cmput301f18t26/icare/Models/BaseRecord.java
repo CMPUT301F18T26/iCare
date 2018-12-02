@@ -64,6 +64,10 @@ public abstract class BaseRecord {
         this.recType = recType;
     }
 
+    /**
+     * Converts the model to a string that can be displayed or printed.
+     * @return
+     */
     @Override
     public String toString(){
         return title + "\n" + date;

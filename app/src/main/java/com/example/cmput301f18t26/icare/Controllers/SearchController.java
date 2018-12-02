@@ -101,6 +101,9 @@ public class SearchController {
         }
     }
 
+    /**
+     * Checks if a user with a username already exists on the ES server.
+     */
     public static class CheckIfUserNameExists extends AsyncTask<String, Void, JestResult> {
         private JestResult result;
 
@@ -121,6 +124,9 @@ public class SearchController {
         }
     }
 
+    /**
+     * Adds a new problem to the server.
+     */
     public static class AddProblem extends AsyncTask<Problem, Void, JestResult> {
         private JestResult result;
 
@@ -139,7 +145,9 @@ public class SearchController {
         }
     }
 
-
+    /**
+     * Checks to see if the username is valid or the single use code is valid and logs the user in.
+     */
     public static class SignInUser extends AsyncTask<String, Void, JestResult> {
         private JestResult result;
 
@@ -205,7 +213,7 @@ public class SearchController {
     }
 
     /**
-     * Method updates an existing user on Elasticsearch
+     * Method updates an existing user on Elasticsearch.
      */
     public static class UpdateInformationForUser extends AsyncTask<User, Void, JestResult> {
         private JestResult result;
@@ -226,6 +234,9 @@ public class SearchController {
         }
     }
 
+    /**
+     * Gets a list of patients linked with a care provider from ES.
+     */
     public static class GetPatients extends AsyncTask<String, Void, ArrayList<Patient>> {
 
         @Override
@@ -263,6 +274,9 @@ public class SearchController {
         }
     }
 
+    /**
+     * Searches for a list of patients using their username. This method is used when a care provider wants to add a new patient to their list.
+     */
     public static class SearchPatients extends AsyncTask<String, Void, ArrayList<Patient>> {
 
         @Override
@@ -295,6 +309,9 @@ public class SearchController {
         }
     }
 
+    /**
+     * Gets a list of patients for a patient from ES.
+     */
     public static class GetProblems extends AsyncTask<String, Void, JestResult> {
 
         @Override
@@ -322,6 +339,9 @@ public class SearchController {
         }
     }
 
+    /**
+     * Deletes a problem from the ES server.
+     */
     public static class DeleteProblem extends AsyncTask<String, Void, JestResult> {
         @Override
         protected JestResult doInBackground(String... params) {
@@ -345,6 +365,9 @@ public class SearchController {
         }
     }
 
+    /**
+     * Adds a record to the new ES server.
+     */
     public static class AddRecord extends AsyncTask<BaseRecord, Void, JestResult> {
         private JestResult result;
 
@@ -363,6 +386,9 @@ public class SearchController {
         }
     }
 
+    /**
+     * Adds an image(stored as a base64 string) to the ES server.
+     */
     public static class AddImage extends AsyncTask<ImageAsString, Void, JestResult> {
         private JestResult result;
 
@@ -380,6 +406,9 @@ public class SearchController {
         }
     }
 
+    /**
+     * Grabs the image(stored as a base64 string) from the ES server.
+     */
     public static class GetImage extends AsyncTask<String, Void, JestResult> {
         private JestResult result;
 
@@ -431,7 +460,9 @@ public class SearchController {
     }
 
 
-
+    /**
+     * Gets details on a record with the passed in UID.
+     */
     public static class GetRecordUsingUID extends AsyncTask<String, Void, JestResult> {
 
         @Override
@@ -459,6 +490,9 @@ public class SearchController {
         }
     }
 
+    /**
+     * When a problem is deleted, all the associated records also need to be deleted. This method does that.
+     */
     public static class DeleteRecordsAssociatedWithProblem extends AsyncTask<String, Void, JestResult> {
         @Override
         protected JestResult doInBackground(String... params) {

@@ -8,10 +8,18 @@ import android.util.Base64;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
+/**
+ * Class was created to store an image for a record. You pass in a bitmap and a uuid, and the constructor converts the bitmap to a base64 string and stores it.
+ */
 public class ImageAsString {
     private String photo;
     private String UID;
 
+    /**
+     * The constructor, a bitmap of the photo and the UID is passed in. The constructor converts the bitmap to a base64 strings an stores it.
+     * @param photo
+     * @param UID
+     */
     public ImageAsString(Bitmap photo, String UID) {
         // https://stackoverflow.com/questions/9224056/android-bitmap-to-base64-string
         // Converting bitmap to Base64 string
@@ -23,10 +31,18 @@ public class ImageAsString {
         this.UID = UID;
     }
 
+    /**
+     * Returns the photo that was stored as a string.
+     * @return
+     */
     public String getPhoto() {
         return photo;
     }
 
+    /**
+     * Returns the photo that was stored as a string after converting it to a bitmap.
+     * @return
+     */
     public Bitmap getphotoAsBitmap() {
         // https://stackoverflow.com/questions/9224056/android-bitmap-to-base64-string
         byte [] decodedBytes = Base64.decode(photo, Base64.DEFAULT);
@@ -35,6 +51,10 @@ public class ImageAsString {
         return temp;
     }
 
+    /**
+     * Returns the UID
+     * @return
+     */
     public String getUID() {
         return UID;
     }

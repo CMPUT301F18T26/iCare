@@ -32,6 +32,10 @@ public class Patient extends User {
         return this.careProviderUID;
     }
 
+    /**
+     * Sets the care provider for a patient and also, syncs this with the ES server.
+     * @param careProviderUID
+     */
     public void setCareProviderUID(String careProviderUID){
         // Updating data in this object
         this.careProviderUID = careProviderUID;
