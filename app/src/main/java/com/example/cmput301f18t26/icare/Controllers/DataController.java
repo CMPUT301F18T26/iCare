@@ -1073,7 +1073,9 @@ public class DataController {
                 if (r.getComment().toLowerCase().contains(keyword.toLowerCase()) || r.getTitle().toLowerCase().contains(keyword.toLowerCase())) {
                     // add that record, and it associated problem if it does
                     pSearchResults.add(p);
-                    rSearchResults.add(r);
+                    if (!pSearchResults.contains(p)){
+                        pSearchResults.add(p);
+                    }
                 }
             }
         }
@@ -1099,14 +1101,22 @@ public class DataController {
                     assert ur != null;
                     if(ur.getBodyLocation() == bodyLocation){
                         rSearchResults.add(ur);
-                        pSearchResults.add(p);
+                        if (!pSearchResults.contains(p)){
+                            pSearchResults.add(p);
+                        }
                     }
                 }
             }
         }
     }
 
-
+    /**
+     * Search by geolocation
+     *
+     * Store all Records that match the given geolocation.
+     * Additionally, store all Problems with Records that match the given geolocation.
+     * @param latLng
+     */
     public void searchByLocation(LatLng latLng) {
         pSearchResults = new ArrayList<>();
         rSearchResults = new ArrayList<>();
@@ -1128,7 +1138,9 @@ public class DataController {
                     );
                     if(distance[0] < 3000){
                         rSearchResults.add(ur);
-                        pSearchResults.add(p);
+                        if (!pSearchResults.contains(p)){
+                            pSearchResults.add(p);
+                        }
                     }
                 }
             }
