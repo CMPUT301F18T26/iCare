@@ -3,8 +3,10 @@
 A simple app that allows patients and care-providers to record and view previously recorded problems of patients.
 
 ## How to build and run
-1. Simply open the project folder in Android Studio and click run.
-2. When chossing target API, choose API level 28.
+1. Simply open the project folder in Android Studio.
+2. Click Build->Clean Project
+3. Click Run->Run 'app'
+4. When chossing target API, choose API level 28.
 
 ## How to run tests
 ### Unit tests
