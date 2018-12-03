@@ -731,16 +731,33 @@ public class DataController {
         currentBodyLocation = null;
     }
 
+    /**
+     *  Sets the current geo location as a latlng in DataController. This allows us to
+     *  easily pass the geo location between fragments (BodyLocationFragment and InfoFragment)
+     *  before the UserRecord has been created yet.
+     * @param geoLocation
+     */
     public void setCurrentGeoLocation(LatLng geoLocation){
         currentGeoLocation = geoLocation;
     }
 
+    /**
+     * Allows you to retrieve the previously set currentGeoLocation. Used in InfoFragment to
+     * retrieve the latlng so you can add a geolocation type to the inputs for UserRecordFactory.
+     * @return
+     */
     public LatLng getCurrentGeoLocation(){
         return currentGeoLocation;
     }
 
 
-    //Same as deleteCurrentBodyLocation
+    /**
+     *  Sets the currentGeolocation to null. This is used to avoid accidentally adding geoLocations
+     *  to new Records in InfoFragment. If you create a new record, add a geo location, then that
+     *  geo location latlng will be saved in DataController. If you then create another new record
+     *  and this time don't add a geo location, you don't want DataController still adding
+     *  the previously saved geo location to your record.
+     */
     public void deleteCurrentGeoLocation(){
         currentGeoLocation = null;
     }

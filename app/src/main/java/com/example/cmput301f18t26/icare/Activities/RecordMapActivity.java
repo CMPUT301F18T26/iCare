@@ -62,7 +62,11 @@ public class RecordMapActivity extends AppCompatActivity implements OnMapReadyCa
         return false;
     }
 
-
+    /**
+     * Checks for all of the record locations and displays them on the map. Then finds
+     * the max and min lat and long and adjusts the zoom of the camera appropriately.
+     * @param googleMap
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;

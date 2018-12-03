@@ -114,7 +114,6 @@ public class InfoFragment extends Fragment{
                 progressBar.setVisibility(View.VISIBLE);
 
                 save();
-                //TODO: add check to make sure values entered correctly
             }
 
         });
