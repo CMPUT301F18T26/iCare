@@ -72,11 +72,11 @@ public class RecordMapActivity extends AppCompatActivity implements OnMapReadyCa
         List<LatLng> locations;
 
         for (BaseRecord each:allRecords){
-            // Now getting the bodyLocation if the class is a UserRecord
+            // Now getting the location if the class is a UserRecord
             if (UserRecord.class == each.getClass()) {
                 // Getting the record as a user record
                 UserRecord userRecord = (UserRecord) each;
-                //Find the bodyLocation
+                //Find the location
                 LatLng location = userRecord.getLocation();
                 String title = userRecord.getTitle();
                 //add the marker to the map

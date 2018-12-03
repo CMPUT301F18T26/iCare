@@ -102,23 +102,6 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
         loadFragment(infoFragment); //display Info Fragment By default - Tyler
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Creating the menu options from the xml file
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.save_current_location, menu);
-        return false;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent;
-        // set/save the geolocation of the record
-        Toast.makeText(getApplicationContext(),"Your location has been added to the record",Toast.LENGTH_SHORT).show();
-        dataController.setCurrentGeoLocation(currentLocation);
-
-        return true;
-    }
 
 
     private boolean loadFragment(Fragment fragment) {
@@ -253,7 +236,6 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
 
                             //set the current location to pass
                             currentLocation = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
-                            Toast.makeText(getApplicationContext(),currentLocation.toString(),Toast.LENGTH_SHORT).show();
                             // Set the map's camera position to the current location of the devices
                             map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, DEFAULT_ZOOM));
 
