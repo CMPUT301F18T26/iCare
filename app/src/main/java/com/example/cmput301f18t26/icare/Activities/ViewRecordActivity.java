@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -35,6 +36,10 @@ public class ViewRecordActivity extends AppCompatActivity implements BottomNavig
     private Problem selectedProblem;
     SupportMapFragment sMapFragment;
     private GoogleMap map;
+    private FragmentManager fm;
+    private Fragment infoFragment;
+    private Fragment geoFragment;
+    private Fragment bodyFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,19 +59,53 @@ public class ViewRecordActivity extends AppCompatActivity implements BottomNavig
         navigation.setOnNavigationItemSelectedListener(this);
 
         sMapFragment.getMapAsync(this);
+        infoFragment = new ViewInfoFragment();
+        geoFragment = new ViewGeolocationFragment();
+        bodyFragment = new ViewBodylocationFragment();
 
-        Fragment ViewInfoFragment = new Fragment();
+        fm = getSupportFragmentManager();
+        fm
+                .beginTransaction()
+                .add(R.id.fragment_container, infoFragment)
+                .commitNow();
+        fm
+                .beginTransaction()
+                .add(R.id.fragment_container, sMapFragment)
+                .commitNow();
+        fm
+                .beginTransaction()
+                .add(R.id.fragment_container, bodyFragment)
+                .commitNow();
 
-        loadFragment(new ViewInfoFragment());//display View Info Fragment By default - Tyler
+       // Fragment ViewInfoFragment = new Fragment();
+
+        loadFragment(infoFragment);//display View Info Fragment By default - Tyler
     }
 
 
-    private boolean loadFragment(Fragment fragment){
-        if (fragment != null){
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container,fragment)
-                    .commit();
+    private boolean loadFragment(Fragment fragment) {
+        if (fragment != null) {
+            if(fragment==infoFragment)
+                fm
+                        .beginTransaction()
+                        .show(infoFragment)
+                        .hide(sMapFragment)
+                        .hide(bodyFragment)
+                        .commitNow();
+            if(fragment==sMapFragment)
+                fm
+                        .beginTransaction()
+                        .show(sMapFragment)
+                        .hide(infoFragment)
+                        .hide(bodyFragment)
+                        .commitNow();
+            if(fragment==bodyFragment)
+                fm
+                        .beginTransaction()
+                        .show(bodyFragment)
+                        .hide(sMapFragment)
+                        .hide(infoFragment)
+                        .commitNow();
             return true;
         }
         return false;
@@ -82,7 +121,7 @@ public class ViewRecordActivity extends AppCompatActivity implements BottomNavig
             //track which object is clicked - tyler
             switch (menuItem.getItemId()) {
                 case R.id.info: //clicking the info button in bottom nav
-                    fragment = new ViewInfoFragment(); // creates a new ViewInfoFragment
+                    fragment = infoFragment; // creates a new ViewInfoFragment
                     break;
 
                 case R.id.geo:
@@ -90,7 +129,7 @@ public class ViewRecordActivity extends AppCompatActivity implements BottomNavig
                     break;
 
                 case R.id.body:
-                    fragment = new ViewBodylocationFragment();
+                    fragment = bodyFragment;
                     break;
             }
         } else {

@@ -25,6 +25,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 
 import static android.provider.SettingsSlicesContract.KEY_LOCATION;
@@ -154,6 +155,34 @@ public class SearchRecordsProblemsActivity extends AppCompatActivity
             map.setMyLocationEnabled(false);
             map.getUiSettings().setMyLocationButtonEnabled(false);
         }
+
+        googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+
+            @Override
+            public void onMapClick(LatLng latLng) {
+
+                // Creating a marker
+                MarkerOptions markerOptions = new MarkerOptions();
+
+                // Setting the position for the marker
+                markerOptions.position(latLng);
+
+                // Setting the title for the marker.
+                // This will be displayed on taping the marker
+                markerOptions.title(latLng.latitude + " : " + latLng.longitude);
+
+                // Clears the previously touched position
+                map.clear();
+
+                // Animating to the touched position
+                map.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+
+                // Placing a marker on the touched position
+                map.addMarker(markerOptions);
+                dataController.setCurrentGeoLocation(latLng);
+
+            }
+        });
 
         getCurrentLocation();
 

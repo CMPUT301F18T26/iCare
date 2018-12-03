@@ -79,7 +79,7 @@ public class InfoFragment extends Fragment{
 
         dataController = DataController.getInstance();
         user = dataController.getCurrentUser();
-        setHasOptionsMenu(false);
+
         //passing the problem ID not sure if we will need this - tyler
         selectedProblem = dataController.getSelectedProblem();
     }
