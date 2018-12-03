@@ -2,6 +2,8 @@
 
 A simple app that allows patients and care-providers to record and view previously recorded problems of patients.
 
+### Video: https://vimeo.com/304234594
+
 ## How to build and run
 1. Simply open the project folder in Android Studio.
 2. Click Build->Clean Project
