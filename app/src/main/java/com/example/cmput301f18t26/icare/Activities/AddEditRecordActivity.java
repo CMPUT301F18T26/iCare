@@ -61,7 +61,6 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //getActionBar().setTitle("Add Record");
         getSupportActionBar().setTitle("Add Record");
         //Create a new instance of the support map fragment
         sMapFragment = SupportMapFragment.newInstance();
@@ -71,20 +70,22 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
             lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
             cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
         }
+
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         Bundle extras = getIntent().getExtras();
         dataController = DataController.getInstance();
         selectedProblem = dataController.getSelectedProblem();
-
         setContentView(R.layout.activity_add_edit_record);
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
-
         sMapFragment.getMapAsync(this);
+
+        //Initialize all of the fragments
         infoFragment = new InfoFragment();
         geoFragment = new GeolocationFragment();
         bodyFragment = new BodyLocationFragment();
 
+        //Add the fragments to the view using the fragment manager
         fm = getSupportFragmentManager();
         fm
                 .beginTransaction()
@@ -103,7 +104,11 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
     }
 
 
-
+    /**
+     * Checks which fragment needs to be displayed, makes it visible and hides the others
+     * @param fragment
+     * @return
+     */
     private boolean loadFragment(Fragment fragment) {
         if (fragment != null) {
              if(fragment==infoFragment)
@@ -133,7 +138,12 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
     }
 
 
-    //called whenever one of the bottom nav buttons is selected
+    /**
+     * Called whenever one of the bottom nav buttons is selected
+     * Lets loadFragment know which fragment needs to be displayed
+     * @param menuItem
+     * @return
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Fragment fragment = null;
@@ -165,14 +175,21 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
         dataController.writeDataToFiles(getApplicationContext());
     }
 
-    //cite this - tyler
+
     //https://stackoverflow.com/questions/45207709/how-to-add-marker-on-google-maps-android
 
+    /**
+     * onMapReady is required for any class that implements OnMapReadyCallback
+     * This is where we adjust all of the settings for the map that is being displayed such as
+     * type and checking for current location permission access. The view is adjusted accordingly
+     * if permission is granted or not. The very first time permission to access location data
+     * is asked for on a device the current location option should not show on the map.
+     * @param googleMap
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        //when map is loaded do everything in here.
+
         map = googleMap;
-        //MapsInitializer.initialize(getContext());
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
@@ -222,7 +239,9 @@ public class AddEditRecordActivity extends AppCompatActivity implements BottomNa
 
     }
 
-
+    /**
+     * Finds the current location of the user if permission has been granted.
+     */
     public void getCurrentLocation(){
         try {
             if (mLocationPermissionGranted) {

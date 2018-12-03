@@ -117,7 +117,7 @@ public class SearchRecordsProblemsActivity extends AppCompatActivity
         dataController.writeDataToFiles(getApplicationContext());
     }
 
-//  TODO: add ability to search location by clicking on the map @tsantos
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Creating the menu options from the xml file
