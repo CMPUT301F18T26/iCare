@@ -62,7 +62,6 @@ public class SearchController {
      * DataController
      *
      * True = online
-     * https://stackoverflow.com/questions/1402005/how-to-check-if-internet-connection-is-present-in-java
      */
     public static class CheckConnection extends AsyncTask<Boolean, Void, Boolean> {
         private JestResult result;

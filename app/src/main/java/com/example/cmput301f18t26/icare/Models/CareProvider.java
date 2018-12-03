@@ -6,8 +6,6 @@ import java.util.ArrayList;
  * A subclass of User. Meant to hold all the information for a Care provider. Care Providers have the role 1
  */
 public class CareProvider extends User {
-    private ArrayList<String> patientIds;
-
     /**
      * Constructor
      * @param username

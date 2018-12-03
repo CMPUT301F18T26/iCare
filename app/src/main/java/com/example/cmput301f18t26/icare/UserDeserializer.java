@@ -14,6 +14,10 @@ import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
 
+/**
+ * Deserializer was created to deserialize Patient and Care provider properly
+ */
+
 public class UserDeserializer implements JsonDeserializer {
     @Override
     public User deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {

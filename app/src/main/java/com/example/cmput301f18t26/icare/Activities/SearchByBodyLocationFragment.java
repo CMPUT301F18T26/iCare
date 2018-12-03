@@ -17,7 +17,7 @@ import com.example.cmput301f18t26.icare.Controllers.DataController;
 import com.example.cmput301f18t26.icare.R;
 
 /**
- * Design pattern from:
+ * Code pattern from:
  * https://stackoverflow.com/questions/25905086/multiple-buttons-onclicklistener-android
  */
 public class SearchByBodyLocationFragment extends Fragment implements View.OnClickListener {
