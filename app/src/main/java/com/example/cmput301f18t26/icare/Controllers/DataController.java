@@ -1085,11 +1085,11 @@ public class DataController {
                 // add it if it does
                 pSearchResults.add(p);
             }
-            for (BaseRecord r : Objects.requireNonNull(recordStorage.get(p.getUID()))) {
+            for (BaseRecord r : recordStorage.getOrDefault(p.getUID(), new ArrayList<BaseRecord>())) {
                 // check if the record description or title contain the keyword
                 if (r.getComment().toLowerCase().contains(keyword.toLowerCase()) || r.getTitle().toLowerCase().contains(keyword.toLowerCase())) {
                     // add that record, and it associated problem if it does
-                    pSearchResults.add(p);
+                    rSearchResults.add(r);
                     if (!pSearchResults.contains(p)){
                         pSearchResults.add(p);
                     }
@@ -1111,7 +1111,7 @@ public class DataController {
         rSearchResults = new ArrayList<>();
         for (Problem p : getProblems(searchUserUID)) {
             // foreach problem, grab all records
-            for (BaseRecord r : Objects.requireNonNull(recordStorage.get(p.getUID()))) {
+            for (BaseRecord r : recordStorage.getOrDefault(p.getUID(), new ArrayList<BaseRecord>())) {
                 // if the record is a UserRecord, cast it, and check it's body location
                 if (r.getRecType() == 0) {
                     UserRecord ur = UserRecord.class.cast(r);
@@ -1140,7 +1140,7 @@ public class DataController {
         float[] distance = new float[1];
         for (Problem p : getProblems(searchUserUID)) {
             // foreach problem, grab all records
-            for (BaseRecord r : Objects.requireNonNull(recordStorage.get(p.getUID()))) {
+            for (BaseRecord r : recordStorage.getOrDefault(p.getUID(), new ArrayList<BaseRecord>())) {
                 // if the record is a UserRecord, cast it, and check it's body location
                 if (r.getRecType() == 0) {
                     UserRecord ur = UserRecord.class.cast(r);
